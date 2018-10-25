@@ -1,6 +1,6 @@
 package monopooly.colocacion.calles;
 
-public enum tipoInmueble {
+public enum TipoInmueble {
     servicio,
     solarEdificable,
     cajaComunidad,
