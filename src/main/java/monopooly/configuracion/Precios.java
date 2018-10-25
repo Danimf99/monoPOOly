@@ -1,4 +1,4 @@
 package monopooly.configuracion;
 
-public class nombres {
+public class Precios {
 }

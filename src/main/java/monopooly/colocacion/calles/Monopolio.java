@@ -18,4 +18,14 @@ public class Monopolio {
 
     /* Metodos sobre la instancia */
 
+    /**
+     * Comprueba si un monopolio esta completo. Prueba ssi todas las calles del grupo son del mismo propietario.
+     * Asume que la clase Jugador tiene un Equals bien implementado.
+     * @return Devuelve true si el Monopolio esta completo; false en caso contrario.
+     */
+    public boolean esCompleto() {
+//        TODO Implementar la comprobacion de si el Monopolio esta completo. Requiere que Jugador tenga un equals.
+        return false;
+    }
+
 }

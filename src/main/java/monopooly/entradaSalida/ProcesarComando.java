@@ -1,4 +1,4 @@
 package monopooly.entradaSalida;
 
-public class procesarComando {
+public class ProcesarComando {
 }

@@ -1,4 +1,4 @@
 package monopooly.configuracion;
 
-public class reprASCII {
+public class ReprASCII {
 }

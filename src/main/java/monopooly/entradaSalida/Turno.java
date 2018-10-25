@@ -1,4 +1,4 @@
 package monopooly.entradaSalida;
 
-public class leerComandos {
+public class Turno {
 }

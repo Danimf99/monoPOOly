@@ -1,5 +1,6 @@
 package monopooly.colocacion;
 
+import monopooly.configuracion.Posiciones;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public class Posicion {
      * Modifica la posicion para que sea la misma que la de la carcel
      */
     public void irCarcel(){
-//        TODO implementar ir a la carcel.
+        this.x = Posiciones.CARCEL;
     }
 
 
@@ -47,9 +48,8 @@ public class Posicion {
      * Determina si la posicion es la de ir a la carcel. Ayuda a decidir si debe ir a la carcel.
      * @return falso si no coincide con ir a la carcel, verdadero en caso de coincidir.
      */
-    public boolean esCarcel(){
-//        TODO Comprobacion para saber si está en la casilla de ve a la carcel
-        return false;
+    public boolean esIrCarcel(){
+        return x == Posiciones.VE_A_LA_CARCELZ;
     }
 
 
@@ -58,7 +58,14 @@ public class Posicion {
      * @param desplazamiento Número de casillas que se avanzan o se retroceden. Admite numeros negativos.
      */
     public void mover(int desplazamiento){
-//        TODO implementar movimiento
+        this.x += desplazamiento;
+        this.x %= Posiciones.TOTAL;
+//        TODO implementar Comprobaciones
+
+        /* Aun teniendo tarjeta de librarse de la carcel, a la carcel hay que mandarlo */
+        if (this.esIrCarcel()) {
+            this.irCarcel();
+        }
     }
 
 
@@ -78,11 +85,12 @@ public class Posicion {
      * Devuelve las posiciones del tablero por orden.
      * @return ArrayList ordenado de las 40 posiciones del tablero
      */
-    @NotNull
-    @Contract(value = " -> new", pure = true)
     public static ArrayList<Posicion> posicionesPosibles(){
-
-        return new ArrayList<>();
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        for (int i = 0; i < Posiciones.TOTAL; i++) {
+            conjunto.add(new Posicion(i));
+        }
+        return conjunto;
     }
 
 //    TODO implementar mas metodos estaticos útiles.

@@ -1,4 +1,4 @@
 package monopooly.entradaSalida;
 
-public class pintadoASCII {
+public class PintadoASCII {
 }
