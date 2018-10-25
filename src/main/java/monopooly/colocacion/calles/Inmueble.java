@@ -79,6 +79,10 @@ public class Inmueble {
         return propietario;
     }
 
+    public Monopolio getGrupoColor() {
+        return grupoColor;
+    }
+
     /* Setters */
 
     public void setPropietario(Jugador propietario) {
@@ -113,4 +117,35 @@ public class Inmueble {
 //        TODO Implementar el cobro automatico al jugador que cae
     }
 
+    @Override
+    public String toString() {
+
+        if (tipo == TipoInmueble.solarEdificable) {
+            return "Inmueble{" + "\n" +
+                    "\tnombre='" + nombre + "'\n" +
+                    "\t, precio=" + precio + "\n" +
+                    "\t, tipo=" + tipo + "\n" +
+                    "\t, propietario=" + propietario + "\n" +
+                    "\t, grupoColor=" + grupoColor +
+                    '}';
+        }
+
+        if (tipo == TipoInmueble.estacion) {
+            return "Inmueble{" + "\n" +
+                    "\tnombre='" + nombre + "'\n" +
+                    "\t, precio=" + precio + "\n" +
+                    "\t, tipo=" + tipo + "\n" +
+                    "\t, propietario=" + propietario + "\n" +
+                    "\t, grupoColor=" + grupoColor +
+                    '}';
+        }
+
+        return "Inmueble{" + "\n" +
+                "\tnombre='" + nombre + "'\n" +
+                "\t, precio=" + precio + "\n" +
+                "\t, tipo=" + tipo + "\n" +
+                "\t, propietario=" + propietario + "\n" +
+                "\t, grupoColor=" + grupoColor +
+                '}';
+    }
 }
