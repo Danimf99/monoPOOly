@@ -1,5 +1,6 @@
 package monopooly.colocacion.calles;
 
+import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Avatar;
 
 import java.util.ArrayList;
@@ -13,7 +14,10 @@ public class Casilla {
     /* Constructores */
 
     public Casilla(Inmueble calle) {
-//        TODO Comprobacion de errores en el constructor
+        if (calle == null) {
+            Mensajes.error("No se pudo inicializar la casilla. Calle == Null");
+            return;
+        }
         this.calle = calle;
         this.avatares = new HashSet<>();
     }
@@ -43,7 +47,6 @@ public class Casilla {
      */
     private void eliminarAvatar(Avatar figura) {
         this.avatares.remove(figura);
-//        TODO implementar eliminacion comprobando que el @override del equal esta presente
     }
 
 
@@ -55,6 +58,8 @@ public class Casilla {
     public void insertarAvatar(Avatar figura) {
         if (figura != null) {
             this.avatares.add(figura);
+        } else {
+            Mensajes.error("No se puede insertar un jugador null en la casll");
         }
 
     }
@@ -65,7 +70,16 @@ public class Casilla {
      * @param nuevaCasilla Casilla en la que se desea colocar al avatar
      */
     public void moverAvatarA(Avatar figura, Casilla nuevaCasilla) {
-//        TODO Comprobacion de errores
+        if (figura == null || !this.avatares.contains(figura)) {
+            Mensajes.error("Ese avatar no se encuentra en esta casilla.");
+            return;
+        }
+
+        if (nuevaCasilla == null) {
+            Mensajes.error("No se puede mover un jugador a una casilla nula");
+            return;
+        }
+
         this.avatares.remove(figura);
         nuevaCasilla.insertarAvatar(figura);
     }

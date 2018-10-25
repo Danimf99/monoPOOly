@@ -1,5 +1,6 @@
 package monopooly.colocacion.calles;
 
+import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ public class Monopolio {
     private TipoMonopolio tipo;
 
     /* Constructores */
-    public Monopolio(HashSet<Inmueble> calles) {
-        this.calles = calles;
+    public Monopolio(TipoMonopolio tipo) {
+        this.tipo = tipo;
     }
 
     public Monopolio(ArrayList<Inmueble> calles) {
@@ -20,6 +21,19 @@ public class Monopolio {
     }
 
     /* Metodos sobre la instancia */
+
+
+    /**
+     * Añade un inmueble a un Monopoloo/grupo de color. Se usa en el constructor de Inmueble para añadirlo directamente.
+     * @param solarEdificable Inmueble que se desea añadir
+     */
+    public void insertarInmueble(Inmueble solarEdificable) {
+        if (solarEdificable == null) {
+            Mensajes.error("No se puede insertar el inmueble en el monopolio. solarEdificable == null");
+            return;
+        }
+        calles.add(solarEdificable);
+    }
 
     /**
      * Comprueba si un monopolio esta completo. Prueba ssi todas las calles del grupo son del mismo propietario.
@@ -32,7 +46,7 @@ public class Monopolio {
         for (Inmueble calle : calles) {
             propietariosCalles.add(calle.getPropietario());
         }
-         return propietariosCalles.size() == calles.size();
+        return propietariosCalles.size() == 1;
     }
 
 }

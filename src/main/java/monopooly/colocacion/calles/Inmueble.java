@@ -1,5 +1,6 @@
 package monopooly.colocacion.calles;
 
+import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 public class Inmueble {
@@ -11,11 +12,53 @@ public class Inmueble {
 
     /* Constructores */
 
+
+    // Constructor para salida/cajacomunidad/carcel.....
+    public Inmueble(String nombre, TipoInmueble tipo) {
+        if (nombre == null || tipo == null) {
+            Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
+            return;
+        }
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.propietario = null;
+        this.grupoColor = null;
+        precio = 0;
+    }
+
+    // Constructor para impuestos
     public Inmueble(String nombre, int precio, TipoInmueble tipo) {
+        if (nombre == null || tipo == null) {
+            Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
+            return;
+        }
+        if (precio < 0) {
+            Mensajes.error("No se puede Inicializar el Inmuele; el precio no puede ser negativo.");
+        }
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
         this.propietario = null;
+        this.grupoColor = null;
+    }
+
+    // Constructor para el resto de calles
+    public Inmueble(String nombre, int precio, TipoInmueble tipo, Monopolio grupoColor) {
+        if (nombre == null || tipo == null || grupoColor == null) {
+            Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
+            return;
+        }
+        if (precio < 0) {
+            Mensajes.error("No se puede Inicializar el Inmuele; el precio no puede ser negativo.");
+        }
+
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tipo = tipo;
+        this.grupoColor = grupoColor;
+
+        grupoColor.insertarInmueble(this);
+
     }
 
     /* Getters */
@@ -39,8 +82,11 @@ public class Inmueble {
     /* Setters */
 
     public void setPropietario(Jugador propietario) {
-//        TODO Comproobacion de errores en set propietario
 //        TODO Añadir this Inmueble a las propiedades de propietario
+        if (propietario == null) {
+            Mensajes.error("No se puede asignar un propietario Null");
+            return;
+        }
         this.propietario = propietario;
     }
 

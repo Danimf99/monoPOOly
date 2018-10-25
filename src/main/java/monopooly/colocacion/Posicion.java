@@ -1,8 +1,6 @@
 package monopooly.colocacion;
 
 import monopooly.configuracion.Posiciones;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -49,7 +47,7 @@ public class Posicion {
      * @return falso si no coincide con ir a la carcel, verdadero en caso de coincidir.
      */
     public boolean esIrCarcel(){
-        return x == Posiciones.VE_A_LA_CARCELZ;
+        return x == Posiciones.VE_A_LA_CARCEL;
     }
 
 
@@ -62,10 +60,6 @@ public class Posicion {
         this.x %= Posiciones.TOTAL;
 //        TODO implementar Comprobaciones
 
-        /* Aun teniendo tarjeta de librarse de la carcel, a la carcel hay que mandarlo */
-        if (this.esIrCarcel()) {
-            this.irCarcel();
-        }
     }
 
 
@@ -74,6 +68,17 @@ public class Posicion {
      */
     public void movimientoEspecial() {
 //        TODO implementar movimiento especial
+    }
+
+
+    // TODO Calculo del precio en funcion de la posicion
+
+    /**
+     * Para la posicion actual determina el precio que deberia tener el solar de la posicion actual
+     * @return precio inicial que deberia tener el Inmueble
+     */
+    public int precioCompra() {
+        return 0;
     }
 
 
