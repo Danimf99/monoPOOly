@@ -3,10 +3,11 @@ package monopooly.colocacion.calles;
 import monopooly.player.Avatar;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Casilla {
     private Inmueble calle;
-    private ArrayList<Avatar> avatares;
+    private HashSet<Avatar> avatares;
 
 
     /* Constructores */
@@ -14,7 +15,7 @@ public class Casilla {
     public Casilla(Inmueble calle) {
 //        TODO Comprobacion de errores en el constructor
         this.calle = calle;
-        this.avatares = new ArrayList<>();
+        this.avatares = new HashSet<>();
     }
 
     /* Getters CON ALIASING */
@@ -31,8 +32,8 @@ public class Casilla {
 
     /* No hay una razon por la que se deba poder modificar directamente la lista de avatares
     * de una casilla */
-    public ArrayList<Avatar> getAvatares() {
-        return new ArrayList<>(this.avatares);
+    public HashSet<Avatar> getAvatares() {
+        return new HashSet<>(this.avatares);
     }
 
     /**
@@ -41,6 +42,7 @@ public class Casilla {
      * @param figura Avatar que se desea eliminar.
      */
     private void eliminarAvatar(Avatar figura) {
+        this.avatares.remove(figura);
 //        TODO implementar eliminacion comprobando que el @override del equal esta presente
     }
 
@@ -51,8 +53,10 @@ public class Casilla {
      * @param figura Avatar que se quiere añadir.
      */
     public void insertarAvatar(Avatar figura) {
-//        TODO comprobacion de errores
-        this.avatares.add(figura);
+        if (figura != null) {
+            this.avatares.add(figura);
+        }
+
     }
 
     /**

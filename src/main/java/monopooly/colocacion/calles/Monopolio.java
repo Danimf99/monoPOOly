@@ -1,11 +1,14 @@
 package monopooly.colocacion.calles;
 
+import monopooly.player.Jugador;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Monopolio {
     private HashSet<Inmueble> calles;
+    private TipoMonopolio tipo;
 
     /* Constructores */
     public Monopolio(HashSet<Inmueble> calles) {
@@ -24,8 +27,12 @@ public class Monopolio {
      * @return Devuelve true si el Monopolio esta completo; false en caso contrario.
      */
     public boolean esCompleto() {
-//        TODO Implementar la comprobacion de si el Monopolio esta completo. Requiere que Jugador tenga un equals.
-        return false;
+//        TODO Cuidado con la funcion hash del jugador
+        HashSet<Jugador> propietariosCalles = new HashSet<>();
+        for (Inmueble calle : calles) {
+            propietariosCalles.add(calle.getPropietario());
+        }
+         return propietariosCalles.size() == calles.size();
     }
 
 }
