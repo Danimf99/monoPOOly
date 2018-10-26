@@ -27,4 +27,8 @@ public class Jugador {
     public int getDinero(){
             return this.dinero;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
 }

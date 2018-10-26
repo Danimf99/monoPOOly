@@ -145,7 +145,7 @@ public class Inmueble {
                 "\t, precio=" + precio + "\n" +
                 "\t, tipo=" + tipo + "\n" +
                 "\t, propietario=" + propietario + "\n" +
-                "\t, grupoColor=" + grupoColor +
+                "\t, grupoColor=" + grupoColor + "\n" +
                 '}';
     }
 }
