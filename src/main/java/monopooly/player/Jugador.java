@@ -28,6 +28,10 @@ public class Jugador {
             return this.dinero;
     }
 
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
     public String getNombre() {
         return nombre;
     }
