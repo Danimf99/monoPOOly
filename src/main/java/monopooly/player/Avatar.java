@@ -20,4 +20,8 @@ public class Avatar {
             //TODO Inicializar resto de atributos
         }
     }
+
+    public char getRepresentacion() {
+        return representacion;
+    }
 }
