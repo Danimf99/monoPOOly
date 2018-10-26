@@ -2,6 +2,7 @@ package monopooly.colocacion;
 
 import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -15,9 +16,19 @@ public class Tablero {
 
     /* Constructores */
 
-    public Tablero(ArrayList jugadores) {
+    public Tablero(ArrayList<Jugador> jugadores) {
+        if (jugadores == null) {
+            Mensajes.error("Lista de jugadores NULL");
+            return;
+        }
+        this.casillas = new HashMap<>();
+        this.calles = new HashMap<>();
+        this.jugadores = new HashMap<>();
+        for (Jugador player: jugadores) {
+            //this.jugadores.put(player.)
+        }
 
-//        Implementar constructor del tablero
+//        TODO Implementar constructor del tablero
     }
 
 

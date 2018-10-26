@@ -16,6 +16,7 @@ package monopooly.configuracion;
 * */
 
 
+import monopooly.colocacion.calles.TipoMonopolio;
 
 public class ReprASCII {
     public static final String ESQUINA_1 = "┌";
@@ -79,7 +80,6 @@ public class ReprASCII {
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
 
-
     public static final String ASCII_ART_TITLE = "\n" +
             ANSI_RED_BOLD +
             "                                 ____    _____   _____    ___                \n" +
@@ -92,5 +92,34 @@ public class ReprASCII {
             "                                                                       /\\___/\n" +
             "                                                                       \\/__/ " +
             ANSI_RESET;
+
+
+    public static String colorMonopolio(TipoMonopolio tipo) {
+        switch (tipo) {
+            case rojo:
+                return ANSI_RED;
+            case verde:
+                return ANSI_GREEN;
+            case marron:
+                return ANSI_BLACK;
+            case naranja:
+                return ANSI_YELLOW_BOLD;
+            case violeta:
+                return ANSI_PURPLE;
+            case amarillo:
+                return ANSI_YELLOW;
+            case estacion:
+                return ANSI_BLACK;
+            case servicio:
+                return ANSI_BLACK;
+            case azul_claro:
+                return ANSI_CYAN;
+            case azul_marino:
+                return ANSI_BLUE;
+            default:
+                return ANSI_BLACK;
+
+        }
+    }
 
 }

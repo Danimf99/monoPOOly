@@ -13,11 +13,13 @@ public class Monopolio {
 
     /* Constructores */
     public Monopolio(TipoMonopolio tipo) {
+        this.calles = new HashSet<>();
         this.tipo = tipo;
     }
 
-    public Monopolio(ArrayList<Inmueble> calles) {
+    public Monopolio(TipoMonopolio tipo, ArrayList<Inmueble> calles) {
         this.calles = new HashSet<>(calles);
+        this.tipo = tipo;
     }
 
     /* Metodos sobre la instancia */
