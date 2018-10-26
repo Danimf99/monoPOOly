@@ -1,7 +1,7 @@
 package monopooly.colocacion;
 
-import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.*;
+import monopooly.configuracion.Nombres;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
@@ -24,8 +24,23 @@ public class Tablero {
         this.casillas = new HashMap<>();
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
+
+        Monopolio test = new Monopolio(TipoMonopolio.rojo);
+        for (Posicion lugar : Posicion.posicionesPosibles()) {
+
+            Inmueble nuevoSolar = new Inmueble(Nombres.CALLES[lugar.getX()],
+                    420,
+                    TipoInmueble.solarEdificable,
+                    test);
+
+            calles.put(nuevoSolar.getNombre(), nuevoSolar);
+            casillas.put(lugar, new Casilla(nuevoSolar));
+        }
+
         for (Jugador player: jugadores) {
-            //this.jugadores.put(player.)
+            this.jugadores.put(player.getNombre(), player);
+            // TODO añadir insertarAvatar. No se puede insertar no hay constructor aun
+//            this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
 
 //        TODO Implementar constructor del tablero
@@ -78,6 +93,12 @@ public class Tablero {
         return jugadores.get(nombre);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Tablero{" +
+                "casillas=" + casillas +
+                ", calles=" + calles +
+                ", jugadores=" + jugadores +
+                '}';
+    }
 }

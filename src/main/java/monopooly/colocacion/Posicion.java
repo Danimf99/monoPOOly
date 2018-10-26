@@ -2,6 +2,7 @@ package monopooly.colocacion;
 
 import monopooly.configuracion.Posiciones;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -31,6 +32,9 @@ public class Posicion {
         this.posicionesEsteTurno = posicionesEsteTurno;
     }
 
+    public int getX() {
+        return x;
+    }
 
     /* Metodos sobre la instancia */
 
@@ -98,6 +102,45 @@ public class Posicion {
         return conjunto;
     }
 
+    /**
+     * Devuelve las posiciones de la parte norte del tablero por orden.
+     * @return Arraylist con las posiciones
+     */
+    public static ArrayList<Posicion> posicionesNorteIzqDer(){
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        for (int i = 20; i <= Posiciones.VE_A_LA_CARCEL; i++) {
+            conjunto.add(new Posicion(i));
+        }
+        return conjunto;
+    }
+
+
+    /**
+     * Devuelve las posiciones de la parte norte del tablero por orden.
+     * @return Arraylist con las posiciones
+     */
+    public static ArrayList<Posicion> posicionesSurIzqDer(){
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        for (int i = Posiciones.CARCEL; i >= Posiciones.SALIDA; i--) {
+            conjunto.add(new Posicion(i));
+        }
+        return conjunto;
+    }
+
+    public static ArrayList<ArrayList<Posicion>> posicionesEsteOeste() {
+        ArrayList<ArrayList<Posicion>> conjunto = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            ArrayList<Posicion> pareja = new ArrayList<>();
+            pareja.add(new Posicion(Posiciones.PARKING - i));
+            pareja.add(new Posicion(Posiciones.VE_A_LA_CARCEL + i));
+            conjunto.add(pareja);
+        }
+
+        return conjunto;
+    }
+
+
+
 //    TODO implementar mas metodos estaticos útiles.
     /*
     * Probablemente devolver arrayLists que ayuden al pintado ASCII del tablero
@@ -106,6 +149,14 @@ public class Posicion {
 
 
     /* Overrides */
+
+    @Override
+    public String toString() {
+        return "Posicion{" +
+                "x=" + x +
+                ", posicionesEsteTurno=" + posicionesEsteTurno +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
