@@ -31,4 +31,8 @@ public class Jugador {
         Mensajes.error("Jugador no creado");
         return 0;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
 }
