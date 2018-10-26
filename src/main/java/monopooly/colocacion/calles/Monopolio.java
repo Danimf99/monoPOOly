@@ -22,6 +22,10 @@ public class Monopolio {
         this.tipo = tipo;
     }
 
+    public TipoMonopolio getTipo() {
+        return tipo;
+    }
+
     /* Metodos sobre la instancia */
 
 

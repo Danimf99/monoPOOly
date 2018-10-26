@@ -82,40 +82,40 @@ public class ReprASCII {
 
     public static final String ASCII_ART_TITLE = "\n" +
             ANSI_RED_BOLD +
-            "                                 ____    _____   _____    ___                \n" +
-            " /'\\_/`\\                        /\\  _`\\ /\\  __`\\/\\  __`\\ /\\_ \\               \n" +
-            "/\\      \\    ___     ___     ___\\ \\ \\L\\ \\ \\ \\/\\ \\ \\ \\/\\ \\\\//\\ \\    __  __    \n" +
-            "\\ \\ \\__\\ \\  / __`\\ /' _ `\\  / __`\\ \\ ,__/\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\  /\\ \\/\\ \\   \n" +
-            " \\ \\ \\_/\\ \\/\\ \\L\\ \\/\\ \\/\\ \\/\\ \\L\\ \\ \\ \\/  \\ \\ \\_\\ \\ \\ \\_\\ \\ \\_\\ \\_\\ \\ \\_\\ \\  \n" +
-            "  \\ \\_\\\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\____/\\ \\_\\   \\ \\_____\\ \\_____\\/\\____\\\\/`____ \\ \n" +
-            "   \\/_/ \\/_/\\/___/  \\/_/\\/_/\\/___/  \\/_/    \\/_____/\\/_____/\\/____/ `/___/> \\\n" +
-            "                                                                       /\\___/\n" +
-            "                                                                       \\/__/ " +
+            "\t                                 ____    _____   _____    ___                \n" +
+            "\t /'\\_/`\\                        /\\  _`\\ /\\  __`\\/\\  __`\\ /\\_ \\               \n" +
+            "\t/\\      \\    ___     ___     ___\\ \\ \\L\\ \\ \\ \\/\\ \\ \\ \\/\\ \\\\//\\ \\    __  __    \n" +
+            "\t\\ \\ \\__\\ \\  / __`\\ /' _ `\\  / __`\\ \\ ,__/\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\  /\\ \\/\\ \\   \n" +
+            "\t \\ \\ \\_/\\ \\/\\ \\L\\ \\/\\ \\/\\ \\/\\ \\L\\ \\ \\ \\/  \\ \\ \\_\\ \\ \\ \\_\\ \\ \\_\\ \\_\\ \\ \\_\\ \\  \n" +
+            "\t  \\ \\_\\\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\____/\\ \\_\\   \\ \\_____\\ \\_____\\/\\____\\\\/`____ \\ \n" +
+            "\t   \\/_/ \\/_/\\/___/  \\/_/\\/_/\\/___/  \\/_/    \\/_____/\\/_____/\\/____/ `/___/> \\\n" +
+            "\t                                                                       /\\___/\n" +
+            "\t                                                                       \\/__/ \n" +
             ANSI_RESET;
 
 
     public static String colorMonopolio(TipoMonopolio tipo) {
         switch (tipo) {
             case rojo:
-                return ANSI_RED;
+                return ANSI_RED_BACKGROUND + ANSI_WHITE_BOLD;
             case verde:
-                return ANSI_GREEN;
+                return ANSI_GREEN_BACKGROUND;
             case marron:
-                return ANSI_BLACK;
+                return ANSI_BLACK_BACKGROUND + ANSI_WHITE;
             case naranja:
-                return ANSI_YELLOW_BOLD;
+                return ANSI_YELLOW_BACKGROUND;
             case violeta:
-                return ANSI_PURPLE;
+                return ANSI_PURPLE_BACKGROUND;
             case amarillo:
-                return ANSI_YELLOW;
+                return ANSI_YELLOW_BACKGROUND;
             case estacion:
                 return ANSI_BLACK;
             case servicio:
                 return ANSI_BLACK;
             case azul_claro:
-                return ANSI_CYAN;
+                return ANSI_CYAN_BACKGROUND;
             case azul_marino:
-                return ANSI_BLUE;
+                return ANSI_BLUE_BACKGROUND;
             default:
                 return ANSI_BLACK;
 

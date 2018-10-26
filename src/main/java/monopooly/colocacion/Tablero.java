@@ -26,10 +26,15 @@ public class Tablero {
         this.jugadores = new HashMap<>();
 
         Monopolio test = new Monopolio(TipoMonopolio.rojo);
+        int precio;
         for (Posicion lugar : Posicion.posicionesPosibles()) {
-
+            if ((lugar.getX() % 10) == 0) {
+                precio = 0;
+            } else {
+                precio = 420;
+            }
             Inmueble nuevoSolar = new Inmueble(Nombres.CALLES[lugar.getX()],
-                    420,
+                    precio,
                     TipoInmueble.solarEdificable,
                     test);
 

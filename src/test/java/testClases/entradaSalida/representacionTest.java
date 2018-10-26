@@ -5,6 +5,7 @@ import monopooly.colocacion.calles.Inmueble;
 import monopooly.colocacion.calles.Monopolio;
 import monopooly.colocacion.calles.TipoInmueble;
 import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Dados;
 import monopooly.player.Jugador;
@@ -41,6 +42,7 @@ public class representacionTest {
 
     @Test
     public void imprimeTablero() {
+        System.out.println(ReprASCII.ASCII_ART_TITLE);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 }
