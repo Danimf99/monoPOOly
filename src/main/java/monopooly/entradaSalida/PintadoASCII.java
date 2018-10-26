@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class PintadoASCII {
+    public static int asciiArtHelper;
 
     @Contract(pure = true)
     @NotNull
@@ -54,9 +55,28 @@ public class PintadoASCII {
 
     private static String espacioCentral(int tamTablero) {
         StringBuilder salida = new StringBuilder();
-        // i = 1; Para que no me cuente la barra vertical
-        for (int i = 1; i < (tamTablero / 11) * 9; i++) {
-            salida.append(" ");
+        int tamHueco = (tamTablero / 11) * 9;
+        // 13 y 21 son la primera y ultima linea centrales donde va el ASCII ART
+        if (asciiArtHelper >= 13 && asciiArtHelper <= 21){
+            // ASCII ART
+            int numLineaAsciiArt = asciiArtHelper - 13;
+            String lineaAsciiArt = ReprASCII.ASCII_TITLE_ARRAY[numLineaAsciiArt];
+            salida.append(ReprASCII.ANSI_RED_BOLD);
+            // i = 1; Para que no me cuente la barra vertical
+            for (int i = 1; i < (tamHueco - 77) / 2; i++) {
+                salida.append(" ");
+            }
+            salida.append(lineaAsciiArt);
+            // +6; Para Ajustar el aumento de longitud por el ANSI_Code
+            while (salida.length() < tamHueco + 6) {
+                salida.append(" ");
+            }
+            salida.append(ReprASCII.ANSI_BLACK);
+        } else {
+            // i = 1; Para que no me cuente la barra vertical
+            for (int i = 1; i < tamHueco; i++) {
+                salida.append(" ");
+            }
         }
         return salida.toString();
     }
@@ -211,10 +231,10 @@ public class PintadoASCII {
         salida.append(barraInterna(ReprASCII.T_LADO_C, anchoCasilla));
         // Fin Barra separadora inferior zona NORTE
 
-
-
-        // Seccion central Este/Oeste completa
+        asciiArtHelper = 0; // Para saber como colocar el ASCII art en el centro
+        // Seccion central Este/Oeste
         for (ArrayList<Posicion> par : Posiciones.posicionesEsteOeste()) {
+            // Lado izquierdo
             salida.append(ReprASCII.BARRA_VERTICAL);
             inmuebleAuxiliar = tablero.getCasilla(par.get(0)).getCalle();
             if (inmuebleAuxiliar.getGrupoColor().getTipo() != null) {
@@ -226,10 +246,12 @@ public class PintadoASCII {
             );
             salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
 
+            // Espacio central
             salida.append(espacioCentral(anchoTablero));
 
+            // Lado derecho
             salida.append(ReprASCII.BARRA_VERTICAL);
-            inmuebleAuxiliar = tablero.getCasilla(par.get(0)).getCalle();
+            inmuebleAuxiliar = tablero.getCasilla(par.get(1)).getCalle();
             if (inmuebleAuxiliar.getGrupoColor().getTipo() != null) {
                 salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getGrupoColor().getTipo()));
             }
@@ -238,13 +260,19 @@ public class PintadoASCII {
                     widear(tablero.getCasilla(par.get(1)).getCalle().getNombre(), longitudMax)
             );
             salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL + "\n");
+
+            asciiArtHelper++;
+
             // Jugadores y precios actual fila seccion central
             salida.append(reprAvatares(tablero, par, longitudMax, anchoTablero));
             salida.append('\n');
+            asciiArtHelper++;
             // Fin Jugadores y precios actual fila seccion central
             salida.append(reprPrecio(tablero, par, longitudMax, anchoTablero));
+            asciiArtHelper++;
             // Separacion calles este/oesta
             salida.append(separadorCentral(anchoCasilla));
+            asciiArtHelper++;
         }
         // Toca borrar la ultima separacion porque sobra
         salida.delete(salida.length() - separadorCentral(anchoCasilla).length() - 1, salida.length() - 1);

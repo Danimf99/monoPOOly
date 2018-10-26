@@ -32,17 +32,18 @@ public class representacionTest {
     @Before
     public void setUp() {
         Monopolio monopolioEjemplo = new Monopolio(TipoMonopolio.rojo);
-        solarEjemplo = new Inmueble("Calle Chunga", 500, TipoInmueble.solarEdificable, monopolioEjemplo);
+        solarEjemplo = new Inmueble("Calle Chunga", 500, monopolioEjemplo);
     }
 
     @Ignore
-    public void probarCasillaUnica() {
-        System.out.println(solarEjemplo);
+    public void asciiArt() {
+        for (String linea : ReprASCII.ASCII_TITLE_ARRAY) {
+            System.out.println(linea + " " + linea.length());
+        }
     }
 
     @Test
     public void imprimeTablero() {
-        System.out.println(ReprASCII.ASCII_ART_TITLE);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 }

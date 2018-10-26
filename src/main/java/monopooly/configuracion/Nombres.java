@@ -5,58 +5,58 @@ public class Nombres {
             "Salida",
 
             "Calle1",
-            "Caja de la comunidad",
-            "Calle1",
+            "Caja",
+            "Calle2",
             "Impuestos 1",
 
             "Estacion 1",
 
-            "Calle1",
-            "Calle1",
+            "Calle3",
             "Suerte",
-            "Calle1",
+            "Calle4",
+            "Calle55",
 
             "Carcel",
 
-            "Calle1",
+            "Calle6",
             "Servicios 1",
-            "Calle1",
-            "Calle1",
+            "Calle7",
+            "Calle8",
 
             "Estacion 2",
 
-            "Calle1",
-            "Caja de la comunidad",
-            "Calle1",
-            "Calle1",
+            "Calle9",
+            "Caja",
+            "Calle10",
+            "Calle11",
 
             "Parking",
 
-            "Calle1",
+            "Calle12",
             "Suerte",
-            "Calle1",
-            "Calle1",
+            "Calle13",
+            "Calle14",
 
             "Estacion 3",
 
-            "Calle1",
-            "Calle1",
+            "Calle15",
+            "Calle16",
             "Servicios 2",
-            "Calle1",
+            "Calle17",
 
             "Ve a la carcel",
 
-            "Calle1",
-            "Calle1",
-            "Caja de la comunidad",
-            "Calle1",
+            "Calle18",
+            "Calle19",
+            "Caja",
+            "Calle20",
 
             "Estacion 4",
 
             "Suerte",
-            "Calle1",
+            "Calle21",
             "Impuestos 2",
-            "Calle1",
+            "Calle22",
     };
 
     public static int maxLen() {

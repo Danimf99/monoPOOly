@@ -19,6 +19,9 @@ package monopooly.configuracion;
 import monopooly.colocacion.calles.TipoMonopolio;
 
 public class ReprASCII {
+
+    /* BARRITAS */
+
     public static final String ESQUINA_1 = "┌";
     public static final String ESQUINA_2 = "┐";
     public static final String ESQUINA_3 = "┘";
@@ -74,13 +77,27 @@ public class ReprASCII {
     public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
     public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
     public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_HIGH_YELLOW_BACKGROUND = "\u001B[0;103m";
     public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_HIGH_WHITE_BACKGROUND = "\u001B[0;107m";
 
 
-    public static final String ASCII_ART_TITLE = "\n" +
+    public static final String[] ASCII_TITLE_ARRAY = {
+            "                                 ____    _____   _____    ___",
+            " /'\\_/`\\                        /\\  _`\\ /\\  __`\\/\\  __`\\ /\\_ \\",
+            "/\\      \\    ___     ___     ___\\ \\ \\L\\ \\ \\ \\/\\ \\ \\ \\/\\ \\\\//\\ \\    __  __",
+            "\\ \\ \\__\\ \\  / __`\\ /' _ `\\  / __`\\ \\ ,__/\\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\ \\  /\\ \\/\\ \\",
+            " \\ \\ \\_/\\ \\/\\ \\L\\ \\/\\ \\/\\ \\/\\ \\L\\ \\ \\ \\/  \\ \\ \\_\\ \\ \\ \\_\\ \\ \\_\\ \\_\\ \\ \\_\\ \\",
+            "  \\ \\_\\\\ \\_\\ \\____/\\ \\_\\ \\_\\ \\____/\\ \\_\\   \\ \\_____\\ \\_____\\/\\____\\\\/`____ \\",
+            "   \\/_/ \\/_/\\/___/  \\/_/\\/_/\\/___/  \\/_/    \\/_____/\\/_____/\\/____/ `/___/> \\",
+            "                                                                       /\\___/",
+            "                                                                       \\/__/"
+    };
+
+    public static final String ASCII_TITLE = "\n" +
             ANSI_RED_BOLD +
             "\t                                 ____    _____   _____    ___                \n" +
             "\t /'\\_/`\\                        /\\  _`\\ /\\  __`\\/\\  __`\\ /\\_ \\               \n" +
@@ -97,25 +114,35 @@ public class ReprASCII {
     public static String colorMonopolio(TipoMonopolio tipo) {
         switch (tipo) {
             case rojo:
-                return ANSI_RED_BACKGROUND + ANSI_WHITE_BOLD;
+                return ANSI_RED_BACKGROUND ;
             case verde:
                 return ANSI_GREEN_BACKGROUND;
             case marron:
                 return ANSI_BLACK_BACKGROUND + ANSI_WHITE;
             case naranja:
-                return ANSI_YELLOW_BACKGROUND;
+                return ANSI_HIGH_YELLOW_BACKGROUND;
             case violeta:
                 return ANSI_PURPLE_BACKGROUND;
             case amarillo:
                 return ANSI_YELLOW_BACKGROUND;
             case estacion:
-                return ANSI_BLACK;
+                return ANSI_HIGH_WHITE_BACKGROUND;
             case servicio:
-                return ANSI_BLACK;
+                return ANSI_BLACK_BOLD;
             case azul_claro:
                 return ANSI_CYAN_BACKGROUND;
             case azul_marino:
-                return ANSI_BLUE_BACKGROUND;
+                return ANSI_BLUE_BACKGROUND + ANSI_WHITE_BOLD;
+            case none:
+                return ANSI_BLACK_BOLD;
+            case parking:
+                return ANSI_BLACK_BOLD;
+            case suerte:
+                return ANSI_RED_BOLD;
+            case caja_comunidad:
+                return ANSI_BLUE_BOLD;
+            case impuesto:
+                return ANSI_BLACK_UNDERLINE;
             default:
                 return ANSI_BLACK;
 

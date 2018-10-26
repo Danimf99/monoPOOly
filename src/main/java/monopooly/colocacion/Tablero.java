@@ -3,6 +3,7 @@ package monopooly.colocacion;
 import monopooly.colocacion.calles.*;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
+import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
@@ -26,21 +27,157 @@ public class Tablero {
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
 
-        Monopolio test = new Monopolio(TipoMonopolio.rojo);
-        int precio;
-        for (Posicion lugar : Posiciones.posicionesPosibles()) {
-            if ((lugar.getX() % 10) == 0) {
-                precio = 0;
-            } else {
-                precio = 420;
-            }
-            Inmueble nuevoSolar = new Inmueble(Nombres.CALLES[lugar.getX()],
-                    precio,
-                    TipoInmueble.solarEdificable,
-                    test);
+        Monopolio none = new Monopolio(TipoMonopolio.none);
+        Monopolio estacion = new Monopolio(TipoMonopolio.estacion);
+        Monopolio servicio = new Monopolio(TipoMonopolio.servicio);
+        Monopolio parking = new Monopolio(TipoMonopolio.parking);
+        Monopolio marron = new Monopolio(TipoMonopolio.marron);
+        Monopolio azul_claro = new Monopolio(TipoMonopolio.azul_claro);
+        Monopolio violeta = new Monopolio(TipoMonopolio.violeta);
+        Monopolio naranja = new Monopolio(TipoMonopolio.naranja);
+        Monopolio rojo = new Monopolio(TipoMonopolio.rojo);
+        Monopolio amarillo = new Monopolio(TipoMonopolio.amarillo);
+        Monopolio verde = new Monopolio(TipoMonopolio.verde);
+        Monopolio azul_marino = new Monopolio(TipoMonopolio.azul_marino);
+        Monopolio suerte = new Monopolio(TipoMonopolio.suerte);
+        Monopolio caja_comunidad = new Monopolio(TipoMonopolio.caja_comunidad);
+        Monopolio impuestos = new Monopolio(TipoMonopolio.impuesto);
 
-            calles.put(nuevoSolar.getNombre(), nuevoSolar);
-            casillas.put(lugar, new Casilla(nuevoSolar));
+        int precio;
+        Posicion posAux;
+        Inmueble inmuAux;
+        String nombreAux;
+
+        // Salida
+        posAux = new Posicion(Posiciones.SALIDA);
+        nombreAux = Nombres.CALLES[Posiciones.SALIDA];
+        inmuAux = new Inmueble(nombreAux,0, none);
+        calles.put(nombreAux, inmuAux);
+        casillas.put(posAux, new Casilla(inmuAux));
+
+        // Carcel
+        posAux = new Posicion(Posiciones.CARCEL);
+        nombreAux = Nombres.CALLES[Posiciones.CARCEL];
+        inmuAux = new Inmueble(nombreAux,0, none);
+        calles.put(nombreAux, inmuAux);
+        casillas.put(posAux, new Casilla(inmuAux));
+
+        // Parking
+        posAux = new Posicion(Posiciones.PARKING);
+        nombreAux = Nombres.CALLES[Posiciones.PARKING];
+        inmuAux = new Inmueble(nombreAux,0, parking);
+        calles.put(nombreAux, inmuAux);
+        casillas.put(posAux, new Casilla(inmuAux));
+
+        // Ve a la carcel
+        posAux = new Posicion(Posiciones.VE_A_LA_CARCEL);
+        nombreAux = Nombres.CALLES[Posiciones.VE_A_LA_CARCEL];
+        inmuAux = new Inmueble(nombreAux,0, none);
+        calles.put(nombreAux, inmuAux);
+        casillas.put(posAux, new Casilla(inmuAux));
+
+        // Estaciones
+        for (Posicion lugar : Posiciones.posicionesEstaciones()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.ESTACION, estacion);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Suerte
+        for (Posicion lugar : Posiciones.posicionesSuerte()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, 0, suerte);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Caja de comunidad
+        for (Posicion lugar : Posiciones.posicionesCajaComunidad()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, 0, caja_comunidad);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Servicios
+        for (Posicion lugar : Posiciones.posicionesServicios()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.SERVICIOS, servicio);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Impuestos
+        for (Posicion lugar : Posiciones.posicionesImpuestos()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.IMPUESTOS, impuestos);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Marrones
+        for (Posicion lugar : Posiciones.posicionesMarron()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, marron);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Azul claro
+        for (Posicion lugar : Posiciones.posicionesAzulClaro()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, azul_claro);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Violeta
+        for (Posicion lugar : Posiciones.posicionesVioleta()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, violeta);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Naranja
+        for (Posicion lugar : Posiciones.posicionesNaranja()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, naranja);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Rojo
+        for (Posicion lugar : Posiciones.posicionesRojo()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, rojo);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Amarillo
+        for (Posicion lugar : Posiciones.posicionesAmarillo()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, amarillo);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Verde
+        for (Posicion lugar : Posiciones.posicionesVerde()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, verde);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
+        }
+
+        // Azul Marino
+        for (Posicion lugar : Posiciones.posicionesAzulMarino()) {
+            nombreAux = Nombres.CALLES[lugar.getX()];
+            inmuAux = new Inmueble(nombreAux, Precios.FOO, azul_marino);
+            calles.put(nombreAux, inmuAux);
+            casillas.put(lugar, new Casilla(inmuAux));
         }
 
         for (Jugador player: jugadores) {

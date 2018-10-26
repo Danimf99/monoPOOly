@@ -13,38 +13,9 @@ public class Inmueble {
     /* Constructores */
 
 
-    // Constructor para salida/cajacomunidad/carcel.....
-    public Inmueble(String nombre, TipoInmueble tipo) {
-        if (nombre == null || tipo == null) {
-            Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
-            return;
-        }
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.propietario = null;
-        this.grupoColor = null;
-        precio = 0;
-    }
-
-    // Constructor para impuestos
-    public Inmueble(String nombre, int precio, TipoInmueble tipo) {
-        if (nombre == null || tipo == null) {
-            Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
-            return;
-        }
-        if (precio < 0) {
-            Mensajes.error("No se puede Inicializar el Inmuele; el precio no puede ser negativo.");
-        }
-        this.nombre = nombre;
-        this.precio = precio;
-        this.tipo = tipo;
-        this.propietario = null;
-        this.grupoColor = null;
-    }
-
-    // Constructor para el resto de calles
-    public Inmueble(String nombre, int precio, TipoInmueble tipo, Monopolio grupoColor) {
-        if (nombre == null || tipo == null || grupoColor == null) {
+    // Constructor
+    public Inmueble(String nombre, int precio, Monopolio grupoColor) {
+        if (nombre == null || grupoColor == null) {
             Mensajes.error("No se puede Inicializar el Inmueble; uno de los valores en null.");
             return;
         }
@@ -54,7 +25,6 @@ public class Inmueble {
 
         this.nombre = nombre;
         this.precio = precio;
-        this.tipo = tipo;
         this.grupoColor = grupoColor;
 
         grupoColor.insertarInmueble(this);
@@ -69,10 +39,6 @@ public class Inmueble {
 
     public int getPrecio() {
         return precio;
-    }
-
-    public TipoInmueble getTipo() {
-        return tipo;
     }
 
     public Jugador getPropietario() {
@@ -119,26 +85,6 @@ public class Inmueble {
 
     @Override
     public String toString() {
-
-        if (tipo == TipoInmueble.solarEdificable) {
-            return "Inmueble{" + "\n" +
-                    "\tnombre='" + nombre + "'\n" +
-                    "\t, precio=" + precio + "\n" +
-                    "\t, tipo=" + tipo + "\n" +
-                    "\t, propietario=" + propietario + "\n" +
-                    "\t, grupoColor=" + grupoColor +
-                    '}';
-        }
-
-        if (tipo == TipoInmueble.estacion) {
-            return "Inmueble{" + "\n" +
-                    "\tnombre='" + nombre + "'\n" +
-                    "\t, precio=" + precio + "\n" +
-                    "\t, tipo=" + tipo + "\n" +
-                    "\t, propietario=" + propietario + "\n" +
-                    "\t, grupoColor=" + grupoColor +
-                    '}';
-        }
 
         return "Inmueble{" + "\n" +
                 "\tnombre='" + nombre + "'\n" +

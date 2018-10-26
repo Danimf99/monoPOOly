@@ -1,8 +1,6 @@
 package monopooly.colocacion.calles;
 
 public enum TipoMonopolio {
-    estacion,
-    servicio,
     marron,
     azul_claro,
     violeta,
@@ -10,5 +8,12 @@ public enum TipoMonopolio {
     rojo,
     amarillo,
     verde,
-    azul_marino
+    azul_marino,
+    estacion,
+    servicio,
+    impuesto,
+    parking,
+    suerte,
+    caja_comunidad,
+    none
 }

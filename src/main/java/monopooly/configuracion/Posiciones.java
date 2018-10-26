@@ -66,8 +66,8 @@ public class Posiciones {
 
     public static ArrayList<Posicion> posicionesEstaciones() {
         ArrayList<Posicion> conjunto = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            conjunto.add(new Posicion(i * 5));
+        for (int i = 0; i < 4; i++) {
+            conjunto.add(new Posicion(5 + 10 * i));
         }
         return conjunto;
     }
@@ -94,4 +94,76 @@ public class Posiciones {
         conjunto.add(new Posicion(28));
         return conjunto;
     }
+
+    public static ArrayList<Posicion> posicionesImpuestos() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(4));
+        conjunto.add(new Posicion(38));
+        return conjunto;
+    }
+
+
+    public static ArrayList<Posicion> posicionesMarron() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(1));
+        conjunto.add(new Posicion(3));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesAzulClaro() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(6));
+        conjunto.add(new Posicion(8));
+        conjunto.add(new Posicion(9));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesVioleta() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(11));
+        conjunto.add(new Posicion(13));
+        conjunto.add(new Posicion(14));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesNaranja() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(16));
+        conjunto.add(new Posicion(18));
+        conjunto.add(new Posicion(19));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesRojo() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(21));
+        conjunto.add(new Posicion(23));
+        conjunto.add(new Posicion(24));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesAmarillo() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(26));
+        conjunto.add(new Posicion(27));
+        conjunto.add(new Posicion(29));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesVerde() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(31));
+        conjunto.add(new Posicion(32));
+        conjunto.add(new Posicion(34));
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesAzulMarino() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(37));
+        conjunto.add(new Posicion(39));
+        return conjunto;
+    }
+
+
 }
