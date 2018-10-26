@@ -87,57 +87,6 @@ public class Posicion {
 
 
 
-    /* Metodos estaticos */
-
-
-    /**
-     * Devuelve las posiciones del tablero por orden.
-     * @return ArrayList ordenado de las 40 posiciones del tablero
-     */
-    public static ArrayList<Posicion> posicionesPosibles(){
-        ArrayList<Posicion> conjunto = new ArrayList<>();
-        for (int i = 0; i < Posiciones.TOTAL; i++) {
-            conjunto.add(new Posicion(i));
-        }
-        return conjunto;
-    }
-
-    /**
-     * Devuelve las posiciones de la parte norte del tablero por orden.
-     * @return Arraylist con las posiciones
-     */
-    public static ArrayList<Posicion> posicionesNorteIzqDer(){
-        ArrayList<Posicion> conjunto = new ArrayList<>();
-        for (int i = 20; i <= Posiciones.VE_A_LA_CARCEL; i++) {
-            conjunto.add(new Posicion(i));
-        }
-        return conjunto;
-    }
-
-
-    /**
-     * Devuelve las posiciones de la parte norte del tablero por orden.
-     * @return Arraylist con las posiciones
-     */
-    public static ArrayList<Posicion> posicionesSurIzqDer(){
-        ArrayList<Posicion> conjunto = new ArrayList<>();
-        for (int i = Posiciones.CARCEL; i >= Posiciones.SALIDA; i--) {
-            conjunto.add(new Posicion(i));
-        }
-        return conjunto;
-    }
-
-    public static ArrayList<ArrayList<Posicion>> posicionesEsteOeste() {
-        ArrayList<ArrayList<Posicion>> conjunto = new ArrayList<>();
-        for (int i = 1; i < 10; i++) {
-            ArrayList<Posicion> pareja = new ArrayList<>();
-            pareja.add(new Posicion(Posiciones.PARKING - i));
-            pareja.add(new Posicion(Posiciones.VE_A_LA_CARCEL + i));
-            conjunto.add(pareja);
-        }
-
-        return conjunto;
-    }
 
 
 

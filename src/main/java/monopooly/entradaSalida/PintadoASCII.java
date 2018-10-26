@@ -183,7 +183,7 @@ public class PintadoASCII {
 
         // Fila nombre calles NORTE
         salida.append(ReprASCII.BARRA_VERTICAL);
-        for (Posicion pos : Posicion.posicionesNorteIzqDer()) {
+        for (Posicion pos : Posiciones.posicionesNorteIzqDer()) {
             inmuebleAuxiliar = tablero.getCasilla(pos).getCalle();
             if (inmuebleAuxiliar.getGrupoColor().getTipo() != null) {
                 salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getGrupoColor().getTipo()));
@@ -201,9 +201,9 @@ public class PintadoASCII {
         
         
         // Jugadores y precios de la zona NORTE
-        salida.append(reprAvatares(tablero, Posicion.posicionesNorteIzqDer(), longitudMax, anchoTablero));
+        salida.append(reprAvatares(tablero, Posiciones.posicionesNorteIzqDer(), longitudMax, anchoTablero));
         salida.append('\n');
-        salida.append(reprPrecio(tablero, Posicion.posicionesNorteIzqDer(), longitudMax, anchoTablero));
+        salida.append(reprPrecio(tablero, Posiciones.posicionesNorteIzqDer(), longitudMax, anchoTablero));
         // Fin Jugadores y precios de la zona norte
 
 
@@ -214,7 +214,7 @@ public class PintadoASCII {
 
 
         // Seccion central Este/Oeste completa
-        for (ArrayList<Posicion> par : Posicion.posicionesEsteOeste()) {
+        for (ArrayList<Posicion> par : Posiciones.posicionesEsteOeste()) {
             salida.append(ReprASCII.BARRA_VERTICAL);
             inmuebleAuxiliar = tablero.getCasilla(par.get(0)).getCalle();
             if (inmuebleAuxiliar.getGrupoColor().getTipo() != null) {
@@ -260,7 +260,7 @@ public class PintadoASCII {
 
         // Fila nombres lado SUR
         salida.append(ReprASCII.BARRA_VERTICAL);
-        for (Posicion pos : Posicion.posicionesSurIzqDer()) {
+        for (Posicion pos : Posiciones.posicionesSurIzqDer()) {
             inmuebleAuxiliar = tablero.getCasilla(pos).getCalle();
             if (inmuebleAuxiliar.getGrupoColor().getTipo() != null) {
                 salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getGrupoColor().getTipo()));
@@ -276,9 +276,9 @@ public class PintadoASCII {
 
 
         // Jugadores y precios de la zona SUR
-        salida.append(reprAvatares(tablero, Posicion.posicionesSurIzqDer(), longitudMax, anchoTablero));
+        salida.append(reprAvatares(tablero, Posiciones.posicionesSurIzqDer(), longitudMax, anchoTablero));
         salida.append("\n");
-        salida.append(reprPrecio(tablero, Posicion.posicionesSurIzqDer(), longitudMax, anchoTablero));
+        salida.append(reprPrecio(tablero, Posiciones.posicionesSurIzqDer(), longitudMax, anchoTablero));
 //        salida.append("\n");
         // Fin Jugadores y precios de la zona SUR
 
@@ -300,5 +300,4 @@ public class PintadoASCII {
 
         return salida.toString();
     }
-
 }

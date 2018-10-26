@@ -2,6 +2,7 @@ package monopooly.colocacion;
 
 import monopooly.colocacion.calles.*;
 import monopooly.configuracion.Nombres;
+import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
@@ -27,7 +28,7 @@ public class Tablero {
 
         Monopolio test = new Monopolio(TipoMonopolio.rojo);
         int precio;
-        for (Posicion lugar : Posicion.posicionesPosibles()) {
+        for (Posicion lugar : Posiciones.posicionesPosibles()) {
             if ((lugar.getX() % 10) == 0) {
                 precio = 0;
             } else {

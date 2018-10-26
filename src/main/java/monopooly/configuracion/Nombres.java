@@ -5,35 +5,35 @@ public class Nombres {
             "Salida",
 
             "Calle1",
-            "Impuestos",
+            "Caja de la comunidad",
             "Calle1",
-            "Calle1",
+            "Impuestos 1",
 
             "Estacion 1",
 
             "Calle1",
             "Calle1",
-            "Calle1",
+            "Suerte",
             "Calle1",
 
             "Carcel",
 
             "Calle1",
-            "Calle1",
+            "Servicios 1",
             "Calle1",
             "Calle1",
 
             "Estacion 2",
 
             "Calle1",
-            "Calle1",
+            "Caja de la comunidad",
             "Calle1",
             "Calle1",
 
             "Parking",
 
             "Calle1",
-            "Calle1",
+            "Suerte",
             "Calle1",
             "Calle1",
 
@@ -41,19 +41,19 @@ public class Nombres {
 
             "Calle1",
             "Calle1",
-            "Calle1",
+            "Servicios 2",
             "Calle1",
 
             "Ve a la carcel",
 
             "Calle1",
             "Calle1",
-            "Calle1",
+            "Caja de la comunidad",
             "Calle1",
 
             "Estacion 4",
 
-            "Calle1",
+            "Suerte",
             "Calle1",
             "Impuestos 2",
             "Calle1",
