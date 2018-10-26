@@ -14,21 +14,17 @@ public class Jugador {
 
     /**
      * Inicizaliza jugador pasandole el nombre, tipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
-     * @param nombre
-     * @param avatar
-     * @param dados
+     * @param nombre string con el nombre del jugador
+     * @param avatar tipoAvatar para saber si es sombrero,balon...
+     * @param dados Dados para que los lanze
      */
     public Jugador(String nombre,tipoAvatar avatar,Dados dados){
-        if(avatar!=null && dados!=null && nombre!="\0"){
+        if(avatar!=null && dados!=null && nombre!=null){
             //TODO Inicializar los atributos de jugador
         }
     }
 
     public int getDinero(){
-        if(this!=null){
             return this.dinero;
-        }
-        Mensajes.error("Jugador no creado");
-        return 0;
     }
 }
