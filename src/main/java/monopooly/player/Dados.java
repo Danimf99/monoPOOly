@@ -25,7 +25,7 @@ public class Dados {
      *
      * @return true: si son iguales, false: si no son iguales
      */
-    public boolean isDobles() {
+    public boolean sonDobles() {
         return this.dado1 == this.dado2;
     }
 

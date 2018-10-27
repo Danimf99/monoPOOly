@@ -18,8 +18,14 @@ package monopooly.configuracion;
 
 import monopooly.colocacion.calles.TipoMonopolio;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ReprASCII {
 
+    /* Representacion para AVATARES*/
+    public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R'));
     /* BARRITAS */
 
     public static final String ESQUINA_1 = "┌";
