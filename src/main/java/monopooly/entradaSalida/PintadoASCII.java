@@ -1,6 +1,6 @@
 package monopooly.entradaSalida;
 
-import com.sun.deploy.util.StringUtils;
+import com.sun.istack.internal.NotNull;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
@@ -9,17 +9,13 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
-import monopooly.player.Jugador;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class PintadoASCII {
     public static int asciiArtHelper;
 
-    @Contract(pure = true)
+    //@Contract(pure = true)
     @NotNull
     public static String encuadrar(String mensaje, int ancho) {
         // Se necesita el ancho por que los modificadores de color

@@ -1,6 +1,7 @@
 package monopooly.player;
 
 import monopooly.colocacion.Posicion;
+import monopooly.entradaSalida.Mensajes;
 
 public class Avatar {
     private tipoAvatar tipo;
@@ -15,13 +16,26 @@ public class Avatar {
      * @param jugador Jugador poseedor del avatar
      */
     public Avatar(char representacion,tipoAvatar tipo,Jugador jugador){
-        if(representacion!='\0' && tipo!=null && jugador!=null){
-            this.representacion=representacion;
-            //TODO Inicializar resto de atributos
+        if(representacion=='\0' || tipo==null || jugador==null){
+            Mensajes.error("Error al crear avatar, atributos nulos");
+            return;
         }
+        this.representacion=representacion;
+        this.tipo=tipo;
+        this.jugador=jugador;
+        posicion=new Posicion();
     }
 
     public char getRepresentacion() {
         return representacion;
+    }
+    public tipoAvatar getTipo(){
+        return tipo;
+    }
+    public Jugador getJugador(){
+        return jugador;
+    }
+    public Posicion getPosicion(){
+        return posicion;
     }
 }

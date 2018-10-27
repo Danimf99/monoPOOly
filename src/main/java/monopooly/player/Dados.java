@@ -1,7 +1,5 @@
 package monopooly.player;
 
-import monopooly.entradaSalida.Mensajes;
-
 import java.util.Random;
 
 public class Dados {
@@ -16,6 +14,12 @@ public class Dados {
         this.dado2 = 0;
     }
 
+    public int getDado1(){
+        return dado1;
+    }
+    public int getDado2(){
+        return dado2;
+    }
     /**
      * Comprueba si la tirada de cada dado es igual
      *

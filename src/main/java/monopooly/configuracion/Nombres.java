@@ -4,59 +4,59 @@ public class Nombres {
     public static final String[] CALLES = {
             "Salida",
 
-            "Calle1",
+            "Murcia",
             "Caja",
-            "Calle2",
+            "A Coruña",
             "Impuestos 1",
 
             "Estacion 1",
 
-            "Calle3",
+            "Plasencia",
             "Suerte",
-            "Calle4",
-            "Calle55",
+            "Ciudad Real",
+            "Almería",
 
             "Carcel",
 
-            "Calle6",
+            "Toledo",
             "Servicios 1",
-            "Calle7",
-            "Calle8",
+            "Teruel",
+            "Getafe",
 
             "Estacion 2",
 
-            "Calle9",
+            "Zaragoza",
             "Caja",
-            "Calle10",
-            "Calle11",
+            "Pontevedra",
+            "Vigo",
 
             "Parking",
 
-            "Calle12",
+            "Salamanca",
             "Suerte",
-            "Calle13",
-            "Calle14",
+            "Cádiz",
+            "Sevilla",
 
             "Estacion 3",
 
-            "Calle15",
-            "Calle16",
+            "Oviedo",
+            "Valladolid",
             "Servicios 2",
-            "Calle17",
+            "Valencia",
 
             "Ve a la carcel",
 
-            "Calle18",
-            "Calle19",
+            "Bilbao",
+            "Barcelona",
             "Caja",
-            "Calle20",
+            "Madrid",
 
             "Estacion 4",
 
             "Suerte",
-            "Calle21",
+            "Marbella",
             "Impuestos 2",
-            "Calle22",
+            "Ibiza",
     };
 
     public static int maxLen() {
