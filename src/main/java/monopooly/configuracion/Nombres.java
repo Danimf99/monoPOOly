@@ -27,7 +27,7 @@ public class Nombres {
 
             "Zaragoza",
             "Caja",
-            "Pontevedra",
+            "Lugo",
             "Vigo",
 
             "Parking",

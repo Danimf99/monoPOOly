@@ -13,10 +13,8 @@ import monopooly.player.Avatar;
 import java.util.ArrayList;
 
 public class PintadoASCII {
-    public static int asciiArtHelper;
+    private static int asciiArtHelper;
 
-    //@Contract(pure = true)
-    @NotNull
     public static String encuadrar(String mensaje, int ancho) {
         // Se necesita el ancho por que los modificadores de color
         //  cuentan como caracter
