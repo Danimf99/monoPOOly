@@ -49,4 +49,9 @@ public class representacionTest {
     public void testPromptBasic() {
         
     }
+
+    @Test
+    public void moverJugadorRepresentar() {
+
+    }
 }
