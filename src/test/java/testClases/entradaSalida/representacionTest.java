@@ -3,11 +3,9 @@ package testClases.entradaSalida;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.colocacion.calles.Monopolio;
-import monopooly.colocacion.calles.TipoInmueble;
 import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.PintadoASCII;
-import monopooly.player.Dados;
 import monopooly.player.Jugador;
 import monopooly.player.tipoAvatar;
 import org.junit.Before;
@@ -23,7 +21,7 @@ public class representacionTest {
 
     @BeforeClass
     public static void preSetUp() {
-        Jugador monguer = new Jugador("pepe", tipoAvatar.sombrero, new Dados());
+        Jugador monguer = new Jugador("pepe", tipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
         tableroPrueba = new Tablero(listaJugadores);

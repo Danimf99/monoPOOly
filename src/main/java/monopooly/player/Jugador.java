@@ -5,6 +5,7 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
+
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -20,16 +21,27 @@ public class Jugador {
      *
      * @param nombre string con el nombre del jugador
      * @param avatar tipoAvatar para saber si es sombrero,balon...
-     * @param dados  Dados para que los lanze
      */
-    public Jugador(String nombre, tipoAvatar avatar, Dados dados) {
+    public Jugador(String nombre, tipoAvatar avatar) {
         if (avatar != null && dados != null && nombre != null) {
             this.nombre=nombre;
-            this.dados=dados;
+            this.dados=new Dados();
             dinero= Precios.DINERO_INICIAL;
             propiedades=new HashSet<>();
             this.avatar=new Avatar(avatar,this);
         }
+    }
+
+    /**
+     * Constructor para el jugador Banca
+     * @param propiedades todas las propiedades del tablero
+     */
+    public Jugador(HashSet<Inmueble> propiedades){
+        avatar=null;
+        dados=null;
+        this.propiedades=propiedades;
+        this.nombre="Banca";
+        this.dinero=500000000;
     }
 
     public int getDinero() {
@@ -131,24 +143,27 @@ public class Jugador {
     public String toString() {
         HashSet<Inmueble> solares;
         return "Jugador{" +
-                "Nombre: " + nombre +
-                "Fortuna: " + dinero +
-                "Avatar: " + avatar+
-                "Propiedades: " + propiedades
+                "\tNombre: " + nombre +
+                "\tFortuna: " + dinero +
+                "\tAvatar: " + avatar+
+                "\tPropiedades: " + propiedades
                 +"}";
-    }
-    //Esto habria que ver si asi funciona bien, ya que cada avatar tiene un caracter ASCII diferente, un jugador nunca podra tener el mismo que otro
-    @Override
-    public int hashCode(){
-        return Objects.hashCode((int)avatar.getRepresentacion());
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this==o) return true;
-        if(!(o instanceof Jugador)) return false;
-        Jugador jugador=(Jugador) o;
-        return this.nombre.equals(jugador.nombre) &&
-                this.avatar.equals(jugador.avatar);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return dinero == jugador.dinero &&
+                Objects.equals(nombre, jugador.nombre) &&
+                Objects.equals(avatar, jugador.avatar) &&
+                Objects.equals(propiedades, jugador.propiedades) &&
+                Objects.equals(dados, jugador.dados);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, dinero, avatar, propiedades, dados);
     }
 }
