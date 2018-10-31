@@ -9,6 +9,7 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
+import monopooly.player.Dados;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -339,13 +340,13 @@ public class PintadoASCII {
 
     private static ArrayList<String> madatoryElems(Jugador player) {
         ArrayList<String> elementos = new ArrayList<>();
-//        elementos.add("" + player.getAvatar().getRepresentacion());
+        elementos.add("" + player.getAvatar().getRepresentacion());
         elementos.add(player.getNombre());
 //        elementos.add(ReprASCII.PROMPT_LOG_DINERO + player.getDinero() + " " + Precios.MONEDA);
         return elementos;
     }
 
-    private static String genPrompt(ArrayList<String> elementos) {
+    public static String genPrompt(ArrayList<String> elementos) {
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append(ReprASCII.PROMPT_TOP_OPENER);
         for (String elemento : elementos) {
@@ -370,7 +371,7 @@ public class PintadoASCII {
         String color = "";
         String reprMotivo = "";
         String separador = ReprASCII.PROMPT_ELM_OUTTER_SEP;
-        String dinero = "" + player.getDinero();
+        String dinero = "Dinero: " + player.getDinero() + "" + Precios.MONEDA;
         String modificador = "-";
         String salida = "";
 
@@ -393,9 +394,17 @@ public class PintadoASCII {
         return salida;
     }
 
-    private static String basicPrompt(Tablero tablero, Jugador player) {
+
+    public static String basicPrompt(Tablero tablero, Jugador player) {
         ArrayList<String> elementos = madatoryElems(player);
         elementos.add(cambioDinero(player, 0, ""));
+        return genPrompt(elementos);
+    }
+
+    public static String basicPromptHelp(Tablero tablero, Jugador player) {
+        ArrayList<String> elementos = madatoryElems(player);
+        elementos.add(cambioDinero(player, 0, ""));
+        elementos.add(ReprASCII.PROMPT_LOG_HELP);
         return genPrompt(elementos);
     }
 

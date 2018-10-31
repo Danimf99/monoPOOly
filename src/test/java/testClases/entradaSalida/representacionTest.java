@@ -59,6 +59,11 @@ public class representacionTest {
 
     @Test
     public void testPromptBasic() {
+        System.out.println(PintadoASCII.basicPrompt(tableroPrueba, monguer));
+    }
 
+    @Test
+    public void testPromptHelp() {
+        System.out.println(PintadoASCII.basicPromptHelp(tableroPrueba, monguer));
     }
 }
