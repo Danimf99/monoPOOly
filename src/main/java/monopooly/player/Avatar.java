@@ -4,6 +4,8 @@ import monopooly.colocacion.Posicion;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 
+import java.util.Objects;
+
 public class Avatar {
     private tipoAvatar tipo;
     private char representacion;
@@ -56,12 +58,20 @@ public class Avatar {
                 "\tPosicion: "+posicion.getX()
                 +"}";
     }
+
     @Override
-    public boolean equals(Object o){
-        if(this==o) return true;
-        if(!(o instanceof Avatar)) return false;
-        Avatar avatar=(Avatar) o;
-        return this.tipo==avatar.tipo
-                && this.representacion==avatar.representacion;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Avatar avatar = (Avatar) o;
+        return representacion == avatar.representacion &&
+                tipo == avatar.tipo &&
+                Objects.equals(jugador, avatar.jugador) &&
+                Objects.equals(posicion, avatar.posicion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tipo, representacion, jugador, posicion);
     }
 }
