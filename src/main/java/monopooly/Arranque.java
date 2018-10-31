@@ -1,7 +1,6 @@
 package monopooly;
 
 import monopooly.colocacion.Tablero;
-import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
@@ -15,7 +14,8 @@ public class Arranque {
         Jugadores.add(new Jugador("daniel", tipoAvatar.sombrero));
         Tablero tablero=new Tablero(Jugadores);
         System.out.print(PintadoASCII.genTablero(tablero));
-        System.out.println(ReprASCII.ASCII_TITLE);
+        Jugadores.get(0).moverJugador(tablero);
+        System.out.print("\n"+PintadoASCII.genTablero(tablero)+"\n");
         Mensajes.error("Mensaje de prueba. Porque null pointer exception");
         Mensajes.info("Mensaje de prueba. Informacion de un suceso");
         Mensajes.detalles("Mensaje de informacion sobre un objeto");

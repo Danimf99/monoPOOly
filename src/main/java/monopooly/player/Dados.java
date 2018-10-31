@@ -14,6 +14,11 @@ public class Dados {
         this.dado2 = 0;
     }
 
+    public Dados(int dado1,int dado2){
+        this.dado1=dado1;
+        this.dado2=dado2;
+    }
+
     public int getDado1(){
         return dado1;
     }
