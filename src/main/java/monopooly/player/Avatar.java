@@ -50,10 +50,10 @@ public class Avatar {
     @Override
     public String toString(){
         return "Avatar{"+
-                "Tipo: "+tipo+
-                "Representación: "+representacion+
-                "Jugador: "+jugador.getNombre()+
-                "Posicion: "+posicion.getX()
+                "\tTipo: "+tipo+
+                "\tRepresentación: "+representacion+
+                "\tJugador: "+jugador.getNombre()+
+                "\tPosicion: "+posicion.getX()
                 +"}";
     }
     @Override
