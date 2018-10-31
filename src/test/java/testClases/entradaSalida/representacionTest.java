@@ -26,6 +26,11 @@ public class representacionTest {
         monguer = new Jugador("pepe", tipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
+        listaJugadores.add(new Jugador("manolo", tipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("federico", tipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("jaime", tipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("dani", tipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("saul", tipoAvatar.esfinge));
         tableroPrueba = new Tablero(listaJugadores);
     }
 
@@ -47,13 +52,13 @@ public class representacionTest {
     }
 
     @Test
-    public void testPromptBasic() {
-        
-    }
-
-    @Test
     public void moverJugadorRepresentar() {
         monguer.moverJugador(tableroPrueba);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
+    }
+
+    @Test
+    public void testPromptBasic() {
+
     }
 }

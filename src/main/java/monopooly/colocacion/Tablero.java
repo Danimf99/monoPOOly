@@ -14,6 +14,7 @@ public class Tablero {
     private HashMap<Posicion, Casilla> casillas;
     private HashMap<String, Inmueble> calles;
     private HashMap<String, Jugador> jugadores;
+    private ArrayList<Jugador> jugadoresTurno;
 
 
     /* Constructores */
@@ -26,6 +27,7 @@ public class Tablero {
         this.casillas = new HashMap<>();
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
+        this.jugadoresTurno = new ArrayList<>();
 
         Monopolio none = new Monopolio(TipoMonopolio.none);
         Monopolio estacion = new Monopolio(TipoMonopolio.estacion);
@@ -119,7 +121,7 @@ public class Tablero {
         // Marrones
         for (Posicion lugar : Posiciones.posicionesMarron()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, marron);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_MARRON, marron);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -127,7 +129,7 @@ public class Tablero {
         // Azul claro
         for (Posicion lugar : Posiciones.posicionesAzulClaro()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, azul_claro);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AZUL_CLARO, azul_claro);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -135,7 +137,7 @@ public class Tablero {
         // Violeta
         for (Posicion lugar : Posiciones.posicionesVioleta()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, violeta);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_VIOLETA, violeta);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -143,7 +145,7 @@ public class Tablero {
         // Naranja
         for (Posicion lugar : Posiciones.posicionesNaranja()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, naranja);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_NARANJA, naranja);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -151,7 +153,7 @@ public class Tablero {
         // Rojo
         for (Posicion lugar : Posiciones.posicionesRojo()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, rojo);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_ROJO, rojo);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -159,7 +161,7 @@ public class Tablero {
         // Amarillo
         for (Posicion lugar : Posiciones.posicionesAmarillo()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, amarillo);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AMARILLO, amarillo);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -167,7 +169,7 @@ public class Tablero {
         // Verde
         for (Posicion lugar : Posiciones.posicionesVerde()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, verde);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_VERDE, verde);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -175,16 +177,18 @@ public class Tablero {
         // Azul Marino
         for (Posicion lugar : Posiciones.posicionesAzulMarino()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.FOO, azul_marino);
+            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AZUL_MARINO, azul_marino);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
 
         for (Jugador player: jugadores) {
             this.jugadores.put(player.getNombre(), player);
+            this.jugadoresTurno.add(player);
             // TODO añadir insertarAvatar. No se puede insertar no hay constructor aun
             this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
+
 
 //        TODO Implementar constructor del tablero
     }
@@ -234,6 +238,22 @@ public class Tablero {
     public Jugador getJugador(String nombre) {
 //        TODO Comprobacion de errores en getJugador
         return jugadores.get(nombre);
+    }
+
+    /**
+     * Devuelve el jugador que actualmente tiene el turno
+     * @return Jugador que tiene el turno
+     */
+    public Jugador getJugadorTurno() {
+        return this.jugadoresTurno.get(0);
+    }
+
+    /**
+     * Actualiza el array de turnos
+     */
+    public void pasarTurno() {
+        this.jugadoresTurno.add(this.getJugadorTurno());
+        this.jugadoresTurno.remove(0);
     }
 
     @Override
