@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class representacionTest {
     private Inmueble solarEjemplo;
     private static Tablero tableroPrueba;
+    private static Jugador monguer;
 
     @BeforeClass
     public static void preSetUp() {
-        Jugador monguer = new Jugador("pepe", tipoAvatar.sombrero);
+        System.out.println("whatever");
+        monguer = new Jugador("pepe", tipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
         tableroPrueba = new Tablero(listaJugadores);
@@ -29,8 +31,7 @@ public class representacionTest {
 
     @Before
     public void setUp() {
-        Monopolio monopolioEjemplo = new Monopolio(TipoMonopolio.rojo);
-        solarEjemplo = new Inmueble("Calle Chunga", 500, monopolioEjemplo);
+
     }
 
     @Ignore
@@ -52,6 +53,7 @@ public class representacionTest {
 
     @Test
     public void moverJugadorRepresentar() {
-
+        monguer.moverJugador(tableroPrueba);
+        System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 }

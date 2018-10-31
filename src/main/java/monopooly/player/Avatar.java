@@ -64,10 +64,7 @@ public class Avatar {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
-        return representacion == avatar.representacion &&
-                tipo == avatar.tipo &&
-                Objects.equals(jugador, avatar.jugador) &&
-                Objects.equals(posicion, avatar.posicion);
+        return representacion == avatar.representacion;
     }
 
     //@Override

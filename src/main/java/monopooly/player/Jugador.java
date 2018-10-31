@@ -159,10 +159,8 @@ public class Jugador {
         if (o == null || getClass() != o.getClass()) return false;
         Jugador jugador = (Jugador) o;
         return dinero == jugador.dinero &&
-                Objects.equals(nombre, jugador.nombre) &&
-                Objects.equals(avatar, jugador.avatar) &&
-                Objects.equals(propiedades, jugador.propiedades) &&
-                Objects.equals(dados, jugador.dados);
+                Objects.equals(nombre, jugador.nombre);
+
     }
 //
     //@Override

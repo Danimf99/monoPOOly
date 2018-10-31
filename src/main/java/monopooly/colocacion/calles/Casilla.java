@@ -32,12 +32,8 @@ public class Casilla {
         return calle;
     }
 
-    /* Getters SIN ALIASING en los atributos de CASILLA */
-
-    /* No hay una razon por la que se deba poder modificar directamente la lista de avatares
-    * de una casilla */
     public HashSet<Avatar> getAvatares() {
-        return new HashSet<>(this.avatares);
+        return this.avatares;
     }
 
     /**
@@ -64,25 +60,6 @@ public class Casilla {
 
     }
 
-    /**
-     * Elimina un avatar de la casilla actual y lo inserta en su nueva posicion
-     * @param figura Avatar que se desea mover
-     * @param nuevaCasilla Casilla en la que se desea colocar al avatar
-     */
-    public void moverAvatarA(Avatar figura, Casilla nuevaCasilla) {
-        if (figura == null || !this.avatares.contains(figura)) {
-            Mensajes.error("Ese avatar no se encuentra en esta casilla.");
-            return;
-        }
-
-        if (nuevaCasilla == null) {
-            Mensajes.error("No se puede mover un jugador a una casilla nula");
-            return;
-        }
-
-        this.avatares.remove(figura);
-        nuevaCasilla.insertarAvatar(figura);
-    }
 
 
 
