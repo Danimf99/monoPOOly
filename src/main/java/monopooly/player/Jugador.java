@@ -23,7 +23,7 @@ public class Jugador {
      * @param avatar tipoAvatar para saber si es sombrero,balon...
      */
     public Jugador(String nombre, tipoAvatar avatar) {
-        if (avatar != null && dados != null && nombre != null) {
+        if (avatar != null && nombre != null) {
             this.nombre=nombre;
             this.dados=new Dados();
             dinero= Precios.DINERO_INICIAL;
