@@ -28,7 +28,7 @@ public class Avatar {
         this.jugador=jugador;
         posicion=new Posicion();
     }
-    public char sorteoAvatar(List<Character> AVATARES){
+    private char sorteoAvatar(List<Character> AVATARES){
         Random avatar=new Random();
         int n=avatar.nextInt(AVATARES.size());
         char ascii;
