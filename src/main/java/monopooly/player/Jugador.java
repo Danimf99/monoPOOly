@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -121,13 +122,15 @@ public class Jugador {
         }
         this.dinero += cantidad;
     }
-    public void moverJugador(){
+    public void moverJugador(Tablero tablero){
         if(this.dados==null || this.nombre==null || this.avatar==null){
             Mensajes.error("Atributos nulos, no se puede mover al jugador");
             return;
         }
+        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
         avatar.getPosicion().mover(dados.tirada());
+        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
         //TODO si cae en una casilla de impuestos o propiedad de otro jugador cobrar la cantidad
     }
 
