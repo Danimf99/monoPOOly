@@ -161,9 +161,9 @@ public class Jugador {
                 Objects.equals(propiedades, jugador.propiedades) &&
                 Objects.equals(dados, jugador.dados);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nombre, dinero, avatar, propiedades, dados);
-    }
+//
+    //@Override
+    //public int hashCode() {
+    //    return Objects.hash(nombre, dinero, avatar, propiedades, dados);
+    //}
 }

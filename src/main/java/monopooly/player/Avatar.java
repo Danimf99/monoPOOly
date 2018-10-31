@@ -70,8 +70,8 @@ public class Avatar {
                 Objects.equals(posicion, avatar.posicion);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(tipo, representacion, jugador, posicion);
-    }
+    //@Override
+    //public int hashCode() {
+    //    return Objects.hash(tipo, representacion, jugador, posicion);
+    //}
 }

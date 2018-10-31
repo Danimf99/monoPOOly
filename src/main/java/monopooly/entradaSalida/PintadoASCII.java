@@ -85,7 +85,7 @@ public class PintadoASCII {
             sBuilder = new StringBuilder();
 
             for (Avatar ficha : tablero.getCasilla(pos).getAvatares()) {
-//                sBuilder.append(ficha.getRepresentacion());
+                sBuilder.append(ficha.getRepresentacion());
                 sBuilder.append(' ');
             }
             salida.append(

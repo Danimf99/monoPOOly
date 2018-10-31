@@ -183,7 +183,7 @@ public class Tablero {
         for (Jugador player: jugadores) {
             this.jugadores.put(player.getNombre(), player);
             // TODO añadir insertarAvatar. No se puede insertar no hay constructor aun
-//            this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
+            this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
 
 //        TODO Implementar constructor del tablero
