@@ -46,4 +46,9 @@ public class representacionTest {
     public void imprimeTablero() {
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
+
+    @Test
+    public void testPromptBasic() {
+        
+    }
 }

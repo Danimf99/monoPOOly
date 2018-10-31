@@ -9,6 +9,7 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
+import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 
@@ -322,4 +323,82 @@ public class PintadoASCII {
 
         return salida.toString();
     }
+
+    /* FIN Representacion del tablero
+    *
+    *
+    *
+    * */
+
+
+    /* Printado de la prompt de comandos */
+
+    private static String promptElem(String texto) {
+        return ReprASCII.PROMPT_ELM_LEFT + texto + ReprASCII.PROMPT_ELM_RIGHT;
+    }
+
+    private static ArrayList<String> madatoryElems(Jugador player) {
+        ArrayList<String> elementos = new ArrayList<>();
+//        elementos.add("" + player.getAvatar().getRepresentacion());
+        elementos.add(player.getNombre());
+//        elementos.add(ReprASCII.PROMPT_LOG_DINERO + player.getDinero() + " " + Precios.MONEDA);
+        return elementos;
+    }
+
+    private static String genPrompt(ArrayList<String> elementos) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(ReprASCII.PROMPT_TOP_OPENER);
+        for (String elemento : elementos) {
+            sBuilder.append(ReprASCII.PROMPT_ELM_SEPARATOR);
+            sBuilder.append(ReprASCII.PROMPT_ELM_LEFT);
+            sBuilder.append(elemento);
+            sBuilder.append(ReprASCII.PROMPT_ELM_RIGHT);
+        }
+        sBuilder.append("\n");
+        sBuilder.append(ReprASCII.PROMPT_BOT_OPENER);
+        return sBuilder.toString();
+    }
+
+    /**
+     * Prepara el string del dinero. Con cantidad = 0, el motivo y la variacion no se muestran.
+     * @param player Jugador con los datos del dinero
+     * @param cantidad cantidad de dinero que se le dio o se le quito
+     * @param motivo motivo del cambio de valor
+     * @return String con la representacion del dinero para el prompt
+     */
+    private static String cambioDinero(Jugador player, int cantidad, String motivo) {
+        String color = "";
+        String reprMotivo = "";
+        String separador = ReprASCII.PROMPT_ELM_OUTTER_SEP;
+        String dinero = "" + player.getDinero();
+        String modificador = "-";
+        String salida = "";
+
+        if (cantidad == 0) {
+            separador = "";
+        } else if (cantidad < 0) {
+            color = ReprASCII.ANSI_RED;
+            modificador = ReprASCII.PROMPT_LOG_DINERO_DOWN;
+
+        } else {
+            color = ReprASCII.ANSI_GREEN;
+            modificador = ReprASCII.PROMPT_LOG_DINERO_UP;
+        }
+        salida += color;
+        salida += player.getDinero();
+        salida += ReprASCII.ANSI_RESET;
+        salida += " " + modificador;
+        salida += separador;
+        salida += reprMotivo;
+        return salida;
+    }
+
+    private static String basicPrompt(Tablero tablero, Jugador player) {
+        ArrayList<String> elementos = madatoryElems(player);
+        elementos.add(cambioDinero(player, 0, ""));
+        return genPrompt(elementos);
+    }
+
+    /* Fin del pintado de la prompt de comandos */
+
 }

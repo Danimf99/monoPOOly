@@ -91,6 +91,20 @@ public class ReprASCII {
     public static final String ANSI_HIGH_WHITE_BACKGROUND = "\u001B[0;107m";
 
 
+    //    PROMPT
+    public static final String PROMPT_TOP_OPENER = " ┌─";
+    public static final String PROMPT_BOT_OPENER = " └─────► ";
+    public static final String PROMPT_ELM_SEPARATOR = "──";
+    public static final String PROMPT_ELM_LEFT = "[ ";
+    public static final String PROMPT_ELM_RIGHT = " ]";
+    public static final String PROMPT_ELM_OUTTER_SEP = PROMPT_ELM_RIGHT + PROMPT_ELM_SEPARATOR + PROMPT_ELM_LEFT;
+    public static final String PROMPT_LOG_HELP = "Escribe h para optener ayuda";
+    public static final String PROMPT_LOG_DINERO = "Dinero: ";
+    public static final String PROMPT_LOG_DINERO_UP = "⇡";
+    public static final String PROMPT_LOG_DINERO_DOWN = "⇣";
+
+
+
     public static final String[] ASCII_TITLE_ARRAY = {
             "                                 ____    _____   _____    ___",
             " /'\\_/`\\                        /\\  _`\\ /\\  __`\\/\\  __`\\ /\\_ \\",
