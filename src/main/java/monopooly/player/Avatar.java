@@ -4,7 +4,8 @@ import monopooly.colocacion.Posicion;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 
-import java.util.Objects;
+import java.util.List;
+import java.util.Random;
 
 public class Avatar {
     private tipoAvatar tipo;
@@ -22,13 +23,20 @@ public class Avatar {
             Mensajes.error("Error al crear avatar, atributos nulos");
             return;
         }
-        this.representacion= ReprASCII.AVATARES.get(0);
-        ReprASCII.AVATARES.remove(0);
+        this.representacion= sorteoAvatar(ReprASCII.AVATARES);
         this.tipo=tipo;
         this.jugador=jugador;
         posicion=new Posicion();
     }
+    public char sorteoAvatar(List<Character> AVATARES){
+        Random avatar=new Random();
+        int n=avatar.nextInt(AVATARES.size());
+        char ascii;
 
+        ascii=ReprASCII.AVATARES.get(n);
+        ReprASCII.AVATARES.remove(n);
+        return ascii;
+    }
     public char getRepresentacion() {
         return representacion;
     }

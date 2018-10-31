@@ -12,6 +12,8 @@ public class Arranque {
     public static void main(String[] args) {
         ArrayList<Jugador> Jugadores=new ArrayList<>();
         Jugadores.add(new Jugador("daniel", tipoAvatar.sombrero));
+        Jugadores.add(new Jugador("pepe", tipoAvatar.sombrero));
+        Jugadores.add(new Jugador("juan", tipoAvatar.sombrero));
         Tablero tablero=new Tablero(Jugadores);
         System.out.print(PintadoASCII.genTablero(tablero));
         Jugadores.get(0).moverJugador(tablero);
