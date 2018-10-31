@@ -4,7 +4,6 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
-import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 
 import java.util.HashSet;
@@ -64,16 +63,6 @@ public class Jugador {
         return dados;
     }
     //LOS SETTERS PARA PROPIEDADES Y DINERO NO HACEN FALTA, YA QUE TENEMOS METODOS PARA IR AÑADIENDO Y QUITANDO TANTO UNO COMO OTRO
-    /**
-     * Se elimina al jugador porque perdió todo el dinero o por cualquier otro motivo
-     */
-    public void eliminarJugador(){
-        for(Inmueble inAux: propiedades){
-            this.quitarPropiedad(inAux);
-        }
-        ReprASCII.AVATARES.add(avatar.getRepresentacion());
-    }
-
     /**
      * Al jugador se le añade una propiedad ya sea porque la compra, la intercambia por otro jugador...
      * @param propiedad propiedad nueva que se le introduce al jugador
