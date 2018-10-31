@@ -50,4 +50,18 @@ public class Dados {
         }
         return 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dados dados = (Dados) o;
+        return dado1 == dados.dado1 &&
+                dado2 == dados.dado2;
+    }
+
+    //@Override
+    //public int hashCode() {
+    //    return Objects.hash(dado1, dado2);
+    //}
 }

@@ -18,5 +18,15 @@ public class Precios {
     public static final int PRECIO_VERDE=(int)(1.3*PRECIO_AMARILLO);
     public static final int PRECIO_AZUL_MARINO=(int)((1.3*PRECIO_VERDE*3)/2);
 
+    public static final int VALOR_CASA_MARRON=(int)(0.6*PRECIO_MARRON);
+    public static final int VALOR_HOTEL_MARRON=(int)(0.6*PRECIO_MARRON);
 
+    public static final int VALOR_CASA_AZUL_CLARO=(int)(0.6*PRECIO_AZUL_CLARO);
+    public static final int VALOR_HOTEL_AZUL_CLARO=(int)(0.6*PRECIO_AZUL_CLARO);
+
+    public static final int VALOR_CASA_VIOLETA=(int)(0.6*PRECIO_VIOLETA);
+    public static final int VALOR_HOTEL_VIOLETA=(int)(0.6*PRECIO_VIOLETA);
+
+    public static final int VALOR_CASA_NARANJA=(int)(0.6*PRECIO_NARANJA);
+    public static final int VALOR_HOTEL_NARANJA=(int)(0.6*PRECIO_NARANJA);
 }
