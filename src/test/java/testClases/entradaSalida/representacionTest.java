@@ -6,6 +6,7 @@ import monopooly.colocacion.calles.Monopolio;
 import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.PintadoASCII;
+import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 import monopooly.player.tipoAvatar;
 import org.junit.Before;
@@ -19,10 +20,10 @@ public class representacionTest {
     private Inmueble solarEjemplo;
     private static Tablero tableroPrueba;
     private static Jugador monguer;
+    private static Prompt promptTest;
 
     @BeforeClass
     public static void preSetUp() {
-        System.out.println("whatever");
         monguer = new Jugador("pepe", tipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
@@ -36,7 +37,7 @@ public class representacionTest {
 
     @Before
     public void setUp() {
-
+        promptTest = new Prompt(tableroPrueba, monguer);
     }
 
     @Ignore
@@ -57,13 +58,5 @@ public class representacionTest {
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 
-    @Test
-    public void testPromptBasic() {
-        System.out.println(PintadoASCII.basicPrompt(tableroPrueba, monguer));
-    }
 
-    @Test
-    public void testPromptHelp() {
-        System.out.println(PintadoASCII.basicPromptHelp(tableroPrueba, monguer));
-    }
 }

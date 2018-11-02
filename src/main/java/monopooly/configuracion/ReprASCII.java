@@ -102,6 +102,8 @@ public class ReprASCII {
     public static final String PROMPT_LOG_DINERO = "Dinero: ";
     public static final String PROMPT_LOG_DINERO_UP = "⇡";
     public static final String PROMPT_LOG_DINERO_DOWN = "⇣";
+    public static final String PROMPT_DADOS = "\uD83C\uDFB2 Dados: ";
+    public static final String PROMPT_LOGO = ANSI_RED_BOLD + "MonoPOOly" + ANSI_RESET;
 
 
 
