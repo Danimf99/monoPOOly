@@ -332,16 +332,6 @@ public class PintadoASCII {
     * */
 
 
-    /* Printado de la prompt de comandos */
 
-    private static String promptElem(String texto) {
-        return ReprASCII.PROMPT_ELM_LEFT + texto + ReprASCII.PROMPT_ELM_RIGHT;
-    }
-
-
-
-
-
-    /* Fin del pintado de la prompt de comandos */
 
 }
