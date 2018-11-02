@@ -83,7 +83,7 @@ public class Inmueble {
         int dineroAlquiler = 0;
         switch (this.grupoColor.getTipo()) {
             case estacion:
-                dineroAlquiler = 200;
+                dineroAlquiler =(int) ((Precios.SALIDA/4) * this.grupoColor.cantidadPropiedades(this.propietario));
                 break;
             case parking:
             case impuesto:

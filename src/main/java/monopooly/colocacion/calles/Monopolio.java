@@ -4,6 +4,7 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +54,22 @@ public class Monopolio {
             propietariosCalles.add(calle.getPropietario());
         }
         return propietariosCalles.size() == 1;
+    }
+
+
+    /**
+     * Determina que cantidad de las propiedades del monopolio pertenece a un jugador dado. Util para las estaciones
+     * @param player Jugador que se quiere consultar
+     * @return cantidad de propiedades que posee
+     */
+    public int cantidadPropiedades(Jugador player) {
+        int total = 0;
+        for (Inmueble calle : calles) {
+            if (calle.getPropietario().equals(player)) {
+                total++;
+            }
+        }
+        return total;
     }
 
 }

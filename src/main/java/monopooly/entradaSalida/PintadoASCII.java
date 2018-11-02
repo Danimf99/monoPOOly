@@ -332,6 +332,8 @@ public class PintadoASCII {
     * */
 
 
-
+    public static String genPropiedad(Inmueble propiedad) {
+        return "";
+    }
 
 }
