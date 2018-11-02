@@ -104,6 +104,13 @@ public class ReprASCII {
     public static final String PROMPT_LOG_DINERO_DOWN = "⇣";
     public static final String PROMPT_DADOS = "\uD83C\uDFB2 Dados: ";
     public static final String PROMPT_LOGO = ANSI_RED_BOLD + "MonoPOOly" + ANSI_RESET;
+    public static final String PROMPT_NUEVA_PARTIDA = PROMPT_TOP_OPENER +
+            "[ Nueva partida ]" +
+            PROMPT_ELM_SEPARATOR +
+            PROMPT_ELM_LEFT +
+            PROMPT_LOGO +
+            PROMPT_ELM_RIGHT + "\n" +
+            PROMPT_BOT_OPENER;
 
 
 

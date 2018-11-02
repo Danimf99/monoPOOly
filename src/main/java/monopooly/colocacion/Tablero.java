@@ -280,6 +280,11 @@ public class Tablero {
         this.jugadoresTurno.remove(0);
     }
 
+    public void altaJugador(Jugador nuevo) {
+        this.jugadores.put(nuevo.getNombre(), nuevo);
+        this.getCasilla(nuevo.getAvatar().getPosicion()).insertarAvatar(nuevo.getAvatar());
+    }
+
     @Override
     public String toString() {
         return "Tablero{" +

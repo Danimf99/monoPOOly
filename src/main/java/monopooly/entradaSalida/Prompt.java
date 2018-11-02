@@ -141,6 +141,14 @@ public class Prompt {
         return salida;
     }
 
+    /**
+     * Representacion del prompt que se usará al crear la partida
+     * @return string a imprimir antes de leer lo del usuario
+     */
+    public static String promptComienzo() {
+        return ReprASCII.PROMPT_NUEVA_PARTIDA;
+    }
+
     @Override
     public String toString() {
         ArrayList<String> elementos = madatoryElems();

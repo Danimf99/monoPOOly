@@ -33,7 +33,7 @@ public class ProcesarComando {
 
     }
 
-    public static boolean acabarTurno(/* Argumentos que se necesiten */) {
+    public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno
         return true;
