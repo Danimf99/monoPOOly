@@ -9,12 +9,14 @@ import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Tablero {
     private HashMap<Posicion, Casilla> casillas;
     private HashMap<String, Inmueble> calles;
     private HashMap<String, Jugador> jugadores;
     private ArrayList<Jugador> jugadoresTurno;
+    private Jugador banca;
 
 
     /* Constructores */
@@ -28,6 +30,9 @@ public class Tablero {
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
         this.jugadoresTurno = new ArrayList<>();
+
+        HashSet<Inmueble> propiedadesBanca = new HashSet<>();
+        this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
 
         Monopolio none = new Monopolio(TipoMonopolio.none);
         Monopolio estacion = new Monopolio(TipoMonopolio.estacion);
@@ -53,35 +58,40 @@ public class Tablero {
         // Salida
         posAux = new Posicion(Posiciones.SALIDA);
         nombreAux = Nombres.CALLES[Posiciones.SALIDA];
-        inmuAux = new Inmueble(nombreAux,0, none);
+        inmuAux = new Inmueble(banca, nombreAux,0, none);
+        propiedadesBanca.add(inmuAux);
         calles.put(nombreAux, inmuAux);
         casillas.put(posAux, new Casilla(inmuAux));
 
         // Carcel
         posAux = new Posicion(Posiciones.CARCEL);
         nombreAux = Nombres.CALLES[Posiciones.CARCEL];
-        inmuAux = new Inmueble(nombreAux,0, none);
+        inmuAux = new Inmueble(banca, nombreAux,0, none);
+        propiedadesBanca.add(inmuAux);
         calles.put(nombreAux, inmuAux);
         casillas.put(posAux, new Casilla(inmuAux));
 
         // Parking
         posAux = new Posicion(Posiciones.PARKING);
         nombreAux = Nombres.CALLES[Posiciones.PARKING];
-        inmuAux = new Inmueble(nombreAux,0, parking);
+        inmuAux = new Inmueble(banca, nombreAux,0, parking);
+        propiedadesBanca.add(inmuAux);
         calles.put(nombreAux, inmuAux);
         casillas.put(posAux, new Casilla(inmuAux));
 
         // Ve a la carcel
         posAux = new Posicion(Posiciones.VE_A_LA_CARCEL);
         nombreAux = Nombres.CALLES[Posiciones.VE_A_LA_CARCEL];
-        inmuAux = new Inmueble(nombreAux,0, none);
+        inmuAux = new Inmueble(banca, nombreAux,0, none);
+        propiedadesBanca.add(inmuAux);
         calles.put(nombreAux, inmuAux);
         casillas.put(posAux, new Casilla(inmuAux));
 
         // Estaciones
         for (Posicion lugar : Posiciones.posicionesEstaciones()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.ESTACION, estacion);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.ESTACION, estacion);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -89,7 +99,8 @@ public class Tablero {
         // Suerte
         for (Posicion lugar : Posiciones.posicionesSuerte()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, 0, suerte);
+            inmuAux = new Inmueble(banca, nombreAux, 0, suerte);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -97,7 +108,8 @@ public class Tablero {
         // Caja de comunidad
         for (Posicion lugar : Posiciones.posicionesCajaComunidad()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, 0, caja_comunidad);
+            inmuAux = new Inmueble(banca, nombreAux, 0, caja_comunidad);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -105,7 +117,8 @@ public class Tablero {
         // Servicios
         for (Posicion lugar : Posiciones.posicionesServicios()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.SERVICIOS, servicio);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.SERVICIOS, servicio);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -113,7 +126,8 @@ public class Tablero {
         // Impuestos
         for (Posicion lugar : Posiciones.posicionesImpuestos()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.IMPUESTOS, impuestos);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.IMPUESTOS, impuestos);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -121,7 +135,8 @@ public class Tablero {
         // Marrones
         for (Posicion lugar : Posiciones.posicionesMarron()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_MARRON, marron);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_MARRON, marron);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -129,7 +144,8 @@ public class Tablero {
         // Azul claro
         for (Posicion lugar : Posiciones.posicionesAzulClaro()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AZUL_CLARO, azul_claro);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AZUL_CLARO, azul_claro);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -137,7 +153,8 @@ public class Tablero {
         // Violeta
         for (Posicion lugar : Posiciones.posicionesVioleta()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_VIOLETA, violeta);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_VIOLETA, violeta);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -145,7 +162,8 @@ public class Tablero {
         // Naranja
         for (Posicion lugar : Posiciones.posicionesNaranja()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_NARANJA, naranja);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_NARANJA, naranja);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -153,7 +171,8 @@ public class Tablero {
         // Rojo
         for (Posicion lugar : Posiciones.posicionesRojo()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_ROJO, rojo);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_ROJO, rojo);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -161,7 +180,8 @@ public class Tablero {
         // Amarillo
         for (Posicion lugar : Posiciones.posicionesAmarillo()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AMARILLO, amarillo);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AMARILLO, amarillo);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -169,7 +189,8 @@ public class Tablero {
         // Verde
         for (Posicion lugar : Posiciones.posicionesVerde()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_VERDE, verde);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_VERDE, verde);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -177,7 +198,8 @@ public class Tablero {
         // Azul Marino
         for (Posicion lugar : Posiciones.posicionesAzulMarino()) {
             nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(nombreAux, Precios.PRECIO_AZUL_MARINO, azul_marino);
+            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AZUL_MARINO, azul_marino);
+            propiedadesBanca.add(inmuAux);
             calles.put(nombreAux, inmuAux);
             casillas.put(lugar, new Casilla(inmuAux));
         }
@@ -188,7 +210,6 @@ public class Tablero {
             // TODO añadir insertarAvatar. No se puede insertar no hay constructor aun
             this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
-
 
 //        TODO Implementar constructor del tablero
     }
@@ -205,6 +226,9 @@ public class Tablero {
         return casillas;
     }
 
+    public Jugador getBanca() {
+        return banca;
+    }
 
     /* Metodos sobre la instancia */
 

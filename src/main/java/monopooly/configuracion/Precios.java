@@ -9,6 +9,7 @@ public class Precios {
     public static final int ESTACION = SALIDA;
     public static final int FOO = 420;
     public static final int HIPOTECA_SERVICIOS=(int)(SERVICIOS/2);
+    public static final int FACTOR_SERVICIOS = SALIDA / 200;
 
     //PRECIO CASILLAS INICIAL
     public static final int PRECIO_MARRON=60;
