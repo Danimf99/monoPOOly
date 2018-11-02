@@ -25,6 +25,30 @@ public class Prompt {
         this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2());
     }
 
+    public Tablero getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public int getModDinero() {
+        return modDinero;
+    }
+
+    public String getMotivoPago() {
+        return motivoPago;
+    }
+
     public void setModDinero(int modDinero) {
         this.modDinero = modDinero;
     }
