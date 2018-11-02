@@ -40,8 +40,8 @@ public class Jugador {
         avatar=null;
         dados=null;
         this.propiedades=propiedades;
-        this.nombre="Banca";
-        this.dinero=500000000;
+        this.nombre=null;
+        this.dinero=0;
     }
 
     public int getDinero() {
