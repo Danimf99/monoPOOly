@@ -15,7 +15,7 @@ public class Jugador {
     private Avatar avatar;
     private HashSet<Inmueble> propiedades;
     private Dados dados;
-
+    private HashSet<Inmueble> hipotecas;
     /**
      * Inicizaliza jugador pasandole el nombre, tipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
@@ -29,6 +29,7 @@ public class Jugador {
             dinero= Precios.DINERO_INICIAL;
             propiedades=new HashSet<>();
             this.avatar=new Avatar(avatar,this);
+            this.hipotecas=null;
         }
     }
 
@@ -56,7 +57,7 @@ public class Jugador {
         return nombre;
     }
 
-    public HashSet getPropiedades() {
+    public HashSet<Inmueble> getPropiedades() {
         return propiedades;
     }
     public Dados getDados(){

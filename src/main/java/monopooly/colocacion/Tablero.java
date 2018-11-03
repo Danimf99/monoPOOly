@@ -242,6 +242,13 @@ public class Tablero {
         return casillas.get(pos);
     }
 
+    /**
+     * Que nos devuelva el hasmap de jugadores para iterar sobre el, ayuda para describir avatar dada una representacion
+     * @return hashMap de todos los jugadores en partida
+     */
+    public HashMap<String, Jugador> getJugadores() {
+        return jugadores;
+    }
 
     /**
      * Dado el nombre de una calle se devuelve informacion correspondiente
