@@ -99,7 +99,8 @@ public class Posicion {
             return false;
         }
 
-        return this.getX() < this.historialPosiciones.get(historialPosiciones.size() - 1).getX();
+        // -2 porque la posicion anterior debio ser la penultima
+        return this.getX() < this.historialPosiciones.get(historialPosiciones.size() - 2).getX();
     }
 
 
