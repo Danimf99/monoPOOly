@@ -1,7 +1,10 @@
 package monopooly.entradaSalida;
 
 import monopooly.colocacion.Tablero;
+import monopooly.player.Jugador;
+import monopooly.player.TipoAvatar;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Juego {
@@ -90,5 +93,13 @@ public class Juego {
         }
         System.out.println("Ganador: " + tablero.getJugadoresTurno().get(0));
         // TODO imprimir el ganador de la partida mas decentemente
+    }
+
+    public static void partidaRapida() {
+        ArrayList<Jugador> jugadores = new ArrayList<>();
+        jugadores.add(new Jugador("Saul", TipoAvatar.pelota));
+        jugadores.add(new Jugador("Dani", TipoAvatar.sombrero));
+        Tablero tablero = new Tablero(jugadores);
+        partida(tablero);
     }
 }

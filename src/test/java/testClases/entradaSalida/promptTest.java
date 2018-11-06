@@ -1,5 +1,6 @@
 package testClases.entradaSalida;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.entradaSalida.ProcesarComando;
@@ -11,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class promptTest {
     private Inmueble solarEjemplo;
@@ -67,6 +69,14 @@ public class promptTest {
     @Test
     public void pruebaComandoMover() {
         String mensaje = "lanzar dados";
-        ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
+
+        tableroPrueba.getCasilla(new Posicion(8)).getCalle().setPropietario(new Jugador("Propietario", TipoAvatar.sombrero));
+        int cantidadPruebas = 7;
+        for (int i = 0; i < cantidadPruebas; i++) {
+            ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
+            System.out.println(promptTest);
+            promptTest = new Prompt(promptTest.getTablero(), promptTest.getJugador());
+        }
+
     }
 }
