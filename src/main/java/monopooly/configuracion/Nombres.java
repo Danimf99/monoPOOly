@@ -44,7 +44,7 @@ public class Nombres {
             "Servicios 2",
             "Valencia",
 
-            "Ve a la carcel",
+            "Ir a carcel",
 
             "Bilbao",
             "Barcelona",

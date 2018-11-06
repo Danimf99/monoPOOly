@@ -25,6 +25,8 @@ import java.util.List;
 
 public class ReprASCII {
 
+    public static final String APP_NAME = "MonoPOOly";
+
     /* Representacion para AVATARES*/
     public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R'));
     /* BARRITAS */
@@ -104,7 +106,7 @@ public class ReprASCII {
     public static final String PROMPT_LOG_DINERO_UP = "⇡";
     public static final String PROMPT_LOG_DINERO_DOWN = "⇣";
     public static final String PROMPT_DADOS = "\uD83C\uDFB2 Dados: ";
-    public static final String PROMPT_LOGO = ANSI_RED_BOLD + "MonoPOOly" + ANSI_RESET;
+    public static final String PROMPT_LOGO = ANSI_RED_BOLD + APP_NAME + ANSI_RESET;
     public static final String PROMPT_NUEVA_PARTIDA = PROMPT_TOP_OPENER +
             "[ Nueva partida ]" +
             PROMPT_ELM_SEPARATOR +

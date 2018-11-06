@@ -53,21 +53,35 @@ public class PintadoASCII {
         //  cuentan como caracter
         StringBuilder sBuilder = new StringBuilder();
         String[] lineas = mensaje.split("\n");
-        int ancho = tamMaxArrayString(lineas); // -2 Por el ansi red el ansi reset
-        for (String linea :
-                lineas) {
-            sBuilder.append("| ");
-            sBuilder.append(widear(linea, ancho));
-            sBuilder.append(" |\n");
+        int ancho = tamMaxArrayString(lineas);
+        if (ancho % 2 == 0) { // Se asegura de que sea impar para que quede centrado
+            ancho++;
         }
+
+        for (String linea : lineas) {
+            sBuilder.append(ReprASCII.BARRA_VERTICAL + " ");
+            sBuilder.append(widear(linea, ancho));
+            sBuilder.append(" "
+                    + ReprASCII.BARRA_VERTICAL + "\n");
+        }
+
         String out = sBuilder.toString();
-        ancho += 2; // Las dos barras
         String topBar = ReprASCII.ESQUINA_1;
         String bottomBar = ReprASCII.ESQUINA_4;
-        for (int i = 0; i < ancho; i++) {
+        for (int i = 0; i < ancho + 2; i++) {  // Los espacios de margen
             topBar = topBar.concat(ReprASCII.BARRA_HORIZONTAL);
+        }
+        int anchoInferior = ((ancho - ReprASCII.APP_NAME.length() - 2)/ 2) + 1; // -2 por los espacios +1 por el margen
+        for (int i = 0; i < anchoInferior; i++) {
             bottomBar = bottomBar.concat(ReprASCII.BARRA_HORIZONTAL);
         }
+        bottomBar += " " + ReprASCII.ANSI_RED_BOLD + ReprASCII.APP_NAME + ReprASCII.ANSI_RESET + " ";
+
+
+        for (int i = 0; i < anchoInferior; i++) {
+            bottomBar = bottomBar.concat(ReprASCII.BARRA_HORIZONTAL);
+        }
+
         topBar += ReprASCII.ESQUINA_2 + "\n";
         bottomBar += ReprASCII.ESQUINA_3 + "\n";
 
@@ -204,6 +218,9 @@ public class PintadoASCII {
         }
         Inmueble inmuebleAuxiliar; // NO MODIFICAR
         int longitudMax = Nombres.maxLen();
+        if (longitudMax < 5 * 2 + 1) { // 5 * 2 + 1 es lo minimo para representar 6 avatares separados con un espacio
+            longitudMax = 5 * 2 +1;
+        }
         int anchoCasilla = longitudMax + 3; // +2 por los espacios de margen y 1 por la barra vertical
         int anchoTablero = anchoCasilla * 11 + 1; // +1 por la barra vertical de la derecha / izq
         StringBuilder salida = new StringBuilder();
@@ -357,6 +374,29 @@ public class PintadoASCII {
     *
     *
     * */
+
+
+    /* Representacion de un inmueble */
+    /* Ejemplo:
+
+    ┌───────────────────────┐
+    │  Titulo de propiedad  │
+    |        BADALONA       │
+    ├───────────────────────┤
+    │     Alquiler 260$     │
+    │  Valor Hipoteca 130$  │
+    │                       │
+    │  Propietario: manolo  │
+    │                       │
+    └────── MonoPOOly ──────┘
+
+    * */
+
+    public static String marcoCopyright(String texto, int ancho) {
+        String[] lineas = texto.split("\n");
+
+        return "";
+    }
 
 
     /**
