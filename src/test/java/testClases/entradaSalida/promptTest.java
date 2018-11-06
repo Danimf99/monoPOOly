@@ -53,6 +53,13 @@ public class promptTest {
     public void testPromptResta() {
         promptTest.setModificacionPasta(-500, "Alquiler");
         System.out.println(promptTest);
+    }
 
+
+    @Test
+    public void testPromptCarcelDados() {
+        promptTest.setModificacionPasta(-500, "Alquiler");
+        promptTest.getJugador().moverJugador(tableroPrueba);
+        System.out.println(promptTest);
     }
 }

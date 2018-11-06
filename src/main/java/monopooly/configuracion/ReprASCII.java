@@ -111,6 +111,7 @@ public class ReprASCII {
             PROMPT_LOGO +
             PROMPT_ELM_RIGHT + "\n" +
             PROMPT_BOT_OPENER;
+    public static final String PROMPT_CARCEL = "⛓ " + ANSI_HIGH_WHITE_BACKGROUND + " Estás en la carcel " + ANSI_RESET;
 
 
 
