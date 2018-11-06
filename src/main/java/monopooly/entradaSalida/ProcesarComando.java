@@ -12,7 +12,6 @@ import monopooly.player.Jugador;
 import monopooly.player.TipoAvatar;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -102,25 +101,35 @@ public class ProcesarComando {
     }
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+        int esta=0;
         if(args.length!=3){
             Mensajes.error("Error en el comando");
             return;
         }
         switch (args[1].toLowerCase()) {
             case "jugador":
+                Collection<Jugador> jugadors=prompt.getTablero().getJugadores().values();
+                for(Jugador jugador: jugadors){
+                    if(args[2].equals(jugador.getNombre())){
+                        esta=1;
+                    }
+                }
+                if(esta==0){
+                    Mensajes.error("No existe ese jugador");
+                    return;
+                }
                 System.out.println(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
                 break;
             case "avatar":
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
-                    if (args[2].equals(jugador.getAvatar().getRepresentacion())) {//Esto va mal args[2] es String y representacion es char
-                        System.out.print(jugador.getAvatar().toString());
+                    if (args[2].charAt(0)==(jugador.getAvatar().getRepresentacion())) {
+                        System.out.println(jugador.getAvatar().toString());
                         return;
                     }
                 }
                 break;
             default: //Para describir casillas //TODO
-                int esta=0;
                 Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
                 for(Inmueble i: enventa){
                     if(args[2].equals(i.getNombre())){
@@ -157,7 +166,7 @@ public class ProcesarComando {
             case "enventa":
                 //Mostrar tablero por pantalla
                 System.out.println(prompt.getTablero().toString());
-                HashSet<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
+                Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
                 for(Inmueble i: enventa){
                     System.out.println(i.toString());
                 }

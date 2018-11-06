@@ -134,6 +134,7 @@ public class Jugador {
             Mensajes.info("No puede seguir tirando, 3 dobles seguidos, va a la carcel");
             this.estarEnCarcel = true;
             this.getAvatar().setPosicion(Posiciones.CARCEL);
+            tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
             return;
         }
         avatar.getPosicion().mover(dados.tirada());
