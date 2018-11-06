@@ -157,7 +157,7 @@ public class Prompt {
             elementos.add(cambioDados());
         }
 
-        if (jugador.estaEnCarcel()) {
+        if (jugador.getEstarEnCarcel()) {
             elementos.add(ReprASCII.PROMPT_CARCEL);
         }
 

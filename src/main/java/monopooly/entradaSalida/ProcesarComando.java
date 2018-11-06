@@ -29,13 +29,12 @@ public class ProcesarComando {
             Mensajes.error("Comando incorrecto");
             return;
         }
-        if (prompt.getJugador().estaEnCarcel()) {
+        if (prompt.getJugador().getEstarEnCarcel()) {
             Mensajes.error("Estás en la cárcel!!! No puedes tirar los dados");
             return;
         }
 
         prompt.getJugador().moverJugador(prompt.getTablero());
-        //TODO poner de que casilla a que casilla se mueve el jugador pero bonito, por eso te lo dejo a ti Saul
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
         // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo
@@ -102,6 +101,7 @@ public class ProcesarComando {
     }
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+
         switch (args[1].toLowerCase()) {
             case "jugador":
                 System.out.println(prompt.getTablero().getJugador(args[2]).toString());
@@ -113,6 +113,7 @@ public class ProcesarComando {
                         System.out.print(jugador.getAvatar().toString());
                     }
                 }
+                break;
             default: //Para describir casillas
                 System.out.println(prompt.getTablero().getCalle(args[2]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
                 break;

@@ -5,18 +5,20 @@ import java.util.Random;
 public class Dados {
     private int dado1;
     private int dado2;
-
+    private int dobles;
     /**
      * Constructor que inicializa los dados a 0
      */
     public Dados() {
         this.dado1 = 0;
         this.dado2 = 0;
+        this.dobles=0;
     }
 
     public Dados(int dado1,int dado2){
         this.dado1=dado1;
         this.dado2=dado2;
+        this.dobles=0;
     }
 
     public int getDado1(){
@@ -24,6 +26,9 @@ public class Dados {
     }
     public int getDado2(){
         return dado2;
+    }
+    public int getDobles(){
+        return dobles;
     }
     /**
      * Comprueba si la tirada de cada dado es igual
@@ -42,6 +47,11 @@ public class Dados {
         Random tirada2 = new Random();
         this.dado1 = tirada1.nextInt(6) + 1;
         this.dado2 = tirada2.nextInt(6) + 1;
+        if(sonDobles()){
+            dobles++;
+            return;
+        }
+        dobles=0;
     }
 
     /**
