@@ -142,7 +142,6 @@ public class Jugador {
 
     @Override
     public String toString() {
-        HashSet<Inmueble> solares;
         return "Jugador{" +
                 "\tNombre: " + nombre +
                 "\tFortuna: " + dinero +

@@ -1,7 +1,6 @@
 package monopooly.colocacion.calles;
 
 import monopooly.configuracion.Precios;
-import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
@@ -145,7 +144,6 @@ public class Inmueble {
 
     @Override
     public String toString() {
-
         return "Inmueble{" + "\n" +
                 "\tnombre='" + nombre + "'\n" +
                 "\t, precio=" + precio + "\n" +
