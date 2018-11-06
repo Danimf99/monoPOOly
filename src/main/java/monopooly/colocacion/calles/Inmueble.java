@@ -3,7 +3,10 @@ package monopooly.colocacion.calles;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
+
+import java.awt.image.PixelInterleavedSampleModel;
 
 public class Inmueble {
     private String nombre;
@@ -145,13 +148,6 @@ public class Inmueble {
 
     @Override
     public String toString() {
-
-        return "Inmueble{" + "\n" +
-                "\tnombre='" + nombre + "'\n" +
-                "\t, precio=" + precio + "\n" +
-                "\t, tipo=" + tipo + "\n" +
-                "\t, propietario=" + propietario + "\n" +
-                "\t, grupoColor=" + grupoColor + "\n" +
-                '}';
+        return PintadoASCII.genPropiedad(this);
     }
 }
