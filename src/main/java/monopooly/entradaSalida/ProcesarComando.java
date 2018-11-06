@@ -114,7 +114,7 @@ public class ProcesarComando {
                     }
                 }
             default: //Para describir casillas
-                System.out.println(prompt.getTablero().getCalle(args[2]).toString());
+                System.out.println(prompt.getTablero().getCalle(args[2]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
                 break;
         }
     }
