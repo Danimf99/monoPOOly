@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class promptTest {
     private Inmueble solarEjemplo;
