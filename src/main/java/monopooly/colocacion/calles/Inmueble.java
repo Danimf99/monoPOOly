@@ -46,6 +46,10 @@ public class Inmueble {
         return precio;
     }
 
+    public int getPrecio_inicial() {
+        return precio_inicial;
+    }
+
     public Jugador getPropietario() {
         return propietario;
     }

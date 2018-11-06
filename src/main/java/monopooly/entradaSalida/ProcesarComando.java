@@ -1,6 +1,12 @@
 package monopooly.entradaSalida;
 
+import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.configuracion.Posiciones;
+import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Jugador;
 import monopooly.player.TipoAvatar;
@@ -32,22 +38,66 @@ public class ProcesarComando {
         //TODO poner de que casilla a que casilla se mueve el jugador pero bonito, por eso te lo dejo a ti Saul
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
-        if (!prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals("banca")
-                && !prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals(prompt.getJugador().getNombre())) {
+        // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo
+        // al enlazar tantas funciones te puede dar stack overflow
+        Tablero tablero = prompt.getTablero();
+        Jugador jActual = prompt.getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+        Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
+        Inmueble inmuebleActual = casillaActual.getCalle();
 
-            Mensajes.info("Cayó en la casilla de un jugador, por lo que tiene que pagar de alquiler: " + prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().calcularAlquiler(prompt.getJugador()));
-            //Comprobar que tiene suficiente dinero
-            if (prompt.getJugador().getDinero()
-                    < prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().calcularAlquiler(prompt.getJugador())) {
-                Mensajes.info("No tiene suficiente dinero para pagar la deuda");
-                //TODO Preguntar para hipotecar etc....
-            }
-            prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().pago(prompt.getJugador());
+        /* Se debe cobrar siempre al caer si la propiedad es de otra persona distinta de la banca */
+
+        /* Si el jugador acaba con dinero negativo da igual, esto deberia comprobarlo la funcion que
+        * le permite pasar turno */
+
+
+        /* Primero hay que mirar si paso por la casilla de salida */
+
+        if (posJugadorActual.pasoPorSalida()) {
+            // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
+            Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
+            jActual.anhadirDinero(Precios.SALIDA);
+            prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
         }
-        //TODO Comprobar si la casilla es irCarcel
-        if (prompt.getJugador().getDados().sonDobles()) {
-            Mensajes.info("El jugador " + prompt.getJugador().getNombre() + "sacó dados dobles, por lo que puede tirar otra vez.");
+
+        /* Si es un impuesto fasil, pagas y ya */
+        if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
+            int dineroExtraido = inmuebleActual.getPrecio_inicial();
+            jActual.quitarDinero(dineroExtraido);
+            prompt.setModificacionPasta(- dineroExtraido, "Impuesto en " + inmuebleActual.getNombre());
+            return; // Nada mas que hacer un return y via
         }
+
+        /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
+        *  arreglamos */
+
+        if (inmuebleActual.getPropietario().equals(tablero.getBanca())) {
+            // Se puede meter un mensaje de esto esta sin comprar puede comprarla
+            return;
+        }
+
+        /* Si el jugador actual posee la propiedad no hay que cobrarle alquiler, se puede salir igual que antes */
+
+        if (jActual.getPropiedades().contains(inmuebleActual)) {
+            return;
+        }
+
+        /* El caso de ve a la carcel */
+        if (posJugadorActual.esIrCarcel()) {
+            posJugadorActual.irCarcel();
+            casillaActual.getAvatares().remove(jActual.getAvatar());
+            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(jActual.getAvatar());
+            return; // Return porque no hay nada que hacer
+        }
+
+        /* Despues de todos los casos */
+        int alquiler = inmuebleActual.calcularAlquiler(jActual);
+        inmuebleActual.pago(jActual);
+        prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
+
+        /* El caso de que sacara dobles y pueda volver a tirar lo debe manejar probablemente la clase dados
+        * Mañana lo comentamos*/
 
     }
 
