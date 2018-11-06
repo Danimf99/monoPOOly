@@ -73,9 +73,9 @@ public class promptTest {
         tableroPrueba.getCasilla(new Posicion(8)).getCalle().setPropietario(new Jugador("Propietario", TipoAvatar.sombrero));
         int cantidadPruebas = 7;
         for (int i = 0; i < cantidadPruebas; i++) {
+            promptTest = new Prompt(promptTest.getTablero(), promptTest.getJugador());
             ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
             System.out.println(promptTest);
-            promptTest = new Prompt(promptTest.getTablero(), promptTest.getJugador());
         }
 
     }

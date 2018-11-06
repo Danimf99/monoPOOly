@@ -17,12 +17,13 @@ public class Prompt {
     private boolean help;
 
     public Prompt(Tablero tablero, Jugador jugador) {
+
         this.tablero = tablero;
         this.jugador = jugador;
         this.modDinero = 0;
         this.motivoPago = "";
         this.help = false;
-        this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2());
+        this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2()); // TODO mejorar esto
     }
 
     public Tablero getTablero() {
