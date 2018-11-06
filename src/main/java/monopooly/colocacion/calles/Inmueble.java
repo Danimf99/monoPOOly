@@ -144,6 +144,7 @@ public class Inmueble {
 
     @Override
     public String toString() {
+
         return "Inmueble{" + "\n" +
                 "\tnombre='" + nombre + "'\n" +
                 "\t, precio=" + precio + "\n" +

@@ -359,7 +359,21 @@ public class PintadoASCII {
     * */
 
 
+    /**
+     * Devuelve la representacion de una propiedad
+     * @param propiedad inmueble que se debe mostrar por pantalla
+     * @return string para imprimir
+     */
     public static String genPropiedad(Inmueble propiedad) {
+        return "";
+    }
+
+    /**
+     * Dado un jugador imprime informacion suya
+     * @param jugador Jugador del que se desea mostrar informacion
+     * @return string para imprimir
+     */
+    public static String genJugador(Jugador jugador) {
         return "";
     }
 
