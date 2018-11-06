@@ -5,8 +5,10 @@ import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
+import java.awt.image.PixelInterleavedSampleModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -226,6 +228,10 @@ public class Tablero {
         return casillas;
     }
 
+    public ArrayList<Jugador> getJugadoresTurno() {
+        return jugadoresTurno;
+    }
+
     public Jugador getBanca() {
         return banca;
     }
@@ -294,10 +300,6 @@ public class Tablero {
 
     @Override
     public String toString() {
-        return "Tablero{" +
-                "casillas=" + casillas +
-                ", calles=" + calles +
-                ", jugadores=" + jugadores +
-                '}';
+        return PintadoASCII.genTablero(this);
     }
 }
