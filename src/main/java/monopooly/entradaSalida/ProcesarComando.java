@@ -132,8 +132,11 @@ public class ProcesarComando {
         System.out.print(prompt.getTablero().toString());
     }
 
+    /**
+     * Pide al jugador por pantalla un nombre y un tipo de avatar y lo crea con esos datos
+     * @return nuevo jugador
+     */
     public static Jugador crearJugador() {
-        // TODO pedir al usuario datos para el nuevo jugaddor
         Scanner scanner = new Scanner(System.in);
         System.out.println(ReprASCII.PROMPT_NOMBRE_JUGADOR);
         String nombre = scanner.nextLine();
