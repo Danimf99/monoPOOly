@@ -17,10 +17,50 @@ import java.util.ArrayList;
 public class PintadoASCII {
     private static int asciiArtHelper;
 
-    public static String encuadrar(String mensaje, int ancho) {
+
+
+    /**
+     * Añade espacios a un texto
+     * @param texto texto que se desea modificar
+     * @param longitudDeseada longitud que debe tener el texto añadiendole espacios al final
+     * @return texto deseado
+     */
+    private static String widear(String texto, int longitudDeseada) {
+        StringBuilder salida = new StringBuilder(texto);
+        if (texto.contains(ReprASCII.ANSI_RESET)) {
+            longitudDeseada += 2; // el color y el ansi reset
+        }
+        while (salida.length() < longitudDeseada) {
+            salida.append(" ");
+        }
+        return salida.toString();
+    }
+
+
+    private static int tamMaxArrayString(String[] lineas) {
+        int tamMax = 0;
+        for (String linea :
+                lineas) {
+            if (linea.length() > tamMax) {
+                tamMax = linea.length();
+            }
+        }
+        return tamMax;
+    }
+
+    public static String encuadrar(String mensaje) {
         // Se necesita el ancho por que los modificadores de color
         //  cuentan como caracter
-        String out = "| " + mensaje + " |\n";
+        StringBuilder sBuilder = new StringBuilder();
+        String[] lineas = mensaje.split("\n");
+        int ancho = tamMaxArrayString(lineas); // -2 Por el ansi red el ansi reset
+        for (String linea :
+                lineas) {
+            sBuilder.append("| ");
+            sBuilder.append(widear(linea, ancho));
+            sBuilder.append(" |\n");
+        }
+        String out = sBuilder.toString();
         ancho += 2; // Las dos barras
         String topBar = ReprASCII.ESQUINA_1;
         String bottomBar = ReprASCII.ESQUINA_4;
@@ -34,19 +74,6 @@ public class PintadoASCII {
         return topBar + out + bottomBar;
     }
 
-    /**
-     * Añade espacios a un texto
-     * @param texto texto que se desea modificar
-     * @param longitudDeseada longitud que debe tener el texto añadiendole espacios al final
-     * @return texto deseado
-     */
-    private static String widear(String texto, int longitudDeseada) {
-        StringBuilder salida = new StringBuilder(texto);
-        while (salida.length() < longitudDeseada) {
-            salida.append(" ");
-        }
-        return salida.toString();
-    }
 
 
     private static String espacioCentral(int tamTablero) {

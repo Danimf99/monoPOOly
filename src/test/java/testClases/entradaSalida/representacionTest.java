@@ -3,6 +3,7 @@ package testClases.entradaSalida;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.ReprASCII;
+import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
@@ -54,6 +55,13 @@ public class representacionTest {
     public void moverJugadorRepresentar() {
         monguer.moverJugador(tableroPrueba);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
+    }
+
+    @Test
+    public void mensajesMultiLinea() {
+        Mensajes.error("Primera linea\nSegunda linea.");
+        Mensajes.info("Primera linea\nSegunda linea.");
+        Mensajes.detalles("Primera linea\nSegunda linea.");
     }
 
 

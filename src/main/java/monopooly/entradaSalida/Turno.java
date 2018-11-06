@@ -70,6 +70,10 @@ public class Turno {
                 case "a":
                     break;
 
+                case "terminar":
+                case "t":
+                    Mensajes.error("El usuario decidio terminar la partida");
+                    System.exit(0);
                 default:
                     Mensajes.error("No existe ese comando");
                     prompt.setHelp(true);
