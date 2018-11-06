@@ -2,12 +2,9 @@ package monopooly;
 
 import monopooly.colocacion.Tablero;
 import monopooly.configuracion.ReprASCII;
-import monopooly.entradaSalida.Mensajes;
-import monopooly.entradaSalida.PintadoASCII;
 import monopooly.entradaSalida.ProcesarComando;
-import monopooly.entradaSalida.Turno;
+import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
-import monopooly.player.TipoAvatar;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,7 +22,7 @@ public class Arranque {
         for (int i = 0; i < numJugadores; i++) {
             jugadoresPartida.add(ProcesarComando.crearJugador());
         }
-        Turno.partida(new Tablero(jugadoresPartida));
+        Juego.partida(new Tablero(jugadoresPartida));
 
     }
 }

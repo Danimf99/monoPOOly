@@ -4,13 +4,13 @@ import monopooly.colocacion.Tablero;
 
 import java.util.Scanner;
 
-public class Turno {
+public class Juego {
 
     /**
      * Muestra el prompt, lee comandos y los ejecuta. Pasa turno en el tablero al salir
      * @param tablero Tablero de la partida
      */
-    public static void run(Tablero tablero) {
+    public static void turno(Tablero tablero) {
 
         System.out.println(tablero);
 
@@ -86,7 +86,7 @@ public class Turno {
         boolean alive = true;
         // Cuando los jugadores van entrando en bancarrota se van sacando del array de jugadoresTurno
         while (tablero.getJugadoresTurno().size() > 1) {
-            Turno.run(tablero);
+            Juego.turno(tablero);
         }
         System.out.println("Ganador: " + tablero.getJugadoresTurno().get(0));
         // TODO imprimir el ganador de la partida mas decentemente
