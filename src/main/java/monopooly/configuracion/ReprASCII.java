@@ -114,10 +114,10 @@ public class ReprASCII {
             PROMPT_ELM_SEPARATOR + "[ Introduca el numero de jugadores ]" +
             "\n" +
             PROMPT_BOT_OPENER;
-    public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre: ]───► ";
+    public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre del nuevo jugador: ]───► ";
     // TODO Actualizar la descripcion de los tipos de avatares
     public static final String PROMT_AYUDA_TIPO_AVATAR = ""
-            + ANSI_BLUE_BOLD + "[i]" + ANSI_RESET + " Avatares disponibles: \n"
+            + ANSI_BLUE_BOLD + "\n[i]" + ANSI_RESET + " Avatares disponibles: \n"
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
             + "\t\t Se desplaza en diagonal blah blah.\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
@@ -125,7 +125,7 @@ public class ReprASCII {
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
             + "\t\t Lo que haga este tipo de avatar\n"
             + "\t > " + ANSI_RED_BOLD + "Coche" + ANSI_RESET + ":\n"
-            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t\t Lo que haga este tipo de avatar"
             + ""
             + "";
     public static final String PROMPT_TIPO_AVATAR = "\n[ ? ]──[ Tipo (sombrero/pelota/coche/esfinge): ]───► ";

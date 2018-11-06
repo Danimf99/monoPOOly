@@ -18,7 +18,7 @@ public class Arranque {
         System.out.println(ReprASCII.ASCII_TITLE);
         int numJugadores = 0;
         while (numJugadores <= 0 || numJugadores > 6) {
-            System.out.println(ReprASCII.PROMPT_NUEVA_PARTIDA);
+            System.out.print(ReprASCII.PROMPT_NUEVA_PARTIDA);
             numJugadores = scanner.nextInt();
         }
         ArrayList<Jugador> jugadoresPartida = new ArrayList<>();
@@ -26,6 +26,6 @@ public class Arranque {
             jugadoresPartida.add(ProcesarComando.crearJugador());
         }
         Turno.partida(new Tablero(jugadoresPartida));
-        
+
     }
 }

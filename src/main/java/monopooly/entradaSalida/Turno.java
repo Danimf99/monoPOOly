@@ -11,11 +11,14 @@ public class Turno {
      * @param tablero Tablero de la partida
      */
     public static void run(Tablero tablero) {
+
+        System.out.println(tablero);
+
         Prompt prompt = new Prompt(tablero, tablero.getJugadorTurno());
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
         while (!terminarTurno) {
-            System.out.println(prompt);
+            System.out.print(prompt);
             prompt.setHelp(false);
             String comando = reader.nextLine();
             String[] arrayComando = comando.split(" ");

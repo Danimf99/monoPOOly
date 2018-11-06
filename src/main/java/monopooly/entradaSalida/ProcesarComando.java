@@ -138,14 +138,14 @@ public class ProcesarComando {
      */
     public static Jugador crearJugador() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(ReprASCII.PROMPT_NOMBRE_JUGADOR);
+        System.out.print(ReprASCII.PROMPT_NOMBRE_JUGADOR);
         String nombre = scanner.nextLine();
         TipoAvatar tipoAvatar = TipoAvatar.sombrero; // Valor por defecto en caso de que algo salga mal
         boolean tipoCorrecto = false;
         while (!tipoCorrecto) {
             tipoCorrecto = true;
             System.out.println(ReprASCII.PROMT_AYUDA_TIPO_AVATAR);
-            System.out.println(ReprASCII.PROMPT_TIPO_AVATAR);
+            System.out.print(ReprASCII.PROMPT_TIPO_AVATAR);
             String avatar = scanner.nextLine();
             switch (avatar.toLowerCase()) {
                 case "sombrero":
