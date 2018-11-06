@@ -16,6 +16,7 @@ public class Jugador {
     private HashSet<Inmueble> propiedades;
     private Dados dados;
     private HashSet<Inmueble> hipotecas;
+    private boolean estarEnCarcel;
     /**
      * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
@@ -30,6 +31,7 @@ public class Jugador {
             propiedades=new HashSet<>();
             this.avatar=new Avatar(avatar,this);
             this.hipotecas=null;
+            this.estarEnCarcel=false;
         }
     }
 
@@ -43,6 +45,7 @@ public class Jugador {
         this.propiedades=propiedades;
         this.nombre=null;
         this.dinero=0;
+        this.estarEnCarcel=false;
     }
 
     public int getDinero() {
@@ -55,6 +58,10 @@ public class Jugador {
 
     public String getNombre() {
         return nombre;
+    }
+    //Con el get ya comprobamos si esta en la carcel o no
+    public boolean getEstarEnCarcel(){
+        return estarEnCarcel;
     }
 
     public HashSet<Inmueble> getPropiedades() {
@@ -113,23 +120,24 @@ public class Jugador {
         this.dinero += cantidad;
     }
     public void moverJugador(Tablero tablero){
-        if(this.dados==null || this.nombre==null || this.avatar==null){
-            Mensajes.error("Atributos nulos, no se puede mover al jugador");
+        if(tablero==null){
+            Mensajes.error("Tablero nulo, no se puede mover al jugador");
+            return;
+        }
+        if(this.estarEnCarcel){
+            Mensajes.info("Estás en la cárcel, no puedes tirar");
             return;
         }
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
+        if(this.dados.getDobles()==3) {
+            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, va a la carcel");
+            this.estarEnCarcel = true;
+            this.getAvatar().setPosicion(Posiciones.CARCEL);
+            return;
+        }
         avatar.getPosicion().mover(dados.tirada());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
-        //TODO si cae en una casilla de impuestos o propiedad de otro jugador cobrar la cantidad
-    }
-
-    /**
-     * Comprueba si un jugador está en la carcel
-     * @return devuelve true si está en la carcel y false si no lo está
-     */
-    public boolean estaEnCarcel(){
-        return avatar.getPosicion().getX()==Posiciones.CARCEL;
     }
 
     @Override

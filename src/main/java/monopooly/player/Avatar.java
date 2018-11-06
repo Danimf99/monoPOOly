@@ -49,12 +49,12 @@ public class Avatar {
     public Posicion getPosicion(){
         return posicion;
     }
-    public void setPosicion(Posicion nuevaPosicion){
-        if(nuevaPosicion==null){
+    public void setPosicion(int nuevaPosicion){
+        if(nuevaPosicion<0){
             Mensajes.error("Error en la nueva posicion");
             return;
         }
-        this.posicion=nuevaPosicion;
+        this.posicion.setX(nuevaPosicion);
     }
     //Con setPosicion creo que llega, no hace falta hacer un set a los demas atributos
     @Override
