@@ -11,6 +11,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
 import monopooly.player.Dados;
 import monopooly.player.Jugador;
+import monopooly.player.TipoAvatar;
 
 import java.util.ArrayList;
 
@@ -381,10 +382,10 @@ public class PintadoASCII {
 
     ┌───────────────────────┐
     │  Titulo de propiedad  │
-    |        BADALONA       │
+    │        BADALONA       │
     ├───────────────────────┤
-    │     Alquiler 260$     │
-    │  Valor Hipoteca 130$  │
+    │     Alquiler 260 $    │
+    │  Valor Hipoteca 130 $ │
     │                       │
     │  Propietario: manolo  │
     │                       │
@@ -392,20 +393,73 @@ public class PintadoASCII {
 
     * */
 
-    public static String marcoCopyright(String texto, int ancho) {
-        String[] lineas = texto.split("\n");
-
-        return "";
-    }
-
-
     /**
      * Devuelve la representacion de una propiedad
      * @param propiedad inmueble que se debe mostrar por pantalla
      * @return string para imprimir
      */
     public static String genPropiedad(Inmueble propiedad) {
-        return "";
+        // Para añadir cosas en la tarjeta que se muestra, basta con meterlas en este Array
+        String[] lineas = {"Titulo de propiedad",
+                propiedad.getNombre().toUpperCase(),
+                "Alquiler " + propiedad.calcularAlquiler(new Jugador("foo", TipoAvatar.sombrero)) + " " +
+                        Precios.MONEDA,
+                "Valor Hipoteca " + "X " +
+                        Precios.MONEDA,
+                "", // Linea en blanco
+                "Propietario: " + propiedad.getPropietario().getNombre() +
+                ""};
+
+        int anchoRequerido = tamMaxArrayString(lineas) + 2; // +2 para que quede algo espaciado y bien colocado
+        if (anchoRequerido < ReprASCII.APP_NAME.length()) {
+            anchoRequerido = ReprASCII.APP_NAME.length();
+        }
+        if (anchoRequerido % 2 == 0) {
+            anchoRequerido++; // Para que sea un numero impar y quede MonoPOOly bien centradito
+        }
+        StringBuilder sBuilder = new StringBuilder();
+        // Barra superior
+        sBuilder.append(ReprASCII.ESQUINA_1);
+        for (int i = 0; i < anchoRequerido + 2; i++) { // +2 por el margen de los espacios
+            sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
+        }
+        sBuilder.append(ReprASCII.ESQUINA_2 + "\n");
+
+        // Informacion central
+        for (int i = 0; i < lineas.length; i++) {
+            if (i == 2) { // Separador titulo e informacion calle
+                sBuilder.append(ReprASCII.T_LADO_D);
+                for (int j = 0; j < anchoRequerido + 2; j++) { // +2 por el margen de los espacios
+                    sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
+                }
+                sBuilder.append(ReprASCII.T_LADO_B + "\n");
+            }
+            sBuilder.append(ReprASCII.BARRA_VERTICAL);
+            if (i < 2) { // Color para el titulo
+                sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
+            }
+            sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
+            sBuilder.append(widear(lineas[i], anchoRequerido));
+            sBuilder.append(" " + ReprASCII.ANSI_RESET);
+            sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
+        }
+
+        // Barra inferior
+        sBuilder.append(ReprASCII.ESQUINA_4);
+        // -2 por los espacios +1 por el margen
+        int anchoInferior = ((anchoRequerido - ReprASCII.APP_NAME.length() - 2)/ 2) + 1;
+        for (int i = 0; i < anchoInferior; i++) {
+            sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
+        }
+        sBuilder.append(" " + ReprASCII.ANSI_RED_BOLD + ReprASCII.APP_NAME + ReprASCII.ANSI_RESET + " ");
+
+
+        for (int i = 0; i < anchoInferior; i++) {
+            sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
+        }
+
+        sBuilder.append(ReprASCII.ESQUINA_3 + "\n");
+        return sBuilder.toString();
     }
 
     /**

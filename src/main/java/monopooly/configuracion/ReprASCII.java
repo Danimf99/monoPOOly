@@ -28,7 +28,8 @@ public class ReprASCII {
     public static final String APP_NAME = "MonoPOOly";
 
     /* Representacion para AVATARES*/
-    public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R'));
+    public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R', 'Q', 'J', 'S', 'D'));
+    // Mellor que sobren que que falten
     /* BARRITAS */
 
     public static final String ESQUINA_1 = "┌";

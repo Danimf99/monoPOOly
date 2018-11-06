@@ -2,6 +2,7 @@ package monopooly.colocacion.calles;
 
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
 public class Inmueble {
@@ -144,12 +145,6 @@ public class Inmueble {
 
     @Override
     public String toString() {
-        return "Inmueble{" + "\n" +
-                "\tnombre='" + nombre + "'\n" +
-                "\t, precio=" + precio + "\n" +
-                "\t, tipo=" + tipo + "\n" +
-                "\t, propietario=" + propietario + "\n" +
-                "\t, grupoColor=" + grupoColor + "\n" +
-                '}';
+        return PintadoASCII.genPropiedad(this);
     }
 }

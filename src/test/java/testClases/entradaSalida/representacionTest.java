@@ -1,5 +1,6 @@
 package testClases.entradaSalida;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.ReprASCII;
@@ -64,5 +65,8 @@ public class representacionTest {
         Mensajes.detalles("Primera linea\nSegunda linea.");
     }
 
-
+    @Test
+    public void imprimePropiedades() {
+        System.out.println(tableroPrueba.getCasilla(new Posicion(8)).getCalle());
+    }
 }
