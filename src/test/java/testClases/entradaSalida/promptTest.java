@@ -2,6 +2,7 @@ package testClases.entradaSalida;
 
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.entradaSalida.ProcesarComando;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 import monopooly.player.TipoAvatar;
@@ -61,5 +62,11 @@ public class promptTest {
         promptTest.setModificacionPasta(-500, "Alquiler");
         promptTest.getJugador().moverJugador(tableroPrueba);
         System.out.println(promptTest);
+    }
+
+    @Test
+    public void pruebaComandoMover() {
+        String mensaje = "lanzar dados";
+        ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
     }
 }
