@@ -32,8 +32,8 @@ public class ProcesarComando {
         //TODO poner de que casilla a que casilla se mueve el jugador pero bonito, por eso te lo dejo a ti Saul
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
-        if (prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals("banca")
-                && prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals(prompt.getJugador().getNombre())) {
+        if (!prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals("banca")
+                && !prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getPropietario().getNombre().equals(prompt.getJugador().getNombre())) {
 
             Mensajes.info("Cayó en la casilla de un jugador, por lo que tiene que pagar de alquiler: " + prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().calcularAlquiler(prompt.getJugador()));
             //Comprobar que tiene suficiente dinero
