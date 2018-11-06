@@ -43,7 +43,7 @@ public class Jugador {
         avatar=null;
         dados=null;
         this.propiedades=propiedades;
-        this.nombre=null;
+        this.nombre="Banca"; // Ponme banca para poderlo identificar al poner su nombre
         this.dinero=0;
         this.estarEnCarcel=false;
     }
