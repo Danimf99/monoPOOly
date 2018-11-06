@@ -110,7 +110,9 @@ public class ReprASCII {
             PROMPT_ELM_SEPARATOR +
             PROMPT_ELM_LEFT +
             PROMPT_LOGO +
-            PROMPT_ELM_RIGHT + "\n" +
+            PROMPT_ELM_RIGHT +
+            PROMPT_ELM_SEPARATOR + "[ Introduca el numero de jugadores ]" +
+            "\n" +
             PROMPT_BOT_OPENER;
     public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre: ]───► ";
     // TODO Actualizar la descripcion de los tipos de avatares
