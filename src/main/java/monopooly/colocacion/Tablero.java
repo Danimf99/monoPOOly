@@ -300,6 +300,6 @@ public class Tablero {
 
     @Override
     public String toString() {
-        return PintadoASCII.genTablero(this);
+        return "\n" + PintadoASCII.genTablero(this) + "\n";
     }
 }

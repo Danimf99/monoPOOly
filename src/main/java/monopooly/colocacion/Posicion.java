@@ -2,34 +2,34 @@ package monopooly.colocacion;
 
 import monopooly.configuracion.Posiciones;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Posicion {
     private int x;
-    private ArrayList<Posicion> posicionesEsteTurno;
+    private ArrayList<Posicion> historialPosiciones;
 
     /* Constructores */
 
     public Posicion() {
         this.x = 0;
-        this.posicionesEsteTurno = new ArrayList<>();
+        this.historialPosiciones = new ArrayList<>();
+        this.historialPosiciones.add(new Posicion(this.x));
     }
 
     public Posicion(int x) {
         this.x = x;
-        this.posicionesEsteTurno = new ArrayList<>();
+        this.historialPosiciones = new ArrayList<>();
     }
 
     /* Getters & Setters*/
 
-    public ArrayList<Posicion> getPosicionesEsteTurno() {
-        return posicionesEsteTurno;
+    public ArrayList<Posicion> getHistorialPosiciones() {
+        return historialPosiciones;
     }
 
-    public void setPosicionesEsteTurno(ArrayList<Posicion> posicionesEsteTurno) {
-        this.posicionesEsteTurno = posicionesEsteTurno;
+    public void setHistorialPosiciones(ArrayList<Posicion> historialPosiciones) {
+        this.historialPosiciones = historialPosiciones;
     }
 
     public int getX() {
@@ -62,6 +62,7 @@ public class Posicion {
     public void mover(int desplazamiento){
         this.x += desplazamiento;
         this.x %= Posiciones.TOTAL;
+        this.historialPosiciones.add(new Posicion(this.x));
 //        TODO implementar Comprobaciones
 
     }
@@ -75,25 +76,22 @@ public class Posicion {
     }
 
 
-    // TODO Calculo del precio en funcion de la posicion
-
     /**
-     * Para la posicion actual determina el precio que deberia tener el solar de la posicion actual
-     * @return precio inicial que deberia tener el Inmueble
+     * Cuenta el numero de veces que el jugador pasó por una posicion
+     * @param p Posicion que se desea comprobar
+     * @return Repeticiones de una posicion
      */
-    public int precioCompra() {
-        return 0;
+    public int contarRepeticiones(Posicion p) {
+        int cantidad = 0;
+        for (Posicion pos :
+                this.historialPosiciones) {
+            if (pos.equals(p)) {
+                cantidad++;
+            }
+        }
+        return cantidad;
     }
 
-
-
-
-
-
-//    TODO implementar mas metodos estaticos útiles.
-    /*
-    * Probablemente devolver arrayLists que ayuden al pintado ASCII del tablero
-    * */
 
 
 
@@ -103,12 +101,13 @@ public class Posicion {
     public String toString() {
         return "Posicion{" +
                 "x=" + x +
-                ", posicionesEsteTurno=" + posicionesEsteTurno +
+                ", historialPosiciones=" + historialPosiciones +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
+        // No tiene en cuenta el historial de posiciones a propsito
         if (this == o) return true;
         if (!(o instanceof Posicion)) return false;
         Posicion posicion = (Posicion) o;
