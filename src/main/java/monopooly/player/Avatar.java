@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Random;
 
 public class Avatar {
-    private tipoAvatar tipo;
+    private TipoAvatar tipo;
     private char representacion;
     private Jugador jugador;
     private Posicion posicion;
 
     /**
-     * Inicializa avatar pasandole la representacion ASCII, el tipoAvatar que va a ser y el Jugador asociado a el
-     * @param tipo tipoAvatar para saber balon,esfinge...
+     * Inicializa avatar pasandole la representacion ASCII, el TipoAvatar que va a ser y el Jugador asociado a el
+     * @param tipo TipoAvatar para saber balon,esfinge...
      * @param jugador Jugador poseedor del avatar
      */
-    public Avatar(tipoAvatar tipo,Jugador jugador){
+    public Avatar(TipoAvatar tipo, Jugador jugador){
         if(tipo==null || jugador==null){
             Mensajes.error("Error al crear avatar, atributos nulos");
             return;
@@ -40,7 +40,7 @@ public class Avatar {
     public char getRepresentacion() {
         return representacion;
     }
-    public tipoAvatar getTipo(){
+    public TipoAvatar getTipo(){
         return tipo;
     }
     public Jugador getJugador(){

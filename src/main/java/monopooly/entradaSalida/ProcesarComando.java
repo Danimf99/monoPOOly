@@ -1,9 +1,12 @@
 package monopooly.entradaSalida;
 
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.configuracion.ReprASCII;
 import monopooly.player.Jugador;
+import monopooly.player.TipoAvatar;
 
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.Set;
 
 public class ProcesarComando {
@@ -128,4 +131,37 @@ public class ProcesarComando {
         }
         System.out.print(prompt.getTablero().toString());
     }
+
+    public static Jugador crearJugador() {
+        // TODO pedir al usuario datos para el nuevo jugaddor
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(ReprASCII.PROMPT_NOMBRE_JUGADOR);
+        String nombre = scanner.nextLine();
+        TipoAvatar tipoAvatar = TipoAvatar.sombrero; // Valor por defecto en caso de que algo salga mal
+        boolean tipoCorrecto = false;
+        while (!tipoCorrecto) {
+            tipoCorrecto = true;
+            System.out.println(ReprASCII.PROMT_AYUDA_TIPO_AVATAR);
+            System.out.println(ReprASCII.PROMPT_TIPO_AVATAR);
+            String avatar = scanner.nextLine();
+            switch (avatar.toLowerCase()) {
+                case "sombrero":
+                    tipoAvatar = TipoAvatar.sombrero;
+                    break;
+                case "pelota":
+                    tipoAvatar = TipoAvatar.pelota;
+                    break;
+                case "esfinge":
+                    tipoAvatar = TipoAvatar.esfinge;
+                    break;
+                case "coche":
+                    tipoAvatar = TipoAvatar.coche;
+                    break;
+                    default:
+                        tipoCorrecto = false;
+            }
+        }
+        return new Jugador(nombre, tipoAvatar);
+    }
+
 }

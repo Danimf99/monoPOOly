@@ -13,8 +13,8 @@ public class Turno {
      */
     public static void run(Prompt prompt, Tablero tablero) {
         Scanner reader = new Scanner(System.in);
-        boolean salir = false;
-        while (!salir) {
+        boolean terminarTurno = false;
+        while (!terminarTurno) {
             System.out.println(prompt);
             prompt.setHelp(false);
             String comando = reader.nextLine();
@@ -23,32 +23,31 @@ public class Turno {
                 case "":
                     break;
                 case "lanzar":
-                    //ProcesarComando.lanzarDados(arrayComando,prompt);
+                    ProcesarComando.lanzarDados(arrayComando, prompt);
                     break;
                 case "listar":
                 case "l":
-                    //ProcesarComando.listar(arrayComando,prompt);
+                    ProcesarComando.listar(arrayComando, prompt);
                     break;
 
                 case "describir":
                 case "d":
-                    //ProcesarComando.describir(arrayComando,prompt);
+                    ProcesarComando.describir(arrayComando, prompt);
                     break;
 
                 case "jugador":
                 case "j":
-                    //ProcesarComando.infoJugador(arrayComando,prompt);
+                    ProcesarComando.infoJugador(arrayComando, prompt);
                     break;
 
                 case "acabar":
                 case "at":
-                    salir = true;
-                    //salir = ProcesarComando.acabarTurno(arrayComando,prompt);
+                    terminarTurno = true;
+                    terminarTurno = ProcesarComando.acabarTurno(arrayComando);
                     break;
 
                 case "salir":
                 case "s":
-                    salir = true;
                     //ProcesarComando.salirCarcel(arrayComando);
                     break;
                 case "ver":
@@ -65,6 +64,5 @@ public class Turno {
                     prompt.setHelp(true);
             }
         }
-
     }
 }

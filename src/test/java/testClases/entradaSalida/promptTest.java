@@ -4,7 +4,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
-import monopooly.player.tipoAvatar;
+import monopooly.player.TipoAvatar;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class promptTest {
 
     @BeforeClass
     public static void preSetUp() {
-        monguer = new Jugador("pepe", tipoAvatar.sombrero);
+        monguer = new Jugador("pepe", TipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
         tableroPrueba = new Tablero(listaJugadores);

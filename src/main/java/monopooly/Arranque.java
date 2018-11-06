@@ -4,16 +4,16 @@ import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
-import monopooly.player.tipoAvatar;
+import monopooly.player.TipoAvatar;
 
 import java.util.ArrayList;
 
 public class Arranque {
     public static void main(String[] args) {
         ArrayList<Jugador> Jugadores=new ArrayList<>();
-        Jugadores.add(new Jugador("daniel", tipoAvatar.sombrero));
-        Jugadores.add(new Jugador("pepe", tipoAvatar.sombrero));
-        Jugadores.add(new Jugador("juan", tipoAvatar.sombrero));
+        Jugadores.add(new Jugador("daniel", TipoAvatar.sombrero));
+        Jugadores.add(new Jugador("pepe", TipoAvatar.sombrero));
+        Jugadores.add(new Jugador("juan", TipoAvatar.sombrero));
         Tablero tablero=new Tablero(Jugadores);
         System.out.print(PintadoASCII.genTablero(tablero));
         Jugadores.get(0).moverJugador(tablero);

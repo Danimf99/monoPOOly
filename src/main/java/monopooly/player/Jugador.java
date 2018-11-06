@@ -17,12 +17,12 @@ public class Jugador {
     private Dados dados;
     private HashSet<Inmueble> hipotecas;
     /**
-     * Inicizaliza jugador pasandole el nombre, tipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
+     * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
      * @param nombre string con el nombre del jugador
-     * @param avatar tipoAvatar para saber si es sombrero,balon...
+     * @param avatar TipoAvatar para saber si es sombrero,balon...
      */
-    public Jugador(String nombre, tipoAvatar avatar) {
+    public Jugador(String nombre, TipoAvatar avatar) {
         if (avatar != null && nombre != null) {
             this.nombre=nombre;
             this.dados=new Dados();

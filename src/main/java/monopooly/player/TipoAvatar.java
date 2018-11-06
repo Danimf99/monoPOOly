@@ -1,6 +1,6 @@
 package monopooly.player;
 
-public enum tipoAvatar {
+public enum TipoAvatar {
     pelota,
     sombrero,
     esfinge,

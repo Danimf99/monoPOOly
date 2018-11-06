@@ -17,6 +17,7 @@ package monopooly.configuracion;
 
 
 import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.entradaSalida.Mensajes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,6 +112,21 @@ public class ReprASCII {
             PROMPT_LOGO +
             PROMPT_ELM_RIGHT + "\n" +
             PROMPT_BOT_OPENER;
+    public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre: ]───► ";
+    // TODO Actualizar la descripcion de los tipos de avatares
+    public static final String PROMT_AYUDA_TIPO_AVATAR = ""
+            + ANSI_BLUE_BOLD + "[i]" + ANSI_RESET + " Avatares disponibles: \n"
+            + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
+            + "\t\t Se desplaza en diagonal blah blah.\n"
+            + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
+            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
+            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t > " + ANSI_RED_BOLD + "Coche" + ANSI_RESET + ":\n"
+            + "\t\t Lo que haga este tipo de avatar\n"
+            + ""
+            + "";
+    public static final String PROMPT_TIPO_AVATAR = "\n[ ? ]──[ Tipo (sombrero/pelota/coche/esfinge): ]───► ";
     public static final String PROMPT_CARCEL = "⛓ " + ANSI_HIGH_WHITE_BACKGROUND + " Estás en la carcel " + ANSI_RESET;
 
 

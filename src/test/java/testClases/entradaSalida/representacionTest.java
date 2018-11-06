@@ -2,13 +2,11 @@ package testClases.entradaSalida;
 
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
-import monopooly.colocacion.calles.Monopolio;
-import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
-import monopooly.player.tipoAvatar;
+import monopooly.player.TipoAvatar;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -24,14 +22,14 @@ public class representacionTest {
 
     @BeforeClass
     public static void preSetUp() {
-        monguer = new Jugador("pepe", tipoAvatar.sombrero);
+        monguer = new Jugador("pepe", TipoAvatar.sombrero);
         ArrayList<Jugador> listaJugadores = new ArrayList<>();
         listaJugadores.add(monguer);
-        listaJugadores.add(new Jugador("manolo", tipoAvatar.esfinge));
-        listaJugadores.add(new Jugador("federico", tipoAvatar.esfinge));
-        listaJugadores.add(new Jugador("jaime", tipoAvatar.esfinge));
-        listaJugadores.add(new Jugador("dani", tipoAvatar.esfinge));
-        listaJugadores.add(new Jugador("saul", tipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("manolo", TipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("federico", TipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("jaime", TipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("dani", TipoAvatar.esfinge));
+        listaJugadores.add(new Jugador("saul", TipoAvatar.esfinge));
         tableroPrueba = new Tablero(listaJugadores);
     }
 
