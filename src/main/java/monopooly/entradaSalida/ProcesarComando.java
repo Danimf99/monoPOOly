@@ -101,20 +101,45 @@ public class ProcesarComando {
     }
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
-
+        int esta=0;
+        if(args.length!=3){
+            Mensajes.error("Error en el comando");
+            return;
+        }
         switch (args[1].toLowerCase()) {
             case "jugador":
-                System.out.println(prompt.getTablero().getJugador(args[2]).toString());
+                Collection<Jugador> jugadors=prompt.getTablero().getJugadores().values();
+                for(Jugador jugador: jugadors){
+                    if(args[2].equals(jugador.getNombre())){
+                        esta=1;
+                    }
+                }
+                if(esta==0){
+                    Mensajes.error("No existe ese jugador");
+                    return;
+                }
+                System.out.println(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
                 break;
             case "avatar":
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
-                    if (args[2].equals(jugador.getAvatar().getRepresentacion())) {
-                        System.out.print(jugador.getAvatar().toString());
+                    if (args[2].charAt(0)==(jugador.getAvatar().getRepresentacion())) {
+                        System.out.println(jugador.getAvatar().toString());
+                        return;
                     }
                 }
                 break;
-            default: //Para describir casillas
+            default: //Para describir casillas //TODO
+                Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
+                for(Inmueble i: enventa){
+                    if(args[2].equals(i.getNombre())){
+                        esta=1;
+                    }
+                }
+                if(esta==0){
+                    Mensajes.error("No existe esa casilla");
+                    return;
+                }
                 System.out.println(prompt.getTablero().getCalle(args[2]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
                 break;
         }
@@ -135,7 +160,7 @@ public class ProcesarComando {
             case "avatares":
                 Collection<Jugador> jugadors= prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadors) {
-                    System.out.print(jugador.getAvatar().toString());
+                    System.out.println(jugador.getAvatar().toString());
                 }
                 break;
             case "enventa":
