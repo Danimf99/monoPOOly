@@ -1,6 +1,8 @@
 package monopooly.entradaSalida;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Dados;
@@ -89,6 +91,13 @@ public class Prompt {
         ArrayList<String> elementos = new ArrayList<>();
         elementos.add("" + this.jugador.getAvatar().getRepresentacion());
         elementos.add(this.jugador.getNombre());
+        // Nombre casilla actual
+        Posicion posJugador = this.jugador.getAvatar().getPosicion();
+        Inmueble inmuebleActual = tablero.getCasilla(posJugador).getCalle();
+        String nombreCasilla = ReprASCII.colorMonopolio(inmuebleActual.getGrupoColor().getTipo()) +
+                " " + inmuebleActual.getNombre() + " " +
+                ReprASCII.ANSI_RESET;
+        elementos.add(nombreCasilla);
         return elementos;
     }
 
@@ -154,7 +163,7 @@ public class Prompt {
     public String toString() {
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (!dadosInicio.equals(jugador.getDados())) {
+        if (jugador.getDados().getContador() > 0) {
             elementos.add(cambioDados());
         }
 
