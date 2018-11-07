@@ -14,6 +14,7 @@ public class Inmueble {
     private TipoInmueble tipo;
     private Jugador propietario;
     private Monopolio grupoColor;
+    private Boolean hipotecado;
 
     /* Constructores */
 
@@ -33,6 +34,7 @@ public class Inmueble {
         this.precio = precio;
         this.grupoColor = grupoColor;
         this.propietario = banca;
+        this.hipotecado = false;
 
         grupoColor.insertarInmueble(this);
 
