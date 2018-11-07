@@ -439,7 +439,7 @@ public class PintadoASCII {
                 sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
             }
             sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
-            sBuilder.append(widear(lineas[i], anchoRequerido));
+            sBuilder.append(widear(lineas[i], anchoRequerido)); // TODO Hacer que quede centrado
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
