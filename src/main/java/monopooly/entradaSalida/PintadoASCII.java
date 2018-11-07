@@ -402,7 +402,7 @@ public class PintadoASCII {
         // Para añadir cosas en la tarjeta que se muestra, basta con meterlas en este Array
         String[] lineas = {"Titulo de propiedad",
                 propiedad.getNombre().toUpperCase(),
-                //"Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA,
+                "Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA,
                 "Valor Hipoteca " + "X " +
                         Precios.MONEDA,
                 "", // Linea en blanco

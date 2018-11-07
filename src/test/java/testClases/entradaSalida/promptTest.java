@@ -79,4 +79,16 @@ public class promptTest {
         }
 
     }
+
+
+    @Test
+    public void listarEnVenta() {
+        String mensaje = "listar enventa";
+
+        tableroPrueba.getCasilla(new Posicion(8)).getCalle().setPropietario(new Jugador("Propietario", TipoAvatar.sombrero));
+        promptTest = new Prompt(promptTest.getTablero(), promptTest.getJugador());
+        ProcesarComando.listar(mensaje.split(" "), promptTest);
+        System.out.println(promptTest);
+
+    }
 }
