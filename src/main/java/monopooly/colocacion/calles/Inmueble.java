@@ -5,8 +5,6 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
-import java.util.Objects;
-
 public class Inmueble {
     private String nombre;
     private int precio;
@@ -115,10 +113,6 @@ public class Inmueble {
         return dineroAlquiler;
     }
 
-    public int calcularHipoteca() {
-        return this.precio_inicial / 2;
-    }
-
     /**
      * Permite comprar la propiedad
      * @param deudor Personaje que compra
@@ -155,16 +149,4 @@ public class Inmueble {
     public String toString() {
         return PintadoASCII.genPropiedad(this);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Inmueble)) return false;
-        Inmueble inmueble = (Inmueble) o;
-        return Objects.equals(getNombre(), inmueble.getNombre()) &&
-                tipo == inmueble.tipo &&
-                Objects.equals(getPropietario(), inmueble.getPropietario()) &&
-                Objects.equals(getGrupoColor(), inmueble.getGrupoColor());
-    }
-
 }

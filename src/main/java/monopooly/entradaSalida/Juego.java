@@ -28,7 +28,6 @@ public class Juego {
             switch (arrayComando[0].toLowerCase()) {
                 case "":
                     break;
-
                 case "bancarrota":
                 case "b":
                     // TODO implementar comando de bancarrota
