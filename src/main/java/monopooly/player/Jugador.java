@@ -208,7 +208,7 @@ public class Jugador {
             }
             j++;
         }
-        imprimirJugador.append("]");
+        imprimirJugador.append("]\n}");
         return  PintadoASCII.encuadrar(imprimirJugador.toString());
     }
 

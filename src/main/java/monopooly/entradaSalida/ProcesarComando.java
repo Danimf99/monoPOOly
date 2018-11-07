@@ -193,6 +193,16 @@ public class ProcesarComando {
         if(args.length==3){
             args[1]=args[1].concat(" "+args[2]);
         }
+        switch(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getGrupoColor().getTipo()){
+            case parking:
+            case caja_comunidad:
+            case suerte:
+            case impuesto:
+            case none:
+                Mensajes.error("No se puede comprar la casilla "+args[1]);
+                return;
+
+        }
         if(prompt.getTablero().getCalle(args[1])==null){
             Mensajes.error("No existe esa casilla");
             return;
@@ -200,6 +210,10 @@ public class ProcesarComando {
         if(!(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle()==prompt.getTablero().getCalle(args[1]))){
            Mensajes.info("No estás en esta casilla");
            return;
+        }
+        if(prompt.getTablero().getCalle(args[1]).getPropietario().getNombre()!="Banca"){
+            Mensajes.info("La casilla ya está comprada por un jugador");
+            return;
         }
         if(prompt.getJugador().getDinero()>prompt.getTablero().getCalle(args[1]).getPrecio()){
             Mensajes.info("El jugador "+prompt.getJugador().getNombre()+" compró la propiedad "+prompt.getTablero().getCalle(args[1]).getNombre()
