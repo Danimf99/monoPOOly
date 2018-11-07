@@ -66,7 +66,6 @@ public class Posicion {
         this.x += desplazamiento;
         this.x %= Posiciones.TOTAL;
         this.historialPosiciones.add(new Posicion(this.x));
-//        TODO implementar Comprobaciones
 
     }
 

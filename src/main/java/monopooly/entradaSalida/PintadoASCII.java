@@ -14,6 +14,7 @@ import monopooly.player.Jugador;
 import monopooly.player.TipoAvatar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PintadoASCII {
     private static int asciiArtHelper;
@@ -38,7 +39,7 @@ public class PintadoASCII {
     }
 
 
-    private static int tamMaxArrayString(String[] lineas) {
+    private static int tamMaxArrayString(ArrayList<String> lineas) {
         int tamMax = 0;
         for (String linea :
                 lineas) {
@@ -53,7 +54,9 @@ public class PintadoASCII {
         // Se necesita el ancho por que los modificadores de color
         //  cuentan como caracter
         StringBuilder sBuilder = new StringBuilder();
-        String[] lineas = mensaje.split("\n");
+        String[] lins = mensaje.split("\n");
+        ArrayList<String> lineas = new ArrayList<>(Arrays.asList(lins));
+
         int ancho = tamMaxArrayString(lineas);
         if (ancho % 2 == 0) { // Se asegura de que sea impar para que quede centrado
             ancho++;
@@ -404,13 +407,49 @@ public class PintadoASCII {
         if (propiedad.getHipotecado()) {
             mensajeHipoteca = "Propiedad Hipotecada";
         }
-        String[] lineas = {"Titulo de propiedad",
-                propiedad.getNombre().toUpperCase(),
-                "Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA,
-                mensajeHipoteca,
-                "", // Linea en blanco
-                "Propietario: " + propiedad.getPropietario().getNombre() +
-                ""};
+        ArrayList<String> lineas = new ArrayList<>();
+
+        switch (propiedad.getGrupoColor().getTipo()) {
+            case none:
+            case caja_comunidad:
+            case suerte:
+                lineas.add("Casilla especial");
+                lineas.add(propiedad.getNombre().toUpperCase());
+                // Padding
+                lineas.add("");
+                lineas.add("");
+                lineas.add("");
+                lineas.add("");
+                break;
+            case impuesto:
+                lineas.add("Impuesto");
+                lineas.add(propiedad.getNombre().toUpperCase());
+                // Padding
+                lineas.add("");
+                lineas.add("Cantidad: " + propiedad.getPrecio_inicial());
+                lineas.add("");
+                lineas.add("");
+                break;
+            case parking:
+                lineas.add(propiedad.getNombre().toUpperCase());
+                lineas.add("");
+                // Padding
+                lineas.add("");
+                lineas.add("");
+                lineas.add("");
+                lineas.add("");
+                break;
+                default: // TODO Cuando haya edificios hay que modificar esto
+                    lineas.add("Titulo de propiedad");
+                    lineas.add(propiedad.getNombre().toUpperCase());
+                    lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA);
+                    lineas.add(mensajeHipoteca);
+                    lineas.add("");
+                    lineas.add("Propietario: " + propiedad.getPropietario().getNombre());
+                    break;
+        }
+
+        ArrayList<String> lin = new ArrayList<>();
 
         int anchoRequerido = tamMaxArrayString(lineas) + 2; // +2 para que quede algo espaciado y bien colocado
         if (anchoRequerido < ReprASCII.APP_NAME.length()) {
@@ -428,7 +467,7 @@ public class PintadoASCII {
         sBuilder.append(ReprASCII.ESQUINA_2 + "\n");
 
         // Informacion central
-        for (int i = 0; i < lineas.length; i++) {
+        for (int i = 0; i < lineas.size(); i++) {
             if (i == 2) { // Separador titulo e informacion calle
                 sBuilder.append(ReprASCII.T_LADO_D);
                 for (int j = 0; j < anchoRequerido + 2; j++) { // +2 por el margen de los espacios
@@ -441,7 +480,7 @@ public class PintadoASCII {
                 sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
             }
             sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
-            sBuilder.append(widear(lineas[i], anchoRequerido)); // TODO Hacer que quede centrado
+            sBuilder.append(widear(lineas.get(i), anchoRequerido)); // TODO Hacer que quede centrado
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
