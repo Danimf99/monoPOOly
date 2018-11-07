@@ -403,7 +403,7 @@ public class PintadoASCII {
         String[] lineas = {"Titulo de propiedad",
                 propiedad.getNombre().toUpperCase(),
                 "Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA,
-                "Valor Hipoteca " + "X " +
+                "Valor Hipoteca " + propiedad.calcularHipoteca() +
                         Precios.MONEDA,
                 "", // Linea en blanco
                 "Propietario: " + propiedad.getPropietario().getNombre() +

@@ -113,6 +113,10 @@ public class Inmueble {
         return dineroAlquiler;
     }
 
+    public int calcularHipoteca() {
+        return this.precio_inicial / 2;
+    }
+
     /**
      * Permite comprar la propiedad
      * @param deudor Personaje que compra
