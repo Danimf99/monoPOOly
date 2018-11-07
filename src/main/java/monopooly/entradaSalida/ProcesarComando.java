@@ -102,7 +102,7 @@ public class ProcesarComando {
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         int esta=0;
-        if(args.length!=3){
+        if(args.length!=3 ){
             Mensajes.error("Error en el comando");
             return;
         }
@@ -129,7 +129,7 @@ public class ProcesarComando {
                     }
                 }
                 break;
-            default: //Para describir casillas //TODO
+            case "casilla":
                 Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
                 for(Inmueble i: enventa){
                     if(args[2].equals(i.getNombre())){
@@ -142,6 +142,8 @@ public class ProcesarComando {
                 }
                 System.out.println(prompt.getTablero().getCalle(args[2]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
                 break;
+            default:
+                Mensajes.error("Comando incorrecto");
         }
     }
 
@@ -170,6 +172,9 @@ public class ProcesarComando {
                 for(Inmueble i: enventa){
                     System.out.println(i.toString());
                 }
+                break;
+            default:
+                Mensajes.error("Comando incorrecto");
                 break;
         }
     }
