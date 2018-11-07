@@ -175,7 +175,17 @@ public class ProcesarComando {
                 System.out.println(prompt.getTablero().toString());
                 Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
                 for(Inmueble i: enventa){
-                    System.out.println(i.toString());
+                    switch(i.getGrupoColor().getTipo()){
+                        case none:
+                        case impuesto:
+                        case suerte:
+                        case parking:
+                        case caja_comunidad:
+                            break;
+                        default:
+                            System.out.println(i.toString());
+                            break;
+                    }
                 }
                 break;
             default:
@@ -219,6 +229,7 @@ public class ProcesarComando {
             Mensajes.info("El jugador "+prompt.getJugador().getNombre()+" compró la propiedad "+prompt.getTablero().getCalle(args[1]).getNombre()
                     +" por el precio de "+prompt.getTablero().getCalle(args[1]).getPrecio());
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
+            prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(),"Compra del inmueble");
         }
     }
 
