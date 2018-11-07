@@ -39,6 +39,28 @@ public class PintadoASCII {
     }
 
 
+    /**
+     * Añade espacios a un texto
+     * @param texto texto que se desea modificar
+     * @param longitudDeseada longitud que debe tener el texto añadiendole espacios al final
+     * @return texto deseado
+     */
+    private static String widearCentrado(String texto, int longitudDeseada) {
+        StringBuilder salida = new StringBuilder();
+        while (salida.length() < (longitudDeseada - texto.length()) / 2) {
+            salida.append(" ");
+        }
+        salida.append(texto);
+        if (texto.contains(ReprASCII.ANSI_RESET)) {
+            longitudDeseada += 2; // el color y el ansi reset
+        }
+        while (salida.length() < longitudDeseada) {
+            salida.append(" ");
+        }
+        return salida.toString();
+    }
+
+
     private static int tamMaxArrayString(ArrayList<String> lineas) {
         int tamMax = 0;
         for (String linea :
@@ -442,7 +464,7 @@ public class PintadoASCII {
                 default: // TODO Cuando haya edificios hay que modificar esto
                     lineas.add("Titulo de propiedad");
                     lineas.add(propiedad.getNombre().toUpperCase());
-                    lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA);
+                    lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + "" + Precios.MONEDA);
                     lineas.add(mensajeHipoteca);
                     lineas.add("");
                     lineas.add("Propietario: " + propiedad.getPropietario().getNombre());
@@ -480,7 +502,7 @@ public class PintadoASCII {
                 sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
             }
             sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
-            sBuilder.append(widear(lineas.get(i), anchoRequerido)); // TODO Hacer que quede centrado
+            sBuilder.append(widearCentrado(lineas.get(i), anchoRequerido)); // TODO Hacer que quede centrado
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
