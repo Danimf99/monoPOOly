@@ -14,12 +14,14 @@ public class Dados {
         this.dado1 = 0;
         this.dado2 = 0;
         this.dobles=0;
+        this.contador=0;
     }
 
     public Dados(int dado1,int dado2){
         this.dado1=dado1;
         this.dado2=dado2;
         this.dobles=0;
+        this.contador=0;
     }
 
     public int getDado1(){
@@ -32,6 +34,9 @@ public class Dados {
         return dobles;
     }
     public int getContador(){return contador;}
+    public void setContador(int contador){
+        this.contador=contador;
+    }
     /**
      * Comprueba si la tirada de cada dado es igual
      *
@@ -49,8 +54,9 @@ public class Dados {
         Random tirada2 = new Random();
         this.dado1 = tirada1.nextInt(6) + 1;
         this.dado2 = tirada2.nextInt(6) + 1;
-        contador++;
+        contador=1;
         if(sonDobles()){
+            contador=0;
             dobles++;
             return;
         }

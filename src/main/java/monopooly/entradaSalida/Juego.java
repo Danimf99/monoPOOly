@@ -18,6 +18,7 @@ public class Juego {
         System.out.println(tablero);
 
         Prompt prompt = new Prompt(tablero, tablero.getJugadorTurno());
+        tablero.getJugadorTurno().getDados().setContador(0);
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
         while (!terminarTurno) {
@@ -41,6 +42,10 @@ public class Juego {
                 case "listar":
                 case "l":
                     ProcesarComando.listar(arrayComando, prompt);
+                    break;
+                case "comprar":
+                case "c":
+                    ProcesarComando.comprar(arrayComando,prompt);
                     break;
 
                 case "describir":
