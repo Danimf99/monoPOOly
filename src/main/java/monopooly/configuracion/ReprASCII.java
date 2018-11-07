@@ -193,7 +193,7 @@ public class ReprASCII {
             case caja_comunidad:
                 return ANSI_BLUE_BOLD;
             case impuesto:
-                return ANSI_BLACK_UNDERLINE;
+                return ANSI_BLACK_BOLD;
             default:
                 return ANSI_BLACK;
 

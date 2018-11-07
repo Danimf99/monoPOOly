@@ -7,9 +7,9 @@ public class Nombres {
             "Murcia",
             "Caja",
             "A Coruña",
-            "Impuestos 1",
+            "IRPF",
 
-            "Estacion 1",
+            "Invierno",
 
             "Plasencia",
             "Suerte",
@@ -23,7 +23,7 @@ public class Nombres {
             "Teruel",
             "Getafe",
 
-            "Estacion 2",
+            "Otoño",
 
             "Zaragoza",
             "Caja",
@@ -37,7 +37,7 @@ public class Nombres {
             "Cádiz",
             "Sevilla",
 
-            "Estacion 3",
+            "Verano",
 
             "Oviedo",
             "Valladolid",
@@ -51,11 +51,11 @@ public class Nombres {
             "Caja",
             "Madrid",
 
-            "Estacion 4",
+            "Primavera",
 
             "Suerte",
             "Marbella",
-            "Impuestos 2",
+            "IVA",
             "Ibiza",
     };
 
