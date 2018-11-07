@@ -400,11 +400,14 @@ public class PintadoASCII {
      */
     public static String genPropiedad(Inmueble propiedad) {
         // Para añadir cosas en la tarjeta que se muestra, basta con meterlas en este Array
+        String mensajeHipoteca = "Valor Hipoteca " + propiedad.calcularHipoteca() + Precios.MONEDA;
+        if (propiedad.getHipotecado()) {
+            mensajeHipoteca = "Propiedad Hipotecada";
+        }
         String[] lineas = {"Titulo de propiedad",
                 propiedad.getNombre().toUpperCase(),
                 "Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + " " + Precios.MONEDA,
-                "Valor Hipoteca " + propiedad.calcularHipoteca() +
-                        Precios.MONEDA,
+                mensajeHipoteca,
                 "", // Linea en blanco
                 "Propietario: " + propiedad.getPropietario().getNombre() +
                 ""};
