@@ -101,20 +101,15 @@ public class ProcesarComando {
     }
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
-        int esta=0;
+
         switch (args[1].toLowerCase()) {
             case "jugador":
                 if(args.length!=3){
                     Mensajes.error("Error en el comando");
+                    prompt.setHelp(true);
                     return;
                 }
-                Collection<Jugador> jugadors=prompt.getTablero().getJugadores().values();
-                for(Jugador jugador: jugadors){
-                    if(args[2].equals(jugador.getNombre())){
-                        esta=1;
-                    }
-                }
-                if(esta==0){
+                if(prompt.getTablero().getJugador(args[2])==null){
                     Mensajes.error("No existe ese jugador");
                     return;
                 }
@@ -123,12 +118,13 @@ public class ProcesarComando {
             case "avatar":
                 if(args.length!=3){
                     Mensajes.error("Error en el comando");
+                    prompt.setHelp(true);
                     return;
                 }
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
                     if (args[2].charAt(0)==(jugador.getAvatar().getRepresentacion())) {
-                        System.out.println(jugador.getAvatar().toString());
+                        System.out.println(jugador.getAvatar());
                         return;
                     }
                 }
@@ -136,18 +132,14 @@ public class ProcesarComando {
             case "casilla":
                 if(args.length!=3 && args.length!=4){
                     Mensajes.error("Error en el comando");
+                    prompt.setHelp(true);
                     return;
                 }
                 if(args.length==4){
                     args[2]=args[2].concat(" "+args[3]);
                 }
-                Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
-                for(Inmueble i: enventa){
-                    if(args[2].equals(i.getNombre())){
-                        esta=1;
-                    }
-                }
-                if(esta==0){
+                Inmueble estar=prompt.getTablero().getCalle(args[2]);
+                if(estar==null){
                     Mensajes.error("No existe esa casilla");
                     return;
                 }
@@ -155,12 +147,14 @@ public class ProcesarComando {
                 break;
             default:
                 Mensajes.error("Comando incorrecto");
+                prompt.setHelp(true);
         }
     }
 
     public static void listar(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
         if(args.length!=2){
             Mensajes.error("Comando incorrecto");
+            prompt.setHelp(true);
             return;
         }
         switch(args[1].toLowerCase()){
@@ -186,18 +180,23 @@ public class ProcesarComando {
                 break;
             default:
                 Mensajes.error("Comando incorrecto");
+                prompt.setHelp(true);
                 break;
         }
     }
 
-    public static void comprar(String[] args/* Argumentos a mayores que se necesiten */) {
-
+    public static void comprar(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
+        if(args.length!=2 && args.length!=3){
+            Mensajes.error("Comando incorrecto");
+            return;
+        }
     }
 
     //Solo para ver que jugador tiene turno
     public static void infoJugador(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
         if (args.length != 1) {
             Mensajes.error("Comando incorrecto");
+            prompt.setHelp(true);
             return;
         }
         Mensajes.info("{\n"+
@@ -219,6 +218,7 @@ public class ProcesarComando {
     public static void verTablero(String[] args, Prompt prompt) {
         if (args[1].toLowerCase().equals("tablero")) {
             Mensajes.error("Error en el comando introducido");
+            prompt.setHelp(true);
             return;
         }
         System.out.print(prompt.getTablero().toString());
