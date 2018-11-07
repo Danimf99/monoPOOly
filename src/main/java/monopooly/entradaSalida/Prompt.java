@@ -1,5 +1,6 @@
 package monopooly.entradaSalida;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
@@ -89,6 +90,8 @@ public class Prompt {
         ArrayList<String> elementos = new ArrayList<>();
         elementos.add("" + this.jugador.getAvatar().getRepresentacion());
         elementos.add(this.jugador.getNombre());
+        Posicion posJugador = this.jugador.getAvatar().getPosicion();
+        elementos.add(tablero.getCasilla(posJugador).getCalle().getNombre());
         return elementos;
     }
 
@@ -154,7 +157,7 @@ public class Prompt {
     public String toString() {
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (!dadosInicio.equals(jugador.getDados())) {
+        if (jugador.getDados().getContador() > 0) {
             elementos.add(cambioDados());
         }
 
