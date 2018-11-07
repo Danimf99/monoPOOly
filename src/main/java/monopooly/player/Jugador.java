@@ -30,7 +30,7 @@ public class Jugador {
             dinero= Precios.DINERO_INICIAL;
             propiedades=new HashSet<>();
             this.avatar=new Avatar(avatar,this);
-            this.hipotecas=null;
+            this.hipotecas=new HashSet<>();
             this.estarEnCarcel=false;
         }
     }
@@ -40,12 +40,14 @@ public class Jugador {
      * @param propiedades todas las propiedades del tablero
      */
     public Jugador(HashSet<Inmueble> propiedades){
-        avatar=null;
-        dados=null;
+        avatar=new Avatar(TipoAvatar.sombrero,this);
+        dados=new Dados();
         this.propiedades=propiedades;
-        this.nombre="Banca"; // Ponme banca para poderlo identificar al poner su nombre
+        this.nombre="Banca";
         this.dinero=0;
         this.estarEnCarcel=false;
+        this.hipotecas = new HashSet<>();
+        this.estarEnCarcel = false;
     }
 
     public int getDinero() {
