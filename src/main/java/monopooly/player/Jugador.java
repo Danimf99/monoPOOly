@@ -56,6 +56,10 @@ public class Jugador {
         return avatar;
     }
 
+    public HashSet<Inmueble> getHipotecas(){
+        return hipotecas;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -93,6 +97,20 @@ public class Jugador {
             return;
         }
         this.propiedades.remove(propiedad);
+    }
+
+    public void hipotecar(Inmueble inmueble){
+        if(inmueble==null){
+            Mensajes.error("Inmueble null, no se puede hipotecar");
+            return;
+        }
+        if(!propiedades.contains(inmueble)){
+            Mensajes.error("No eres propietario de ese inmueble");
+            return;
+        }
+        hipotecas.add(inmueble);
+        anhadirDinero(inmueble.getPrecio()/2);
+        quitarPropiedad(inmueble);
     }
     /**
      * Al jguador se le quitar una cantidad de dinero

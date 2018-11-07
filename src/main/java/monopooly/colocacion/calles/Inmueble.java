@@ -111,6 +111,8 @@ public class Inmueble {
         return dineroAlquiler;
     }
 
+
+
     /**
      * Permite comprar la propiedad
      * @param deudor Personaje que compra

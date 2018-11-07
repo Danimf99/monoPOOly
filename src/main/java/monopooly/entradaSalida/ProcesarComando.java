@@ -102,12 +102,12 @@ public class ProcesarComando {
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         int esta=0;
-        if(args.length!=3 ){
-            Mensajes.error("Error en el comando");
-            return;
-        }
         switch (args[1].toLowerCase()) {
             case "jugador":
+                if(args.length!=3){
+                    Mensajes.error("Error en el comando");
+                    return;
+                }
                 Collection<Jugador> jugadors=prompt.getTablero().getJugadores().values();
                 for(Jugador jugador: jugadors){
                     if(args[2].equals(jugador.getNombre())){
@@ -121,6 +121,10 @@ public class ProcesarComando {
                 System.out.println(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
                 break;
             case "avatar":
+                if(args.length!=3){
+                    Mensajes.error("Error en el comando");
+                    return;
+                }
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
                     if (args[2].charAt(0)==(jugador.getAvatar().getRepresentacion())) {
@@ -130,6 +134,13 @@ public class ProcesarComando {
                 }
                 break;
             case "casilla":
+                if(args.length!=3 && args.length!=4){
+                    Mensajes.error("Error en el comando");
+                    return;
+                }
+                if(args.length==4){
+                    args[2]=args[2].concat(" "+args[3]);
+                }
                 Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
                 for(Inmueble i: enventa){
                     if(args[2].equals(i.getNombre())){
