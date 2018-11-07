@@ -140,19 +140,37 @@ public class Jugador {
         }
         this.dinero += cantidad;
     }
+
+    /**
+     * Mueve al jugador dependiendo de muchos factores
+     * @param tablero
+     */
     public void moverJugador(Tablero tablero){
         if(tablero==null){
             Mensajes.error("Tablero nulo, no se puede mover al jugador");
             return;
         }
-        if(this.estarEnCarcel){
-            Mensajes.info("Estás en la cárcel, no puedes tirar");
+        if(dados.getContador()==1){
+            Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
+        if(dados.sonDobles()){
+            Mensajes.info("Puede tirar otra vez, dados dobles");
+
+        }
+        if(this.estarEnCarcel && dados.sonDobles()){
+            Mensajes.info("Sacaste dobles, sales de la carcel");
+            this.estarEnCarcel=false;
+        }
+        if(this.estarEnCarcel){
+            Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
+            return;
+        }
         if(this.dados.getDobles()==3) {
-            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, va a la carcel");
+            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
             this.estarEnCarcel = true;
             this.getAvatar().setPosicion(Posiciones.CARCEL);
             tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
@@ -164,13 +182,34 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return PintadoASCII.encuadrar("Jugador{\n" +
+        int j=0;
+        StringBuilder imprimirJugador = new StringBuilder();
+        imprimirJugador.append("Jugador{\n" +
                 "   Nombre: " + nombre +
                 "\n   Fortuna: " + dinero +
-                "\n   Avatar: " + getAvatar().getRepresentacion()+
-                "\n   Propiedades: " + propiedades+
-                "\n   Hipotecadas: " + hipotecas
-                +"\n}");
+                "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
+        for(Inmueble i:propiedades){
+            if(propiedades.size()-1==j){
+                imprimirJugador.append(i.getNombre());
+            }
+            else {
+                imprimirJugador.append(i.getNombre()+",");
+            }
+            j++;
+        }
+        imprimirJugador.append("]\n   Hipotecadas: [");
+        j=0;
+        for(Inmueble h:hipotecas){
+            if(hipotecas.size()-1==j) {
+                imprimirJugador.append(h.getNombre());
+            }
+            else{
+                imprimirJugador.append(h.getNombre()+",");
+            }
+            j++;
+        }
+        imprimirJugador.append("]");
+        return  PintadoASCII.encuadrar(imprimirJugador.toString());
     }
 
     @Override

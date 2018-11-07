@@ -190,6 +190,22 @@ public class ProcesarComando {
             Mensajes.error("Comando incorrecto");
             return;
         }
+        if(args.length==3){
+            args[1]=args[1].concat(" "+args[2]);
+        }
+        if(prompt.getTablero().getCalle(args[1])==null){
+            Mensajes.error("No existe esa casilla");
+            return;
+        }
+        if(!(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle()==prompt.getTablero().getCalle(args[1]))){
+           Mensajes.info("No estás en esta casilla");
+           return;
+        }
+        if(prompt.getJugador().getDinero()>prompt.getTablero().getCalle(args[1]).getPrecio()){
+            Mensajes.info("El jugador "+prompt.getJugador().getNombre()+" compró la propiedad "+prompt.getTablero().getCalle(args[1]).getNombre()
+                    +" por el precio de "+prompt.getTablero().getCalle(args[1]).getPrecio());
+            prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
+        }
     }
 
     //Solo para ver que jugador tiene turno
