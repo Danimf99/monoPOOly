@@ -34,6 +34,15 @@ public class Dados {
         return dobles;
     }
     public int getContador(){return contador;}
+    public void setDado1(int dado1){
+        this.dado1=dado1;
+    }
+    public void setDado2(int dado2){
+        this.dado2=dado2;
+    }
+    public void setDobles(int dobles){
+        this.dobles=dobles;
+    }
     public void setContador(int contador){
         this.contador=contador;
     }

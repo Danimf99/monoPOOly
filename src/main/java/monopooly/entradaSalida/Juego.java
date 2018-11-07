@@ -66,10 +66,10 @@ public class Juego {
 
                 case "salir":
                 case "s":
-                    //ProcesarComando.salirCarcel(arrayComando);
+                    ProcesarComando.salirCarcel(arrayComando,prompt);
                     break;
                 case "ver":
-                    //ProcesarComando.verTablero(arrayComando,prompt);
+                    ProcesarComando.verTablero(arrayComando,prompt);
                     break;
                 case "help":
                 case "h":

@@ -2,7 +2,6 @@ package monopooly.player;
 
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
-import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
@@ -69,6 +68,9 @@ public class Jugador {
     //Con el get ya comprobamos si esta en la carcel o no
     public boolean getEstarEnCarcel(){
         return estarEnCarcel;
+    }
+    public void setEstarEnCarcel(boolean carcel){
+        this.estarEnCarcel=carcel;
     }
 
     public HashSet<Inmueble> getPropiedades() {
@@ -154,25 +156,25 @@ public class Jugador {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
+        if(this.estarEnCarcel){
+            Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
+            return;
+        }
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
         if(dados.sonDobles()){
             Mensajes.info("Puede tirar otra vez, dados dobles");
 
         }
-        if(this.estarEnCarcel && dados.sonDobles()){
+        if(this.estarEnCarcel && dados.sonDobles()) {
             Mensajes.info("Sacaste dobles, sales de la carcel");
-            this.estarEnCarcel=false;
-        }
-        if(this.estarEnCarcel){
-            Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
-                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
-            return;
+            this.estarEnCarcel = false;
         }
         if(this.dados.getDobles()==3) {
             Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
             this.estarEnCarcel = true;
-            this.getAvatar().setPosicion(Posiciones.CARCEL);
+            avatar.getPosicion().irCarcel();
             tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
             return;
         }

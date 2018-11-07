@@ -29,10 +29,6 @@ public class ProcesarComando {
             Mensajes.error("Comando incorrecto");
             return;
         }
-        if (prompt.getJugador().getEstarEnCarcel()) {
-            Mensajes.error("Estás en la cárcel!!! No puedes tirar los dados");
-            return;
-        }
 
         prompt.getJugador().moverJugador(prompt.getTablero());
         //Repintado tablero
@@ -68,6 +64,15 @@ public class ProcesarComando {
             return; // Nada mas que hacer un return y via
         }
 
+        /* El caso de ve a la carcel */
+        if (posJugadorActual.esIrCarcel()) {//Si sucede esto y luego el jugador lanza dados cobra 200 por pasar de la casilla de salida
+            posJugadorActual.irCarcel();
+            casillaActual.getAvatares().remove(jActual.getAvatar());
+            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(jActual.getAvatar());
+            jActual.setEstarEnCarcel(true);
+            System.out.println(prompt.getTablero().toString());
+            return; // Return porque no hay nada que hacer
+        }
         /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
         *  arreglamos */
 
@@ -80,14 +85,6 @@ public class ProcesarComando {
 
         if (jActual.getPropiedades().contains(inmuebleActual)) {
             return;
-        }
-
-        /* El caso de ve a la carcel */
-        if (posJugadorActual.esIrCarcel()) {
-            posJugadorActual.irCarcel();
-            casillaActual.getAvatares().remove(jActual.getAvatar());
-            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(jActual.getAvatar());
-            return; // Return porque no hay nada que hacer
         }
 
         /* Despues de todos los casos */
@@ -217,7 +214,7 @@ public class ProcesarComando {
             Mensajes.error("No existe esa casilla");
             return;
         }
-        if(!(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle()==prompt.getTablero().getCalle(args[1]))){
+        if(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle()!=prompt.getTablero().getCalle(args[1])){
            Mensajes.info("No estás en esta casilla");
            return;
         }
@@ -246,8 +243,26 @@ public class ProcesarComando {
                             "\n}");
     }
 
-    public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */) {
-
+    public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
+        if(args.length!=2){
+            Mensajes.error("Error en el comando");
+            prompt.setHelp(true);
+            return;
+        }
+        if(args[1].equals("Carcel") && args[1].equals("carcel")){
+            Mensajes.error("Comando incorrecto");
+            prompt.setHelp(true);
+            return;
+        }
+        if (prompt.getJugador().getEstarEnCarcel()) {
+            prompt.getJugador().quitarDinero(Precios.SALIR_CARCEL);
+            prompt.setModificacionPasta(-Precios.SALIR_CARCEL,"Salir de la carcel");
+            prompt.getJugador().setEstarEnCarcel(false);
+            Mensajes.info("Ya puede volver a tirar, no está en la carcel");
+        }
+        else{
+            Mensajes.info("No estás en la carcel");
+        }
     }
 
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
