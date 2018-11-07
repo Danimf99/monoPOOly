@@ -60,7 +60,16 @@ public class Inmueble {
         return grupoColor;
     }
 
+    public Boolean getHipotecado() {
+        return hipotecado;
+    }
+
     /* Setters */
+
+
+    public void setHipotecado(Boolean hipotecado) {
+        this.hipotecado = hipotecado;
+    }
 
     public void setPropietario(Jugador propietario) {
 //        TODO Añadir this Inmueble a las propiedades de propietario
@@ -146,6 +155,12 @@ public class Inmueble {
         this.propietario.anhadirDinero(this.calcularAlquiler(deudor));
         deudor.quitarDinero(this.calcularAlquiler(deudor));
         this.propietario = deudor;
+    }
+
+
+    public void hipotecar() {
+        this.propietario.anhadirDinero(this.calcularHipoteca());
+        this.hipotecado = true;
     }
 
 
