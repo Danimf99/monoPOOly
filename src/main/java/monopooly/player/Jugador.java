@@ -161,12 +161,12 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return "Jugador{" +
+        return "Jugador{\n" +
                 "\tNombre: " + nombre +
-                "\tFortuna: " + dinero +
-                "\tAvatar: " + avatar+
-                "\tPropiedades: " + propiedades
-                +"}";
+                "\n\tFortuna: " + dinero +
+                "\n\tAvatar: " + avatar+
+                "\n\tPropiedades: " + propiedades
+                +"\n}";
     }
 
     @Override
