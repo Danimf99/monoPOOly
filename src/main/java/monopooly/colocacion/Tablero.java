@@ -18,6 +18,7 @@ public class Tablero {
     private HashMap<String, Jugador> jugadores;
     private ArrayList<Jugador> jugadoresTurno;
     private Jugador banca;
+    private int bote;
 
 
     /* Constructores */
@@ -31,6 +32,7 @@ public class Tablero {
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
         this.jugadoresTurno = new ArrayList<>();
+        this.bote = 0;
 
         HashSet<Inmueble> propiedadesBanca = new HashSet<>();
         this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
@@ -218,6 +220,14 @@ public class Tablero {
 
     /* Getters && Setters */
 
+    public int getBote() {
+        return bote;
+    }
+
+    public void setBote(int bote) {
+        this.bote = bote;
+    }
+
     /**
      * Getter de casillas. Su objetivo es dar info a las clases de pintado ASCII
      * @return HashMap de posicion->casilla
@@ -296,6 +306,31 @@ public class Tablero {
         this.jugadores.put(nuevo.getNombre(), nuevo);
         this.getCasilla(nuevo.getAvatar().getPosicion()).insertarAvatar(nuevo.getAvatar());
     }
+
+    /**
+     * Otorga el bote a un jugador. Vacia el conjunto del bote
+     * @param jugador jugador al que se le añade el dinero
+     * @return cantidad que se le añadio al jugador
+     */
+    public int devolverBote(Jugador jugador) {
+        jugador.anhadirDinero(bote);
+        int cantidad = bote;
+        bote = 0;
+        return cantidad;
+    }
+
+    /**
+     * Añade una cantidad de dinero al bote
+     * @param cantidad dinero que se añade al bote
+     */
+    public void meterEnBote(int cantidad) {
+        if (cantidad < 0) {
+            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
+            return;
+        }
+        this.bote += cantidad;
+    }
+
 
     @Override
     public String toString() {
