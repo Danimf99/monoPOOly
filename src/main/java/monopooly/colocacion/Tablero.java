@@ -8,7 +8,6 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
-import java.awt.image.PixelInterleavedSampleModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
