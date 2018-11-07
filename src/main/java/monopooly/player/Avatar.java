@@ -3,6 +3,7 @@ package monopooly.player;
 import monopooly.colocacion.Posicion;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 
 import java.util.List;
 import java.util.Random;
@@ -59,12 +60,12 @@ public class Avatar {
     //Con setPosicion creo que llega, no hace falta hacer un set a los demas atributos
     @Override
     public String toString(){
-        return "Avatar{"+
-                "\tTipo: "+tipo+
-                "\tRepresentación: "+representacion+
-                "\tJugador: "+jugador.getNombre()+
-                "\tPosicion: "+posicion.getX()
-                +"}";
+        return PintadoASCII.encuadrar("Avatar{\n"+
+                "   Tipo: "+tipo+
+                "\n   Representación: "+representacion+
+                "\n   Jugador: "+jugador.getNombre()+
+                "\n   Posicion: "+posicion.getX()
+                +"\n}");
     }
 
     @Override

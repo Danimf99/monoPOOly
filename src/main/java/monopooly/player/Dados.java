@@ -6,6 +6,7 @@ public class Dados {
     private int dado1;
     private int dado2;
     private int dobles;
+    private int contador;
     /**
      * Constructor que inicializa los dados a 0
      */
@@ -30,6 +31,7 @@ public class Dados {
     public int getDobles(){
         return dobles;
     }
+    public int getContador(){return contador;}
     /**
      * Comprueba si la tirada de cada dado es igual
      *
@@ -47,6 +49,7 @@ public class Dados {
         Random tirada2 = new Random();
         this.dado1 = tirada1.nextInt(6) + 1;
         this.dado2 = tirada2.nextInt(6) + 1;
+        contador++;
         if(sonDobles()){
             dobles++;
             return;

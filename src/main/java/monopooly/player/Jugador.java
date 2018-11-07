@@ -5,6 +5,7 @@ import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -163,12 +164,13 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return "Jugador{\n" +
-                "\tNombre: " + nombre +
-                "\n\tFortuna: " + dinero +
-                "\n\tAvatar: " + avatar+
-                "\n\tPropiedades: " + propiedades
-                +"\n}";
+        return PintadoASCII.encuadrar("Jugador{\n" +
+                "   Nombre: " + nombre +
+                "\n   Fortuna: " + dinero +
+                "\n   Avatar: " + getAvatar().getRepresentacion()+
+                "\n   Propiedades: " + propiedades+
+                "\n   Hipotecadas: " + hipotecas
+                +"\n}");
     }
 
     @Override
@@ -185,4 +187,5 @@ public class Jugador {
     //public int hashCode() {
     //    return Objects.hash(nombre, dinero, avatar, propiedades, dados);
     //}
+
 }
