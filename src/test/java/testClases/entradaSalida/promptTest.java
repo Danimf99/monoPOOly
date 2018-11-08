@@ -91,4 +91,12 @@ public class promptTest {
         System.out.println(promptTest);
 
     }
+
+    @Test
+    public void representacionCarcel() {
+        promptTest.getJugador().setEstarEnCarcel(true);
+        System.out.println(promptTest);
+        String mensaje = "lanzar dados";
+        ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
+    }
 }
