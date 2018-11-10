@@ -228,6 +228,10 @@ public class Tablero {
         this.bote = bote;
     }
 
+    public HashMap<String, Inmueble> getCalles() {
+        return calles;
+    }
+
     /**
      * Getter de casillas. Su objetivo es dar info a las clases de pintado ASCII
      * @return HashMap de posicion->casilla

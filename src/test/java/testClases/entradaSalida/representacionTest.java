@@ -69,4 +69,10 @@ public class representacionTest {
     public void imprimePropiedades() {
         System.out.println(tableroPrueba.getCasilla(new Posicion(8)).getCalle());
     }
+
+    @Test
+    public void nombresClaves() {
+        System.out.println(tableroPrueba.getCalles().keySet());
+
+    }
 }
