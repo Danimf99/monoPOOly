@@ -272,7 +272,7 @@ public class ProcesarComando {
     }
 
     public static void verTablero(String[] args, Prompt prompt) {
-        if (args[1].toLowerCase().equals("tablero")) {
+        if (!args[1].toLowerCase().equals("tablero")) {
             Mensajes.error("Error en el comando introducido");
             prompt.setHelp(true);
             return;
