@@ -49,7 +49,7 @@ public class ProcesarComando {
 
         /* Primero hay que mirar si paso por la casilla de salida */
 
-        if (posJugadorActual.pasoPorSalida()) {
+        if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
             // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
             Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
             jActual.anhadirDinero(Precios.SALIDA);
@@ -223,10 +223,11 @@ public class ProcesarComando {
             return;
         }
         if(prompt.getJugador().getDinero()>prompt.getTablero().getCalle(args[1]).getPrecio()){
-            Mensajes.info("El jugador "+prompt.getJugador().getNombre()+" compró la propiedad "+prompt.getTablero().getCalle(args[1]).getNombre()
-                    +" por el precio de "+prompt.getTablero().getCalle(args[1]).getPrecio());
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
-            prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(),"Compra del inmueble");
+            prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(),"Compra del inmueble "+prompt.getTablero().getCalle(args[1]).getNombre());
+        }
+        else{
+            Mensajes.info("No tiene suficiente dinero para comprar "+prompt.getTablero().getCalle(args[1]).getNombre());
         }
     }
 
