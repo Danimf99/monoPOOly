@@ -60,6 +60,10 @@ public class Juego {
 
                 case "acabar":
                 case "at":
+                    if(prompt.getJugador().getDados().getContador()!=1) {
+                        Mensajes.info("Aún no lanzaste dados este turno!!");
+                        return;
+                    }
                     terminarTurno = true;
                     terminarTurno = ProcesarComando.acabarTurno(arrayComando);
                     break;
