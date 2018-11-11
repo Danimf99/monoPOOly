@@ -19,7 +19,7 @@ public class Nombres {
             "Carcel",
 
             "Toledo",
-            "Servicios 1",
+            "Desatranques J",
             "Teruel",
             "Getafe",
 
@@ -41,7 +41,7 @@ public class Nombres {
 
             "Oviedo",
             "Valladolid",
-            "Servicios 2",
+            "Fontaneria",
             "Valencia",
 
             "Ir a carcel",

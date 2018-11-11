@@ -71,7 +71,7 @@ public class Prompt {
 
     private String genPrompt(ArrayList<String> elementos) {
         StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append(ReprASCII.PROMPT_TOP_OPENER);
+        sBuilder.append('\n' + ReprASCII.PROMPT_TOP_OPENER);
         for (String elemento : elementos) {
             sBuilder.append(ReprASCII.PROMPT_ELM_SEPARATOR);
             sBuilder.append(ReprASCII.PROMPT_ELM_LEFT);
