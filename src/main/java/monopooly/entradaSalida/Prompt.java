@@ -163,7 +163,7 @@ public class Prompt {
     public String toString() {
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (jugador.getDados().getContador() > 0) {
+        if (jugador.getDados().getContador() > 0 || jugador.getDados().getDobles() > 0) {
             elementos.add(cambioDados());
         }
 
