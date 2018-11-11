@@ -17,6 +17,7 @@ public class Jugador {
     private Dados dados;
     private HashSet<Inmueble> hipotecas;
     private boolean estarEnCarcel;
+    private int turnosEnCarcel;
     /**
      * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
@@ -32,6 +33,7 @@ public class Jugador {
             this.avatar=new Avatar(avatar,this);
             this.hipotecas=new HashSet<>();
             this.estarEnCarcel=false;
+            this.turnosEnCarcel=0;
         }
     }
 
@@ -48,6 +50,7 @@ public class Jugador {
         this.estarEnCarcel=false;
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
+        this.turnosEnCarcel=0;
     }
 
     public int getDinero() {
@@ -156,10 +159,16 @@ public class Jugador {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
-        if(this.estarEnCarcel){
+        if(this.estarEnCarcel && this.turnosEnCarcel!=3){
             Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
                     "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
+            this.turnosEnCarcel++;
             return;
+        }
+        if(this.turnosEnCarcel==3){
+            Mensajes.info("Ya pasaste 3 turnos en la cárcel, puedes salir");
+            this.estarEnCarcel=false;
+            this.turnosEnCarcel=0;
         }
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
