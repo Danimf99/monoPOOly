@@ -533,7 +533,7 @@ public class PintadoASCII {
     }
 
 
-    public static String genAyuda(String nombre, String synopsis, String descripcion) {
+    public static void genAyuda(String nombre, String synopsis, String descripcion) {
         String separacion = "   ";
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append(Nombres.AYUDA_NOMBRE).append("\n");
@@ -548,7 +548,7 @@ public class PintadoASCII {
                 descripcion.split("\n")) {
             sBuilder.append(separacion).append(ejemplo).append("\n");
         }
-        return sBuilder.toString();
+        Mensajes.detalles(sBuilder.toString());
     }
 
 }
