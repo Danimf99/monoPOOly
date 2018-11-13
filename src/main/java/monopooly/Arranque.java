@@ -4,6 +4,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.ProcesarComando;
 import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Arranque {
         System.out.println(ReprASCII.ASCII_TITLE);
         int numJugadores = 0;
         while (numJugadores <= 0 || numJugadores > 6) {
-            System.out.print(ReprASCII.PROMPT_NUEVA_PARTIDA);
+            System.out.print(Prompt.promptComienzo());
             numJugadores = scanner.nextInt();
         }
         ArrayList<Jugador> jugadoresPartida = new ArrayList<>();

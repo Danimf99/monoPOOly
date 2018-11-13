@@ -37,7 +37,7 @@ public class Tablero {
         HashSet<Inmueble> propiedadesBanca = new HashSet<>();
         this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
 
-        Monopolio none = new Monopolio(TipoMonopolio.none);
+        Monopolio none = new Monopolio();
         Monopolio estacion = new Monopolio(TipoMonopolio.estacion);
         Monopolio servicio = new Monopolio(TipoMonopolio.servicio);
         Monopolio parking = new Monopolio(TipoMonopolio.parking);

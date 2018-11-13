@@ -18,6 +18,11 @@ public class Monopolio {
         this.tipo = tipo;
     }
 
+    public Monopolio() {
+        this.calles = new HashSet<>();
+        this.tipo = TipoMonopolio.none;
+    }
+
     public Monopolio(TipoMonopolio tipo, ArrayList<Inmueble> calles) {
         this.calles = new HashSet<>(calles);
         this.tipo = tipo;
