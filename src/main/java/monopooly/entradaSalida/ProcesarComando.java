@@ -23,13 +23,33 @@ public class ProcesarComando {
      * el string de los comandos
      *
      * */
+    public static void bancarrota(String[] args, Prompt prompt) {
+        Tablero tablero = prompt.getTablero();
+        Jugador jActual = prompt.getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+        Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
+        Inmueble inmuebleActual = casillaActual.getCalle();
+
+        tablero.getJugadoresTurno().remove(0);
+        if (inmuebleActual.getPropietario().getNombre().equals("Banca") || inmuebleActual.getPropietario().getNombre().equals(jActual.getNombre())) {
+            for (Inmueble i : jActual.getPropiedades()) {
+                jActual.quitarPropiedad(i);
+                tablero.getBanca().anhadirPropiedad(i);
+            }
+        } else {
+            for (Inmueble i : jActual.getPropiedades()) {
+                jActual.quitarPropiedad(i);
+                inmuebleActual.getPropietario().anhadirPropiedad(i);
+            }
+        }
+    }
 
     public static void lanzarDados(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         if (!args[1].equals("dados")) {
             Mensajes.error("Comando incorrecto");
             return;
         }
-        if(prompt.getJugador().getDados().getContador()==1){
+        if (prompt.getJugador().getDados().getContador() == 1) {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
@@ -48,7 +68,7 @@ public class ProcesarComando {
         /* Se debe cobrar siempre al caer si la propiedad es de otra persona distinta de la banca */
 
         /* Si el jugador acaba con dinero negativo da igual, esto deberia comprobarlo la funcion que
-        * le permite pasar turno */
+         * le permite pasar turno */
 
 
         /* Primero hay que mirar si paso por la casilla de salida */
@@ -59,12 +79,18 @@ public class ProcesarComando {
             jActual.anhadirDinero(Precios.SALIDA);
             prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
         }
-
+        if(posJugadorActual.getX()==Posiciones.PARKING){
+            int dineroParking= tablero.getBote();
+            tablero.devolverBote(jActual);
+            prompt.setModificacionPasta(dineroParking,"Bote del parking");
+            return;
+        }
         /* Si es un impuesto fasil, pagas y ya */
         if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
             int dineroExtraido = inmuebleActual.getPrecio_inicial();
             jActual.quitarDinero(dineroExtraido);
-            prompt.setModificacionPasta(- dineroExtraido, "Impuesto en " + inmuebleActual.getNombre());
+            tablero.meterEnBote(dineroExtraido);
+            prompt.setModificacionPasta(-dineroExtraido, "Impuesto en " + inmuebleActual.getNombre()+" para el bote del parking.");
             return; // Nada mas que hacer un return y via
         }
 
@@ -78,7 +104,7 @@ public class ProcesarComando {
             return; // Return porque no hay nada que hacer
         }
         /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
-        *  arreglamos */
+         *  arreglamos */
 
         if (inmuebleActual.getPropietario().equals(tablero.getBanca())) {
             // Se puede meter un mensaje de esto esta sin comprar puede comprarla
@@ -93,11 +119,22 @@ public class ProcesarComando {
 
         /* Despues de todos los casos */
         int alquiler = inmuebleActual.calcularAlquiler(jActual);
+        if (alquiler > jActual.getDinero()) {
+            switch (inmuebleActual.getPropietario().getNombre()) {
+                case "Banca":
+                    Mensajes.info("No tienes dinero para pagar los impuestos. Debes declararte en bancarrota.");
+
+                    break;
+                default:
+                    Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota");
+                    break;
+            }
+        }
         inmuebleActual.pago(jActual);
         prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
 
         /* El caso de que sacara dobles y pueda volver a tirar lo debe manejar probablemente la clase dados
-        * Mañana lo comentamos*/
+         * Mañana lo comentamos*/
 
     }
 
@@ -105,65 +142,65 @@ public class ProcesarComando {
 
         switch (args[1].toLowerCase()) {
             case "jugador":
-                if(args.length!=3){
+                if (args.length != 3) {
                     Mensajes.error("Error en el comando");
                     prompt.setHelp(true);
                     return;
                 }
-                if(prompt.getTablero().getJugador(args[2])==null){
+                if (prompt.getTablero().getJugador(args[2]) == null) {
                     Mensajes.error("No existe ese jugador");
                     return;
                 }
                 System.out.println(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
                 break;
             case "avatar":
-                if(args.length!=3){
+                if (args.length != 3) {
                     Mensajes.error("Error en el comando");
                     prompt.setHelp(true);
                     return;
                 }
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
-                    if (args[2].charAt(0)==(jugador.getAvatar().getRepresentacion())) {
+                    if (args[2].charAt(0) == (jugador.getAvatar().getRepresentacion())) {
                         System.out.println(jugador.getAvatar());
                         return;
                     }
                 }
                 break;
             default:
-                if(args.length!=2 && args.length!=3){
+                if (args.length != 2 && args.length != 3) {
                     Mensajes.error("Error en el comando");
                     prompt.setHelp(true);
                     return;
                 }
-                if(args.length==3){
-                    args[1]=args[1].concat(" "+args[2]);
+                if (args.length == 3) {
+                    args[1] = args[1].concat(" " + args[2]);
                 }
-                Inmueble estar=prompt.getTablero().getCalle(args[1]);
-                if(estar==null){
+                Inmueble estar = prompt.getTablero().getCalle(args[1]);
+                if (estar == null) {
                     Mensajes.error("No existe esa casilla");
                     return;
                 }
-                System.out.println(prompt.getTablero().getCalle(args[1]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
+                System.out.println(prompt.getTablero().getCalle(args[1]).toString());
                 break;
         }
     }
 
-    public static void listar(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
-        if(args.length!=2){
+    public static void listar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+        if (args.length != 2) {
             Mensajes.error("Comando incorrecto");
             prompt.setHelp(true);
             return;
         }
-        switch(args[1].toLowerCase()){
+        switch (args[1].toLowerCase()) {
             case "jugadores":
-                Collection<Jugador> jugadores= prompt.getTablero().getJugadores().values();
-                for(Jugador jugador: jugadores){
+                Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
+                for (Jugador jugador : jugadores) {
                     System.out.println(jugador.toString());
                 }
                 break;
             case "avatares":
-                Collection<Jugador> jugadors= prompt.getTablero().getJugadores().values();
+                Collection<Jugador> jugadors = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadors) {
                     System.out.println(jugador.getAvatar().toString());
                 }
@@ -171,9 +208,9 @@ public class ProcesarComando {
             case "enventa":
                 //Mostrar tablero por pantalla
                 System.out.println(prompt.getTablero().toString());
-                Set<Inmueble> enventa=prompt.getTablero().getBanca().getPropiedades();
-                for(Inmueble i: enventa){
-                    switch(i.getGrupoColor().getTipo()){
+                Set<Inmueble> enventa = prompt.getTablero().getBanca().getPropiedades();
+                for (Inmueble i : enventa) {
+                    switch (i.getGrupoColor().getTipo()) {
                         case none:
                         case impuesto:
                         case suerte:
@@ -193,76 +230,74 @@ public class ProcesarComando {
         }
     }
 
-    public static void comprar(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
-        if(args.length!=2 && args.length!=3){
+    public static void comprar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+        if (args.length != 2 && args.length != 3) {
             Mensajes.error("Comando incorrecto");
             return;
         }
-        if(args.length==3){
-            args[1]=args[1].concat(" "+args[2]);
+        if (args.length == 3) {
+            args[1] = args[1].concat(" " + args[2]);
         }
-        switch(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getGrupoColor().getTipo()){
+        switch (prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle().getGrupoColor().getTipo()) {
             case parking:
             case caja_comunidad:
             case suerte:
             case impuesto:
             case none:
-                Mensajes.error("No se puede comprar la casilla "+args[1]);
+                Mensajes.error("No se puede comprar la casilla " + args[1]);
                 return;
 
         }
-        if(prompt.getTablero().getCalle(args[1])==null){
+        if (prompt.getTablero().getCalle(args[1]) == null) {
             Mensajes.error("No existe esa casilla");
             return;
         }
-        if(prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle()!=prompt.getTablero().getCalle(args[1])){
-           Mensajes.info("No estás en esta casilla");
-           return;
+        if (prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle() != prompt.getTablero().getCalle(args[1])) {
+            Mensajes.info("No estás en esta casilla");
+            return;
         }
-        if(prompt.getTablero().getCalle(args[1]).getPropietario().getNombre()!="Banca"){
+        if (prompt.getTablero().getCalle(args[1]).getPropietario().getNombre().equals("Banca")) {
             Mensajes.info("La casilla ya está comprada por un jugador");
             return;
         }
-        if(prompt.getJugador().getDinero()>prompt.getTablero().getCalle(args[1]).getPrecio()){
+        if (prompt.getJugador().getDinero() > prompt.getTablero().getCalle(args[1]).getPrecio()) {
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
-            prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(),"Compra del inmueble "+prompt.getTablero().getCalle(args[1]).getNombre());
-        }
-        else{
-            Mensajes.info("No tiene suficiente dinero para comprar "+prompt.getTablero().getCalle(args[1]).getNombre());
+            prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(), "Compra del inmueble " + prompt.getTablero().getCalle(args[1]).getNombre());
+        } else {
+            Mensajes.info("No tiene suficiente dinero para comprar " + prompt.getTablero().getCalle(args[1]).getNombre());
         }
     }
 
     //Solo para ver que jugador tiene turno
-    public static void infoJugador(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
+    public static void infoJugador(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         if (args.length != 1) {
             Mensajes.error("Comando incorrecto");
             prompt.setHelp(true);
             return;
         }
-        Mensajes.info("{\n"+
-                            "    Nombre: "+prompt.getJugador().getNombre()+"\n" +
-                            "    Avatar: "+prompt.getJugador().getAvatar().getRepresentacion()+
-                            "\n}");
+        Mensajes.info("{\n" +
+                "    Nombre: " + prompt.getJugador().getNombre() + "\n" +
+                "    Avatar: " + prompt.getJugador().getAvatar().getRepresentacion() +
+                "\n}");
     }
 
-    public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */,Prompt prompt) {
-        if(args.length!=2){
+    public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+        if (args.length != 2) {
             Mensajes.error("Error en el comando");
             prompt.setHelp(true);
             return;
         }
-        if(args[1].equals("Carcel") && args[1].equals("carcel")){
+        if (args[1].equals("Carcel") && args[1].equals("carcel")) {
             Mensajes.error("Comando incorrecto");
             prompt.setHelp(true);
             return;
         }
         if (prompt.getJugador().getEstarEnCarcel()) {
             prompt.getJugador().quitarDinero(Precios.SALIR_CARCEL);
-            prompt.setModificacionPasta(-Precios.SALIR_CARCEL,"Salir de la carcel");
+            prompt.setModificacionPasta(-Precios.SALIR_CARCEL, "Salir de la carcel");
             prompt.getJugador().setEstarEnCarcel(false);
             Mensajes.info("Ya puede volver a tirar, no está en la carcel");
-        }
-        else{
+        } else {
             Mensajes.info("No estás en la carcel");
         }
     }
@@ -284,6 +319,7 @@ public class ProcesarComando {
 
     /**
      * Pide al jugador por pantalla un nombre y un tipo de avatar y lo crea con esos datos
+     *
      * @return nuevo jugador
      */
     public static Jugador crearJugador() {
@@ -310,8 +346,8 @@ public class ProcesarComando {
                 case "coche":
                     tipoAvatar = TipoAvatar.coche;
                     break;
-                    default:
-                        tipoCorrecto = false;
+                default:
+                    tipoCorrecto = false;
             }
         }
         return new Jugador(nombre, tipoAvatar);

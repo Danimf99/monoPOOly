@@ -31,8 +31,8 @@ public class Juego {
                     break;
                 case "bancarrota":
                 case "b":
-                    // TODO implementar comando de bancarrota
-                    tablero.getJugadoresTurno().remove(prompt.getJugador());
+                    ProcesarComando.bancarrota(arrayComando,prompt);
+                    terminarTurno=true;
                     break;
 
                 case "lanzar":
@@ -62,6 +62,10 @@ public class Juego {
                 case "at":
                     if(prompt.getJugador().getDados().getContador()!=1) {
                         Mensajes.info("Aún no lanzaste dados este turno!!");
+                        return;
+                    }
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Tienes que declararte en bancarrota. No puedes pasar turno.");
                         return;
                     }
                     terminarTurno = true;
@@ -99,7 +103,7 @@ public class Juego {
         while (tablero.getJugadoresTurno().size() > 1) {
             Juego.turno(tablero);
         }
-        System.out.println("Ganador: " + tablero.getJugadoresTurno().get(0));
+        System.out.println("Ganador: \n" + tablero.getJugadoresTurno().get(0));
         // TODO imprimir el ganador de la partida mas decentemente
     }
 
