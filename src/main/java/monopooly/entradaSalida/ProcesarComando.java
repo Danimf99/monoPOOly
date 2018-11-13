@@ -5,6 +5,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
@@ -48,8 +49,20 @@ public class ProcesarComando {
     public static void lanzarDados(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         if (!args[1].equals("dados")) {
             Mensajes.error("Comando incorrecto");
+            prompt.setHelp(true);
             return;
         }
+        // Mensaje de ayuda
+        if (args.length > 2 && args[2].equals("-h")) {
+            PintadoASCII.genAyuda(
+                    "lanzar dados - Permite lanzar los dados",
+                    "lanzar dados",
+                    "Permite lanzar los dados al jugador actual.\n" +
+                            "Los alquileres se cobrarán automaticamente."
+            );
+            return; // Iportante salir cuando se muestra la ayuda
+        }
+        // Fin Mensaje de ayuda
         if (prompt.getJugador().getDados().getContador() == 1) {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
@@ -256,7 +269,7 @@ public class ProcesarComando {
             Mensajes.info("No estás en esta casilla");
             return;
         }
-        if (prompt.getTablero().getCalle(args[1]).getPropietario().getNombre().equals("Banca")) {
+        if (!prompt.getTablero().getCalle(args[1]).getPropietario().getNombre().equals("Banca")) {
             Mensajes.info("La casilla ya está comprada por un jugador");
             return;
         }
@@ -351,6 +364,21 @@ public class ProcesarComando {
             }
         }
         return new Jugador(nombre, tipoAvatar);
+    }
+
+    public static void ayuda() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Comandos disponibles:").append("\n");
+        for (String comando :
+                Nombres.LISTA_COMANDOS) {
+            sBuilder.append("   ").append(comando).append("\n");
+        }
+        Mensajes.detalles(sBuilder.toString());
+
+        Mensajes.info("" +
+                "Añade -h como segundo argumento a cualquier\n" +
+                "comando para mostrar informacion de uso.\n");
+
     }
 
 }

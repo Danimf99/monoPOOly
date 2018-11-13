@@ -62,15 +62,16 @@ public class Nombres {
     public static final String AYUDA_NOMBRE = "NAME:";
     public static final String AYUDA_SYNOPSIS = "SYNOPSIS:";
     public static final String AYUDA_DESCRIPCION = "DESCRIPTION:";
-    public static final String[] LISTA_COMANDOS = {"lanzar dados",
-            "describir - Describe elementos",
-            "jugador - Informacion del jugador actual",
-            "comprar - Comprar una propiedad",
-            "salir carcel - Salir de la carcel",
-            "bancarrota - Declarar bancarrota",
-            "listar - Lista elementos",
-            "acabar turno - Termina el turno",
-            "ver tablero - Muestra el tablero"
+    public static final String[] LISTA_COMANDOS = {
+            "lanzar dados  -  Lanza los dados",
+            "describir     -  Describe elementos",
+            "jugador       -  Informacion del jugador actual",
+            "comprar       -  Comprar una propiedad",
+            "salir carcel  -  Salir de la carcel",
+            "bancarrota    -  Declarar bancarrota",
+            "listar        -  Lista elementos",
+            "acabar turno  -  Termina el turno",
+            "ver tablero   -  Muestra el tablero"
     };
 
 

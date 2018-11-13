@@ -83,6 +83,7 @@ public class Juego {
                 case "h":
                 case "ayuda":
                 case "a":
+                    ProcesarComando.ayuda();
                     break;
 
                 case "terminar":
