@@ -275,8 +275,13 @@ public class Tablero {
      * @return instancia del Inmueble correspondiente
      */
     public Inmueble getCalle(String nombre) {
-//        TODO Comprobacion de errores en getCalle
-        return calles.get(nombre);
+        String primeraMinuscula = nombre.toLowerCase();
+        String primeraMayuscula = nombre.substring(0, 1).toUpperCase() + nombre.substring(1);
+        Inmueble salida = calles.get(primeraMinuscula);
+        if (salida == null) {
+            salida = calles.get(primeraMayuscula);
+        }
+        return salida;
     }
 
 
@@ -286,7 +291,6 @@ public class Tablero {
      * @return instancia del Jugador correspondiente
      */
     public Jugador getJugador(String nombre) {
-//        TODO Comprobacion de errores en getJugador
         return jugadores.get(nombre);
     }
 
