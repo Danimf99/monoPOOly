@@ -57,6 +57,8 @@ public class Jugador {
         return dinero;
     }
 
+    public int getTurnosEnCarcel(){return turnosEnCarcel;}
+
     public Avatar getAvatar() {
         return avatar;
     }
@@ -163,7 +165,11 @@ public class Jugador {
             return;
         }
         if(this.turnosEnCarcel==3){
-            Mensajes.info("Ya pasaste 3 turnos en la cárcel, puedes salir");
+            Mensajes.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
+            if(this.getDinero()<Precios.SALIR_CARCEL){
+                Mensajes.info("Debes declararte en bancarrota, no tienes dinero suficiente para salir de la carcel");
+            }
+            this.quitarDinero(Precios.SALIR_CARCEL);
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
         }
