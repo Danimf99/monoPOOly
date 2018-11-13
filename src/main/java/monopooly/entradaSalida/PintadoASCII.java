@@ -1,6 +1,5 @@
 package monopooly.entradaSalida;
 
-import com.sun.istack.internal.NotNull;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Inmueble;
@@ -9,9 +8,7 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
-import monopooly.player.Dados;
 import monopooly.player.Jugador;
-import monopooly.player.TipoAvatar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -464,6 +461,7 @@ public class PintadoASCII {
                 default: // TODO Cuando haya edificios hay que modificar esto
                     lineas.add("Titulo de propiedad");
                     lineas.add(propiedad.getNombre().toUpperCase());
+                    lineas.add("Precio "+propiedad.getPrecio()+""+Precios.MONEDA);
                     lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + "" + Precios.MONEDA);
                     lineas.add(mensajeHipoteca);
                     lineas.add("");
