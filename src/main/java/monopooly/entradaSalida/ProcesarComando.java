@@ -31,6 +31,7 @@ public class ProcesarComando {
         Inmueble inmuebleActual = casillaActual.getCalle();
 
         tablero.getJugadoresTurno().remove(0);
+        tablero.getJugadores().remove(jActual.getNombre());
         if (inmuebleActual.getPropietario().getNombre().equals("Banca") || inmuebleActual.getPropietario().getNombre().equals(jActual.getNombre())) {
             for (Inmueble i : jActual.getPropiedades()) {
                 jActual.quitarPropiedad(i);
