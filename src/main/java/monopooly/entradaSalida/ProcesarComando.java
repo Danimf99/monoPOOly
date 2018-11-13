@@ -93,8 +93,7 @@ public class ProcesarComando {
             prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
         }
         if(posJugadorActual.getX()==Posiciones.PARKING){
-            int dineroParking= tablero.getBote();
-            tablero.devolverBote(jActual);
+            int dineroParking= tablero.devolverBote(jActual);
             prompt.setModificacionPasta(dineroParking,"Bote del parking");
             return;
         }
