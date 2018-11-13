@@ -154,7 +154,6 @@ public class Inmueble {
         }
         this.propietario.anhadirDinero(this.calcularAlquiler(deudor));
         deudor.quitarDinero(this.calcularAlquiler(deudor));
-        this.propietario = deudor;
     }
 
 
