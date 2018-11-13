@@ -534,4 +534,23 @@ public class PintadoASCII {
         return "";
     }
 
+
+    public static String genAyuda(String nombre, String synopsis, String descripcion) {
+        String separacion = "   ";
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(Nombres.AYUDA_NOMBRE).append("\n");
+        sBuilder.append(separacion).append(nombre).append("\n");
+        sBuilder.append(Nombres.AYUDA_SYNOPSIS).append("\n");
+        for (String ejemplo :
+                synopsis.split("\n")) {
+            sBuilder.append(separacion).append(ejemplo).append("\n");
+        }
+        sBuilder.append(Nombres.AYUDA_DESCRIPCION).append("\n");
+        for (String ejemplo :
+                descripcion.split("\n")) {
+            sBuilder.append(separacion).append(ejemplo).append("\n");
+        }
+        return sBuilder.toString();
+    }
+
 }

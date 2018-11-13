@@ -28,6 +28,10 @@ public class Prompt {
         this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2()); // TODO mejorar esto
     }
 
+    public Prompt() {
+        /*  Prompt vacio para inicializar la partida  */
+    }
+
     public Tablero getTablero() {
         return tablero;
     }
@@ -156,11 +160,18 @@ public class Prompt {
      * @return string a imprimir antes de leer lo del usuario
      */
     public static String promptComienzo() {
-        return ReprASCII.PROMPT_NUEVA_PARTIDA;
+        return new Prompt().toString();
     }
 
     @Override
     public String toString() {
+        if (this.jugador == null) {
+            ArrayList<String> elementos = new ArrayList<>();
+            elementos.add("Nueva partida");
+            elementos.add(ReprASCII.PROMPT_LOGO);
+            elementos.add("Introduca el numero de jugadores");
+            return genPrompt(elementos);
+        }
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
         if (jugador.getDados().getContador() > 0 || jugador.getDados().getDobles() > 0) {

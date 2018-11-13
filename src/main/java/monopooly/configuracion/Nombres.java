@@ -59,6 +59,11 @@ public class Nombres {
             "Ibiza",
     };
 
+    public static final String AYUDA_NOMBRE = "NAME:";
+    public static final String AYUDA_SYNOPSIS = "SYNOPSIS:";
+    public static final String AYUDA_DESCRIPCION = "DESCRIPTION:";
+
+
     public static int maxLen() {
         int max = 0;
         for (String nombre :
