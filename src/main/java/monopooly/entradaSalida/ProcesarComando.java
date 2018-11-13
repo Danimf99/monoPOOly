@@ -29,8 +29,12 @@ public class ProcesarComando {
             Mensajes.error("Comando incorrecto");
             return;
         }
-
+        if(prompt.getJugador().getDados().getContador()==1){
+            Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
+            return;
+        }
         prompt.getJugador().moverJugador(prompt.getTablero());
+
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
         // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo

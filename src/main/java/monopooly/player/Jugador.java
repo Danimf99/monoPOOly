@@ -155,10 +155,7 @@ public class Jugador {
             Mensajes.error("Tablero nulo, no se puede mover al jugador");
             return;
         }
-        if(dados.getContador()==1){
-            Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
-            return;
-        }
+
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
             Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
                     "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
