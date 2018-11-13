@@ -31,6 +31,7 @@ public class ProcesarComando {
         Inmueble inmuebleActual = casillaActual.getCalle();
 
         tablero.getJugadoresTurno().remove(0);
+        tablero.getJugadores().remove(jActual.getNombre());
         if (inmuebleActual.getPropietario().getNombre().equals("Banca") || inmuebleActual.getPropietario().getNombre().equals(jActual.getNombre())) {
             for (Inmueble i : jActual.getPropiedades()) {
                 jActual.quitarPropiedad(i);
@@ -54,7 +55,6 @@ public class ProcesarComando {
             return;
         }
         prompt.getJugador().moverJugador(prompt.getTablero());
-
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
         // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo
