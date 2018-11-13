@@ -130,25 +130,22 @@ public class ProcesarComando {
                     }
                 }
                 break;
-            case "casilla":
-                if(args.length!=3 && args.length!=4){
+            default:
+                if(args.length!=2 && args.length!=3){
                     Mensajes.error("Error en el comando");
                     prompt.setHelp(true);
                     return;
                 }
-                if(args.length==4){
-                    args[2]=args[2].concat(" "+args[3]);
+                if(args.length==3){
+                    args[1]=args[1].concat(" "+args[2]);
                 }
-                Inmueble estar=prompt.getTablero().getCalle(args[2]);
+                Inmueble estar=prompt.getTablero().getCalle(args[1]);
                 if(estar==null){
                     Mensajes.error("No existe esa casilla");
                     return;
                 }
-                System.out.println(prompt.getTablero().getCalle(args[2]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
+                System.out.println(prompt.getTablero().getCalle(args[1]).toString()); // SI metes describir y luego cualquier cosa peta hay que comprobar errores
                 break;
-            default:
-                Mensajes.error("Comando incorrecto");
-                prompt.setHelp(true);
         }
     }
 
