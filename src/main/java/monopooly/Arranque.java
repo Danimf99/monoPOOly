@@ -13,10 +13,6 @@ import java.util.Scanner;
 public class Arranque {
     public static void main(String[] args) {
 
-        // Partida rapida para probar a mano cosas (el scanner no funciona en los unit test)
-        Juego.partidaRapida();
-        /////////////////////
-
 
         Scanner scanner = new Scanner(System.in);
         System.out.println(ReprASCII.ASCII_TITLE);
