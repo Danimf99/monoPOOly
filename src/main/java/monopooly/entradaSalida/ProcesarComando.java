@@ -375,9 +375,9 @@ public class ProcesarComando {
         }
         Mensajes.detalles(sBuilder.toString());
 
-        Mensajes.info("" +
+/*        Mensajes.info("" +
                 "Añade -h como segundo argumento a cualquier\n" +
-                "comando para mostrar informacion de uso.\n");
+                "comando para mostrar informacion de uso.\n");*/
 
     }
 
