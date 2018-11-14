@@ -91,6 +91,7 @@ public class ProcesarComando {
             Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
             jActual.anhadirDinero(Precios.SALIDA);
             prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
+            jActual.getAvatar().sumarVuelta();
         }
         if(posJugadorActual.getX()==Posiciones.PARKING){
             int dineroParking= tablero.devolverBote(jActual);

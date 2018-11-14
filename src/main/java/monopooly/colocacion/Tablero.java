@@ -19,6 +19,7 @@ public class Tablero {
     private ArrayList<Jugador> jugadoresTurno;
     private Jugador banca;
     private int bote;
+    private int incrementosVueltas;
 
 
     /* Constructores */
@@ -28,6 +29,7 @@ public class Tablero {
             Mensajes.error("Lista de jugadores NULL");
             return;
         }
+        this.incrementosVueltas = 0;
         this.casillas = new HashMap<>();
         this.calles = new HashMap<>();
         this.jugadores = new HashMap<>();
@@ -308,6 +310,23 @@ public class Tablero {
     public void pasarTurno() {
         this.jugadoresTurno.add(this.getJugadorTurno());
         this.jugadoresTurno.remove(0);
+        // Se comprueba si es necesario aumentar el precio inicial de las casillas
+        int minimo = this.getJugadorTurno().getAvatar().getVueltasTablero();
+        int auxVueltas;
+        for (Jugador player :
+                jugadoresTurno) {
+            auxVueltas = player.getAvatar().getVueltasTablero();
+            if (auxVueltas < minimo) {
+                minimo = auxVueltas;
+            }
+        }
+        if (minimo / this.jugadoresTurno.size() > this.incrementosVueltas) {
+            for (Inmueble propiedad :
+                    this.calles.values()) {
+                propiedad.incrementarPrecio();
+            }
+            this.incrementosVueltas++;
+        }
     }
 
     public void altaJugador(Jugador nuevo) {

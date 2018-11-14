@@ -13,6 +13,7 @@ public class Avatar {
     private char representacion;
     private Jugador jugador;
     private Posicion posicion;
+    private int vueltasTablero;
 
     /**
      * Inicializa avatar pasandole la representacion ASCII, el TipoAvatar que va a ser y el Jugador asociado a el
@@ -28,6 +29,7 @@ public class Avatar {
         this.tipo=tipo;
         this.jugador=jugador;
         posicion=new Posicion();
+        vueltasTablero = 0;
     }
     private char sorteoAvatar(List<Character> AVATARES){
         Random avatar=new Random();
@@ -57,6 +59,15 @@ public class Avatar {
         }
         this.posicion.setX(nuevaPosicion);
     }
+
+    public void sumarVuelta() {
+        vueltasTablero++;
+    }
+
+    public int getVueltasTablero() {
+        return vueltasTablero;
+    }
+
     //Con setPosicion creo que llega, no hace falta hacer un set a los demas atributos
     @Override
     public String toString(){
