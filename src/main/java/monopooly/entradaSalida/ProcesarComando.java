@@ -2,10 +2,7 @@ package monopooly.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Inmueble;
-import monopooly.colocacion.calles.TipoEdificio;
-import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.colocacion.calles.*;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -324,6 +321,7 @@ public class ProcesarComando {
         }
         Tablero tablero = prompt.getTablero();
         Jugador jActual = prompt.getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
         Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
         Inmueble inmuebleActual = casillaActual.getCalle();
 
@@ -344,7 +342,8 @@ public class ProcesarComando {
             Mensajes.info("No puedes edificar en esta casilla, no eres el dueño!");
             return;
         }
-        if(!inmuebleActual.getGrupoColor().esCompleto()){
+        int numeroVeces=posJugadorActual.contarRepeticiones(posJugadorActual);
+        if(!inmuebleActual.getGrupoColor().esCompleto() && numeroVeces<2){
             Mensajes.info("No posees todos los solares del monopolio!!");
             return;
         }
@@ -355,7 +354,13 @@ public class ProcesarComando {
                     Mensajes.info("No tienes suficiente dinero para construir una casa en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
+                if(inmuebleActual.calcularNumCasas()==4){
+                    Mensajes.info("No se pueden construir más casas en este solar");
+                    return;
+                }
                 inmuebleActual.anhadirEdificio(TipoEdificio.casa);
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.casa),"Compra de una casa ");
+                jActual.quitarDinero(inmuebleActual.precioEdificio(TipoEdificio.casa));
                 break;
             case "hotel":
                 if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.hotel)){
@@ -384,15 +389,6 @@ public class ProcesarComando {
         }
     }
 
-    private int calcularNumCasas(Prompt prompt){
-        return 0;
-    }
-    private int calcularNumHoteles(Prompt prompt){
-        return 0;
-    }
-    private int calcularNumPiscinas(Prompt prompt){
-        return 0;
-    }
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno
