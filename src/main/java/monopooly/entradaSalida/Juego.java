@@ -34,7 +34,10 @@ public class Juego {
                     ProcesarComando.bancarrota(arrayComando,prompt);
                     terminarTurno=true;
                     break;
-
+                case "edificar":
+                case "e":
+                    ProcesarComando.edificar(arrayComando,prompt);
+                    break;
                 case "lanzar":
                     ProcesarComando.lanzarDados(arrayComando, prompt);
                     break;
