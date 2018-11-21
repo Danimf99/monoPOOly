@@ -4,12 +4,16 @@ public class Edificaciones {
 
     private TipoEdificio tipo;
     private int precio;
-    private Casilla casilla;
+    private Inmueble inmueble;
 
-    public Edificaciones(TipoEdificio tipo,int precio,Casilla casilla){
+    public Edificaciones(TipoEdificio tipo,int precio,Inmueble inmueble){
         this.tipo=tipo;
         this.precio=precio;
-        this.casilla=casilla;
+        this.inmueble=inmueble;
+    }
+
+    public Inmueble getInmueble() {
+        return inmueble;
     }
 
     public TipoEdificio getTipo(){

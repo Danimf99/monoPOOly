@@ -194,6 +194,14 @@ public class Inmueble {
         edificios.add(edificio);
     }
 
+    /**
+     * Añade un edificio al inmueble
+     * @param tipo edificio que se quiere añadir
+     */
+    public void anhadirEdificio(TipoEdificio tipo){
+        edificios.add(new Edificaciones(tipo, precioEdificio(tipo), this));
+    }
+
     public void quitarEdificio(Edificaciones edificio){
         if(edificio==null){
             Mensajes.error("Edificio nulo, no se puede eliminar");
