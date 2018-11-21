@@ -14,6 +14,9 @@ import java.util.Collection;
 import java.util.Scanner;
 import java.util.Set;
 
+import static monopooly.colocacion.calles.TipoEdificio.casa;
+import static monopooly.colocacion.calles.TipoEdificio.hotel;
+
 public class ProcesarComando {
     /*
      *
@@ -350,7 +353,7 @@ public class ProcesarComando {
 
         switch(args[1].toLowerCase()){
             case "casa":
-                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.casa)){
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(casa)){
                     Mensajes.info("No tienes suficiente dinero para construir una casa en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
@@ -358,16 +361,27 @@ public class ProcesarComando {
                     Mensajes.info("No se pueden construir más casas en este solar");
                     return;
                 }
-                inmuebleActual.anhadirEdificio(TipoEdificio.casa);
-                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.casa),"Compra de una casa ");
-                jActual.quitarDinero(inmuebleActual.precioEdificio(TipoEdificio.casa));
+                inmuebleActual.anhadirEdificio(casa);
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(casa),"Compra de una casa");
+                jActual.quitarDinero(inmuebleActual.precioEdificio(casa));
                 break;
             case "hotel":
                 if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.hotel)){
                     Mensajes.info("No tienes suficiente dinero para construir un hotel en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
+                if(inmuebleActual.calcularNumCasas()<4){
+                    Mensajes.info("Necesitas 4 casas para construir un hotel!!");
+                    return;
+                }
+                for(Edificaciones e:inmuebleActual.getEdificios()){
+                    if(e.getTipo()==casa){
+                        inmuebleActual.quitarEdificio(e);
+                    }
+                }
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.hotel),"Compra de un hotel");
                 inmuebleActual.anhadirEdificio(TipoEdificio.hotel);
+                jActual.quitarDinero(inmuebleActual.precioEdificio(hotel));
                 break;
             case "piscina":
                 if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.piscina)){
