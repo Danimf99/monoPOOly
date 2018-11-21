@@ -3,8 +3,8 @@ package monopooly.entradaSalida;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoEdificio;
 import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
@@ -16,8 +16,6 @@ import monopooly.player.TipoAvatar;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.Set;
-
-import static monopooly.colocacion.calles.TipoEdificio.*;
 
 public class ProcesarComando {
     /*
@@ -353,20 +351,32 @@ public class ProcesarComando {
 
         switch(args[1].toLowerCase()){
             case "casa":
-                int dinero=inmuebleActual.precioEdificio(casa);
-                Edificaciones edificio=new Edificaciones(casa,dinero,casillaActual);
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.casa)){
+                    Mensajes.info("No tienes suficiente dinero para construir una casa en la casilla "+inmuebleActual.getNombre());
+                    return;
+                }
+                inmuebleActual.anhadirEdificio(TipoEdificio.casa);
                 break;
             case "hotel":
-                int dinero2=inmuebleActual.precioEdificio(hotel);
-                Edificaciones edificio2=new Edificaciones(hotel,dinero2,casillaActual);
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.hotel)){
+                    Mensajes.info("No tienes suficiente dinero para construir un hotel en la casilla "+inmuebleActual.getNombre());
+                    return;
+                }
+                inmuebleActual.anhadirEdificio(TipoEdificio.hotel);
                 break;
             case "piscina":
-                int dinero3=inmuebleActual.precioEdificio(piscina);
-                Edificaciones edificio3=new Edificaciones(piscina,dinero3,casillaActual);
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.piscina)){
+                    Mensajes.info("No tienes suficiente dinero para construir una piscina en la casilla "+inmuebleActual.getNombre());
+                    return;
+                }
+                inmuebleActual.anhadirEdificio(TipoEdificio.piscina);
                 break;
             case "deporte":
-                int dinero4=inmuebleActual.precioEdificio(deporte);
-                Edificaciones edificio4=new Edificaciones(deporte,dinero4,casillaActual);
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.deporte)){
+                    Mensajes.info("No tienes suficiente dinero para construir una pista de deportes en la casilla "+inmuebleActual.getNombre());
+                    return;
+                }
+                inmuebleActual.anhadirEdificio(TipoEdificio.deporte);
                 break;
             default:
                 Mensajes.error("Ese edificio existe. No se puede construir");
