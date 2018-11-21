@@ -4,9 +4,7 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 public class Monopolio {
     private HashSet<Inmueble> calles;
@@ -30,6 +28,10 @@ public class Monopolio {
 
     public TipoMonopolio getTipo() {
         return tipo;
+    }
+
+    public HashSet<Inmueble> getCalles(){
+        return calles;
     }
 
     /* Metodos sobre la instancia */

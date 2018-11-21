@@ -5,6 +5,8 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
+import java.util.HashSet;
+
 public class Inmueble {
     private String nombre;
     private int precio;
@@ -13,6 +15,7 @@ public class Inmueble {
     private Jugador propietario;
     private Monopolio grupoColor;
     private Boolean hipotecado;
+    private HashSet<Edificaciones> edificios;
 
     /* Constructores */
 
@@ -33,13 +36,15 @@ public class Inmueble {
         this.grupoColor = grupoColor;
         this.propietario = banca;
         this.hipotecado = false;
-
+        this.edificios=new HashSet<>();
         grupoColor.insertarInmueble(this);
 
     }
 
     /* Getters */
-
+    public HashSet<Edificaciones> getEdificios(){
+        return edificios;
+    }
     public String getNombre() {
         return nombre;
     }
@@ -122,6 +127,21 @@ public class Inmueble {
         return dineroAlquiler;
     }
 
+    public int precioEdificio(TipoEdificio tipo){
+        switch(tipo){
+            case casa:
+                return (int)(this.precio_inicial*Precios.VALOR_CASA);
+            case hotel:
+                return (int)(this.precio_inicial*Precios.VALOR_HOTEL);
+            case deporte:
+                return (int)(this.precio_inicial*Precios.VALOR_DEPORTE);
+            case piscina:
+                return (int)(this.precio_inicial*Precios.VALOR_PISCINA);
+            default:
+                Mensajes.error("Ese edificio no existe");
+                return 0;
+        }
+    }
     public int calcularHipoteca() {
         return this.getPrecio_inicial() / 2;
     }
@@ -162,6 +182,25 @@ public class Inmueble {
         this.hipotecado = true;
     }
 
+    /**
+     * Añade un edificio al inmueble
+     * @param edificio edificio que se quiere añadir
+     */
+    public void anhadirEdificio(Edificaciones edificio){
+        if(edificio==null){
+            Mensajes.error("Edificio nulo, no se puede insertar");
+            return;
+        }
+        edificios.add(edificio);
+    }
+
+    public void quitarEdificio(Edificaciones edificio){
+        if(edificio==null){
+            Mensajes.error("Edificio nulo, no se puede eliminar");
+            return;
+        }
+        edificios.remove(edificio);
+    }
 
     @Override
     public String toString() {

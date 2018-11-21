@@ -3,6 +3,7 @@ package monopooly.entradaSalida;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Casilla;
+import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.Nombres;
@@ -15,6 +16,8 @@ import monopooly.player.TipoAvatar;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.Set;
+
+import static monopooly.colocacion.calles.TipoEdificio.*;
 
 public class ProcesarComando {
     /*
@@ -315,6 +318,71 @@ public class ProcesarComando {
         }
     }
 
+    public static void edificar(String[] args,Prompt prompt){
+        if(args.length!=2){
+            Mensajes.error("Error en el comando");
+            prompt.setHelp(true);
+            return;
+        }
+        Tablero tablero = prompt.getTablero();
+        Jugador jActual = prompt.getJugador();
+        Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
+        Inmueble inmuebleActual = casillaActual.getCalle();
+
+        switch(casillaActual.getCalle().getGrupoColor().getTipo()){
+            case caja_comunidad:
+            case parking:
+            case suerte:
+            case impuesto:
+            case none:
+            case estacion:
+            case servicio:
+                Mensajes.info("No se puede edificar en esta casilla");
+                return;
+            default:
+                break;
+        }
+        if(!inmuebleActual.getPropietario().getNombre().equals(jActual.getNombre())){
+            Mensajes.info("No puedes edificar en esta casilla, no eres el dueño!");
+            return;
+        }
+        if(!inmuebleActual.getGrupoColor().esCompleto()){
+            Mensajes.info("No posees todos los solares del monopolio!!");
+            return;
+        }
+
+        switch(args[1].toLowerCase()){
+            case "casa":
+                int dinero=inmuebleActual.precioEdificio(casa);
+                Edificaciones edificio=new Edificaciones(casa,dinero,casillaActual);
+                break;
+            case "hotel":
+                int dinero2=inmuebleActual.precioEdificio(hotel);
+                Edificaciones edificio2=new Edificaciones(hotel,dinero2,casillaActual);
+                break;
+            case "piscina":
+                int dinero3=inmuebleActual.precioEdificio(piscina);
+                Edificaciones edificio3=new Edificaciones(piscina,dinero3,casillaActual);
+                break;
+            case "deporte":
+                int dinero4=inmuebleActual.precioEdificio(deporte);
+                Edificaciones edificio4=new Edificaciones(deporte,dinero4,casillaActual);
+                break;
+            default:
+                Mensajes.error("Ese edificio existe. No se puede construir");
+                return;
+        }
+    }
+
+    private int calcularNumCasas(Prompt prompt){
+        return 0;
+    }
+    private int calcularNumHoteles(Prompt prompt){
+        return 0;
+    }
+    private int calcularNumPiscinas(Prompt prompt){
+        return 0;
+    }
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno
