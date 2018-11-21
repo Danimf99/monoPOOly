@@ -14,6 +14,7 @@ public class Avatar {
     private Jugador jugador;
     private Posicion posicion;
     private int vueltasTablero;
+    private boolean nitroso;
 
     /**
      * Inicializa avatar pasandole la representacion ASCII, el TipoAvatar que va a ser y el Jugador asociado a el
@@ -30,6 +31,7 @@ public class Avatar {
         this.jugador=jugador;
         posicion=new Posicion();
         vueltasTablero = 0;
+        nitroso=false;
     }
     private char sorteoAvatar(List<Character> AVATARES){
         Random avatar=new Random();
@@ -42,6 +44,12 @@ public class Avatar {
     }
     public char getRepresentacion() {
         return representacion;
+    }
+    public boolean getNitroso(){
+        return nitroso;
+    }
+    public void setNitroso(boolean nitroso){
+        this.nitroso=nitroso;
     }
     public TipoAvatar getTipo(){
         return tipo;
