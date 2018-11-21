@@ -93,15 +93,30 @@ public class Prompt {
      */
     private ArrayList<String> madatoryElems() {
         ArrayList<String> elementos = new ArrayList<>();
-        elementos.add("" + this.jugador.getAvatar().getRepresentacion());
+
+        // Indica el avatar actual
+        elementos.add(""
+                + this.jugador.getAvatar().getRepresentacion()
+                + " - "
+                + ReprASCII.ANSI_BLUE_BOLD
+                + "Tipo"
+                + ReprASCII.ANSI_RESET
+                + ": "
+                + this.jugador.getAvatar().getTipo().toString());
+
+        // Nombre jugador
         elementos.add(this.jugador.getNombre());
+
         // Nombre casilla actual
         Posicion posJugador = this.jugador.getAvatar().getPosicion();
         Inmueble inmuebleActual = tablero.getCasilla(posJugador).getCalle();
-        String nombreCasilla = ReprASCII.colorMonopolio(inmuebleActual.getGrupoColor().getTipo()) +
-                " " + inmuebleActual.getNombre() + " " +
-                ReprASCII.ANSI_RESET;
+        String nombreCasilla = ReprASCII.colorMonopolio(inmuebleActual.getGrupoColor().getTipo())
+                + " "
+                + inmuebleActual.getNombre()
+                + " "
+                + ReprASCII.ANSI_RESET;
         elementos.add(nombreCasilla);
+
         return elementos;
     }
 
@@ -154,6 +169,20 @@ public class Prompt {
         salida += ReprASCII.ANSI_RESET;
         return salida;
     }
+
+
+    private String movmientoEspecial() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(ReprASCII.ANSI_RED_BOLD);
+        sBuilder.append("Movimiento especial");
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append(": ");
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append(ReprASCII.ANSI_RED_BOLD);
+        return sBuilder.toString();
+    }
+
 
     /**
      * Representacion del prompt que se usará al crear la partida
