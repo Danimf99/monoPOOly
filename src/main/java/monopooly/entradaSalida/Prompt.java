@@ -122,14 +122,20 @@ public class Prompt {
 
     private String cambioDados() {
         Dados dadosPlayer = jugador.getDados();
+        String salida = "";
+        if (dadosPlayer.sonDobles()) {
+            salida += ReprASCII.ANSI_BLACK_BOLD;
+        }
 
-        return ReprASCII.PROMPT_DADOS +
-                dadosPlayer.tirada() +
-                " (" +
-                dadosPlayer.getDado1() +
-                "-" +
-                dadosPlayer.getDado2() +
-                ")";
+        return salida
+                + ReprASCII.PROMPT_DADOS
+                + dadosPlayer.tirada()
+                + " ("
+                + dadosPlayer.getDado1()
+                + "-"
+                + dadosPlayer.getDado2()
+                + ")"
+                + ReprASCII.ANSI_RESET;
     }
 
     /**
@@ -173,13 +179,15 @@ public class Prompt {
 
     private String movmientoEspecial() {
         StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append(ReprASCII.ANSI_RED_BOLD);
+        sBuilder.append(ReprASCII.ANSI_PURPLE_BOLD);
         sBuilder.append("Movimiento especial");
         sBuilder.append(ReprASCII.ANSI_RESET);
         sBuilder.append(": ");
-        sBuilder.append(ReprASCII.ANSI_RESET);
-        sBuilder.append(ReprASCII.ANSI_RESET);
-        sBuilder.append(ReprASCII.ANSI_RED_BOLD);
+        if (this.jugador.getAvatar().getNitroso()) {
+            sBuilder.append(ReprASCII.ON);
+        } else {
+            sBuilder.append(ReprASCII.OFF);
+        }
         return sBuilder.toString();
     }
 
@@ -210,6 +218,8 @@ public class Prompt {
         if (jugador.getEstarEnCarcel()) {
             elementos.add(ReprASCII.PROMPT_CARCEL);
         }
+
+        elementos.add(this.movmientoEspecial());
 
         elementos.add(ReprASCII.PROMPT_LOGO);
 

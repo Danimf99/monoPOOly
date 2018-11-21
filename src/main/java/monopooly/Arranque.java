@@ -12,8 +12,6 @@ import java.util.Scanner;
 
 public class Arranque {
     public static void main(String[] args) {
-
-
         Scanner scanner = new Scanner(System.in);
         System.out.println(ReprASCII.ASCII_TITLE);
         int numJugadores = 0;

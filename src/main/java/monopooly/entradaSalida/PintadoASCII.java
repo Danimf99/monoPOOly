@@ -2,6 +2,7 @@ package monopooly.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
@@ -551,4 +552,21 @@ public class PintadoASCII {
         Mensajes.detalles(sBuilder.toString());
     }
 
+    public static String genEdificio(Edificaciones edificio) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(ReprASCII.ANSI_BLACK_BOLD);
+        sBuilder.append("Nombre:\n");
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append("   ");
+        sBuilder.append(edificio.getTipo());
+        sBuilder.append("\n");
+
+        sBuilder.append(ReprASCII.ANSI_BLACK_BOLD);
+        sBuilder.append("Precio:\n");
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append("   ");
+        sBuilder.append(edificio.getPrecio());
+        sBuilder.append("\n");
+        return sBuilder.toString();
+    }
 }

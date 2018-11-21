@@ -122,7 +122,7 @@ public class ReprASCII {
     public static final String PROMT_AYUDA_TIPO_AVATAR = ""
             + ANSI_BLUE_BOLD + "\n[i]" + ANSI_RESET + " Avatares disponibles: \n"
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal blah blah.\n"
+            + "\t\t Se desplaza en diagonal.\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
             + "\t\t Lo que haga este tipo de avatar\n"
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
@@ -133,6 +133,9 @@ public class ReprASCII {
             + "";
     public static final String PROMPT_TIPO_AVATAR = "\n[ ? ]──[ Tipo (sombrero/pelota/coche/esfinge): ]───► ";
     public static final String PROMPT_CARCEL = "⛓ " + ANSI_HIGH_WHITE_BACKGROUND + " Estás en la carcel " + ANSI_RESET;
+
+    public static final String OFF = ANSI_HIGH_WHITE_BACKGROUND + " OFF " + ANSI_RESET;
+    public static final String ON = ANSI_GREEN_BACKGROUND + " ON " + ANSI_RESET;
 
 
 

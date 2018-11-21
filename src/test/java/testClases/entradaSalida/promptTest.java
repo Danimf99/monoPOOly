@@ -95,8 +95,7 @@ public class promptTest {
     @Test
     public void representacionCarcel() {
         promptTest.getJugador().setEstarEnCarcel(true);
+        promptTest.getJugador().getAvatar().setNitroso(true);
         System.out.println(promptTest);
-        String mensaje = "lanzar dados";
-        ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
     }
 }
