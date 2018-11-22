@@ -2,6 +2,9 @@ package monopooly.colocacion.calles;
 
 public class Edificaciones {
 
+    private static int construidas;
+
+    private String id;
     private TipoEdificio tipo;
     private int precio;
     private Inmueble inmueble;
@@ -10,6 +13,8 @@ public class Edificaciones {
         this.tipo=tipo;
         this.precio=precio;
         this.inmueble=inmueble;
+        this.id=tipo.toString()+"-"+construidas;
+        construidas++;
     }
 
     public Inmueble getInmueble() {
