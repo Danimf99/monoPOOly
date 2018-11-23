@@ -1,6 +1,8 @@
 package monopooly.colocacion.calles;
 
+import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
+import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -77,6 +79,17 @@ public class Monopolio {
             }
         }
         return total;
+    }
+
+    public String listaEdificaciones() {
+        String nombre = "Monopolio " + this.tipo.toString();
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("\n");
+        sBuilder.append(PintadoASCII.encuadrar("Monopolio " + this.tipo.toString()));
+        sBuilder.append("\n");
+
+
+        return PintadoASCII.encuadrar(sBuilder.toString());
     }
 
 }

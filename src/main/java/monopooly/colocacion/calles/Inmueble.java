@@ -210,6 +210,19 @@ public class Inmueble {
         edificios.remove(edificio);
     }
 
+    public String listarEdificaciones() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Edificaciones en ");
+        sBuilder.append(this.getNombre());
+        sBuilder.append("\n");
+        sBuilder.append("\n");
+        for (Edificaciones edificio : this.edificios) {
+            sBuilder.append(PintadoASCII.genEdificio(edificio));
+            sBuilder.append("\n");
+        }
+        return PintadoASCII.encuadrar(sBuilder.toString());
+    }
+
     @Override
     public String toString() {
         return PintadoASCII.genPropiedad(this);

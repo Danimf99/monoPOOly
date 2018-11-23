@@ -554,19 +554,26 @@ public class PintadoASCII {
 
     public static String genEdificio(Edificaciones edificio) {
         StringBuilder sBuilder = new StringBuilder();
-        sBuilder.append(ReprASCII.ANSI_BLACK_BOLD);
-        sBuilder.append("Nombre:\n");
-        sBuilder.append(ReprASCII.ANSI_RESET);
-        sBuilder.append("   ");
+        Inmueble inmuebleActual = edificio.getInmueble();
+        Jugador propietario = inmuebleActual.getPropietario();
+        int maxLen = " Propietario: ".length();
+
+        sBuilder.append(widear(" Tipo:", maxLen));
         sBuilder.append(edificio.getTipo());
         sBuilder.append("\n");
 
-        sBuilder.append(ReprASCII.ANSI_BLACK_BOLD);
-        sBuilder.append("Precio:\n");
-        sBuilder.append(ReprASCII.ANSI_RESET);
-        sBuilder.append("   ");
+        sBuilder.append(widear(" Precio:", maxLen));
         sBuilder.append(edificio.getPrecio());
         sBuilder.append("\n");
+
+        sBuilder.append(widear(" Propietario:", maxLen));
+        sBuilder.append(propietario.getNombre());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Posicion:", maxLen));
+        sBuilder.append(inmuebleActual.getNombre());
+        sBuilder.append("\n");
+
         return sBuilder.toString();
     }
 }

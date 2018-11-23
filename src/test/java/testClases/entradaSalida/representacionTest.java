@@ -2,7 +2,10 @@ package testClases.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
+import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoEdificio;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
@@ -74,5 +77,24 @@ public class representacionTest {
     public void nombresClaves() {
         System.out.println(tableroPrueba.getCalles().keySet());
 
+    }
+
+    // TODO tests impresion edificaciones
+
+
+    @Test
+    public void imprimirEdificaciones() {
+        Casilla prueba = tableroPrueba.getCasilla(new Posicion(18));
+        prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
+        prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
+        System.out.println(prueba.getCalle().listarEdificaciones());
+    }
+
+    @Test
+    public void imprimeEdificacionesMonopolio() {
+        Casilla prueba = tableroPrueba.getCasilla(new Posicion(18));
+        prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
+        prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
+        System.out.println(prueba.getCalle().getGrupoColor().listaEdificaciones());
     }
 }
