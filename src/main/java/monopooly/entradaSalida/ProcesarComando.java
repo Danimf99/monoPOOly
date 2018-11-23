@@ -2,10 +2,7 @@ package monopooly.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Inmueble;
-import monopooly.colocacion.calles.TipoEdificio;
-import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.colocacion.calles.*;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -16,6 +13,8 @@ import monopooly.player.TipoAvatar;
 import java.util.Collection;
 import java.util.Scanner;
 import java.util.Set;
+
+import static monopooly.colocacion.calles.TipoEdificio.*;
 
 public class ProcesarComando {
     /*
@@ -324,6 +323,7 @@ public class ProcesarComando {
         }
         Tablero tablero = prompt.getTablero();
         Jugador jActual = prompt.getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
         Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
         Inmueble inmuebleActual = casillaActual.getCalle();
 
@@ -344,39 +344,86 @@ public class ProcesarComando {
             Mensajes.info("No puedes edificar en esta casilla, no eres el dueño!");
             return;
         }
-        if(!inmuebleActual.getGrupoColor().esCompleto()){
+        int numeroVeces=posJugadorActual.contarRepeticiones(posJugadorActual);
+        if(!inmuebleActual.getGrupoColor().esCompleto() && numeroVeces<2){
             Mensajes.info("No posees todos los solares del monopolio!!");
             return;
         }
 
         switch(args[1].toLowerCase()){
             case "casa":
-                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.casa)){
+                if(inmuebleActual.calcularNumHoteles()==inmuebleActual.getGrupoColor().sizeMonopolio()
+                        &&inmuebleActual.calcularNumCasas()==inmuebleActual.getGrupoColor().sizeMonopolio()){
+                    Mensajes.info("No se pueden edificar más casa en esta casilla, tienes el máximo("+inmuebleActual.getGrupoColor().sizeMonopolio()+")");
+                    return;
+                }
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(casa)){
                     Mensajes.info("No tienes suficiente dinero para construir una casa en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
-                inmuebleActual.anhadirEdificio(TipoEdificio.casa);
+                if(inmuebleActual.calcularNumCasas()==4){
+                    Mensajes.info("No se pueden construir más casas en este solar");
+                    return;
+                }
+                inmuebleActual.anhadirEdificio(casa);
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(casa),"Compra de una casa");
+                jActual.quitarDinero(inmuebleActual.precioEdificio(casa));
                 break;
             case "hotel":
+                if(inmuebleActual.calcularNumHoteles()==inmuebleActual.getGrupoColor().sizeMonopolio()){
+                    Mensajes.info("No se pueden edificar más piscinas en esta casilla, tienes el máximo("+inmuebleActual.getGrupoColor().sizeMonopolio()+")");
+                    return;
+                }
                 if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.hotel)){
                     Mensajes.info("No tienes suficiente dinero para construir un hotel en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
-                inmuebleActual.anhadirEdificio(TipoEdificio.hotel);
-                break;
-            case "piscina":
-                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.piscina)){
-                    Mensajes.info("No tienes suficiente dinero para construir una piscina en la casilla "+inmuebleActual.getNombre());
+                if(inmuebleActual.calcularNumCasas()<4){
+                    Mensajes.info("Necesitas 4 casas para construir un hotel!!");
                     return;
                 }
+                for(Edificaciones e:inmuebleActual.getEdificios()){
+                    if(e.getTipo()==casa){
+                        inmuebleActual.quitarEdificio(e);
+                    }
+                }
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.hotel),"Compra de un hotel");
+                inmuebleActual.anhadirEdificio(TipoEdificio.hotel);
+                jActual.quitarDinero(inmuebleActual.precioEdificio(hotel));
+                break;
+            case "piscina":
+                if(inmuebleActual.calcularNumPiscinas()==inmuebleActual.getGrupoColor().sizeMonopolio()){
+                    Mensajes.info("No se pueden edificar más piscinas en esta casilla, tienes el máximo("+inmuebleActual.getGrupoColor().sizeMonopolio()+")");
+                    return;
+                }
+                if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.piscina)){
+                    Mensajes.info("No tienes suficiente dinero para construir una piscina en esta casilla "+inmuebleActual.getNombre());
+                    return;
+                }
+                if(inmuebleActual.calcularNumCasas()<2 || inmuebleActual.calcularNumHoteles()<1){
+                    Mensajes.info("No hay construidas las suficientes casas/edificios para edificar una piscna");
+                    return;
+                }
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.piscina),"Compra de una piscina");
                 inmuebleActual.anhadirEdificio(TipoEdificio.piscina);
+                jActual.quitarDinero(inmuebleActual.precioEdificio(piscina));
                 break;
             case "deporte":
+                if(inmuebleActual.calcularNumDeportes()==inmuebleActual.getGrupoColor().sizeMonopolio()){
+                    Mensajes.info("No se pueden edificar más pistas de deportes en esta casilla, tienes el máximo("+inmuebleActual.getGrupoColor().sizeMonopolio()+")");
+                    return;
+                }
                 if(jActual.getDinero()<inmuebleActual.precioEdificio(TipoEdificio.deporte)){
                     Mensajes.info("No tienes suficiente dinero para construir una pista de deportes en la casilla "+inmuebleActual.getNombre());
                     return;
                 }
+                if(inmuebleActual.calcularNumHoteles()<2){
+                    Mensajes.info("Tienes menos de dos hoteles en esta casilla, no puedes construir una pista de deporte");
+                    return;
+                }
+                prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.deporte),"Compra de una pista de deporte");
                 inmuebleActual.anhadirEdificio(TipoEdificio.deporte);
+                jActual.quitarDinero(inmuebleActual.precioEdificio(deporte));
                 break;
             default:
                 Mensajes.error("Ese edificio existe. No se puede construir");
@@ -384,15 +431,10 @@ public class ProcesarComando {
         }
     }
 
-    private int calcularNumCasas(Prompt prompt){
-        return 0;
+    public static void venderEdificios(String[] args, Prompt prompt){
+
     }
-    private int calcularNumHoteles(Prompt prompt){
-        return 0;
-    }
-    private int calcularNumPiscinas(Prompt prompt){
-        return 0;
-    }
+
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno

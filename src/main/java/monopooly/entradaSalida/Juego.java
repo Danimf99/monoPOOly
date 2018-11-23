@@ -60,7 +60,10 @@ public class Juego {
                 case "j":
                     ProcesarComando.infoJugador(arrayComando, prompt);
                     break;
-
+                case "vender":
+                case "v":
+                   // ProcesarComando.venderEdificio(arrayComando,prompt);
+                    break;
                 case "acabar":
                 case "at":
                     if(prompt.getJugador().getDinero()<0){

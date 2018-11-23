@@ -201,7 +201,42 @@ public class Inmueble {
     public void anhadirEdificio(TipoEdificio tipo){
         edificios.add(new Edificaciones(tipo, precioEdificio(tipo), this));
     }
-
+    public int calcularNumCasas(){
+        int cont=0;
+        for(Edificaciones e: this.getEdificios()){
+            if(e.getTipo()==TipoEdificio.casa){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumHoteles(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.hotel){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumPiscinas(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.piscina){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumDeportes(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.deporte){
+                cont++;
+            }
+        }
+        return cont;
+    }
     public void quitarEdificio(Edificaciones edificio){
         if(edificio==null){
             Mensajes.error("Edificio nulo, no se puede eliminar");

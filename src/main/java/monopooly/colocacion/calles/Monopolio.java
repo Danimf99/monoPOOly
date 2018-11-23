@@ -36,6 +36,10 @@ public class Monopolio {
         return calles;
     }
 
+    public int sizeMonopolio(){
+        return calles.size();
+    }
+
     /* Metodos sobre la instancia */
 
 
