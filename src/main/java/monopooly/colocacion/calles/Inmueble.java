@@ -210,6 +210,14 @@ public class Inmueble {
         }
         return cont;
     }
+    public Edificaciones getEdificio(TipoEdificio tipo){
+        for(Edificaciones e:edificios){
+            if(e.getTipo()==tipo){
+                return e;
+            }
+        }
+        return null;
+    }
     public int calcularNumHoteles(){
         int cont=0;
         for(Edificaciones e: edificios){
@@ -243,6 +251,14 @@ public class Inmueble {
             return;
         }
         edificios.remove(edificio);
+    }
+    public void quitarEdificio(TipoEdificio tipo){
+        for(Edificaciones e:edificios){
+            if(e.getTipo()==tipo){
+                edificios.remove(e);
+                return;
+            }
+        }
     }
 
     public String listarEdificaciones() {
