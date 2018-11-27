@@ -22,9 +22,9 @@ public class Juego {
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
         //Esto es para probar comprar y vender edificios de momento dejalo por si hay que probar mas cosas
-        //tablero.getCalle("Plasencia").compra(prompt.getJugador());
-        //tablero.getCalle("Almería").compra(prompt.getJugador());
-        //tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
+       //tablero.getCalle("Plasencia").compra(prompt.getJugador());
+       //tablero.getCalle("Almería").compra(prompt.getJugador());
+       //tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);

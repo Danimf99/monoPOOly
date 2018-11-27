@@ -17,6 +17,9 @@ public class Edificaciones {
         construidas++;
     }
 
+    public String getId(){
+        return id;
+    }
     public Inmueble getInmueble() {
         return inmueble;
     }

@@ -1,6 +1,7 @@
 package monopooly.player;
 
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
@@ -221,6 +222,22 @@ public class Jugador {
                 imprimirJugador.append(h.getNombre()+",");
             }
             j++;
+        }
+        imprimirJugador.append("]\n");
+        imprimirJugador.append("   Edificios: [");
+        for(Inmueble h:propiedades){
+            j=0;
+           if(h.getEdificios().size()!=0){
+               for(Edificaciones e:h.getEdificios()){
+                   if(h.getEdificios().size()-1==j) {
+                       imprimirJugador.append(e.getId());
+                   }
+                   else{
+                       imprimirJugador.append(e.getId()+",");
+                   }
+                   j++;
+               }
+           }
         }
         imprimirJugador.append("]\n}");
         return  PintadoASCII.encuadrar(imprimirJugador.toString());
