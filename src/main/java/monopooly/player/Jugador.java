@@ -149,6 +149,12 @@ public class Jugador {
         this.dinero += cantidad;
     }
 
+    public void moverJugador(Tablero tablero, int desplazamiento) {
+        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
+        avatar.getPosicion().mover(desplazamiento);
+        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+    }
+
     /**
      * Mueve al jugador dependiendo de muchos factores
      * @param tablero
@@ -174,7 +180,6 @@ public class Jugador {
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
         }
-        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         dados.lanzar();
         if(dados.sonDobles()){
             Mensajes.info("Puede tirar otra vez, dados dobles");
@@ -191,8 +196,7 @@ public class Jugador {
             tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
             return;
         }
-        avatar.getPosicion().mover(dados.tirada());
-        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+        this.moverJugador(tablero, dados.tirada());
     }
 
     @Override
