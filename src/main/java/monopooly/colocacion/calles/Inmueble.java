@@ -16,7 +16,6 @@ public class Inmueble {
     private Monopolio grupoColor;
     private Boolean hipotecado;
     private HashSet<Edificaciones> edificios;
-
     /* Constructores */
 
 
@@ -70,7 +69,6 @@ public class Inmueble {
     }
 
     /* Setters */
-
 
     public void setPrecio_inicial(int precio_inicial) {
         this.precio_inicial = precio_inicial;

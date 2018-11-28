@@ -126,11 +126,15 @@ public class ProcesarComando {
 
         /* Si el jugador actual posee la propiedad no hay que cobrarle alquiler, se puede salir igual que antes */
 
-        if (jActual.getPropiedades().contains(inmuebleActual)) {
+        if (jActual.getPropiedades().contains(inmuebleActual) || jActual.getHipotecas().contains(inmuebleActual)) {
             return;
         }
 
         /* Despues de todos los casos */
+        if(inmuebleActual.getHipotecado()==true){
+            Mensajes.info("La propiedad está hipotecada, por lo que no tienes que pagar alquiler.");
+            return;
+        }
         int alquiler = inmuebleActual.calcularAlquiler(jActual);
         if (alquiler > jActual.getDinero()) {
             switch (inmuebleActual.getPropietario().getNombre()) {
@@ -143,6 +147,7 @@ public class ProcesarComando {
                     break;
             }
         }
+
         inmuebleActual.pago(jActual);
         prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
 
@@ -349,7 +354,10 @@ public class ProcesarComando {
             Mensajes.info("No posees todos los solares del monopolio!!");
             return;
         }
-
+        if(inmuebleActual.getHipotecado()==true){
+            Mensajes.info("No se puede edificar en propiedades hipotecadas.");
+            return;
+        }
         switch (args[1].toLowerCase()) {
             case "casa":
                 if (inmuebleActual.calcularNumHoteles() == inmuebleActual.getGrupoColor().sizeMonopolio()
@@ -542,8 +550,64 @@ public class ProcesarComando {
 
     }
 
+    public static void hipotecar(String[] args,Prompt prompt){
+        if(args.length!=3 && args.length!=2){
+            Mensajes.info("Error en el comando.");
+            return;
+        }
+        //SI la propiedad tiene 2 cadenas ej:A Coruña, los concantena en args[1]
+        if(args.length==3){
+            args[1]=args[1].concat(" "+args[2]);
+        }
+        Tablero tablero = prompt.getTablero();
+        Jugador jActual = prompt.getJugador();
+        Inmueble inmuebleHipotecar = tablero.getCalle(args[1]);
 
+        if(!inmuebleHipotecar.getPropietario().equals(jActual)){
+            Mensajes.info("No eres el dueño de la propiedad "+args[1]+".");
+            return;
+        }
+        if(inmuebleHipotecar.getHipotecado()==true){
+            Mensajes.info("La proiedad "+args[1]+" ya está hipotecada.");
+            return;
+        }
+        if(inmuebleHipotecar.getEdificios().size()>0){
+            Mensajes.info("Tienes que vender todos los edificios de "+args[1]+" antes de hipotecar.");
+            return;
+        }
+        int dinero=inmuebleHipotecar.getPrecio_inicial()/2;
+        prompt.setModificacionPasta(dinero,"Hipoteca de "+args[1]);
+        jActual.hipotecar(inmuebleHipotecar);
 
+    }
+
+    public static void deshipotecar(String[] args,Prompt prompt){
+        if(args.length!=2 && args.length!=3){
+            Mensajes.info("Error en el comadno");
+            return;
+        }
+        //SI la propiedad tiene 2 cadenas ej:A Coruña, los concantena en args[1]
+        if(args.length==3){
+            args[1]=args[1].concat(" "+args[2]);
+        }
+        Tablero tablero = prompt.getTablero();
+        Jugador jActual = prompt.getJugador();
+        Inmueble inmuebleDesHipotecar = tablero.getCalle(args[1]);
+        if(!inmuebleDesHipotecar.getPropietario().equals(jActual)){
+            Mensajes.info("No eres el dueño de la propiedad "+args[1]+".");
+            return;
+        }
+        if(inmuebleDesHipotecar.getHipotecado()==false){
+            Mensajes.info("La proiedad "+args[1]+" no está hipotecada.");
+            return;
+        }
+        int dinero=(int)(1.1*(inmuebleDesHipotecar.getPrecio_inicial()/2));
+        jActual.getHipotecas().remove(inmuebleDesHipotecar);
+        jActual.anhadirPropiedad(inmuebleDesHipotecar);
+        jActual.quitarDinero(dinero);
+        prompt.setModificacionPasta(-dinero,"Deshipotecación de la propiedad "+args[1]);
+        inmuebleDesHipotecar.setHipotecado(false);
+    }
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno
