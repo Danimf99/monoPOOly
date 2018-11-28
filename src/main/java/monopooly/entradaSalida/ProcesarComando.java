@@ -300,7 +300,7 @@ public class ProcesarComando {
             prompt.setHelp(true);
             return;
         }
-        if (args[1].equals("Carcel") && args[1].equals("carcel")) {
+        if (args[1].equals("Carcel") || args[1].equals("carcel")) {
             Mensajes.error("Comando incorrecto");
             prompt.setHelp(true);
             return;
