@@ -115,14 +115,12 @@ public class Jugador {
             Mensajes.error("Inmueble null, no se puede hipotecar");
             return;
         }
-        if(!propiedades.contains(inmueble)){
-            Mensajes.error("No eres propietario de ese inmueble");
-            return;
-        }
         hipotecas.add(inmueble);
-        anhadirDinero(inmueble.getPrecio()/2);
+        anhadirDinero(inmueble.getPrecio_inicial()/2);
         quitarPropiedad(inmueble);
+        inmueble.setHipotecado(true);
     }
+
     /**
      * Al jguador se le quitar una cantidad de dinero
      *

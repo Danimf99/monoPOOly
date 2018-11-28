@@ -3,7 +3,6 @@ package testClases.entradaSalida;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.colocacion.calles.TipoEdificio;
 import monopooly.configuracion.ReprASCII;
@@ -97,5 +96,10 @@ public class representacionTest {
         prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
         prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
         System.out.println(prueba.getCalle().getGrupoColor().listaEdificaciones());
+    }
+
+    @Test
+    public void alquilerHipotecada() {
+
     }
 }
