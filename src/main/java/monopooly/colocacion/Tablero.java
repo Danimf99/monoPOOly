@@ -228,7 +228,34 @@ public class Tablero {
 
     public void setBote(int bote) {
         this.bote = bote;
+        this.casillas.get(new Posicion(Posiciones.PARKING)).getCalle().setPrecio_inicial(bote);
     }
+
+    /**
+     * Otorga el bote a un jugador. Vacia el conjunto del bote
+     * @param jugador jugador al que se le añade el dinero
+     * @return cantidad que se le añadio al jugador
+     */
+    public int devolverBote(Jugador jugador) {
+        jugador.anhadirDinero(bote);
+        int cantidad = bote;
+        setBote(0);
+        return cantidad;
+    }
+
+    /**
+     * Añade una cantidad de dinero al bote
+     * @param cantidad dinero que se añade al bote
+     */
+    public void meterEnBote(int cantidad) {
+        if (cantidad < 0) {
+            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
+            return;
+        }
+        this.bote += cantidad;
+        setBote(bote + cantidad);
+    }
+
 
     public HashMap<String, Inmueble> getCalles() {
         return calles;
@@ -334,29 +361,6 @@ public class Tablero {
         this.getCasilla(nuevo.getAvatar().getPosicion()).insertarAvatar(nuevo.getAvatar());
     }
 
-    /**
-     * Otorga el bote a un jugador. Vacia el conjunto del bote
-     * @param jugador jugador al que se le añade el dinero
-     * @return cantidad que se le añadio al jugador
-     */
-    public int devolverBote(Jugador jugador) {
-        jugador.anhadirDinero(bote);
-        int cantidad = bote;
-        bote = 0;
-        return cantidad;
-    }
-
-    /**
-     * Añade una cantidad de dinero al bote
-     * @param cantidad dinero que se añade al bote
-     */
-    public void meterEnBote(int cantidad) {
-        if (cantidad < 0) {
-            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
-            return;
-        }
-        this.bote += cantidad;
-    }
 
 
     @Override

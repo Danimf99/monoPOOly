@@ -452,9 +452,9 @@ public class PintadoASCII {
                 break;
             case parking:
                 lineas.add(propiedad.getNombre().toUpperCase());
-                lineas.add("");
+                lineas.add("gratuito");
                 // Padding
-                lineas.add("");
+                lineas.add("Bote: " + propiedad.getPrecio_inicial());
                 lineas.add("");
                 lineas.add("");
                 lineas.add("");
@@ -465,12 +465,18 @@ public class PintadoASCII {
                     lineas.add("Precio "+propiedad.getPrecio()+""+Precios.MONEDA);
                     lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + "" + Precios.MONEDA);
                     lineas.add(mensajeHipoteca);
+                    lineas.add(ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL);
+                    lineas.add("Edificaciones:");
                     lineas.add("");
+                    for (Edificaciones edificio : propiedad.getEdificios()) {
+                        lineas.add(" > " + edificio.getId());
+                        lineas.add("Tipo: " + edificio.getTipo().toString());
+                        lineas.add("Precio: " + edificio.getPrecio() + " " + Precios.MONEDA);
+                        lineas.add("");
+                    }
                     lineas.add("Propietario: " + propiedad.getPropietario().getNombre());
                     break;
         }
-
-        ArrayList<String> lin = new ArrayList<>();
 
         int anchoRequerido = tamMaxArrayString(lineas) + 2; // +2 para que quede algo espaciado y bien colocado
         if (anchoRequerido < ReprASCII.APP_NAME.length()) {
@@ -501,7 +507,7 @@ public class PintadoASCII {
                 sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
             }
             sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
-            sBuilder.append(widearCentrado(lineas.get(i), anchoRequerido)); // TODO Hacer que quede centrado
+            sBuilder.append(widearCentrado(lineas.get(i), anchoRequerido));
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
@@ -589,6 +595,10 @@ public class PintadoASCII {
             sBuilder.append("\n");
         }
         return sBuilder.toString();
+    }
+
+    public static String genLineaEdificacion(Edificaciones edificio) {
+        return "";
     }
 
 

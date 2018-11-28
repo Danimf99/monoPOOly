@@ -72,6 +72,10 @@ public class Inmueble {
     /* Setters */
 
 
+    public void setPrecio_inicial(int precio_inicial) {
+        this.precio_inicial = precio_inicial;
+    }
+
     public void setHipotecado(Boolean hipotecado) {
         this.hipotecado = hipotecado;
     }

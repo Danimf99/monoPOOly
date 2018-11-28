@@ -70,7 +70,7 @@ public class representacionTest {
 
     @Test
     public void imprimePropiedades() {
-        System.out.println(tableroPrueba.getCasilla(new Posicion(8)).getCalle());
+        System.out.println(tableroPrueba.getCasilla(new Posicion(18)).getCalle());
     }
 
     @Test
@@ -88,6 +88,7 @@ public class representacionTest {
         prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
         prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
         System.out.println(prueba.getCalle().listarEdificaciones());
+        System.out.println(tableroPrueba.getCasilla(new Posicion(18)).getCalle());
     }
 
     @Test
