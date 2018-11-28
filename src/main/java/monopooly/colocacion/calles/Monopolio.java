@@ -5,6 +5,7 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
+import javax.security.auth.login.Configuration;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -86,14 +87,17 @@ public class Monopolio {
     }
 
     public String listaEdificaciones() {
-        String nombre = "Monopolio " + this.tipo.toString();
+        String nombre = "Monopolio "
+                +ReprASCII.colorMonopolio(this.tipo)
+                + " " + this.tipo.toString() + " "
+                + ReprASCII.ANSI_RESET;
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append("\n");
         sBuilder.append(PintadoASCII.encuadrar("Monopolio " + this.tipo.toString()));
         sBuilder.append("\n");
 
 
-        return PintadoASCII.encuadrar(sBuilder.toString());
+        return sBuilder.toString();
     }
 
 }

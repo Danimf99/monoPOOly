@@ -576,4 +576,58 @@ public class PintadoASCII {
 
         return sBuilder.toString();
     }
+
+
+    public static String genInfo(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_BLUE_BOLD
+                + "\n[i] "
+                + ReprASCII.ANSI_RESET
+                + titulo
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genInfo(String mensaje) {
+        String out = ReprASCII.ANSI_BLUE_BOLD
+                + "\n[i] "
+                + ReprASCII.ANSI_RESET
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genError(String mensaje) {
+        String out = ReprASCII.ANSI_RED_BOLD
+                + "\n[!] Error !\n"
+                + ReprASCII.ANSI_RESET;
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genError(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_RED_BOLD
+                + "\n[!] Error: "
+                + ReprASCII.ANSI_RESET
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genDetalles(String mensaje) {
+        String out = ReprASCII.ANSI_GREEN_BOLD
+                + "\n[+] \n"
+                + ReprASCII.ANSI_RESET;
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genDetalles(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_GREEN_BOLD
+                + "\n[+] "
+                + ReprASCII.ANSI_RESET
+                + titulo
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
 }
