@@ -137,15 +137,7 @@ public class ProcesarComando {
         }
         int alquiler = inmuebleActual.calcularAlquiler(jActual);
         if (alquiler > jActual.getDinero()) {
-            switch (inmuebleActual.getPropietario().getNombre()) {
-                case "Banca":
-                    Mensajes.info("No tienes dinero para pagar los impuestos. Debes declararte en bancarrota.");
-
-                    break;
-                default:
-                    Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota");
-                    break;
-            }
+            Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
         }
 
         inmuebleActual.pago(jActual);
@@ -441,6 +433,7 @@ public class ProcesarComando {
 
         if (args.length < 4) {
             Mensajes.error("Comando incorrecto");
+            prompt.setHelp(true);
             return;
         }
         int num=0;
@@ -553,6 +546,7 @@ public class ProcesarComando {
     public static void hipotecar(String[] args,Prompt prompt){
         if(args.length!=3 && args.length!=2){
             Mensajes.info("Error en el comando.");
+            prompt.setHelp(true);
             return;
         }
         //SI la propiedad tiene 2 cadenas ej:A Coruña, los concantena en args[1]
@@ -581,9 +575,18 @@ public class ProcesarComando {
 
     }
 
+    public static void cambiarModo(String[] args, Prompt prompt){
+        if(!args[1].equals("modo")){
+            Mensajes.info("Error en el comando");
+            prompt.setHelp(true);
+            return;
+        }
+        prompt.getJugador().getAvatar().setNitroso(true);
+    }
     public static void deshipotecar(String[] args,Prompt prompt){
         if(args.length!=2 && args.length!=3){
-            Mensajes.info("Error en el comadno");
+            Mensajes.info("Error en el comando");
+            prompt.setHelp(true);
             return;
         }
         //SI la propiedad tiene 2 cadenas ej:A Coruña, los concantena en args[1]
@@ -608,6 +611,7 @@ public class ProcesarComando {
         prompt.setModificacionPasta(-dinero,"Deshipotecación de la propiedad "+args[1]);
         inmuebleDesHipotecar.setHipotecado(false);
     }
+
     public static boolean acabarTurno(String[] args/* Argumentos que se necesiten */) {
         // Probablemente no haga falta pero bueno, puede ser un booleano
         // que diga si el usuario puede pasar turno

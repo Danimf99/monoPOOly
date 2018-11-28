@@ -22,9 +22,10 @@ public class Juego {
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
         //Esto es para probar comprar y vender edificios de momento dejalo por si hay que probar mas cosas
-       tablero.getCalle("Plasencia").compra(prompt.getJugador());
-       tablero.getCalle("Almería").compra(prompt.getJugador());
-       tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
+       //tablero.getCalle("Plasencia").compra(prompt.getJugador());
+       //tablero.getCalle("Almería").compra(prompt.getJugador());
+       //tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
+       prompt.getJugador().quitarDinero(800);
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);
@@ -40,6 +41,10 @@ public class Juego {
                     break;
                 case "edificar":
                 case "e":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes edificar.");
+                        return;
+                    }
                     ProcesarComando.edificar(arrayComando,prompt);
                     break;
                 case "lanzar":
@@ -57,6 +62,10 @@ public class Juego {
                     ProcesarComando.comprar(arrayComando,prompt);
                     break;
                 case "deshipotecar":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes deshipotecar propiedades.");
+                        return;
+                    }
                     ProcesarComando.deshipotecar(arrayComando,prompt);
                     break;
                 case "describir":
@@ -85,7 +94,9 @@ public class Juego {
                     terminarTurno = true;
                     terminarTurno = ProcesarComando.acabarTurno(arrayComando);
                     break;
-
+                case "cambiar":
+                    ProcesarComando.cambiarModo(arrayComando,prompt);
+                    break;
                 case "salir":
                 case "s":
                     ProcesarComando.salirCarcel(arrayComando,prompt);
