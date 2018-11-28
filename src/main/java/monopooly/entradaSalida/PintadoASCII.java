@@ -578,6 +578,20 @@ public class PintadoASCII {
     }
 
 
+    public static String genEdificaciones(Inmueble calle) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Edificaciones en ");
+        sBuilder.append(calle.getNombre());
+        sBuilder.append(":\n");
+        sBuilder.append(" \n");
+        for (Edificaciones edificio : calle.getEdificios()) {
+            sBuilder.append(PintadoASCII.genEdificio(edificio));
+            sBuilder.append("\n");
+        }
+        return sBuilder.toString();
+    }
+
+
     public static String genInfo(String mensaje, String titulo) {
         String out = ReprASCII.ANSI_BLUE_BOLD
                 + "\n[i] "

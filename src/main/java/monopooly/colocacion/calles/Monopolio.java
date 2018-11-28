@@ -9,6 +9,9 @@ import javax.security.auth.login.Configuration;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static monopooly.entradaSalida.PintadoASCII.genEdificaciones;
+import static monopooly.entradaSalida.PintadoASCII.genInfo;
+
 public class Monopolio {
     private HashSet<Inmueble> calles;
     private TipoMonopolio tipo;
@@ -93,11 +96,12 @@ public class Monopolio {
                 + ReprASCII.ANSI_RESET;
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append("\n");
-        sBuilder.append(PintadoASCII.encuadrar("Monopolio " + this.tipo.toString()));
-        sBuilder.append("\n");
+        for (Inmueble calle : this.calles) {
+            sBuilder.append(genEdificaciones(calle));
+        }
 
 
-        return sBuilder.toString();
+        return genInfo(sBuilder.toString(), nombre);
     }
 
 }
