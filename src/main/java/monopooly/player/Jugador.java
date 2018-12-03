@@ -3,11 +3,13 @@ package monopooly.player;
 import monopooly.Estadisticas.EstadisticasJugador;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
+import monopooly.entradaSalida.Prompt;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,6 +27,7 @@ public class Jugador {
     private int turnosEnCarcel;
     private EstadisticasJugador estadisticas;
     private int vueltas;
+    private int cooldown;
     /**
      * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
@@ -42,6 +45,8 @@ public class Jugador {
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
             estadisticas=new EstadisticasJugador();
+            this.vueltas = 0;
+            this.cooldown = 0;
         }
     }
 
@@ -60,6 +65,18 @@ public class Jugador {
         this.estarEnCarcel = false;
         this.turnosEnCarcel=0;
         estadisticas=new EstadisticasJugador();
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public void reducirCooldown() {
+        this.cooldown--;
     }
 
     public int getDinero() {
@@ -165,15 +182,53 @@ public class Jugador {
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
+    public void moverJugador(Tablero tablero, int desplazamiento, Prompt prompt) {
+        moverJugador(tablero, desplazamiento);
+        prompt.anhadirPosicion(this.avatar.getPosicion());
+    }
+
     public void moverJugador(Tablero tablero, Posicion posicion) {
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().setX(posicion.getX());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
+
+    public void cocheHandler(Prompt prompt) {
+        int turnos_especiales = 4;
+        this.dados.lanzar();
+        if (prompt.getTiradasEspeciales() >= turnos_especiales) {
+            this.dados.setContador(1);
+        } else {
+            this.dados.setContador(0);
+        }
+        if (this.dados.tirada() > 4) {
+            this.moverJugador(prompt.getTablero(), this.dados.tirada());
+            prompt.anhadirPosicion(this.avatar.getPosicion());
+        } else {
+            this.moverJugador(prompt.getTablero(), -this.dados.tirada());
+            this.cooldown = 3; // Turnos antes de volver a tirar
+            this.dados.setContador(1);
+        }
+    }
+
+    public boolean puedeComprar(Inmueble propiedad, Prompt prompt) {
+        if (prompt.isCompro()) {
+            return false;
+        }
+
+        for (Posicion posicion : prompt.getPosicionesTurno()) {
+            if (propiedad.equals(prompt.getTablero().getCasilla(posicion).getCalle())) {
+                return true;
+            }
+        }
+        return prompt.isCompro();
+    }
+
+
     /**
      * Mueve al jugador dependiendo de muchos factores
-     * @param tablero
+     * @param tablero tablero donde se mueve al jugador
      */
     public void moverJugador(Tablero tablero){
         if(tablero==null){
@@ -195,6 +250,10 @@ public class Jugador {
             this.quitarDinero(Precios.SALIR_CARCEL);
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
+        }
+        if (this.avatar.getNitroso()) {
+            // TODO : llamar al mov especial
+            return;
         }
         dados.lanzar();
         if(dados.sonDobles()){

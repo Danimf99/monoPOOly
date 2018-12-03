@@ -11,12 +11,13 @@ import monopooly.player.Jugador;
 import java.util.ArrayList;
 
 public class Prompt {
-    private Dados dadosInicio;
     private Tablero tablero;
     private Jugador jugador;
     private int modDinero;
     private String motivoPago;
     private boolean help;
+    private boolean compro;
+    private ArrayList<Posicion> posicionesTurno;
 
     public Prompt(Tablero tablero, Jugador jugador) {
 
@@ -25,7 +26,8 @@ public class Prompt {
         this.modDinero = 0;
         this.motivoPago = "";
         this.help = false;
-        this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2()); // TODO mejorar esto
+        this.compro = false;
+        this.posicionesTurno = new ArrayList<>();
     }
 
     public Prompt() {
@@ -60,6 +62,14 @@ public class Prompt {
         this.modDinero = modDinero;
     }
 
+    public boolean isCompro() {
+        return compro;
+    }
+
+    public void setCompro(boolean compro) {
+        this.compro = compro;
+    }
+
     public void setMotivoPago(String motivoPago) {
         this.motivoPago = motivoPago;
     }
@@ -71,6 +81,23 @@ public class Prompt {
 
     public void setHelp(boolean help) {
         this.help = help;
+    }
+
+
+    public ArrayList<Posicion> getPosicionesTurno() {
+        return posicionesTurno;
+    }
+
+    public void setPosicionesTurno(ArrayList<Posicion> posicionesTurno) {
+        this.posicionesTurno = posicionesTurno;
+    }
+
+    public int getTiradasEspeciales() {
+        return this.posicionesTurno.size();
+    }
+
+    public void anhadirPosicion(Posicion posicion) {
+        this.posicionesTurno.add(posicion);
     }
 
     private String genPrompt(ArrayList<String> elementos) {
