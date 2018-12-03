@@ -10,10 +10,10 @@ public class Carta {
     public class Comunidad {
         // Carta #1
         public class Carta1 {
-            public static final int DINERO = 0;
+            public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Ve a Invierno a coger un catarro. Si pasas por la casilla de salida \n"
+                    + "cobra " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
@@ -219,10 +219,10 @@ public class Carta {
 
         // Carta #10
         public class Carta10 {
-            public static final int DINERO = 0;
+            public static final int DINERO = 150;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Has sido elegido presidente de la junta directiva. Paga a cada jugador "
+                    + DINERO + Precios.MONEDA
                     + ""
                     + "";
         }

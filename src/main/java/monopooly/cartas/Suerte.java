@@ -6,6 +6,8 @@ import monopooly.configuracion.Carta;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
+import static monopooly.cartas.Comunes.darDineroTodos;
+
 public class Suerte {
     public enum NumeracionCartas{
         carta1,
@@ -142,7 +144,8 @@ public class Suerte {
     }
 
     private void accionCarta10(Prompt prompt) {
-
+        int dinero = Carta.Suerte.Carta10.DINERO;
+        prompt.setModificacionPasta(darDineroTodos(prompt, dinero), MENSAJE_PROMPT);
     }
 
     private void accionCarta11(Prompt prompt) {

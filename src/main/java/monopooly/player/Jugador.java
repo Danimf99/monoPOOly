@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
@@ -150,6 +151,12 @@ public class Jugador {
     public void moverJugador(Tablero tablero, int desplazamiento) {
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().mover(desplazamiento);
+        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+    }
+
+    public void moverJugador(Tablero tablero, Posicion posicion) {
+        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
+        avatar.getPosicion().setX(posicion.getX());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 

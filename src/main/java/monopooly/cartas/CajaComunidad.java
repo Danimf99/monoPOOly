@@ -6,6 +6,8 @@ import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 
+import static monopooly.cartas.Comunes.darDineroTodos;
+
 public class CajaComunidad {
     public enum NumeracionCartas{
         carta1,
@@ -19,6 +21,8 @@ public class CajaComunidad {
         carta9,
         carta10,
     }
+
+    private static final String MENSAJE_PROMPT = "Carta de Caja de comunidad";
 
     private String mensaje;
     private NumeracionCartas numero;
@@ -110,20 +114,8 @@ public class CajaComunidad {
 
 
     private void accionCarta8(Prompt prompt) {
-        // Por cada jugador quitar dinero y darselo a otro
         int dinero = Carta.Comunidad.Carta8.DINERO;
-        ArrayList<Jugador> jugadores = prompt.getTablero().getJugadoresTurno();
-        Jugador actual = prompt.getJugador();
-        int mod_dinero = 0;
-        for (Jugador jugador : jugadores) {
-            if (!jugador.equals(actual)) {
-                jugador.anhadirDinero(dinero);
-                actual.quitarDinero(dinero);
-                mod_dinero -= dinero;
-            }
-        }
-        // Avisar jugador mediante prompt
-        prompt.setModificacionPasta(mod_dinero, "Carta Caja de Comunidad");
+        prompt.setModificacionPasta(darDineroTodos(prompt, dinero), MENSAJE_PROMPT);
     }
 
 
