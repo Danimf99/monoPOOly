@@ -10,19 +10,18 @@ public class Carta {
     public class Comunidad {
         // Carta #1
         public class Carta1 {
-            public static final int DINERO = Precios.SALIDA;
+            public static final int DINERO = 150;
             public static final String MENSAJE = ""
-                    + "Ve a Invierno a coger un catarro. Si pasas por la casilla de salida \n"
-                    + "cobra " + DINERO + " " + Precios.MONEDA
+                    + "Vas a un balneario de 5 estrellas \n"
+                    + "paga " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
 
         // Carta #2
         public class Carta2 {
-            public static final int DINERO = 0;
             public static final String MENSAJE = ""
-                    + ""
+                    + "Ve a la carcel sin cobrar por la casilla de salida\n"
                     + ""
                     + ""
                     + "";
@@ -30,30 +29,30 @@ public class Carta {
 
         // Carta #3
         public class Carta3 {
-            public static final int DINERO = 0;
+            public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Colocate en la casilla de salida. \n"
+                    + "cobra " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
 
         // Carta #4
         public class Carta4 {
-            public static final int DINERO = 0;
+            public static final int DINERO = 50;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Tu compañia de internet obtiene beneficios \n"
+                    + "cobra " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
 
         // Carta #5
         public class Carta5 {
-            public static final int DINERO = 0;
+            public static final int DINERO = 150;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Invitas a todos tus amigos a un viaje a Leon.\n"
+                    + "paga " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
@@ -117,10 +116,10 @@ public class Carta {
     public class Suerte {
         // Carta #1
         public class Carta1 {
-            public static final int DINERO = 0;
+            public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Ve a Invierno a coger un catarro. Si pasas por la casilla de salida \n"
+                    + "cobra " + DINERO + " " + Precios.MONEDA
                     + ""
                     + "";
         }
@@ -129,8 +128,7 @@ public class Carta {
         public class Carta2 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
-                    + ""
-                    + ""
+                    + "Ve a Lugo"
                     + ""
                     + "";
         }
@@ -139,7 +137,7 @@ public class Carta {
         public class Carta3 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
-                    + ""
+                    + "Vendes tu billete de avión para Terrasa, recibe " + DINERO + " " + Precios.MONEDA
                     + ""
                     + ""
                     + "";
@@ -147,9 +145,9 @@ public class Carta {
 
         // Carta #4
         public class Carta4 {
-            public static final int DINERO = 0;
+            public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
-                    + ""
+                    + "Ve a Salamanca. Si pasas por la casilla de salida cobra " + DINERO + " " + Precios.MONEDA
                     + ""
                     + ""
                     + "";

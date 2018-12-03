@@ -46,4 +46,10 @@ public class Comunes {
         pagoSalidaDesplazamiento(prompt, posicion);
     }
 
+    public static void darDinero(Prompt prompt, int dinero) {
+        Jugador actual = prompt.getJugador();
+        actual.anhadirDinero(dinero);
+        prompt.setModificacionPasta(dinero, "Carta especial.");
+    }
+
 }
