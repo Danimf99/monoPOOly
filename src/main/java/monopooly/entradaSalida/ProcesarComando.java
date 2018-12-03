@@ -161,7 +161,7 @@ public class ProcesarComando {
                     Mensajes.error("No existe ese jugador");
                     return;
                 }
-                System.out.println(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
+                Mensajes.imprimir(prompt.getTablero().getJugador(args[2]).toString());//TODO Revisar errores
                 break;
             case "avatar":
                 if (args.length != 3) {
@@ -172,7 +172,7 @@ public class ProcesarComando {
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
                     if (args[2].charAt(0) == (jugador.getAvatar().getRepresentacion())) {
-                        System.out.println(jugador.getAvatar());
+                        Mensajes.imprimir(jugador.getAvatar().toString());
                         return;
                     }
                 }
@@ -191,17 +191,13 @@ public class ProcesarComando {
                     Mensajes.error("No existe esa casilla");
                     return;
                 }
-                System.out.println(prompt.getTablero().getCalle(args[1]).toString());
+                Mensajes.imprimir(prompt.getTablero().getCalle(args[1]).toString());
                 break;
         }
     }
 
     public static void listar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
-        if (args.length != 2) {
-            Mensajes.error("Comando incorrecto");
-            prompt.setHelp(true);
-            return;
-        }
+
         switch (args[1].toLowerCase()) {
             case "jugadores":
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
@@ -230,6 +226,51 @@ public class ProcesarComando {
                         default:
                             System.out.println(i.toString());
                             break;
+                    }
+                }
+                break;
+            case "edificios":
+                if(args.length==2){
+                    Tablero tablero=prompt.getTablero();
+                    Collection<Inmueble> i_values=tablero.getCalles().values();
+                    for(Inmueble i:i_values){
+                        if(i.getEdificios().size()!=0){
+                            Mensajes.imprimir(i.listarEdificaciones());
+                        }
+                    }
+                }
+                else{
+                    if(args.length>3){
+                        args[2]=args[2].concat(" "+args[3]);
+                    }
+                    switch (args[2]){
+                        case "marron":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Murcia").getGrupoColor().listaEdificaciones());
+                           break;
+                        case  "azul claro":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Plasencia").getGrupoColor().listaEdificaciones());
+                            break;
+                        case "violeta":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Toledo").getGrupoColor().listaEdificaciones());
+                            break;
+                        case "naranja":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Valencia").getGrupoColor().listaEdificaciones());
+                            break;
+                        case"rojo":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Sevilla").getGrupoColor().listaEdificaciones());
+                            break;
+                        case "amarillo":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Lugo").getGrupoColor().listaEdificaciones());
+                            break;
+                        case "verde":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Madrid").getGrupoColor().listaEdificaciones());
+                            break;
+                        case "azul marino":
+                            Mensajes.imprimir(prompt.getTablero().getCalle("Ibiza").getGrupoColor().listaEdificaciones());
+                            break;
+                        default:
+                            Mensajes.info("En ese monopolio no puede haber edificios");
+                            return;
                     }
                 }
                 break;
