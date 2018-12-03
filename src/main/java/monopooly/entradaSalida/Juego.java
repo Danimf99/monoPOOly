@@ -40,6 +40,10 @@ public class Juego {
                     break;
                 case "edificar":
                 case "e":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes edificar.");
+                        return;
+                    }
                     ProcesarComando.edificar(arrayComando,prompt);
                     break;
                 case "lanzar":
@@ -57,6 +61,10 @@ public class Juego {
                     ProcesarComando.comprar(arrayComando,prompt);
                     break;
                 case "deshipotecar":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes deshipotecar propiedades.");
+                        return;
+                    }
                     ProcesarComando.deshipotecar(arrayComando,prompt);
                     break;
                 case "describir":
@@ -85,7 +93,9 @@ public class Juego {
                     terminarTurno = true;
                     terminarTurno = ProcesarComando.acabarTurno(arrayComando);
                     break;
-
+                case "cambiar":
+                    ProcesarComando.cambiarModo(arrayComando,prompt);
+                    break;
                 case "salir":
                 case "s":
                     ProcesarComando.salirCarcel(arrayComando,prompt);

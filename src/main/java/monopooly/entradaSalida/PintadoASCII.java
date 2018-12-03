@@ -564,6 +564,14 @@ public class PintadoASCII {
         Jugador propietario = inmuebleActual.getPropietario();
         int maxLen = " Propietario: ".length();
 
+        sBuilder.append(widear(" Id:", maxLen));
+        sBuilder.append(edificio.getId());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Grupo:", maxLen));
+        sBuilder.append(edificio.getInmueble().getGrupoColor().getTipo());
+        sBuilder.append("\n");
+
         sBuilder.append(widear(" Tipo:", maxLen));
         sBuilder.append(edificio.getTipo());
         sBuilder.append("\n");
