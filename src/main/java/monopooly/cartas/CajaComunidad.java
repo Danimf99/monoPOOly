@@ -3,6 +3,7 @@ package monopooly.cartas;
 import monopooly.colocacion.Posicion;
 import monopooly.configuracion.Carta;
 import monopooly.configuracion.Posiciones;
+import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
@@ -83,7 +84,9 @@ public class CajaComunidad {
                 break;
             case carta10:
                 accionCarta10(prompt);
+                break;
         }
+        Mensajes.info(this.mensaje, "Carta de Caja de comunidad");
     }
 
 

@@ -4,6 +4,7 @@ import monopooly.colocacion.Posicion;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Carta;
+import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
@@ -83,6 +84,7 @@ public class Suerte {
                 this.accionCarta14(prompt);
                 break;
         }
+        Mensajes.info(this.mensaje, "Carta de Suerte");
     }
 
 

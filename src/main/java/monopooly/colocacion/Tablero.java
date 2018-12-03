@@ -416,12 +416,12 @@ public class Tablero {
 
     public CajaComunidad cartaComunidad(int eleccion) {
         Collections.shuffle(this.cartasCajaComunidad);
-        return this.cartasCajaComunidad.get(eleccion);
+        return this.cartasCajaComunidad.get(eleccion - 1);
     }
 
     public Suerte cartaSuerte(int eleccion) {
         Collections.shuffle(this.cartasSuerte);
-        return this.cartasSuerte.get(eleccion);
+        return this.cartasSuerte.get(eleccion - 1);
     }
 
     @Override
