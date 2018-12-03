@@ -1,12 +1,13 @@
 package monopooly.cartas;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Carta;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
-import static monopooly.cartas.Comunes.darDineroTodos;
+import static monopooly.cartas.Comunes.*;
 
 public class Suerte {
     public enum NumeracionCartas{
@@ -86,19 +87,19 @@ public class Suerte {
 
 
     private void accionCarta1(Prompt prompt) {
-
+        desplazar(prompt, new Posicion(5));
     }
 
     private void accionCarta2(Prompt prompt) {
-
+        prompt.getJugador().moverJugador(prompt.getTablero(), new Posicion(18));
     }
 
     private void accionCarta3(Prompt prompt) {
-
+        darDinero(prompt, Carta.Suerte.Carta3.DINERO);
     }
 
     private void accionCarta4(Prompt prompt) {
-
+        desplazar(prompt, new Posicion(11));
     }
 
     private void accionCarta5(Prompt prompt) {

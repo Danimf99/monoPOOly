@@ -1,6 +1,9 @@
 package monopooly.colocacion;
 
+import monopooly.cartas.CajaComunidad;
+import monopooly.cartas.Suerte;
 import monopooly.colocacion.calles.*;
+import monopooly.configuracion.Carta;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -9,6 +12,7 @@ import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,6 +24,8 @@ public class Tablero {
     private Jugador banca;
     private int bote;
     private int incrementosVueltas;
+    private ArrayList<Suerte> cartasSuerte;
+    private ArrayList<CajaComunidad> cartasCajaComunidad;
 
 
     /* Constructores */
@@ -216,7 +222,59 @@ public class Tablero {
             this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
 
-//        TODO Implementar constructor del tablero
+        /* Cartas */
+        this.cartasCajaComunidad = new ArrayList<>();
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta1.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta1));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta2.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta2));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta3.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta3));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta4.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta4));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta5.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta5));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta8.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta8));
+
+
+        this.cartasSuerte = new ArrayList<>();
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta1.MENSAJE,
+                Suerte.NumeracionCartas.carta1));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta2.MENSAJE,
+                Suerte.NumeracionCartas.carta2));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta3.MENSAJE,
+                Suerte.NumeracionCartas.carta3));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta4.MENSAJE,
+                Suerte.NumeracionCartas.carta4));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta5.MENSAJE,
+                Suerte.NumeracionCartas.carta5));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta10.MENSAJE,
+                Suerte.NumeracionCartas.carta8));
     }
 
 
@@ -356,12 +414,15 @@ public class Tablero {
         }
     }
 
-    public void altaJugador(Jugador nuevo) {
-        this.jugadores.put(nuevo.getNombre(), nuevo);
-        this.getCasilla(nuevo.getAvatar().getPosicion()).insertarAvatar(nuevo.getAvatar());
+    public CajaComunidad cartaComunidad(int eleccion) {
+        Collections.shuffle(this.cartasCajaComunidad);
+        return this.cartasCajaComunidad.get(eleccion);
     }
 
-
+    public Suerte cartaSuerte(int eleccion) {
+        Collections.shuffle(this.cartasSuerte);
+        return this.cartasSuerte.get(eleccion);
+    }
 
     @Override
     public String toString() {

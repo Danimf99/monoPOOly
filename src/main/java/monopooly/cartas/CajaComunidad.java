@@ -1,11 +1,14 @@
 package monopooly.cartas;
 
+import monopooly.colocacion.Posicion;
 import monopooly.configuracion.Carta;
+import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 
+import static monopooly.cartas.Comunes.darDinero;
 import static monopooly.cartas.Comunes.darDineroTodos;
 
 public class CajaComunidad {
@@ -85,23 +88,29 @@ public class CajaComunidad {
 
 
     private void accionCarta1(Prompt prompt) {
-
+        darDinero(prompt, -Carta.Comunidad.Carta1.DINERO);
     }
 
     private void accionCarta2(Prompt prompt) {
-
+        Jugador actual = prompt.getJugador();
+        actual.moverJugador(prompt.getTablero(), new Posicion(Posiciones.CARCEL));
     }
 
     private void accionCarta3(Prompt prompt) {
-
+        int dinero = Carta.Comunidad.Carta3.DINERO;
+        Jugador actual = prompt.getJugador();
+        actual.moverJugador(prompt.getTablero(), new Posicion(Posiciones.SALIDA));
+        darDinero(prompt, dinero);
     }
 
     private void accionCarta4(Prompt prompt) {
-
+        int dinero = Carta.Comunidad.Carta4.DINERO;
+        Jugador actual = prompt.getJugador();
+        darDinero(prompt, dinero);
     }
 
     private void accionCarta5(Prompt prompt) {
-
+        darDinero(prompt, -Carta.Comunidad.Carta5.DINERO);
     }
 
     private void accionCarta6(Prompt prompt) {
