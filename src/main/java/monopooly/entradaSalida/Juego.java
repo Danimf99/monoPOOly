@@ -25,7 +25,6 @@ public class Juego {
        //tablero.getCalle("Plasencia").compra(prompt.getJugador());
        //tablero.getCalle("Almería").compra(prompt.getJugador());
        //tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
-       prompt.getJugador().quitarDinero(800);
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);
