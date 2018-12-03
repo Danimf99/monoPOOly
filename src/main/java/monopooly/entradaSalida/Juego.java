@@ -28,6 +28,7 @@ public class Juego {
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);
+            tablero.getEstadisticas().calcularEstadisticas();
             String comando = reader.nextLine();
             String[] arrayComando = comando.split(" ");
             switch (arrayComando[0].toLowerCase()) {

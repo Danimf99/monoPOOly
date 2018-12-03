@@ -1,8 +1,13 @@
 package monopooly.entradaSalida;
 
+import monopooly.cartas.CajaComunidad;
+import monopooly.cartas.Suerte;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.calles.*;
+import monopooly.colocacion.calles.Casilla;
+import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoEdificio;
+import monopooly.colocacion.calles.TipoMonopolio;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -83,7 +88,7 @@ public class ProcesarComando {
         /* Si el jugador acaba con dinero negativo da igual, esto deberia comprobarlo la funcion que
          * le permite pasar turno */
 
-
+        inmuebleActual.aumentarVecesFrecuentado();
         /* Primero hay que mirar si paso por la casilla de salida */
 
         if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
@@ -100,6 +105,30 @@ public class ProcesarComando {
             jActual.getEstadisticas().sumarInversionesBote(dineroParking);
             return;
         }
+        /*Si caes en una casilla de suerte*/
+        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.suerte)){
+            int eleccion=0;
+            Scanner reader=new Scanner(System.in);
+            Suerte carta;
+
+            Mensajes.imprimir("Elige la carta: ");
+            eleccion= reader.nextInt();
+            carta=tablero.cartaSuerte(eleccion);
+            carta.ejecutarCarta(prompt);
+        }
+
+        /*Si caes en una casilla de caja de comunidad*/
+        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.caja_comunidad)){
+            int eleccion=0;
+            Scanner reader=new Scanner(System.in);
+            CajaComunidad carta;
+
+            Mensajes.imprimir("Elige la carta que quieres coger: ");
+            eleccion= reader.nextInt();
+            carta=tablero.cartaComunidad(eleccion);
+            carta.ejecutarCarta(prompt);
+        }
+
         /* Si es un impuesto fasil, pagas y ya */
         if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
             int dineroExtraido = inmuebleActual.getPrecio_inicial();
@@ -144,6 +173,7 @@ public class ProcesarComando {
             Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
         }
         jActual.getEstadisticas().sumarPagoAlquileres(alquiler);
+        inmuebleActual.sumarPagoAlquileres(alquiler);
         casillaActual.getCalle().getPropietario().getEstadisticas().sumarCobroAlquileres(alquiler); //actualizamos estadisticas en el dueño de la propiedad
         inmuebleActual.pago(jActual);
         prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
@@ -320,6 +350,7 @@ public class ProcesarComando {
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
             prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(), "Compra del inmueble " + prompt.getTablero().getCalle(args[1]).getNombre());
             prompt.getJugador().getEstadisticas().sumarInvertido(prompt.getTablero().getCalle(args[1]).getPrecio());
+
         } else {
             Mensajes.info("No tiene suficiente dinero para comprar " + prompt.getTablero().getCalle(args[1]).getNombre());
         }
@@ -343,7 +374,14 @@ public class ProcesarComando {
             Mensajes.imprimir(prompt.getJugador().getEstadisticas().toString());
             return;
         }
-
+        if(args.length==1){
+            Mensajes.imprimir(prompt.getTablero().getEstadisticas().toString());
+            return;
+        }
+        else{
+            Mensajes.error("Comando incorrecto");
+            return;
+        }
     }
 
     public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {

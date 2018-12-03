@@ -1,5 +1,6 @@
 package monopooly.colocacion;
 
+import monopooly.Estadisticas.EstadisticasGlobales;
 import monopooly.cartas.CajaComunidad;
 import monopooly.cartas.Suerte;
 import monopooly.colocacion.calles.*;
@@ -26,6 +27,7 @@ public class Tablero {
     private int incrementosVueltas;
     private ArrayList<Suerte> cartasSuerte;
     private ArrayList<CajaComunidad> cartasCajaComunidad;
+    private EstadisticasGlobales estadisticas;
 
 
     /* Constructores */
@@ -41,7 +43,7 @@ public class Tablero {
         this.jugadores = new HashMap<>();
         this.jugadoresTurno = new ArrayList<>();
         this.bote = 0;
-
+        this.estadisticas=new EstadisticasGlobales(this);
         HashSet<Inmueble> propiedadesBanca = new HashSet<>();
         this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
 
@@ -282,6 +284,10 @@ public class Tablero {
 
     public int getBote() {
         return bote;
+    }
+
+    public EstadisticasGlobales getEstadisticas() {
+        return estadisticas;
     }
 
     public void setBote(int bote) {

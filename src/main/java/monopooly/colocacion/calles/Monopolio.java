@@ -2,10 +2,8 @@ package monopooly.colocacion.calles;
 
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
-import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
-import javax.security.auth.login.Configuration;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -73,7 +71,17 @@ public class Monopolio {
         return propietariosCalles.size() == 1;
     }
 
-
+    /**
+     * Para las estadisiticas , devuelve el dinero total que hubo que pagar de alquiler en el monopolio
+     * @return
+     */
+    public int alquileresTotales(){
+        int rentable=0;
+        for(Inmueble i: calles){
+            rentable+=i.getPagoDeAlquileres();
+        }
+        return rentable;
+    }
     /**
      * Determina que cantidad de las propiedades del monopolio pertenece a un jugador dado. Util para las estaciones
      * @param player Jugador que se quiere consultar

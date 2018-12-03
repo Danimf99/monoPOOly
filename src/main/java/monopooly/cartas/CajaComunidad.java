@@ -7,8 +7,6 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.Prompt;
 import monopooly.player.Jugador;
 
-import java.util.ArrayList;
-
 import static monopooly.cartas.Comunes.darDinero;
 import static monopooly.cartas.Comunes.darDineroTodos;
 
@@ -103,6 +101,7 @@ public class CajaComunidad {
         int dinero = Carta.Comunidad.Carta3.DINERO;
         Jugador actual = prompt.getJugador();
         actual.moverJugador(prompt.getTablero(), new Posicion(Posiciones.SALIDA));
+        prompt.getTablero().getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         darDinero(prompt, dinero);
     }
 

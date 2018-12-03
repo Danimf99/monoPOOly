@@ -138,6 +138,7 @@ public class Suerte {
                 }
             }
         }
+        actual.getEstadisticas().sumarTasas(-modDinero);
         actual.quitarDinero(-modDinero);
         prompt.setModificacionPasta(modDinero, MENSAJE_PROMPT);
     }

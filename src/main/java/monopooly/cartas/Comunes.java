@@ -1,7 +1,7 @@
 package monopooly.cartas;
 
 import monopooly.colocacion.Posicion;
-import monopooly.configuracion.Carta;
+import monopooly.colocacion.Tablero;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Prompt;
@@ -18,6 +18,8 @@ public class Comunes {
         for (Jugador jugador : jugadores) {
             if (!jugador.equals(actual)) {
                 jugador.anhadirDinero(dinero);
+                jugador.getEstadisticas().sumarInversionesBote(dinero);
+                actual.getEstadisticas().sumarTasas(dinero);
                 actual.quitarDinero(dinero);
                 mod_dinero -= dinero;
             }
@@ -31,24 +33,30 @@ public class Comunes {
                 && !posicion.equals(new Posicion(Posiciones.CARCEL))) {
             actual.anhadirDinero(Precios.SALIDA);
             prompt.setModificacionPasta(Precios.SALIDA, "Pasaste por la casilla de salida");
+            actual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
         }
     }
 
     public static void desplazar(Prompt prompt, int desplazamiento) {
         Jugador actual = prompt.getJugador();
+        Tablero tablero =prompt.getTablero();
         actual.moverJugador(prompt.getTablero(), desplazamiento);
+        tablero.getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         pagoSalidaDesplazamiento(prompt, actual.getAvatar().getPosicion());
     }
 
     public static void desplazar(Prompt prompt, Posicion posicion) {
         Jugador actual = prompt.getJugador();
+        Tablero tablero =prompt.getTablero();
         actual.moverJugador(prompt.getTablero(), posicion);
+        tablero.getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         pagoSalidaDesplazamiento(prompt, posicion);
     }
 
     public static void darDinero(Prompt prompt, int dinero) {
         Jugador actual = prompt.getJugador();
         actual.anhadirDinero(dinero);
+        actual.getEstadisticas().sumarInversionesBote(dinero);
         prompt.setModificacionPasta(dinero, "Carta especial.");
     }
 

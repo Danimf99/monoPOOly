@@ -135,7 +135,7 @@ public class Carta {
 
         // Carta #3
         public class Carta3 {
-            public static final int DINERO = 0;
+            public static final int DINERO = 55;
             public static final String MENSAJE = ""
                     + "Vendes tu billete de avión para Terrasa, recibe " + DINERO + " " + Precios.MONEDA
                     + ""

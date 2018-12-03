@@ -16,6 +16,8 @@ public class Inmueble {
     private Monopolio grupoColor;
     private Boolean hipotecado;
     private HashSet<Edificaciones> edificios;
+    private int pagoDeAlquileres;
+    private int vecesFrecuentado;
     /* Constructores */
 
 
@@ -36,6 +38,8 @@ public class Inmueble {
         this.propietario = banca;
         this.hipotecado = false;
         this.edificios=new HashSet<>();
+        this.pagoDeAlquileres=0;
+        this.vecesFrecuentado=0;
         grupoColor.insertarInmueble(this);
 
     }
@@ -48,8 +52,16 @@ public class Inmueble {
         return nombre;
     }
 
+    public int getVecesFrecuentado() {
+        return vecesFrecuentado;
+    }
+
     public int getPrecio() {
         return precio;
+    }
+
+    public int getPagoDeAlquileres() {
+        return pagoDeAlquileres;
     }
 
     public int getPrecio_inicial() {
@@ -67,6 +79,8 @@ public class Inmueble {
     public Boolean getHipotecado() {
         return hipotecado;
     }
+
+
 
     /* Setters */
 
@@ -92,7 +106,12 @@ public class Inmueble {
 
     /* Metodos para la instancia */
 
-
+    public void aumentarVecesFrecuentado(){
+        this.vecesFrecuentado++;
+    }
+    public void sumarPagoAlquileres(int cantidad){
+        this.pagoDeAlquileres+=cantidad;
+    }
     public void incrementarPrecio() {
         this.precio = (int) (this.precio * 1.05);
     }
@@ -119,7 +138,8 @@ public class Inmueble {
                 dineroAlquiler = Precios.FACTOR_SERVICIOS * deudor.getDados().tirada();
                 break;
             default:
-                dineroAlquiler = (int) (this.precio_inicial * 0.1);
+                dineroAlquiler = (int) (this.precio_inicial*0.1);
+
                 // Habria que tener en cuenta las casas pero de momento no hay
                 if (this.grupoColor.esCompleto()) {
                     dineroAlquiler *= 2;
