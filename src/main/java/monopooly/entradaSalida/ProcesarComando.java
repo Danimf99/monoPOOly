@@ -89,6 +89,7 @@ public class ProcesarComando {
         if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
             // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
             Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
+            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
             jActual.anhadirDinero(Precios.SALIDA);
             prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
             jActual.getAvatar().sumarVuelta();
@@ -96,6 +97,7 @@ public class ProcesarComando {
         if (posJugadorActual.getX() == Posiciones.PARKING) {
             int dineroParking = tablero.devolverBote(jActual);
             prompt.setModificacionPasta(dineroParking, "Bote del parking");
+            jActual.getEstadisticas().sumarInversionesBote(dineroParking);
             return;
         }
         /* Si es un impuesto fasil, pagas y ya */
@@ -103,6 +105,7 @@ public class ProcesarComando {
             int dineroExtraido = inmuebleActual.getPrecio_inicial();
             jActual.quitarDinero(dineroExtraido);
             tablero.meterEnBote(dineroExtraido);
+            jActual.getEstadisticas().sumarTasas(dineroExtraido);
             prompt.setModificacionPasta(-dineroExtraido, "Impuesto en " + inmuebleActual.getNombre() + " para el bote del parking.");
             return; // Nada mas que hacer un return y via
         }
@@ -113,6 +116,7 @@ public class ProcesarComando {
             casillaActual.getAvatares().remove(jActual.getAvatar());
             tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(jActual.getAvatar());
             jActual.setEstarEnCarcel(true);
+            jActual.getEstadisticas().sumarVecesCarcel(1);
             System.out.println(prompt.getTablero().toString());
             return; // Return porque no hay nada que hacer
         }
@@ -139,7 +143,8 @@ public class ProcesarComando {
         if (alquiler > jActual.getDinero()) {
             Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
         }
-
+        jActual.getEstadisticas().sumarPagoAlquileres(alquiler);
+        casillaActual.getCalle().getPropietario().getEstadisticas().sumarCobroAlquileres(alquiler); //actualizamos estadisticas en el dueño de la propiedad
         inmuebleActual.pago(jActual);
         prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
 
@@ -314,6 +319,7 @@ public class ProcesarComando {
         if (prompt.getJugador().getDinero() > prompt.getTablero().getCalle(args[1]).getPrecio()) {
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
             prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(), "Compra del inmueble " + prompt.getTablero().getCalle(args[1]).getNombre());
+            prompt.getJugador().getEstadisticas().sumarInvertido(prompt.getTablero().getCalle(args[1]).getPrecio());
         } else {
             Mensajes.info("No tiene suficiente dinero para comprar " + prompt.getTablero().getCalle(args[1]).getNombre());
         }
@@ -330,6 +336,14 @@ public class ProcesarComando {
                 "    Nombre: " + prompt.getJugador().getNombre() + "\n" +
                 "    Avatar: " + prompt.getJugador().getAvatar().getRepresentacion() +
                 "\n}");
+    }
+
+    public static void estadisticas(String[] args,Prompt prompt){
+        if(args.length==2 && prompt.getTablero().getJugadores().containsKey(args[1]) ){
+            Mensajes.imprimir(prompt.getJugador().getEstadisticas().toString());
+            return;
+        }
+
     }
 
     public static void salirCarcel(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
@@ -408,6 +422,7 @@ public class ProcesarComando {
                 }
                 inmuebleActual.anhadirEdificio(casa);
                 prompt.setModificacionPasta(-inmuebleActual.precioEdificio(casa), "Compra de una casa");
+                jActual.getEstadisticas().sumarInvertido(inmuebleActual.precioEdificio(casa));
                 jActual.quitarDinero(inmuebleActual.precioEdificio(casa));
                 break;
             case "hotel":
@@ -428,6 +443,7 @@ public class ProcesarComando {
                 }
                 inmuebleActual.anhadirEdificio(TipoEdificio.hotel);
                 prompt.setModificacionPasta(-inmuebleActual.precioEdificio(hotel), "Compra de un hotel");
+                jActual.getEstadisticas().sumarInvertido(inmuebleActual.precioEdificio(hotel));
                 jActual.quitarDinero(inmuebleActual.precioEdificio(hotel));
                 break;
             case "piscina":
@@ -445,6 +461,7 @@ public class ProcesarComando {
                 }
                 prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.piscina), "Compra de una piscina");
                 inmuebleActual.anhadirEdificio(TipoEdificio.piscina);
+                jActual.getEstadisticas().sumarInvertido(inmuebleActual.precioEdificio(piscina));
                 jActual.quitarDinero(inmuebleActual.precioEdificio(piscina));
                 break;
             case "deporte":
@@ -462,6 +479,7 @@ public class ProcesarComando {
                 }
                 prompt.setModificacionPasta(-inmuebleActual.precioEdificio(TipoEdificio.deporte), "Compra de una pista de deporte");
                 inmuebleActual.anhadirEdificio(TipoEdificio.deporte);
+                jActual.getEstadisticas().sumarInvertido(inmuebleActual.precioEdificio(deporte));
                 jActual.quitarDinero(inmuebleActual.precioEdificio(deporte));
                 break;
             default:

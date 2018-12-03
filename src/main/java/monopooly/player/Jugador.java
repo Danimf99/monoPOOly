@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import monopooly.Estadisticas.EstadisticasJugador;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.calles.Edificaciones;
@@ -12,6 +13,8 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public class Jugador {
+
+
     private String nombre;
     private int dinero;
     private Avatar avatar;
@@ -20,6 +23,8 @@ public class Jugador {
     private HashSet<Inmueble> hipotecas;
     private boolean estarEnCarcel;
     private int turnosEnCarcel;
+    private EstadisticasJugador estadisticas;
+    private int vueltas;
     /**
      * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
      *
@@ -36,6 +41,7 @@ public class Jugador {
             this.hipotecas=new HashSet<>();
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
+            estadisticas=new EstadisticasJugador();
         }
     }
 
@@ -53,6 +59,7 @@ public class Jugador {
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
         this.turnosEnCarcel=0;
+        estadisticas=new EstadisticasJugador();
     }
 
     public int getDinero() {
@@ -60,6 +67,10 @@ public class Jugador {
     }
 
     public int getTurnosEnCarcel(){return turnosEnCarcel;}
+
+    public EstadisticasJugador getEstadisticas() {
+        return estadisticas;
+    }
 
     public Avatar getAvatar() {
         return avatar;
@@ -196,6 +207,7 @@ public class Jugador {
         }
         if(this.dados.getDobles()==3) {
             Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
+            this.estadisticas.sumarVecesCarcel(1);
             this.estarEnCarcel = true;
             avatar.getPosicion().irCarcel();
             tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
