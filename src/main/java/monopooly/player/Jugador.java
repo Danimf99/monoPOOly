@@ -269,7 +269,7 @@ public class Jugador {
             this.turnosEnCarcel=0;
         }
         if (this.avatar.getNitroso()) {
-            // TODO : llamar al mov especial
+            cocheHandler(prompt);
             return;
         }
         dados.lanzar();
