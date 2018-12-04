@@ -41,7 +41,7 @@ public class Comunes {
     public static void desplazar(Prompt prompt, int desplazamiento) {
         Jugador actual = prompt.getJugador();
         Tablero tablero =prompt.getTablero();
-        actual.moverJugador(prompt.getTablero(), desplazamiento);
+        actual.moverJugador(prompt, desplazamiento);
         tablero.getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         pagoSalidaDesplazamiento(prompt, actual.getAvatar().getPosicion());
     }
@@ -49,7 +49,7 @@ public class Comunes {
     public static void desplazar(Prompt prompt, Posicion posicion) {
         Jugador actual = prompt.getJugador();
         Tablero tablero =prompt.getTablero();
-        actual.moverJugador(prompt.getTablero(), posicion);
+        actual.moverJugador(prompt, posicion);
         tablero.getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         pagoSalidaDesplazamiento(prompt, posicion);
     }

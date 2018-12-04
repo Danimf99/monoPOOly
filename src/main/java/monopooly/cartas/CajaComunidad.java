@@ -94,13 +94,13 @@ public class CajaComunidad {
 
     private void accionCarta2(Prompt prompt) {
         Jugador actual = prompt.getJugador();
-        actual.moverJugador(prompt.getTablero(), new Posicion(Posiciones.CARCEL));
+        actual.moverJugador(prompt, new Posicion(Posiciones.CARCEL));
     }
 
     private void accionCarta3(Prompt prompt) {
         int dinero = Carta.Comunidad.Carta3.DINERO;
         Jugador actual = prompt.getJugador();
-        actual.moverJugador(prompt.getTablero(), new Posicion(Posiciones.SALIDA));
+        actual.moverJugador(prompt, new Posicion(Posiciones.SALIDA));
         prompt.getTablero().getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         darDinero(prompt, dinero);
     }

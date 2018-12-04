@@ -190,18 +190,20 @@ public class Jugador {
         this.dinero += cantidad;
     }
 
-    public void moverJugador(Tablero tablero, int desplazamiento) {
+    public void moverJugador(Prompt prompt, int desplazamiento) {
+        Tablero tablero = prompt.getTablero();
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().mover(desplazamiento);
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
-    public void moverJugador(Tablero tablero, int desplazamiento, Prompt prompt) {
-        moverJugador(tablero, desplazamiento);
+    public void moverJugador(int desplazamiento, Prompt prompt) {
+        moverJugador(prompt, desplazamiento);
         prompt.anhadirPosicion(this.avatar.getPosicion());
     }
 
-    public void moverJugador(Tablero tablero, Posicion posicion) {
+    public void moverJugador(Prompt prompt, Posicion posicion) {
+        Tablero tablero = prompt.getTablero();
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().setX(posicion.getX());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
@@ -217,10 +219,10 @@ public class Jugador {
             this.dados.setContador(0);
         }
         if (this.dados.tirada() > 4) {
-            this.moverJugador(prompt.getTablero(), this.dados.tirada());
+            this.moverJugador(prompt, this.dados.tirada());
             prompt.anhadirPosicion(this.avatar.getPosicion());
         } else {
-            this.moverJugador(prompt.getTablero(), -this.dados.tirada());
+            this.moverJugador(prompt, -this.dados.tirada());
             this.cooldown = 3; // Turnos antes de volver a tirar
             this.dados.setContador(1);
         }
@@ -242,9 +244,10 @@ public class Jugador {
 
     /**
      * Mueve al jugador dependiendo de muchos factores
-     * @param tablero tablero donde se mueve al jugador
+     * @param prompt tablero donde se mueve al jugador
      */
-    public void moverJugador(Tablero tablero){
+    public void moverJugador(Prompt prompt){
+        Tablero tablero = prompt.getTablero();
         if(tablero==null){
             Mensajes.error("Tablero nulo, no se puede mover al jugador");
             return;
@@ -287,7 +290,7 @@ public class Jugador {
             tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
             return;
         }
-        this.moverJugador(tablero, dados.tirada());
+        this.moverJugador(prompt, dados.tirada());
     }
 
     public void aumentarVueltas(){

@@ -93,7 +93,7 @@ public class Suerte {
     }
 
     private void accionCarta2(Prompt prompt) {
-        prompt.getJugador().moverJugador(prompt.getTablero(), new Posicion(18));
+        prompt.getJugador().moverJugador(prompt, new Posicion(18));
     }
 
     private void accionCarta3(Prompt prompt) {

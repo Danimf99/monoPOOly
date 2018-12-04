@@ -56,7 +56,7 @@ public class representacionTest {
 
     @Test
     public void moverJugadorRepresentar() {
-        monguer.moverJugador(tableroPrueba);
+        monguer.moverJugador(promptTest);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 

@@ -72,7 +72,7 @@ public class ProcesarComando {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
-        prompt.getJugador().moverJugador(prompt.getTablero());
+        prompt.getJugador().moverJugador(prompt);
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
         // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo
