@@ -69,7 +69,6 @@ public class Posicion {
             this.x += Posiciones.TOTAL;
         }
         this.historialPosiciones.add(new Posicion(this.x));
-
     }
 
 

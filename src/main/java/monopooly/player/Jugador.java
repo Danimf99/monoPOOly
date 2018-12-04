@@ -194,7 +194,6 @@ public class Jugador {
         Tablero tablero = prompt.getTablero();
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().mover(desplazamiento);
-        System.out.println(avatar.getPosicion().getX());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
