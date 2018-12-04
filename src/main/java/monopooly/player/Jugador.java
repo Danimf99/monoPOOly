@@ -309,7 +309,7 @@ public class Jugador {
         dados.lanzar();
         aumentarVecesDados();
         checkCarcel(tablero);
-        if(this.estarEnCarcel==false) {
+        if(!this.estarEnCarcel) {
             this.moverJugador(prompt, dados.tirada());
         }
     }

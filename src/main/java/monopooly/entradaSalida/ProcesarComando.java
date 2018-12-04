@@ -744,6 +744,7 @@ public class ProcesarComando {
         prompt.setModificacionPasta(dinero,"Hipoteca de "+args[1]);
         jActual.hipotecar(inmuebleHipotecar);
 
+
     }
 
     public static void cambiarModo(String[] args, Prompt prompt){
@@ -752,8 +753,14 @@ public class ProcesarComando {
             prompt.setHelp(true);
             return;
         }
-        prompt.getJugador().getAvatar().setNitroso(true);
+        prompt.getJugador().getAvatar().setNitroso(
+                !prompt.getJugador().getAvatar().getNitroso()
+        );
+        if (prompt.getTiradasEspeciales() > 0) {
+            prompt.getJugador().getDados().setContador(1);
+        }
     }
+
     public static void deshipotecar(String[] args,Prompt prompt){
         if(args.length!=2 && args.length!=3){
             Mensajes.info("Error en el comando");
