@@ -316,7 +316,6 @@ public class Tablero {
             Mensajes.error("No se puede añadir una cantidad negativa al bote.");
             return;
         }
-        this.bote += cantidad;
         setBote(bote + cantidad);
     }
 
