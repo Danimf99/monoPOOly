@@ -136,6 +136,7 @@ public class ReprASCII {
             + ""
             + "";
     public static final String PROMPT_TIPO_AVATAR = "\n[ ? ]──[ Tipo (sombrero/pelota/coche/esfinge): ]───► ";
+    public static final String PROMPT_ELECCION_CARTA = "\n\n[ ? ]──[ Elige una carta (1, 6): ]───► ";
     public static final String PROMPT_CARCEL = "⛓ " + ANSI_HIGH_WHITE_BACKGROUND + " Estás en la carcel " + ANSI_RESET;
 
     public static final String OFF = ANSI_HIGH_WHITE_BACKGROUND + " OFF " + ANSI_RESET;

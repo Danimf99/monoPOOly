@@ -183,10 +183,6 @@ public class Jugador {
      * @param cantidad cantidad que se desea sumar al jugador
      */
     public void anhadirDinero(int cantidad) {
-        if (cantidad < 0) {
-            Mensajes.error("Error en la cantidad que quiere quitar, tiene que ser positiva");
-            return;
-        }
         this.dinero += cantidad;
     }
 
@@ -212,8 +208,6 @@ public class Jugador {
 
     public void cocheHandler(Prompt prompt) {
         int turnos_especiales = 4;
-        this.dados.lanzar();
-        aumentarVecesDados();
         if (prompt.getTiradasEspeciales() >= turnos_especiales) {
             this.dados.setContador(1);
             Mensajes.error("Lanzaste demasaiadas veces este turno", "No puedes lanzar los dados");
@@ -293,6 +287,12 @@ public class Jugador {
             this.estarEnCarcel=false;
             this.turnosEnCarcel=0;
         }
+        dados.lanzar();
+        aumentarVecesDados();
+        checkCarcel(tablero);
+        if (this.estarEnCarcel) {
+            return;
+        }
         if (this.avatar.getNitroso()) {
             switch (this.avatar.getTipo()) {
                 case coche:
@@ -302,15 +302,10 @@ public class Jugador {
                     //TODO handler pelota
                     break;
             }
-            checkCarcel(tablero);
+
             return;
         }
-        dados.lanzar();
-        aumentarVecesDados();
-        checkCarcel(tablero);
-        if(!this.estarEnCarcel) {
-            this.moverJugador(prompt, dados.tirada());
-        }
+        this.moverJugador(prompt, dados.tirada());
     }
 
     public void aumentarVueltas(){

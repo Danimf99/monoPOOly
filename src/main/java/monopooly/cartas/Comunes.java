@@ -24,7 +24,7 @@ public class Comunes {
                 mod_dinero -= dinero;
             }
         }
-        return dinero;
+        return mod_dinero;
     }
 
     public static void pagoSalidaDesplazamiento(Prompt prompt, Posicion posicion) {

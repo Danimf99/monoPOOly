@@ -14,17 +14,14 @@ public class Juego {
      * @param tablero Tablero de la partida
      */
     public static void turno(Tablero tablero) {
-
         System.out.println(tablero);
-
         Prompt prompt = new Prompt(tablero, tablero.getJugadorTurno());
         tablero.getJugadorTurno().getDados().setContador(0);
+        if (prompt.getJugador().getCooldown() > 0) {
+            prompt.getJugador().reducirCooldown();
+        }
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
-        //Esto es para probar comprar y vender edificios de momento dejalo por si hay que probar mas cosas
-       //tablero.getCalle("Plasencia").compra(prompt.getJugador());
-       //tablero.getCalle("Almería").compra(prompt.getJugador());
-       //tablero.getCalle("Ciudad Real").compra(prompt.getJugador());
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);

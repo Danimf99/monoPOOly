@@ -148,6 +148,12 @@ public class Prompt {
     }
 
     private String cambioDados() {
+        if (jugador.getCooldown() > 0) {
+            String salida = "";
+            salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
+            salida += jugador.getCooldown();
+            return salida;
+        }
         Dados dadosPlayer = jugador.getDados();
         String salida = "";
         if (dadosPlayer.sonDobles()) {
@@ -173,7 +179,6 @@ public class Prompt {
         String color = "";
         String reprMotivo = "";
         String separador = ReprASCII.PROMPT_ELM_OUTTER_SEP;
-        String dinero = ReprASCII.PROMPT_LOG_DINERO + jugador.getDinero() + "" + Precios.MONEDA;
         String modificador = "-";
         String salida = "";
 
@@ -238,7 +243,10 @@ public class Prompt {
         }
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (this.getTiradasEspeciales() > 0 || jugador.getDados().getDobles() > 0 || jugador.getDados().getContador() > 0) {
+        if (this.getTiradasEspeciales() > 0 ||
+                jugador.getDados().getDobles() > 0 ||
+                jugador.getDados().getContador() > 0 ||
+                jugador.getCooldown() > 0) {
             elementos.add(cambioDados());
         }
 

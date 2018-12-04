@@ -271,12 +271,12 @@ public class Tablero {
                 Suerte.NumeracionCartas.carta4));
         //
         this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta5.MENSAJE,
-                Suerte.NumeracionCartas.carta5));
+                Carta.Suerte.Carta8.MENSAJE,
+                Suerte.NumeracionCartas.carta8));
         //
         this.cartasSuerte.add(new Suerte(
                 Carta.Suerte.Carta10.MENSAJE,
-                Suerte.NumeracionCartas.carta8));
+                Suerte.NumeracionCartas.carta10));
     }
 
 

@@ -115,25 +115,21 @@ public class ProcesarComando {
         }
         /*Si caes en una casilla de suerte*/
         if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.suerte)){
-            int eleccion=0;
-            Scanner reader=new Scanner(System.in);
-            Suerte carta;
-
-            Mensajes.imprimir("Elige la carta: ");
-            eleccion= reader.nextInt();
-            carta=tablero.cartaSuerte(eleccion);
+            int eleccion= Mensajes.elegirCarta();
+            if (eleccion < 0) {
+                return;
+            }
+            Suerte carta=tablero.cartaSuerte(eleccion);
             carta.ejecutarCarta(prompt);
         }
 
         /*Si caes en una casilla de caja de comunidad*/
         if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.caja_comunidad)){
-            int eleccion=0;
-            Scanner reader=new Scanner(System.in);
-            CajaComunidad carta;
-
-            Mensajes.imprimir("Elige la carta que quieres coger: ");
-            eleccion= reader.nextInt();
-            carta=tablero.cartaComunidad(eleccion);
+            int eleccion= Mensajes.elegirCarta();
+            if (eleccion < 0) {
+                return;
+            }
+            CajaComunidad carta=tablero.cartaComunidad(eleccion);
             carta.ejecutarCarta(prompt);
         }
 
@@ -172,7 +168,7 @@ public class ProcesarComando {
         }
 
         /* Despues de todos los casos */
-        if(inmuebleActual.getHipotecado()==true){
+        if(inmuebleActual.getHipotecado()){
             Mensajes.info("La propiedad está hipotecada, por lo que no tienes que pagar alquiler.");
             return;
         }
@@ -778,7 +774,7 @@ public class ProcesarComando {
             Mensajes.info("No eres el dueño de la propiedad "+args[1]+".");
             return;
         }
-        if(inmuebleDesHipotecar.getHipotecado()==false){
+        if(!inmuebleDesHipotecar.getHipotecado()){
             Mensajes.info("La proiedad "+args[1]+" no está hipotecada.");
             return;
         }
