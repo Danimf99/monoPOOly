@@ -238,7 +238,7 @@ public class Prompt {
         }
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (jugador.getDados().getContador() > 0 || jugador.getDados().getDobles() > 0) {
+        if (this.getTiradasEspeciales() > 0 || jugador.getDados().getDobles() > 0 || jugador.getDados().getContador() > 0) {
             elementos.add(cambioDados());
         }
 

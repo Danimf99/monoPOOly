@@ -65,6 +65,9 @@ public class Posicion {
     public void mover(int desplazamiento){
         this.x += desplazamiento;
         this.x %= Posiciones.TOTAL;
+        if (this.x < 0) {
+            this.x += Posiciones.TOTAL;
+        }
         this.historialPosiciones.add(new Posicion(this.x));
 
     }

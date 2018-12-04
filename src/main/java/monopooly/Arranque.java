@@ -10,8 +10,14 @@ import monopooly.player.Jugador;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static monopooly.entradaSalida.Juego.partidaRapida;
+
 public class Arranque {
     public static void main(String[] args) {
+        partidaRapida();
+        System.exit(0);
+
+
         Scanner scanner = new Scanner(System.in);
         System.out.println(ReprASCII.ASCII_TITLE);
         int numJugadores = 0;

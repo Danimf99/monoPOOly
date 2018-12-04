@@ -194,6 +194,7 @@ public class Jugador {
         Tablero tablero = prompt.getTablero();
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().mover(desplazamiento);
+        System.out.println(avatar.getPosicion().getX());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
@@ -213,8 +214,11 @@ public class Jugador {
     public void cocheHandler(Prompt prompt) {
         int turnos_especiales = 4;
         this.dados.lanzar();
+        aumentarVecesDados();
         if (prompt.getTiradasEspeciales() >= turnos_especiales) {
             this.dados.setContador(1);
+            Mensajes.error("Lanzaste demasaiadas veces este turno", "No puedes lanzar los dados");
+            return;
         } else {
             this.dados.setContador(0);
         }
@@ -224,6 +228,9 @@ public class Jugador {
         } else {
             this.moverJugador(prompt, -this.dados.tirada());
             this.cooldown = 3; // Turnos antes de volver a tirar
+            this.dados.setContador(1);
+        }
+        if (prompt.getTiradasEspeciales() >= turnos_especiales) {
             this.dados.setContador(1);
         }
     }
@@ -242,23 +249,42 @@ public class Jugador {
     }
 
 
-    /**
-     * Mueve al jugador dependiendo de muchos factores
-     * @param prompt tablero donde se mueve al jugador
-     */
-    public void moverJugador(Prompt prompt){
-        Tablero tablero = prompt.getTablero();
-        if(tablero==null){
-            Mensajes.error("Tablero nulo, no se puede mover al jugador");
-            return;
-        }
-
+    private void checkCarcel(Tablero tablero) {
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
             Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
                     "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
             this.turnosEnCarcel++;
             return;
         }
+
+        if(this.estarEnCarcel && dados.sonDobles()) {
+            Mensajes.info("Sacaste dobles, sales de la carcel");
+            this.estarEnCarcel = false;
+        } else if(dados.sonDobles()){
+            Mensajes.info("Puede tirar otra vez, dados dobles");
+        }
+        if(this.dados.getDobles()==3) {
+            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
+            this.estadisticas.sumarVecesCarcel(1);
+            this.estarEnCarcel = true;
+            avatar.getPosicion().irCarcel();
+            tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+            return;
+        }
+    }
+
+
+    /**
+     * Mueve al jugador dependiendo de muchos factores
+     * @param prompt tablero donde se mueve al jugador
+     */
+    public void moverJugador(Prompt prompt){
+        Tablero tablero = prompt.getTablero();
+        if (this.cooldown > 0) {
+            this.cooldown--;
+            return;
+        }
+
         if(this.turnosEnCarcel==3){
             Mensajes.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
             if(this.getDinero()<Precios.SALIR_CARCEL){
@@ -269,27 +295,20 @@ public class Jugador {
             this.turnosEnCarcel=0;
         }
         if (this.avatar.getNitroso()) {
-            cocheHandler(prompt);
+            switch (this.avatar.getTipo()) {
+                case coche:
+                    cocheHandler(prompt);
+                    break;
+                case pelota:
+                    //TODO handler pelota
+                    break;
+            }
+            checkCarcel(tablero);
             return;
         }
         dados.lanzar();
         aumentarVecesDados();
-        if(dados.sonDobles()){
-            Mensajes.info("Puede tirar otra vez, dados dobles");
-
-        }
-        if(this.estarEnCarcel && dados.sonDobles()) {
-            Mensajes.info("Sacaste dobles, sales de la carcel");
-            this.estarEnCarcel = false;
-        }
-        if(this.dados.getDobles()==3) {
-            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
-            this.estadisticas.sumarVecesCarcel(1);
-            this.estarEnCarcel = true;
-            avatar.getPosicion().irCarcel();
-            tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
-            return;
-        }
+        checkCarcel(tablero);
         this.moverJugador(prompt, dados.tirada());
     }
 

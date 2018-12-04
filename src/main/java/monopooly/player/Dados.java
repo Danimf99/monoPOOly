@@ -61,8 +61,8 @@ public class Dados {
     public void lanzar() {
         Random tirada1 = new Random();
         Random tirada2 = new Random();
-        this.dado1 = tirada1.nextInt(6) + 1;
-        this.dado2 = tirada2.nextInt(6) + 1;
+        this.dado1 = tirada1.nextInt(2) + 1;
+        this.dado2 = tirada2.nextInt(2) + 1;
         contador=1;
         if(sonDobles()){
             contador=0;

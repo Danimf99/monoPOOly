@@ -72,6 +72,12 @@ public class ProcesarComando {
             Mensajes.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
         }
+
+        if (prompt.getJugador().getCooldown() > 0) {
+            Mensajes.info("Tienes que esperar " + prompt.getJugador().getCooldown() + " para volver a tirar.");
+            return;
+        }
+
         prompt.getJugador().moverJugador(prompt);
         //Repintado tablero
         System.out.println(prompt.getTablero().toString());
