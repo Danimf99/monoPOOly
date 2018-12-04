@@ -218,6 +218,7 @@ public class Jugador {
         if (this.dados.tirada() > 4) {
             this.moverJugador(prompt, this.dados.tirada());
             prompt.anhadirPosicion(this.avatar.getPosicion());
+            pagoSalida(prompt);
         } else {
             this.moverJugador(prompt, -this.dados.tirada());
             this.cooldown = 3; // Turnos antes de volver a tirar
@@ -266,6 +267,20 @@ public class Jugador {
         }
     }
 
+    private void pagoSalida(Prompt prompt) {
+        Jugador jActual = prompt.getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+        if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
+            // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
+            Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
+            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
+            jActual.anhadirDinero(Precios.SALIDA);
+            jActual.aumentarVueltas();
+            prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
+            jActual.getAvatar().sumarVuelta();
+        }
+    }
+
 
     /**
      * Mueve al jugador dependiendo de muchos factores
@@ -305,7 +320,9 @@ public class Jugador {
 
             return;
         }
+
         this.moverJugador(prompt, dados.tirada());
+        pagoSalida(prompt);
     }
 
     public void aumentarVueltas(){

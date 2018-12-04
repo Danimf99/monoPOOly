@@ -98,15 +98,7 @@ public class ProcesarComando {
         inmuebleActual.aumentarVecesFrecuentado();
         /* Primero hay que mirar si paso por la casilla de salida */
 
-        if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
-            // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
-            Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
-            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
-            jActual.anhadirDinero(Precios.SALIDA);
-            jActual.aumentarVueltas();
-            prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
-            jActual.getAvatar().sumarVuelta();
-        }
+
         if (posJugadorActual.getX() == Posiciones.PARKING) {
             int dineroParking = tablero.devolverBote(jActual);
             prompt.setModificacionPasta(dineroParking, "Bote del parking");
