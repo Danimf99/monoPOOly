@@ -44,6 +44,35 @@ public class Monopolio {
 
     /* Metodos sobre la instancia */
 
+    public int calcularEdificios(TipoEdificio tipo){
+        int cantidad=0;
+
+        switch(tipo){
+            case casa:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumCasas();
+                }
+                break;
+            case hotel:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumHoteles();
+                }
+                break;
+            case piscina:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumPiscinas();
+                }
+                break;
+            case deporte:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumDeportes();
+                }
+                break;
+            default:
+                break;
+        }
+        return cantidad;
+    }
 
     /**
      * Añade un inmueble a un Monopoloo/grupo de color. Se usa en el constructor de Inmueble para añadirlo directamente.

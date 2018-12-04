@@ -279,30 +279,92 @@ public class ProcesarComando {
                     if(args.length>3){
                         args[2]=args[2].concat(" "+args[3]);
                     }
+                    int casas=0;
+                    int hoteles=0;
+                    int piscinas=0;
+                    int deportes=0;
+                    int size=0;
                     switch (args[2]){
                         case "marron":
+                        case "marrón":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Murcia").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Murcia").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Murcia").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Murcia").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Murcia").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Murcia").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                            break;
                         case  "azul claro":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Plasencia").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Plasencia").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Plasencia").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Plasencia").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Plasencia").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Plasencia").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case "violeta":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Toledo").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Toledo").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Toledo").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Toledo").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Toledo").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Toledo").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case "naranja":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Valencia").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Valencia").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Valencia").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Valencia").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Valencia").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Valencia").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case"rojo":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Sevilla").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Sevilla").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Sevilla").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Sevilla").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Sevilla").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Sevilla").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case "amarillo":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Lugo").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Lugo").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Lugo").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Lugo").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Lugo").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Lugo").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case "verde":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Madrid").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Madrid").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Madrid").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Madrid").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Madrid").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Madrid").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         case "azul marino":
                             Mensajes.imprimir(prompt.getTablero().getCalle("Ibiza").getGrupoColor().listaEdificaciones());
+                            size=prompt.getTablero().getCalle("Ibiza").getGrupoColor().sizeMonopolio();
+                            casas=prompt.getTablero().getCalle("Ibiza").getGrupoColor().calcularEdificios(casa);
+                            hoteles=prompt.getTablero().getCalle("Ibiza").getGrupoColor().calcularEdificios(hotel);
+                            piscinas=prompt.getTablero().getCalle("Ibiza").getGrupoColor().calcularEdificios(piscina);
+                            deportes=prompt.getTablero().getCalle("Ibiza").getGrupoColor().calcularEdificios(deporte);
+                            Mensajes.imprimir(PintadoASCII.encuadrar("Se pueden construir: "+(size-casas)+" casas, "+(size-hoteles)+" hoteles, "+(size-piscinas)+
+                                    " piscinas, "+(size-deportes)+" deportes."));
                             break;
                         default:
                             Mensajes.info("En ese monopolio no puede haber edificios");
@@ -316,6 +378,7 @@ public class ProcesarComando {
                 break;
         }
     }
+
 
     public static void comprar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
         if (args.length != 2 && args.length != 3) {
