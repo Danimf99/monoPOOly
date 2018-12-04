@@ -101,7 +101,7 @@ public class Suerte {
     }
 
     private void accionCarta4(Prompt prompt) {
-        desplazar(prompt, new Posicion(11));
+        desplazar(prompt, new Posicion(21));
     }
 
     private void accionCarta5(Prompt prompt) {
