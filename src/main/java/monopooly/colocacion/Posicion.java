@@ -36,6 +36,7 @@ public class Posicion {
         return x;
     }
     public void setX(int x){
+        this.historialPosiciones.add(new Posicion(this.x));
         this.x=x;
     }
 

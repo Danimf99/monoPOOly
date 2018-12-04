@@ -99,11 +99,8 @@ public class CajaComunidad {
     }
 
     private void accionCarta3(Prompt prompt) {
-        int dinero = Carta.Comunidad.Carta3.DINERO;
         Jugador actual = prompt.getJugador();
         actual.moverJugador(prompt, new Posicion(Posiciones.SALIDA));
-        prompt.getTablero().getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
-        darDinero(prompt, dinero);
     }
 
     private void accionCarta4(Prompt prompt) {

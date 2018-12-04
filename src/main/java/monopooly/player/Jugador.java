@@ -208,7 +208,7 @@ public class Jugador {
 
     public void cocheHandler(Prompt prompt) {
         int turnos_especiales = 4;
-        if (prompt.getTiradasEspeciales() >= turnos_especiales) {
+        if (prompt.getTiradasEspeciales() >= turnos_especiales -1 ) {
             this.dados.setContador(1);
             Mensajes.error("Lanzaste demasaiadas veces este turno", "No puedes lanzar los dados");
             return;
@@ -244,6 +244,11 @@ public class Jugador {
 
 
     private void checkCarcel(Tablero tablero) {
+        if(this.estarEnCarcel && dados.sonDobles()) {
+            Mensajes.info("Sacaste dobles, sales de la carcel");
+            this.estarEnCarcel = false;
+        }
+
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
             Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
                     "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
@@ -251,12 +256,6 @@ public class Jugador {
             return;
         }
 
-        if(this.estarEnCarcel && dados.sonDobles()) {
-            Mensajes.info("Sacaste dobles, sales de la carcel");
-            this.estarEnCarcel = false;
-        } else if(dados.sonDobles()){
-            Mensajes.info("Puede tirar otra vez, dados dobles");
-        }
         if(this.dados.getDobles()==3) {
             Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
             this.estadisticas.sumarVecesCarcel(1);

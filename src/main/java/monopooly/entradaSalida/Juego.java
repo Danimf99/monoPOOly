@@ -88,9 +88,11 @@ public class Juego {
                         Mensajes.info("Tienes que declararte en bancarrota. No puedes pasar turno.");
                         return;
                     }
-                    if(prompt.getJugador().getDados().getContador()!=1) {
-                        Mensajes.info("Aún no lanzaste dados este turno!!");
-                        return;
+                    if (prompt.getJugador().getCooldown() == 0) {
+                        if(prompt.getJugador().getDados().getContador()!=1) {
+                            Mensajes.info("Aún no lanzaste dados este turno!!");
+                            return;
+                        }
                     }
                     terminarTurno = true;
                     terminarTurno = ProcesarComando.acabarTurno(arrayComando);
