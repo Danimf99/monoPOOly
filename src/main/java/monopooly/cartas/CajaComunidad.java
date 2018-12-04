@@ -95,6 +95,7 @@ public class CajaComunidad {
     private void accionCarta2(Prompt prompt) {
         Jugador actual = prompt.getJugador();
         actual.moverJugador(prompt, new Posicion(Posiciones.CARCEL));
+        actual.setEstarEnCarcel(true);
     }
 
     private void accionCarta3(Prompt prompt) {

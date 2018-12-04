@@ -74,7 +74,8 @@ public class ProcesarComando {
         }
 
         if (prompt.getJugador().getCooldown() > 0) {
-            Mensajes.info("Tienes que esperar " + prompt.getJugador().getCooldown() + " para volver a tirar.");
+            Mensajes.info("Tienes que esperar " + prompt.getJugador().getCooldown() + " turnos\n para volver a tirar.");
+            prompt.getJugador().getDados().setContador(1);
             return;
         }
 

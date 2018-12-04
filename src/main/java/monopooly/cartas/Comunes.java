@@ -48,7 +48,7 @@ public class Comunes {
 
     public static void desplazar(Prompt prompt, Posicion posicion) {
         Jugador actual = prompt.getJugador();
-        Tablero tablero =prompt.getTablero();
+        Tablero tablero = prompt.getTablero();
         actual.moverJugador(prompt, posicion);
         tablero.getCasilla(actual.getAvatar().getPosicion()).getCalle().aumentarVecesFrecuentado();
         pagoSalidaDesplazamiento(prompt, posicion);
