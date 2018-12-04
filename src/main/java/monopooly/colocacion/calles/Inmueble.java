@@ -122,6 +122,7 @@ public class Inmueble {
      */
     public int calcularAlquiler(Jugador deudor) {
         int dineroAlquiler = 0;
+
         switch (this.grupoColor.getTipo()) {
             case estacion:
                 dineroAlquiler =(int) ((Precios.SALIDA/4) * this.grupoColor.cantidadPropiedades(this.propietario));
@@ -138,7 +139,30 @@ public class Inmueble {
                 dineroAlquiler = Precios.FACTOR_SERVICIOS * deudor.getDados().tirada();
                 break;
             default:
-                dineroAlquiler = (int) (this.precio_inicial*0.1);
+                dineroAlquiler = 0;
+                if(calcularNumDeportes()>0){
+                    dineroAlquiler=(int) (this.precio_inicial)*25*calcularNumDeportes();
+                }
+                else if(calcularNumPiscinas()>0){
+                    dineroAlquiler+=25*calcularNumPiscinas()*(int) (this.precio_inicial);
+                }
+                else if(calcularNumHoteles()>0){
+                    dineroAlquiler+=70*dineroAlquiler*(int) (this.precio_inicial);
+                }
+                else if(calcularNumCasas()>0){
+                    if(calcularNumCasas()==4){
+                        dineroAlquiler=50*(int) (this.precio_inicial);
+                    }
+                    if(calcularNumCasas()==3){
+                        dineroAlquiler+=35*(int) (this.precio_inicial);
+                    }
+                    if (calcularNumCasas()==2){
+                        dineroAlquiler+=15*(int) (this.precio_inicial);
+                    }
+                    else{
+                        dineroAlquiler+=5*(int) (this.precio_inicial);
+                    }
+                }
 
                 // Habria que tener en cuenta las casas pero de momento no hay
                 if (this.grupoColor.esCompleto()) {

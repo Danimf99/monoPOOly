@@ -3,7 +3,6 @@ package monopooly.player;
 import monopooly.Estadisticas.EstadisticasJugador;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Precios;
@@ -27,6 +26,7 @@ public class Jugador {
     private int turnosEnCarcel;
     private EstadisticasJugador estadisticas;
     private int vueltas;
+    private int vecesDados;
     private int cooldown;
     /**
      * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
@@ -47,6 +47,7 @@ public class Jugador {
             estadisticas=new EstadisticasJugador();
             this.vueltas = 0;
             this.cooldown = 0;
+            this.vecesDados=0;
         }
     }
 
@@ -64,6 +65,8 @@ public class Jugador {
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
         this.turnosEnCarcel=0;
+        this.vueltas=0;
+        this.vecesDados=0;
         estadisticas=new EstadisticasJugador();
     }
 
@@ -77,6 +80,14 @@ public class Jugador {
 
     public void reducirCooldown() {
         this.cooldown--;
+    }
+
+    public int getVueltas() {
+        return vueltas;
+    }
+
+    public int getVecesDados() {
+        return vecesDados;
     }
 
     public int getDinero() {
@@ -150,6 +161,9 @@ public class Jugador {
         inmueble.setHipotecado(true);
     }
 
+    public void aumentarVecesDados(){
+        this.vecesDados++;
+    }
     /**
      * Al jguador se le quitar una cantidad de dinero
      *
@@ -256,6 +270,7 @@ public class Jugador {
             return;
         }
         dados.lanzar();
+        aumentarVecesDados();
         if(dados.sonDobles()){
             Mensajes.info("Puede tirar otra vez, dados dobles");
 
@@ -275,6 +290,22 @@ public class Jugador {
         this.moverJugador(tablero, dados.tirada());
     }
 
+    public void aumentarVueltas(){
+        this.vueltas++;
+    }
+
+    public int calcularFortunaTotal(){
+        int fortuna=this.dinero;
+
+        for(Inmueble i: propiedades){
+            fortuna+=i.getPrecio_inicial();
+            for(Edificaciones e:i.getEdificios()){
+                fortuna+=e.getPrecio();
+            }
+        }
+
+        return fortuna;
+    }
     @Override
     public String toString() {
         int j=0;

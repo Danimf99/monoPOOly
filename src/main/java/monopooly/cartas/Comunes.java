@@ -34,6 +34,7 @@ public class Comunes {
             actual.anhadirDinero(Precios.SALIDA);
             prompt.setModificacionPasta(Precios.SALIDA, "Pasaste por la casilla de salida");
             actual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
+            actual.aumentarVueltas();
         }
     }
 

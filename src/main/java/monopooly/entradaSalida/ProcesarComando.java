@@ -96,6 +96,7 @@ public class ProcesarComando {
             Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
             jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
             jActual.anhadirDinero(Precios.SALIDA);
+            jActual.aumentarVueltas();
             prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
             jActual.getAvatar().sumarVuelta();
         }
@@ -371,7 +372,10 @@ public class ProcesarComando {
 
     public static void estadisticas(String[] args,Prompt prompt){
         if(args.length==2 && prompt.getTablero().getJugadores().containsKey(args[1]) ){
-            Mensajes.imprimir(prompt.getJugador().getEstadisticas().toString());
+            for(Jugador j: prompt.getTablero().getJugadores().values())
+                if(j.getNombre().equals(args[1])){
+                    Mensajes.imprimir(j.getEstadisticas().toString());
+                }
             return;
         }
         if(args.length==1){

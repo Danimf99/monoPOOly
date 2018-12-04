@@ -1,8 +1,10 @@
 package monopooly.Estadisticas;
 
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.entradaSalida.PintadoASCII;
+import monopooly.player.Jugador;
 
 public class EstadisticasGlobales {
 
@@ -68,31 +70,50 @@ public class EstadisticasGlobales {
     private void calcularInmuebleFrecuentado(){
         int freq=0;
 
-        for(Inmueble i: tablero.getCalles().values()){
-            if(freq<i.getVecesFrecuentado()){
-                freq=i.getVecesFrecuentado();
-                inmuebleMasFrecuentado=new String(i.getNombre());
+        for(Casilla i: tablero.getCasillas().values()){
+            if(freq<i.getCalle().getVecesFrecuentado()){
+                freq=i.getCalle().getVecesFrecuentado();
+                inmuebleMasFrecuentado=new String(i.getCalle().getNombre());
             }
         }
     }
 
     private void calcularJugadorMasVueltas(){
-
+        int max=0;
+        for(Jugador j:tablero.getJugadores().values()){
+            if(max<j.getVueltas()){
+                max=j.getVueltas();
+                jugadorMasVueltas=new String(j.getNombre());
+            }
+        }
     }
 
     private void calcularJugadorVecesDados(){
-
+        int max=0;
+        for(Jugador j:tablero.getJugadores().values()){
+            if(max<j.getVecesDados()){
+                max=j.getVecesDados();
+                jugadorDados=new String(j.getNombre());
+            }
+        }
     }
 
     private void calcularEnCabeza(){
+        int maxDinero=0;
 
+        for(Jugador j:tablero.getJugadores().values()){
+            if(maxDinero<j.calcularFortunaTotal()){
+                maxDinero=j.calcularFortunaTotal();
+                jugadorEnCabeza=new String(j.getNombre());
+            }
+        }
     }
 
     public String toString(){
         StringBuilder stats=new StringBuilder();
         stats.append("Inmueble más rentable: "+inmuebleMasRentable+"\n");
         stats.append("Grupo mas rentable: "+grupoMasRentable+"\n");
-        stats.append("Inmueble mas frecuentado: "+inmuebleMasFrecuentado+"\n");
+        stats.append("Casilla mas frecuentada: "+inmuebleMasFrecuentado+"\n");
         stats.append("Jugador con mas vueltas: "+jugadorMasVueltas+"\n");
         stats.append("Jugador que lanzo mas veces: "+jugadorDados+"\n");
         stats.append("Jugador que va en cabeza: "+jugadorEnCabeza+"\n");
