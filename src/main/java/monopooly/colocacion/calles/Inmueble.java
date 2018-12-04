@@ -163,6 +163,9 @@ public class Inmueble {
                         dineroAlquiler+=5*(int) (this.precio_inicial);
                     }
                 }
+                else{
+                    dineroAlquiler=(int)(this.precio_inicial*0.1);
+                }
 
                 // Habria que tener en cuenta las casas pero de momento no hay
                 if (this.grupoColor.esCompleto()) {
