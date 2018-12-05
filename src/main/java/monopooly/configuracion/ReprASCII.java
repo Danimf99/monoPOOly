@@ -123,7 +123,7 @@ public class ReprASCII {
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
             + "\t\t Se desplaza en diagonal.\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
-            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t\t Se desplaza en diagonal\n"
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
             + "\t\t Se desplaza hacia delante si el valor de los dados es mayor que 4.\n"
             +" \t\t Mientras que si el valor es menor que 4, retrocederás.\n"
