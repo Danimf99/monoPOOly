@@ -71,6 +71,7 @@ public class Nombres {
             "bancarrota    -  Declarar bancarrota",
             "listar        -  Lista elementos",
             "acabar turno  -  Termina el turno",
+            "cambiar modo  -  Activa el movimiento especial",
             "ver tablero   -  Muestra el tablero"
     };
 

@@ -14,16 +14,18 @@ public class Juego {
      * @param tablero Tablero de la partida
      */
     public static void turno(Tablero tablero) {
-
         System.out.println(tablero);
-
         Prompt prompt = new Prompt(tablero, tablero.getJugadorTurno());
         tablero.getJugadorTurno().getDados().setContador(0);
+        if (prompt.getJugador().getCooldown() > 0) {
+            prompt.getJugador().reducirCooldown();
+        }
         Scanner reader = new Scanner(System.in);
         boolean terminarTurno = false;
         while (!terminarTurno) {
             System.out.print(prompt);
             prompt.setHelp(false);
+            tablero.getEstadisticas().calcularEstadisticas();
             String comando = reader.nextLine();
             String[] arrayComando = comando.split(" ");
             switch (arrayComando[0].toLowerCase()) {
@@ -34,11 +36,24 @@ public class Juego {
                     ProcesarComando.bancarrota(arrayComando,prompt);
                     terminarTurno=true;
                     break;
-
+                case "edificar":
+                case "e":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes edificar.");
+                        return;
+                    }
+                    ProcesarComando.edificar(arrayComando,prompt);
+                    break;
+                case "estadisticas":
+                case "estadísticas":
+                    ProcesarComando.estadisticas(arrayComando,prompt);
+                    break;
                 case "lanzar":
                     ProcesarComando.lanzarDados(arrayComando, prompt);
                     break;
-
+                case "hipotecar":
+                    ProcesarComando.hipotecar(arrayComando,prompt);
+                    break;
                 case "listar":
                 case "l":
                     ProcesarComando.listar(arrayComando, prompt);
@@ -47,7 +62,13 @@ public class Juego {
                 case "c":
                     ProcesarComando.comprar(arrayComando,prompt);
                     break;
-
+                case "deshipotecar":
+                    if(prompt.getJugador().getDinero()<0){
+                        Mensajes.info("Estás en bancarrota no puedes deshipotecar propiedades.");
+                        return;
+                    }
+                    ProcesarComando.deshipotecar(arrayComando,prompt);
+                    break;
                 case "describir":
                 case "d":
                     ProcesarComando.describir(arrayComando, prompt);
@@ -57,21 +78,28 @@ public class Juego {
                 case "j":
                     ProcesarComando.infoJugador(arrayComando, prompt);
                     break;
-
+                case "vender":
+                case "v":
+                    ProcesarComando.venderEdificios(arrayComando,prompt);
+                    break;
                 case "acabar":
                 case "at":
                     if(prompt.getJugador().getDinero()<0){
                         Mensajes.info("Tienes que declararte en bancarrota. No puedes pasar turno.");
                         return;
                     }
-                    if(prompt.getJugador().getDados().getContador()!=1) {
-                        Mensajes.info("Aún no lanzaste dados este turno!!");
-                        return;
+                    if (prompt.getJugador().getCooldown() == 0) {
+                        if(prompt.getJugador().getDados().getContador()!=1) {
+                            Mensajes.info("Aún no lanzaste dados este turno!!");
+                            return;
+                        }
                     }
                     terminarTurno = true;
                     terminarTurno = ProcesarComando.acabarTurno(arrayComando);
                     break;
-
+                case "cambiar":
+                    ProcesarComando.cambiarModo(arrayComando,prompt);
+                    break;
                 case "salir":
                 case "s":
                     ProcesarComando.salirCarcel(arrayComando,prompt);
@@ -111,7 +139,7 @@ public class Juego {
     public static void partidaRapida() {
         ArrayList<Jugador> jugadores = new ArrayList<>();
         jugadores.add(new Jugador("Saul", TipoAvatar.pelota));
-        jugadores.add(new Jugador("Dani", TipoAvatar.sombrero));
+        jugadores.add(new Jugador("Dani", TipoAvatar.pelota));
         Tablero tablero = new Tablero(jugadores);
         partida(tablero);
     }

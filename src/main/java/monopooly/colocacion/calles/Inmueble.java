@@ -5,6 +5,8 @@ import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
+import java.util.HashSet;
+
 public class Inmueble {
     private String nombre;
     private int precio;
@@ -13,7 +15,9 @@ public class Inmueble {
     private Jugador propietario;
     private Monopolio grupoColor;
     private Boolean hipotecado;
-
+    private HashSet<Edificaciones> edificios;
+    private int pagoDeAlquileres;
+    private int vecesFrecuentado;
     /* Constructores */
 
 
@@ -33,19 +37,31 @@ public class Inmueble {
         this.grupoColor = grupoColor;
         this.propietario = banca;
         this.hipotecado = false;
-
+        this.edificios=new HashSet<>();
+        this.pagoDeAlquileres=0;
+        this.vecesFrecuentado=0;
         grupoColor.insertarInmueble(this);
 
     }
 
     /* Getters */
-
+    public HashSet<Edificaciones> getEdificios(){
+        return edificios;
+    }
     public String getNombre() {
         return nombre;
     }
 
+    public int getVecesFrecuentado() {
+        return vecesFrecuentado;
+    }
+
     public int getPrecio() {
         return precio;
+    }
+
+    public int getPagoDeAlquileres() {
+        return pagoDeAlquileres;
     }
 
     public int getPrecio_inicial() {
@@ -64,8 +80,13 @@ public class Inmueble {
         return hipotecado;
     }
 
+
+
     /* Setters */
 
+    public void setPrecio_inicial(int precio_inicial) {
+        this.precio_inicial = precio_inicial;
+    }
 
     public void setHipotecado(Boolean hipotecado) {
         this.hipotecado = hipotecado;
@@ -85,7 +106,12 @@ public class Inmueble {
 
     /* Metodos para la instancia */
 
-
+    public void aumentarVecesFrecuentado(){
+        this.vecesFrecuentado++;
+    }
+    public void sumarPagoAlquileres(int cantidad){
+        this.pagoDeAlquileres+=cantidad;
+    }
     public void incrementarPrecio() {
         this.precio = (int) (this.precio * 1.05);
     }
@@ -96,6 +122,7 @@ public class Inmueble {
      */
     public int calcularAlquiler(Jugador deudor) {
         int dineroAlquiler = 0;
+
         switch (this.grupoColor.getTipo()) {
             case estacion:
                 dineroAlquiler =(int) ((Precios.SALIDA/4) * this.grupoColor.cantidadPropiedades(this.propietario));
@@ -112,7 +139,34 @@ public class Inmueble {
                 dineroAlquiler = Precios.FACTOR_SERVICIOS * deudor.getDados().tirada();
                 break;
             default:
-                dineroAlquiler = (int) (this.precio_inicial * 0.1);
+                dineroAlquiler = 0;
+                if(calcularNumDeportes()>0){
+                    dineroAlquiler=(int) (this.precio_inicial)*25*calcularNumDeportes();
+                }
+                else if(calcularNumPiscinas()>0){
+                    dineroAlquiler+=25*calcularNumPiscinas()*(int) (this.precio_inicial);
+                }
+                else if(calcularNumHoteles()>0){
+                    dineroAlquiler+=70*dineroAlquiler*(int) (this.precio_inicial);
+                }
+                else if(calcularNumCasas()>0){
+                    if(calcularNumCasas()==4){
+                        dineroAlquiler=50*(int) (this.precio_inicial);
+                    }
+                    if(calcularNumCasas()==3){
+                        dineroAlquiler+=35*(int) (this.precio_inicial);
+                    }
+                    if (calcularNumCasas()==2){
+                        dineroAlquiler+=15*(int) (this.precio_inicial);
+                    }
+                    else{
+                        dineroAlquiler+=5*(int) (this.precio_inicial);
+                    }
+                }
+                else{
+                    dineroAlquiler=(int)(this.precio_inicial*0.1);
+                }
+
                 // Habria que tener en cuenta las casas pero de momento no hay
                 if (this.grupoColor.esCompleto()) {
                     dineroAlquiler *= 2;
@@ -122,6 +176,21 @@ public class Inmueble {
         return dineroAlquiler;
     }
 
+    public int precioEdificio(TipoEdificio tipo){
+        switch(tipo){
+            case casa:
+                return (int)(this.precio_inicial*Precios.VALOR_CASA);
+            case hotel:
+                return (int)(this.precio_inicial*Precios.VALOR_HOTEL);
+            case deporte:
+                return (int)(this.precio_inicial*Precios.VALOR_DEPORTE);
+            case piscina:
+                return (int)(this.precio_inicial*Precios.VALOR_PISCINA);
+            default:
+                Mensajes.error("Ese edificio no existe");
+                return 0;
+        }
+    }
     public int calcularHipoteca() {
         return this.getPrecio_inicial() / 2;
     }
@@ -162,6 +231,88 @@ public class Inmueble {
         this.hipotecado = true;
     }
 
+    /**
+     * Añade un edificio al inmueble
+     * @param edificio edificio que se quiere añadir
+     */
+    public void anhadirEdificio(Edificaciones edificio){
+        if(edificio==null){
+            Mensajes.error("Edificio nulo, no se puede insertar");
+            return;
+        }
+        edificios.add(edificio);
+    }
+
+    /**
+     * Añade un edificio al inmueble
+     * @param tipo edificio que se quiere añadir
+     */
+    public void anhadirEdificio(TipoEdificio tipo){
+        edificios.add(new Edificaciones(tipo, precioEdificio(tipo), this));
+    }
+    public int calcularNumCasas(){
+        int cont=0;
+        for(Edificaciones e: this.getEdificios()){
+            if(e.getTipo()==TipoEdificio.casa){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public Edificaciones getEdificio(TipoEdificio tipo){
+        for(Edificaciones e:edificios){
+            if(e.getTipo()==tipo){
+                return e;
+            }
+        }
+        return null;
+    }
+    public int calcularNumHoteles(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.hotel){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumPiscinas(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.piscina){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumDeportes(){
+        int cont=0;
+        for(Edificaciones e: edificios){
+            if(e.getTipo()==TipoEdificio.deporte){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public void quitarEdificio(Edificaciones edificio){
+        if(edificio==null){
+            Mensajes.error("Edificio nulo, no se puede eliminar");
+            return;
+        }
+        edificios.remove(edificio);
+    }
+    public void quitarEdificio(TipoEdificio tipo){
+        for(Edificaciones e:edificios){
+            if(e.getTipo()==tipo){
+                edificios.remove(e);
+                return;
+            }
+        }
+    }
+
+    public String listarEdificaciones() {
+        return PintadoASCII.encuadrar(PintadoASCII.genEdificaciones(this));
+    }
 
     @Override
     public String toString() {

@@ -11,12 +11,13 @@ import monopooly.player.Jugador;
 import java.util.ArrayList;
 
 public class Prompt {
-    private Dados dadosInicio;
     private Tablero tablero;
     private Jugador jugador;
     private int modDinero;
     private String motivoPago;
     private boolean help;
+    private boolean compro;
+    private ArrayList<Posicion> posicionesTurno;
 
     public Prompt(Tablero tablero, Jugador jugador) {
 
@@ -25,7 +26,8 @@ public class Prompt {
         this.modDinero = 0;
         this.motivoPago = "";
         this.help = false;
-        this.dadosInicio = new Dados(jugador.getDados().getDado1(), jugador.getDados().getDado2()); // TODO mejorar esto
+        this.compro = false;
+        this.posicionesTurno = new ArrayList<>();
     }
 
     public Prompt() {
@@ -60,17 +62,43 @@ public class Prompt {
         this.modDinero = modDinero;
     }
 
+    public boolean isCompro() {
+        return compro;
+    }
+
+    public void setCompro(boolean compro) {
+        this.compro = compro;
+    }
+
     public void setMotivoPago(String motivoPago) {
         this.motivoPago = motivoPago;
     }
 
     public void setModificacionPasta(int modDinero, String motivoPago) {
+        Mensajes.info(motivoPago, modDinero + " " + Precios.MONEDA);
         this.modDinero = modDinero;
         this.motivoPago = motivoPago;
     }
 
     public void setHelp(boolean help) {
         this.help = help;
+    }
+
+
+    public ArrayList<Posicion> getPosicionesTurno() {
+        return posicionesTurno;
+    }
+
+    public void setPosicionesTurno(ArrayList<Posicion> posicionesTurno) {
+        this.posicionesTurno = posicionesTurno;
+    }
+
+    public int getTiradasEspeciales() {
+        return this.posicionesTurno.size();
+    }
+
+    public void anhadirPosicion(Posicion posicion) {
+        this.posicionesTurno.add(new Posicion(posicion.getX()));
     }
 
     private String genPrompt(ArrayList<String> elementos) {
@@ -93,28 +121,53 @@ public class Prompt {
      */
     private ArrayList<String> madatoryElems() {
         ArrayList<String> elementos = new ArrayList<>();
-        elementos.add("" + this.jugador.getAvatar().getRepresentacion());
+
+        // Indica el avatar actual
+        elementos.add(""
+                + this.jugador.getAvatar().getRepresentacion()
+                + " - "
+                + ReprASCII.ANSI_BLUE_BOLD
+                + "Tipo"
+                + ReprASCII.ANSI_RESET
+                + ": "
+                + this.jugador.getAvatar().getTipo().toString());
+
+        // Nombre jugador
         elementos.add(this.jugador.getNombre());
+
         // Nombre casilla actual
         Posicion posJugador = this.jugador.getAvatar().getPosicion();
         Inmueble inmuebleActual = tablero.getCasilla(posJugador).getCalle();
-        String nombreCasilla = ReprASCII.colorMonopolio(inmuebleActual.getGrupoColor().getTipo()) +
-                " " + inmuebleActual.getNombre() + " " +
-                ReprASCII.ANSI_RESET;
+        String nombreCasilla = ReprASCII.colorMonopolio(inmuebleActual.getGrupoColor().getTipo())
+                + " "
+                + inmuebleActual.getNombre()
+                + " "
+                + ReprASCII.ANSI_RESET;
         elementos.add(nombreCasilla);
+
         return elementos;
     }
 
     private String cambioDados() {
         Dados dadosPlayer = jugador.getDados();
+        String salida = "";
+        if (jugador.getCooldown() > 0) {
+            salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
+            salida += jugador.getCooldown() + "  ";
+        }
+        if (dadosPlayer.sonDobles()) {
+            salida += ReprASCII.ANSI_BLACK_BOLD;
+        }
 
-        return ReprASCII.PROMPT_DADOS +
-                dadosPlayer.tirada() +
-                " (" +
-                dadosPlayer.getDado1() +
-                "-" +
-                dadosPlayer.getDado2() +
-                ")";
+        return salida
+                + ReprASCII.PROMPT_DADOS
+                + dadosPlayer.tirada()
+                + " ("
+                + dadosPlayer.getDado1()
+                + "-"
+                + dadosPlayer.getDado2()
+                + ")"
+                + ReprASCII.ANSI_RESET;
     }
 
     /**
@@ -125,12 +178,11 @@ public class Prompt {
         String color = "";
         String reprMotivo = "";
         String separador = ReprASCII.PROMPT_ELM_OUTTER_SEP;
-        String dinero = ReprASCII.PROMPT_LOG_DINERO + jugador.getDinero() + "" + Precios.MONEDA;
         String modificador = "-";
         String salida = "";
 
         if (modDinero == 0) {
-            separador = "";
+            separador = " ";
         } else if (modDinero < 0) {
             color = ReprASCII.ANSI_RED;
             modificador = ReprASCII.PROMPT_LOG_DINERO_DOWN;
@@ -155,6 +207,22 @@ public class Prompt {
         return salida;
     }
 
+
+    private String movmientoEspecial() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(ReprASCII.ANSI_PURPLE_BOLD);
+        sBuilder.append("Movimiento especial");
+        sBuilder.append(ReprASCII.ANSI_RESET);
+        sBuilder.append(": ");
+        if (this.jugador.getAvatar().getNitroso()) {
+            sBuilder.append(ReprASCII.ON);
+        } else {
+            sBuilder.append(ReprASCII.OFF);
+        }
+        return sBuilder.toString();
+    }
+
+
     /**
      * Representacion del prompt que se usará al crear la partida
      * @return string a imprimir antes de leer lo del usuario
@@ -174,13 +242,18 @@ public class Prompt {
         }
         ArrayList<String> elementos = madatoryElems();
         elementos.add(cambioDinero());
-        if (jugador.getDados().getContador() > 0 || jugador.getDados().getDobles() > 0) {
+        if (this.getTiradasEspeciales() > 0 ||
+                jugador.getDados().getDobles() > 0 ||
+                jugador.getDados().getContador() > 0 ||
+                jugador.getCooldown() > 0) {
             elementos.add(cambioDados());
         }
 
         if (jugador.getEstarEnCarcel()) {
             elementos.add(ReprASCII.PROMPT_CARCEL);
         }
+
+        elementos.add(this.movmientoEspecial());
 
         elementos.add(ReprASCII.PROMPT_LOGO);
 

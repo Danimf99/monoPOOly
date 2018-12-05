@@ -1,12 +1,14 @@
 package monopooly.colocacion.calles;
 
+import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+
+import static monopooly.entradaSalida.PintadoASCII.genEdificaciones;
+import static monopooly.entradaSalida.PintadoASCII.genInfo;
 
 public class Monopolio {
     private HashSet<Inmueble> calles;
@@ -32,8 +34,45 @@ public class Monopolio {
         return tipo;
     }
 
+    public HashSet<Inmueble> getCalles(){
+        return calles;
+    }
+
+    public int sizeMonopolio(){
+        return calles.size();
+    }
+
     /* Metodos sobre la instancia */
 
+    public int calcularEdificios(TipoEdificio tipo){
+        int cantidad=0;
+
+        switch(tipo){
+            case casa:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumCasas();
+                }
+                break;
+            case hotel:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumHoteles();
+                }
+                break;
+            case piscina:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumPiscinas();
+                }
+                break;
+            case deporte:
+                for(Inmueble i: calles){
+                    cantidad+=i.calcularNumDeportes();
+                }
+                break;
+            default:
+                break;
+        }
+        return cantidad;
+    }
 
     /**
      * Añade un inmueble a un Monopoloo/grupo de color. Se usa en el constructor de Inmueble para añadirlo directamente.
@@ -61,7 +100,17 @@ public class Monopolio {
         return propietariosCalles.size() == 1;
     }
 
-
+    /**
+     * Para las estadisiticas , devuelve el dinero total que hubo que pagar de alquiler en el monopolio
+     * @return
+     */
+    public int alquileresTotales(){
+        int rentable=0;
+        for(Inmueble i: calles){
+            rentable+=i.getPagoDeAlquileres();
+        }
+        return rentable;
+    }
     /**
      * Determina que cantidad de las propiedades del monopolio pertenece a un jugador dado. Util para las estaciones
      * @param player Jugador que se quiere consultar
@@ -75,6 +124,21 @@ public class Monopolio {
             }
         }
         return total;
+    }
+
+    public String listaEdificaciones() {
+        String nombre = "Monopolio "
+                +ReprASCII.colorMonopolio(this.tipo)
+                + " " + this.tipo.toString() + " "
+                + ReprASCII.ANSI_RESET;
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("\n");
+        for (Inmueble calle : this.calles) {
+            sBuilder.append(genEdificaciones(calle));
+        }
+
+
+        return genInfo(sBuilder.toString(), nombre);
     }
 
 }

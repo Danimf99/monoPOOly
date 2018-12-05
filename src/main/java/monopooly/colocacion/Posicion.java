@@ -36,6 +36,7 @@ public class Posicion {
         return x;
     }
     public void setX(int x){
+        this.historialPosiciones.add(new Posicion(this.x));
         this.x=x;
     }
 
@@ -63,19 +64,14 @@ public class Posicion {
      * @param desplazamiento Número de casillas que se avanzan o se retroceden. Admite numeros negativos.
      */
     public void mover(int desplazamiento){
+        this.historialPosiciones.add(new Posicion(this.x));
         this.x += desplazamiento;
         this.x %= Posiciones.TOTAL;
-        this.historialPosiciones.add(new Posicion(this.x));
-
+        if (this.x < 0) {
+            this.x += Posiciones.TOTAL;
+        }
     }
 
-
-    /**
-     * Realiza uno de los movimientos especiales. Esto es para la parte 2
-     */
-    public void movimientoEspecial() {
-//        TODO implementar movimiento especial
-    }
 
 
     /**
@@ -97,10 +93,6 @@ public class Posicion {
     /* Determina si un jugador paso por la casilla de salida */
     public boolean pasoPorSalida() {
         if (historialPosiciones.size() < 2) {
-            return false;
-        }
-        Posicion anteriorPosicion = historialPosiciones.get(historialPosiciones.size() - 1);
-        if (x > 13) { // Empiezas en la 0 y no puedes sacar mas de 14 de la 39 a la 13 hay 14
             return false;
         }
 

@@ -17,7 +17,6 @@ package monopooly.configuracion;
 
 
 import monopooly.colocacion.calles.TipoMonopolio;
-import monopooly.entradaSalida.Mensajes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,17 +121,26 @@ public class ReprASCII {
     public static final String PROMT_AYUDA_TIPO_AVATAR = ""
             + ANSI_BLUE_BOLD + "\n[i]" + ANSI_RESET + " Avatares disponibles: \n"
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal blah blah.\n"
+            + "\t\t Se desplaza en diagonal.\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
-            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t\t Se desplaza en diagonal\n"
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
-            + "\t\t Lo que haga este tipo de avatar\n"
+            + "\t\t Se desplaza hacia delante si el valor de los dados es mayor que 4.\n"
+            +" \t\t Mientras que si el valor es menor que 4, retrocederás.\n"
+            + "\t\t En ambos casos se parará en las casillas impares mayores o menores que 4, dependiendo de si avanza o retrocede.\n"
             + "\t > " + ANSI_RED_BOLD + "Coche" + ANSI_RESET + ":\n"
-            + "\t\t Lo que haga este tipo de avatar"
+            + "\t\t Se desplaza hacia delante si el valor de los dados es mayor que 4.\n"
+            + "\t\t Y podrá seguir tirando los dados 3 veces más.\n"
+            + "\t\t Si el valor es menor que 4, retrocedes tantas casillas como número haya salido \n"
+            + "\t\t y no podrás lanzar los dados en los siguientes dos turnos.\n"
             + ""
             + "";
     public static final String PROMPT_TIPO_AVATAR = "\n[ ? ]──[ Tipo (sombrero/pelota/coche/esfinge): ]───► ";
+    public static final String PROMPT_ELECCION_CARTA = "\n\n[ ? ]──[ Elige una carta (1, 6): ]───► ";
     public static final String PROMPT_CARCEL = "⛓ " + ANSI_HIGH_WHITE_BACKGROUND + " Estás en la carcel " + ANSI_RESET;
+
+    public static final String OFF = ANSI_HIGH_WHITE_BACKGROUND + " OFF " + ANSI_RESET;
+    public static final String ON = ANSI_GREEN_BACKGROUND + " ON " + ANSI_RESET;
 
 
 

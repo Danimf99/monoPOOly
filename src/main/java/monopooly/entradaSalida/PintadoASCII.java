@@ -2,6 +2,7 @@ package monopooly.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
@@ -77,6 +78,9 @@ public class PintadoASCII {
         ArrayList<String> lineas = new ArrayList<>(Arrays.asList(lins));
 
         int ancho = tamMaxArrayString(lineas);
+        if (ancho < 8) {
+            ancho = 9;
+        }
         if (ancho % 2 == 0) { // Se asegura de que sea impar para que quede centrado
             ancho++;
         }
@@ -451,9 +455,9 @@ public class PintadoASCII {
                 break;
             case parking:
                 lineas.add(propiedad.getNombre().toUpperCase());
-                lineas.add("");
+                lineas.add("gratuito");
                 // Padding
-                lineas.add("");
+                lineas.add("Bote: " + propiedad.getPrecio_inicial());
                 lineas.add("");
                 lineas.add("");
                 lineas.add("");
@@ -464,12 +468,18 @@ public class PintadoASCII {
                     lineas.add("Precio "+propiedad.getPrecio()+""+Precios.MONEDA);
                     lineas.add("Alquiler " + propiedad.calcularAlquiler(propiedad.getPropietario()) + "" + Precios.MONEDA);
                     lineas.add(mensajeHipoteca);
+                    lineas.add(ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL);
+                    lineas.add("Edificaciones:");
                     lineas.add("");
+                    for (Edificaciones edificio : propiedad.getEdificios()) {
+                        lineas.add(" > " + edificio.getId());
+                        lineas.add("Tipo: " + edificio.getTipo().toString());
+                        lineas.add("Precio: " + edificio.getPrecio() + " " + Precios.MONEDA);
+                        lineas.add("");
+                    }
                     lineas.add("Propietario: " + propiedad.getPropietario().getNombre());
                     break;
         }
-
-        ArrayList<String> lin = new ArrayList<>();
 
         int anchoRequerido = tamMaxArrayString(lineas) + 2; // +2 para que quede algo espaciado y bien colocado
         if (anchoRequerido < ReprASCII.APP_NAME.length()) {
@@ -500,7 +510,7 @@ public class PintadoASCII {
                 sBuilder.append(ReprASCII.colorMonopolio(propiedad.getGrupoColor().getTipo()));
             }
             sBuilder.append(" "); // Margen de un espacio entre la barra y el texto
-            sBuilder.append(widearCentrado(lineas.get(i), anchoRequerido)); // TODO Hacer que quede centrado
+            sBuilder.append(widearCentrado(lineas.get(i), anchoRequerido));
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
@@ -551,4 +561,108 @@ public class PintadoASCII {
         Mensajes.detalles(sBuilder.toString());
     }
 
+    public static String genEdificio(Edificaciones edificio) {
+        StringBuilder sBuilder = new StringBuilder();
+        Inmueble inmuebleActual = edificio.getInmueble();
+        Jugador propietario = inmuebleActual.getPropietario();
+        int maxLen = " Propietario: ".length();
+
+        sBuilder.append(widear(" Id:", maxLen));
+        sBuilder.append(edificio.getId());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Grupo:", maxLen));
+        sBuilder.append(edificio.getInmueble().getGrupoColor().getTipo());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Tipo:", maxLen));
+        sBuilder.append(edificio.getTipo());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Precio:", maxLen));
+        sBuilder.append(edificio.getPrecio());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Propietario:", maxLen));
+        sBuilder.append(propietario.getNombre());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Posicion:", maxLen));
+        sBuilder.append(inmuebleActual.getNombre());
+        sBuilder.append("\n");
+
+        return sBuilder.toString();
+    }
+
+
+    public static String genEdificaciones(Inmueble calle) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Edificaciones en ");
+        sBuilder.append(calle.getNombre());
+        sBuilder.append(":\n");
+        sBuilder.append(" \n");
+        for (Edificaciones edificio : calle.getEdificios()) {
+            sBuilder.append(PintadoASCII.genEdificio(edificio));
+            sBuilder.append("\n");
+        }
+        return sBuilder.toString();
+    }
+
+    public static String genLineaEdificacion(Edificaciones edificio) {
+        return "";
+    }
+
+
+    public static String genInfo(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_BLUE_BOLD
+                + "\n[i] "
+                + ReprASCII.ANSI_RESET
+                + titulo
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genInfo(String mensaje) {
+        String out = ReprASCII.ANSI_BLUE_BOLD
+                + "\n[i] "
+                + ReprASCII.ANSI_RESET
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genError(String mensaje) {
+        String out = ReprASCII.ANSI_RED_BOLD
+                + "\n[!] Error !\n"
+                + ReprASCII.ANSI_RESET;
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genError(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_RED_BOLD
+                + "\n[!] Error: "
+                + ReprASCII.ANSI_RESET
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genDetalles(String mensaje) {
+        String out = ReprASCII.ANSI_GREEN_BOLD
+                + "\n[+] \n"
+                + ReprASCII.ANSI_RESET;
+        return out + encuadrar(mensaje);
+    }
+
+
+    public static String genDetalles(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_GREEN_BOLD
+                + "\n[+] "
+                + ReprASCII.ANSI_RESET
+                + titulo
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
 }

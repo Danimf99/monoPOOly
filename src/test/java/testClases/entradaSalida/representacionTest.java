@@ -2,7 +2,9 @@ package testClases.entradaSalida;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoEdificio;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
@@ -54,7 +56,7 @@ public class representacionTest {
 
     @Test
     public void moverJugadorRepresentar() {
-        monguer.moverJugador(tableroPrueba);
+        monguer.moverJugador(promptTest);
         System.out.println(PintadoASCII.genTablero(tableroPrueba));
     }
 
@@ -67,12 +69,37 @@ public class representacionTest {
 
     @Test
     public void imprimePropiedades() {
-        System.out.println(tableroPrueba.getCasilla(new Posicion(8)).getCalle());
+        System.out.println(tableroPrueba.getCasilla(new Posicion(18)).getCalle());
     }
 
     @Test
     public void nombresClaves() {
         System.out.println(tableroPrueba.getCalles().keySet());
+
+    }
+
+    // TODO tests impresion edificaciones
+
+
+    @Test
+    public void imprimirEdificaciones() {
+        Casilla prueba = tableroPrueba.getCasilla(new Posicion(18));
+        prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
+        prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
+        System.out.println(prueba.getCalle().listarEdificaciones());
+        System.out.println(tableroPrueba.getCasilla(new Posicion(18)).getCalle());
+    }
+
+    @Test
+    public void imprimeEdificacionesMonopolio() {
+        Casilla prueba = tableroPrueba.getCasilla(new Posicion(18));
+        prueba.getCalle().anhadirEdificio(TipoEdificio.casa);
+        prueba.getCalle().anhadirEdificio(TipoEdificio.hotel);
+        System.out.println(prueba.getCalle().getGrupoColor().listaEdificaciones());
+    }
+
+    @Test
+    public void alquilerHipotecada() {
 
     }
 }

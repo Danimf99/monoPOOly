@@ -1,6 +1,10 @@
 package monopooly.colocacion;
 
+import monopooly.Estadisticas.EstadisticasGlobales;
+import monopooly.cartas.CajaComunidad;
+import monopooly.cartas.Suerte;
 import monopooly.colocacion.calles.*;
+import monopooly.configuracion.Carta;
 import monopooly.configuracion.Nombres;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
@@ -9,6 +13,7 @@ import monopooly.entradaSalida.PintadoASCII;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,6 +25,9 @@ public class Tablero {
     private Jugador banca;
     private int bote;
     private int incrementosVueltas;
+    private ArrayList<Suerte> cartasSuerte;
+    private ArrayList<CajaComunidad> cartasCajaComunidad;
+    private EstadisticasGlobales estadisticas;
 
 
     /* Constructores */
@@ -35,7 +43,7 @@ public class Tablero {
         this.jugadores = new HashMap<>();
         this.jugadoresTurno = new ArrayList<>();
         this.bote = 0;
-
+        this.estadisticas=new EstadisticasGlobales(this);
         HashSet<Inmueble> propiedadesBanca = new HashSet<>();
         this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
 
@@ -216,7 +224,59 @@ public class Tablero {
             this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
         }
 
-//        TODO Implementar constructor del tablero
+        /* Cartas */
+        this.cartasCajaComunidad = new ArrayList<>();
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta1.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta1));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta2.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta2));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta3.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta3));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta4.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta4));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta5.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta5));
+        //
+        this.cartasCajaComunidad.add(new CajaComunidad(
+                Carta.Comunidad.Carta8.MENSAJE,
+                CajaComunidad.NumeracionCartas.carta8));
+
+
+        this.cartasSuerte = new ArrayList<>();
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta1.MENSAJE,
+                Suerte.NumeracionCartas.carta1));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta2.MENSAJE,
+                Suerte.NumeracionCartas.carta2));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta3.MENSAJE,
+                Suerte.NumeracionCartas.carta3));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta4.MENSAJE,
+                Suerte.NumeracionCartas.carta4));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta8.MENSAJE,
+                Suerte.NumeracionCartas.carta8));
+        //
+        this.cartasSuerte.add(new Suerte(
+                Carta.Suerte.Carta10.MENSAJE,
+                Suerte.NumeracionCartas.carta10));
     }
 
 
@@ -226,9 +286,39 @@ public class Tablero {
         return bote;
     }
 
+    public EstadisticasGlobales getEstadisticas() {
+        return estadisticas;
+    }
+
     public void setBote(int bote) {
         this.bote = bote;
+        this.casillas.get(new Posicion(Posiciones.PARKING)).getCalle().setPrecio_inicial(bote);
     }
+
+    /**
+     * Otorga el bote a un jugador. Vacia el conjunto del bote
+     * @param jugador jugador al que se le añade el dinero
+     * @return cantidad que se le añadio al jugador
+     */
+    public int devolverBote(Jugador jugador) {
+        jugador.anhadirDinero(bote);
+        int cantidad = bote;
+        setBote(0);
+        return cantidad;
+    }
+
+    /**
+     * Añade una cantidad de dinero al bote
+     * @param cantidad dinero que se añade al bote
+     */
+    public void meterEnBote(int cantidad) {
+        if (cantidad < 0) {
+            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
+            return;
+        }
+        setBote(bote + cantidad);
+    }
+
 
     public HashMap<String, Inmueble> getCalles() {
         return calles;
@@ -329,35 +419,15 @@ public class Tablero {
         }
     }
 
-    public void altaJugador(Jugador nuevo) {
-        this.jugadores.put(nuevo.getNombre(), nuevo);
-        this.getCasilla(nuevo.getAvatar().getPosicion()).insertarAvatar(nuevo.getAvatar());
+    public CajaComunidad cartaComunidad(int eleccion) {
+        Collections.shuffle(this.cartasCajaComunidad);
+        return this.cartasCajaComunidad.get(eleccion - 1);
     }
 
-    /**
-     * Otorga el bote a un jugador. Vacia el conjunto del bote
-     * @param jugador jugador al que se le añade el dinero
-     * @return cantidad que se le añadio al jugador
-     */
-    public int devolverBote(Jugador jugador) {
-        jugador.anhadirDinero(bote);
-        int cantidad = bote;
-        bote = 0;
-        return cantidad;
+    public Suerte cartaSuerte(int eleccion) {
+        Collections.shuffle(this.cartasSuerte);
+        return this.cartasSuerte.get(eleccion - 1);
     }
-
-    /**
-     * Añade una cantidad de dinero al bote
-     * @param cantidad dinero que se añade al bote
-     */
-    public void meterEnBote(int cantidad) {
-        if (cantidad < 0) {
-            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
-            return;
-        }
-        this.bote += cantidad;
-    }
-
 
     @Override
     public String toString() {

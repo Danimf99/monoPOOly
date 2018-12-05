@@ -62,7 +62,7 @@ public class promptTest {
     @Test
     public void testPromptCarcelDados() {
         promptTest.setModificacionPasta(-500, "Alquiler");
-        promptTest.getJugador().moverJugador(tableroPrueba);
+        promptTest.getJugador().moverJugador(promptTest);
         System.out.println(promptTest);
     }
 
@@ -95,8 +95,7 @@ public class promptTest {
     @Test
     public void representacionCarcel() {
         promptTest.getJugador().setEstarEnCarcel(true);
+        promptTest.getJugador().getAvatar().setNitroso(true);
         System.out.println(promptTest);
-        String mensaje = "lanzar dados";
-        ProcesarComando.lanzarDados(mensaje.split(" "), promptTest);
     }
 }
