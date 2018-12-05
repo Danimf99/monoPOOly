@@ -330,7 +330,9 @@ public class ProcesarComando {
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
             prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(), "Compra del inmueble " + prompt.getTablero().getCalle(args[1]).getNombre());
             prompt.getJugador().getEstadisticas().sumarInvertido(prompt.getTablero().getCalle(args[1]).getPrecio());
-            prompt.setCompro(true);
+            if (!prompt.getJugador().getAvatar().getNitroso() || prompt.getJugador().getAvatar().getTipo() != TipoAvatar.pelota) {
+                prompt.setCompro(true);
+            }
         } else {
             Mensajes.info("No tiene suficiente dinero para comprar " + prompt.getTablero().getCalle(args[1]).getNombre());
         }
