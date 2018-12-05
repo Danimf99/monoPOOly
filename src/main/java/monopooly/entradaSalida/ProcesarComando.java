@@ -81,102 +81,7 @@ public class ProcesarComando {
 
         prompt.getJugador().moverJugador(prompt);
         //Repintado tablero
-        System.out.println(prompt.getTablero().toString());
-        // Hay aliasing y para que sea mas facil se pueden renombrar cachos para no tener que enlazar todo
-        // al enlazar tantas funciones te puede dar stack overflow
-        Tablero tablero = prompt.getTablero();
-        Jugador jActual = prompt.getJugador();
-        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
-        Casilla casillaActual = tablero.getCasilla(jActual.getAvatar().getPosicion());
-        Inmueble inmuebleActual = casillaActual.getCalle();
-
-        /* Se debe cobrar siempre al caer si la propiedad es de otra persona distinta de la banca */
-
-        /* Si el jugador acaba con dinero negativo da igual, esto deberia comprobarlo la funcion que
-         * le permite pasar turno */
-
-        inmuebleActual.aumentarVecesFrecuentado();
-        /* Primero hay que mirar si paso por la casilla de salida */
-
-
-        if (posJugadorActual.getX() == Posiciones.PARKING) {
-            int dineroParking = tablero.devolverBote(jActual);
-            prompt.setModificacionPasta(dineroParking, "Bote del parking");
-            jActual.getEstadisticas().sumarInversionesBote(dineroParking);
-            return;
-        }
-        /*Si caes en una casilla de suerte*/
-        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.suerte)){
-            int eleccion= Mensajes.elegirCarta();
-            if (eleccion < 0) {
-                return;
-            }
-            Suerte carta=tablero.cartaSuerte(eleccion);
-            carta.ejecutarCarta(prompt);
-        }
-
-        /*Si caes en una casilla de caja de comunidad*/
-        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.caja_comunidad)){
-            int eleccion= Mensajes.elegirCarta();
-            if (eleccion < 0) {
-                return;
-            }
-            CajaComunidad carta=tablero.cartaComunidad(eleccion);
-            carta.ejecutarCarta(prompt);
-        }
-
-        /* Si es un impuesto fasil, pagas y ya */
-        if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
-            int dineroExtraido = inmuebleActual.getPrecio_inicial();
-            jActual.quitarDinero(dineroExtraido);
-            tablero.meterEnBote(dineroExtraido);
-            jActual.getEstadisticas().sumarTasas(dineroExtraido);
-            prompt.setModificacionPasta(-dineroExtraido, "Impuesto en " + inmuebleActual.getNombre() + " para el bote del parking.");
-            return; // Nada mas que hacer un return y via
-        }
-
-        /* El caso de ve a la carcel */
-        if (posJugadorActual.esIrCarcel()) {//Si sucede esto y luego el jugador lanza dados cobra 200 por pasar de la casilla de salida
-            posJugadorActual.irCarcel();
-            casillaActual.getAvatares().remove(jActual.getAvatar());
-            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(jActual.getAvatar());
-            jActual.setEstarEnCarcel(true);
-            jActual.getEstadisticas().sumarVecesCarcel(1);
-            System.out.println(prompt.getTablero().toString());
-            return; // Return porque no hay nada que hacer
-        }
-        /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
-         *  arreglamos */
-
-        if (inmuebleActual.getPropietario().equals(tablero.getBanca())) {
-            // Se puede meter un mensaje de esto esta sin comprar puede comprarla
-            return;
-        }
-
-        /* Si el jugador actual posee la propiedad no hay que cobrarle alquiler, se puede salir igual que antes */
-
-        if (jActual.getPropiedades().contains(inmuebleActual) || jActual.getHipotecas().contains(inmuebleActual)) {
-            return;
-        }
-
-        /* Despues de todos los casos */
-        if(inmuebleActual.getHipotecado()){
-            Mensajes.info("La propiedad está hipotecada, por lo que no tienes que pagar alquiler.");
-            return;
-        }
-        int alquiler = inmuebleActual.calcularAlquiler(jActual);
-        if (alquiler > jActual.getDinero()) {
-            Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
-        }
-        jActual.getEstadisticas().sumarPagoAlquileres(alquiler);
-        inmuebleActual.sumarPagoAlquileres(alquiler);
-        casillaActual.getCalle().getPropietario().getEstadisticas().sumarCobroAlquileres(alquiler); //actualizamos estadisticas en el dueño de la propiedad
-        inmuebleActual.pago(jActual);
-        prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
-
-        /* El caso de que sacara dobles y pueda volver a tirar lo debe manejar probablemente la clase dados
-         * Mañana lo comentamos*/
-
+       Mensajes.imprimir(prompt.getTablero().toString());
     }
 
     public static void describir(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
@@ -227,9 +132,17 @@ public class ProcesarComando {
         }
     }
 
-    public static void listar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
-
+    public static void listar(String[] args, Prompt prompt) {
         switch (args[1].toLowerCase()) {
+            case "transitadas":
+                StringBuilder sBuilder = new StringBuilder();
+                for (Posicion posicion : prompt.getPosicionesTurno()) {
+                    sBuilder.append("   ");
+                    sBuilder.append(prompt.getTablero().getCasilla(posicion).getCalle().getNombre());
+                    sBuilder.append("\n");
+                }
+                Mensajes.info(sBuilder.toString(), "Lista de casillas por las que se pasó este turno");
+                break;
             case "jugadores":
                 Collection<Jugador> jugadores = prompt.getTablero().getJugadores().values();
                 for (Jugador jugador : jugadores) {
@@ -383,7 +296,7 @@ public class ProcesarComando {
     }
 
 
-    public static void comprar(String[] args/* Argumentos a mayores que se necesiten */, Prompt prompt) {
+    public static void comprar(String[] args, Prompt prompt) {
         if (args.length != 2 && args.length != 3) {
             Mensajes.error("Comando incorrecto");
             return;
@@ -405,8 +318,8 @@ public class ProcesarComando {
             Mensajes.error("No existe esa casilla");
             return;
         }
-        if (prompt.getTablero().getCasilla(prompt.getJugador().getAvatar().getPosicion()).getCalle() != prompt.getTablero().getCalle(args[1])) {
-            Mensajes.info("No estás en esta casilla");
+        if (!prompt.getJugador().puedeComprar(prompt.getTablero().getCalle(args[1]), prompt)) {
+            Mensajes.info("No puedes comprar en esa casilla.");
             return;
         }
         if (!prompt.getTablero().getCalle(args[1]).getPropietario().getNombre().equals("Banca")) {
@@ -417,7 +330,7 @@ public class ProcesarComando {
             prompt.getTablero().getCalle(args[1]).compra(prompt.getJugador());
             prompt.setModificacionPasta(-prompt.getTablero().getCalle(args[1]).getPrecio(), "Compra del inmueble " + prompt.getTablero().getCalle(args[1]).getNombre());
             prompt.getJugador().getEstadisticas().sumarInvertido(prompt.getTablero().getCalle(args[1]).getPrecio());
-
+            prompt.setCompro(true);
         } else {
             Mensajes.info("No tiene suficiente dinero para comprar " + prompt.getTablero().getCalle(args[1]).getNombre());
         }
@@ -509,7 +422,7 @@ public class ProcesarComando {
             Mensajes.info("No posees todos los solares del monopolio!!");
             return;
         }
-        if(inmuebleActual.getHipotecado()==true){
+        if(inmuebleActual.getHipotecado()){
             Mensajes.info("No se puede edificar en propiedades hipotecadas.");
             return;
         }
@@ -744,7 +657,7 @@ public class ProcesarComando {
     }
 
     public static void cambiarModo(String[] args, Prompt prompt){
-        if(!args[1].equals("modo")){
+        if(args.length != 2 || !args[1].equals("modo")){
             Mensajes.info("Error en el comando");
             prompt.setHelp(true);
             return;

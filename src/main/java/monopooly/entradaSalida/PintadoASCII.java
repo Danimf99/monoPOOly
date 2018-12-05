@@ -78,6 +78,9 @@ public class PintadoASCII {
         ArrayList<String> lineas = new ArrayList<>(Arrays.asList(lins));
 
         int ancho = tamMaxArrayString(lineas);
+        if (ancho < 8) {
+            ancho = 9;
+        }
         if (ancho % 2 == 0) { // Se asegura de que sea impar para que quede centrado
             ancho++;
         }

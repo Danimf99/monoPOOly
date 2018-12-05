@@ -40,6 +40,7 @@ public class Suerte {
 
 
     public void ejecutarCarta(Prompt prompt) {
+        Mensajes.info(this.mensaje, "Carta de Suerte");
         switch (numero) {
             case carta1:
                 this.accionCarta1(prompt);
@@ -84,7 +85,7 @@ public class Suerte {
                 this.accionCarta14(prompt);
                 break;
         }
-        Mensajes.info(this.mensaje, "Carta de Suerte");
+
     }
 
 

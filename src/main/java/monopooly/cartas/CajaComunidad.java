@@ -52,6 +52,7 @@ public class CajaComunidad {
     }
 
     public void ejecutarCarta(Prompt prompt) {
+        Mensajes.info(this.mensaje, "Carta de Caja de comunidad");
         switch (numero) {
             case carta1:
                 accionCarta1(prompt);
@@ -84,7 +85,7 @@ public class CajaComunidad {
                 accionCarta10(prompt);
                 break;
         }
-        Mensajes.info(this.mensaje, "Carta de Caja de comunidad");
+
     }
 
 

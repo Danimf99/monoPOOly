@@ -75,6 +75,7 @@ public class Prompt {
     }
 
     public void setModificacionPasta(int modDinero, String motivoPago) {
+        Mensajes.info(motivoPago, modDinero + " " + Precios.MONEDA);
         this.modDinero = modDinero;
         this.motivoPago = motivoPago;
     }
@@ -97,7 +98,7 @@ public class Prompt {
     }
 
     public void anhadirPosicion(Posicion posicion) {
-        this.posicionesTurno.add(posicion);
+        this.posicionesTurno.add(new Posicion(posicion.getX()));
     }
 
     private String genPrompt(ArrayList<String> elementos) {
@@ -148,14 +149,12 @@ public class Prompt {
     }
 
     private String cambioDados() {
-        if (jugador.getCooldown() > 0) {
-            String salida = "";
-            salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
-            salida += jugador.getCooldown();
-            return salida;
-        }
         Dados dadosPlayer = jugador.getDados();
         String salida = "";
+        if (jugador.getCooldown() > 0) {
+            salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
+            salida += jugador.getCooldown() + "  ";
+        }
         if (dadosPlayer.sonDobles()) {
             salida += ReprASCII.ANSI_BLACK_BOLD;
         }
@@ -183,7 +182,7 @@ public class Prompt {
         String salida = "";
 
         if (modDinero == 0) {
-            separador = "";
+            separador = " ";
         } else if (modDinero < 0) {
             color = ReprASCII.ANSI_RED;
             modificador = ReprASCII.PROMPT_LOG_DINERO_DOWN;

@@ -138,8 +138,8 @@ public class Juego {
 
     public static void partidaRapida() {
         ArrayList<Jugador> jugadores = new ArrayList<>();
-        jugadores.add(new Jugador("Saul", TipoAvatar.coche));
-        jugadores.add(new Jugador("Dani", TipoAvatar.coche));
+        jugadores.add(new Jugador("Saul", TipoAvatar.pelota));
+        jugadores.add(new Jugador("Dani", TipoAvatar.pelota));
         Tablero tablero = new Tablero(jugadores);
         partida(tablero);
     }

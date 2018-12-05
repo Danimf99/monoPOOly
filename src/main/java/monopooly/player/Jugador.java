@@ -1,10 +1,15 @@
 package monopooly.player;
 
 import monopooly.Estadisticas.EstadisticasJugador;
+import monopooly.cartas.CajaComunidad;
+import monopooly.cartas.Suerte;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.calles.Casilla;
 import monopooly.colocacion.calles.Edificaciones;
 import monopooly.colocacion.calles.Inmueble;
+import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Mensajes;
 import monopooly.entradaSalida.PintadoASCII;
@@ -187,22 +192,107 @@ public class Jugador {
     }
 
     public void moverJugador(Prompt prompt, int desplazamiento) {
+        if (desplazamiento == 0) {
+            return;
+        }
         Tablero tablero = prompt.getTablero();
         tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().mover(desplazamiento);
+        pisarCasilla(prompt, avatar.getPosicion());
         tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
     }
 
-    public void moverJugador(int desplazamiento, Prompt prompt) {
-        moverJugador(prompt, desplazamiento);
-        prompt.anhadirPosicion(this.avatar.getPosicion());
-    }
 
     public void moverJugador(Prompt prompt, Posicion posicion) {
-        Tablero tablero = prompt.getTablero();
-        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
+        prompt.getTablero().getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
         avatar.getPosicion().setX(posicion.getX());
-        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+        pisarCasilla(prompt, avatar.getPosicion());
+        prompt.getTablero().getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+    }
+
+
+    public void pisarCasilla(Prompt prompt, Posicion posicion) {
+        prompt.anhadirPosicion(posicion);
+        Tablero tablero = prompt.getTablero();
+        Posicion posJugadorActual = this.getAvatar().getPosicion();
+        Casilla casillaActual = tablero.getCasilla(posicion);
+        Inmueble inmuebleActual = casillaActual.getCalle();
+        inmuebleActual.aumentarVecesFrecuentado();
+
+        if (this.getAvatar().getPosicion().getX() == Posiciones.PARKING) {
+            int dineroParking = prompt.getTablero().devolverBote(this);
+            prompt.setModificacionPasta(dineroParking, "Bote del parking");
+            this.getEstadisticas().sumarInversionesBote(dineroParking);
+            return;
+        }
+        /*Si caes en una casilla de suerte*/
+        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.suerte)){
+            int eleccion= Mensajes.elegirCarta();
+            if (eleccion < 0) {
+                return;
+            }
+            Suerte carta=tablero.cartaSuerte(eleccion);
+            carta.ejecutarCarta(prompt);
+        }
+
+        /*Si caes en una casilla de caja de comunidad*/
+        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.caja_comunidad)){
+            int eleccion= Mensajes.elegirCarta();
+            if (eleccion < 0) {
+                return;
+            }
+            CajaComunidad carta=tablero.cartaComunidad(eleccion);
+            carta.ejecutarCarta(prompt);
+        }
+
+        /* Si es un impuesto fasil, pagas y ya */
+        if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
+            int dineroExtraido = inmuebleActual.getPrecio_inicial();
+            this.quitarDinero(dineroExtraido);
+            tablero.meterEnBote(dineroExtraido);
+            this.getEstadisticas().sumarTasas(dineroExtraido);
+            prompt.setModificacionPasta(-dineroExtraido, "Impuesto en " + inmuebleActual.getNombre() + " para el bote del parking.");
+            return; // Nada mas que hacer un return y via
+        }
+
+        /* El caso de ve a la carcel */
+        if (posJugadorActual.esIrCarcel()) {//Si sucede esto y luego el jugador lanza dados cobra 200 por pasar de la casilla de salida
+            posJugadorActual.irCarcel();
+            casillaActual.getAvatares().remove(this.getAvatar());
+            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(this.getAvatar());
+            this.setEstarEnCarcel(true);
+            this.getEstadisticas().sumarVecesCarcel(1);
+            System.out.println(prompt.getTablero().toString());
+            return; // Return porque no hay nada que hacer
+        }
+        /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
+         *  arreglamos */
+
+        if (inmuebleActual.getPropietario().equals(tablero.getBanca())) {
+            // Se puede meter un mensaje de esto esta sin comprar puede comprarla
+            return;
+        }
+
+        /* Si el jugador actual posee la propiedad no hay que cobrarle alquiler, se puede salir igual que antes */
+
+        if (this.getPropiedades().contains(inmuebleActual) || this.getHipotecas().contains(inmuebleActual)) {
+            return;
+        }
+
+        /* Despues de todos los casos */
+        if(inmuebleActual.getHipotecado()){
+            Mensajes.info("La propiedad está hipotecada, por lo que no tienes que pagar alquiler.");
+            return;
+        }
+        int alquiler = inmuebleActual.calcularAlquiler(this);
+        if (alquiler > this.getDinero()) {
+            Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
+        }
+        this.getEstadisticas().sumarPagoAlquileres(alquiler);
+        inmuebleActual.sumarPagoAlquileres(alquiler);
+        casillaActual.getCalle().getPropietario().getEstadisticas().sumarCobroAlquileres(alquiler); //actualizamos estadisticas en el dueño de la propiedad
+        inmuebleActual.pago(this);
+        prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
     }
 
 
@@ -217,29 +307,63 @@ public class Jugador {
         }
         if (this.dados.tirada() > 4) {
             this.moverJugador(prompt, this.dados.tirada());
-            prompt.anhadirPosicion(this.avatar.getPosicion());
             pagoSalida(prompt);
         } else {
             this.moverJugador(prompt, -this.dados.tirada());
             this.cooldown = 3; // Turnos antes de volver a tirar
             this.dados.setContador(1);
         }
-        if (prompt.getTiradasEspeciales() >= turnos_especiales) {
+        if (prompt.getTiradasEspeciales() >= turnos_especiales - 1) {
             this.dados.setContador(1);
         }
     }
+
+
+    public void pelotaHandler(Prompt prompt) {
+        prompt.getPosicionesTurno().clear();
+        prompt.setCompro(false);
+        if (this.dados.tirada() > 4) {
+            this.moverJugador(prompt, 5);
+            if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
+                return;
+            }
+            for (int i = 7; i <= this.dados.tirada(); i += 2) {
+                if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
+                    return;
+                }
+                this.moverJugador(prompt, 2);
+                pagoSalida(prompt);
+            }
+            if (this.dados.tirada() % 2 == 0){
+                this.moverJugador(prompt, 1);
+                pagoSalida(prompt);
+            }
+
+        } else {
+            this.moverJugador(prompt, -1);
+            for (int i = 3; i < this.dados.tirada() ; i += 2) {
+                if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
+                    return;
+                }
+                this.moverJugador(prompt, -2);
+            }
+            if (this.dados.tirada() % 2 == 0){
+                this.moverJugador(prompt, -1);
+            }
+        }
+    }
+
 
     public boolean puedeComprar(Inmueble propiedad, Prompt prompt) {
         if (prompt.isCompro()) {
             return false;
         }
-
         for (Posicion posicion : prompt.getPosicionesTurno()) {
             if (propiedad.equals(prompt.getTablero().getCasilla(posicion).getCalle())) {
                 return true;
             }
         }
-        return prompt.isCompro();
+        return !prompt.isCompro();
     }
 
 
@@ -270,8 +394,6 @@ public class Jugador {
         Jugador jActual = prompt.getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();
         if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
-            // Podemos poner un mensaje por si hay un pago y se sobreescribe el mensaje del prompt
-            Mensajes.info("Se pagan " + Precios.SALIDA + Precios.MONEDA + "por pasar de la salida.");
             jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
             jActual.anhadirDinero(Precios.SALIDA);
             jActual.aumentarVueltas();
@@ -313,13 +435,13 @@ public class Jugador {
                     cocheHandler(prompt);
                     break;
                 case pelota:
-                    //TODO handler pelota
+                    pelotaHandler(prompt);
                     break;
             }
-
             return;
         }
-
+        prompt.getPosicionesTurno().clear();
+        prompt.setCompro(false);
         this.moverJugador(prompt, dados.tirada());
         pagoSalida(prompt);
     }
