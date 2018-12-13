@@ -1,5 +1,7 @@
 package monopooly.colocacion;
 
+import monopooly.configuracion.Posiciones;
+
 import java.util.ArrayList;
 
 public class Posicion implements IPosicion{
@@ -26,33 +28,53 @@ public class Posicion implements IPosicion{
         return historialPosiciones;
     }
 
+
     public void setHistorialPosiciones(ArrayList<Posicion> historialPosiciones) {
         this.historialPosiciones = historialPosiciones;
     }
 
+
     public int getX() {
         return x;
     }
+
 
     public void setX(int x){
         this.x = x;
         this.historialPosiciones.add(new Posicion(this.x));
     }
 
-    public void mover(int desplazamiento){
 
+    public void mover(int desplazamiento){
+        this.x += desplazamiento;
+        this.x %= Posiciones.TOTAL;
+        if (this.x < 0) {
+            this.x += Posiciones.TOTAL;
+        }
+        this.historialPosiciones.add(new Posicion(this.x));
     }
+
 
     public boolean esIrCarcel(){
-        return false;
+        return x == Posiciones.VE_A_LA_CARCEL;
     }
+
 
     public void irCarcel(){
-
+        this.x = Posiciones.CARCEL;
+        this.historialPosiciones.add(new Posicion(this.x));
     }
 
+
     public int contarRepeticiones(Posicion p){
-        return 0;
+        int cantidad = 0;
+        for (Posicion pos :
+                this.historialPosiciones) {
+            if (pos.equals(p)) {
+                cantidad++;
+            }
+        }
+        return cantidad;
     }
 
 }
