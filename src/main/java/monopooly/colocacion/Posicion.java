@@ -4,7 +4,7 @@ import monopooly.configuracion.Posiciones;
 
 import java.util.ArrayList;
 
-public class Posicion implements IPosicion{
+public class Posicion {
     private int x;
     private ArrayList<Posicion> historialPosiciones;
 
