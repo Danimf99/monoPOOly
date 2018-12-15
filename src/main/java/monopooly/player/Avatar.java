@@ -1,5 +1,6 @@
 package monopooly.player;
 
-public class Avatar {
+public abstract class Avatar {
+    private String something;
 
 }

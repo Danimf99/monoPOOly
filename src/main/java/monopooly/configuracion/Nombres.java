@@ -12,7 +12,7 @@ public class Nombres {
             "Invierno",
 
             "Plasencia",
-            "Suerte",
+            "suerte",
             "Ciudad Real",
             "Almería",
 
@@ -33,7 +33,7 @@ public class Nombres {
             "Parking",
 
             "Salamanca",
-            "Suerte",
+            "suerte",
             "Cádiz",
             "Sevilla",
 
@@ -53,7 +53,7 @@ public class Nombres {
 
             "Primavera",
 
-            "Suerte",
+            "suerte",
             "Marbella",
             "IVA",
             "Ibiza",
