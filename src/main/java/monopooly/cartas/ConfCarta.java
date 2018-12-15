@@ -1,6 +1,8 @@
-package monopooly.configuracion;
+package monopooly.cartas;
 
-public class Carta {
+import monopooly.configuracion.Precios;
+
+public class ConfCarta {
 
     /*
     *
@@ -8,7 +10,7 @@ public class Carta {
     *
     * */
     public class Comunidad {
-        // Carta #1
+        // ConfCarta #1
         public class Carta1 {
             public static final int DINERO = 150;
             public static final String MENSAJE = ""
@@ -18,7 +20,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #2
+        // ConfCarta #2
         public class Carta2 {
             public static final String MENSAJE = ""
                     + "Ve a la carcel sin cobrar por la casilla de salida\n"
@@ -27,7 +29,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #3
+        // ConfCarta #3
         public class Carta3 {
             public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
@@ -37,7 +39,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #4
+        // ConfCarta #4
         public class Carta4 {
             public static final int DINERO = 50;
             public static final String MENSAJE = ""
@@ -47,7 +49,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #5
+        // ConfCarta #5
         public class Carta5 {
             public static final int DINERO = 150;
             public static final String MENSAJE = ""
@@ -57,7 +59,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #6
+        // ConfCarta #6
         public class Carta6 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -67,7 +69,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #7
+        // ConfCarta #7
         public class Carta7 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -77,7 +79,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #8
+        // ConfCarta #8
         public class Carta8 {
             public static final int DINERO = 50;
             public static final String MENSAJE = ""
@@ -87,7 +89,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #9
+        // ConfCarta #9
         public class Carta9 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -98,7 +100,7 @@ public class Carta {
         }
 
 
-        // Carta #10
+        // ConfCarta #10
         public class Carta10 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -114,7 +116,7 @@ public class Carta {
      *
      * */
     public class Suerte {
-        // Carta #1
+        // ConfCarta #1
         public class Carta1 {
             public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
@@ -124,7 +126,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #2
+        // ConfCarta #2
         public class Carta2 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -133,7 +135,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #3
+        // ConfCarta #3
         public class Carta3 {
             public static final int DINERO = 55;
             public static final String MENSAJE = ""
@@ -143,7 +145,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #4
+        // ConfCarta #4
         public class Carta4 {
             public static final int DINERO = Precios.SALIDA;
             public static final String MENSAJE = ""
@@ -153,7 +155,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #5
+        // ConfCarta #5
         public class Carta5 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -163,7 +165,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #6
+        // ConfCarta #6
         public class Carta6 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -173,7 +175,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #7
+        // ConfCarta #7
         public class Carta7 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -183,7 +185,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #8
+        // ConfCarta #8
         public class Carta8 {
             public static final int DINERO = 0;
             public static final int DINERO_CASA = 20;
@@ -204,7 +206,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #9
+        // ConfCarta #9
         public class Carta9 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -215,7 +217,7 @@ public class Carta {
         }
 
 
-        // Carta #10
+        // ConfCarta #10
         public class Carta10 {
             public static final int DINERO = 150;
             public static final String MENSAJE = ""
@@ -225,7 +227,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #11
+        // ConfCarta #11
         public class Carta11 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -235,7 +237,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #12
+        // ConfCarta #12
         public class Carta12 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -245,7 +247,7 @@ public class Carta {
                     + "";
         }
 
-        // Carta #13
+        // ConfCarta #13
         public class Carta13 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
@@ -256,7 +258,7 @@ public class Carta {
         }
 
 
-        // Carta #14
+        // ConfCarta #14
         public class Carta14 {
             public static final int DINERO = 0;
             public static final String MENSAJE = ""
