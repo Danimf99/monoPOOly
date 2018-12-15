@@ -28,7 +28,7 @@ public class Tablero {
     }
   }
 
-  public static Tablero getInstanciaTablero() {
+  public static Tablero getTablero() {
     return INSTANCIA_TABLERO;
   }
 }
