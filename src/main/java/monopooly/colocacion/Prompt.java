@@ -1,7 +1,5 @@
-package monopooly;
+package monopooly.colocacion;
 
-import monopooly.colocacion.Posicion;
-import monopooly.colocacion.Tablero;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ public class Prompt {
     private boolean compro;
     private ArrayList<Posicion> posicionesTurno;
 
-    public Prompt(Jugador jugador) {
+    protected Prompt(Jugador jugador) {
         this.jugador = jugador;
         this.modDinero = 0;
         this.motivoPago = "";
@@ -25,5 +23,13 @@ public class Prompt {
 
     public Prompt() {
         /*  Prompt vacio para inicializar la partida  */
+    }
+
+    public void setModDinero(int modDinero) {
+        this.modDinero = modDinero;
+    }
+
+    public int getModDinero() {
+        return modDinero;
     }
 }
