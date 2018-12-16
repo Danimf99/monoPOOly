@@ -61,12 +61,24 @@ public class Tablero {
    * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
    */
   public void pasarTurno() {
-    PROMPT = null; // Resetea la prompt en cada turno =)
-
     this.jugadoresTurno.add(this.getJugadorTurno());
     this.jugadoresTurno.remove(0);
+    Prompt antigua = PROMPT;
+    PROMPT = new Prompt(getTablero().getJugadorTurno());  // Resetea la prompt en cada turno =)
+    antigua.update(); // Actualiza instancias que se hayan guardado por ahi. Previene errores. No deberia ser necesario.
+
   }
 
+  /**
+   * Devuelve los jugadores de la partida actual
+   * @return Arraylist de los jugadores de la partida. La instancia de este
+   * arraylist no es la misma que la guardada dentro del tablero. Es una copia.
+   * Las instancias de los jugadores si son las mismas. Para modificar este
+   * arraylist deben usarse los metodos meterJugador() y eliminarJugador()
+   */
+  public ArrayList<Jugador> getJugadores() {
+    return new ArrayList<>(this.jugadoresTurno);
+  }
 
   /**
    * Permite obtener la instancia actual del tablero
@@ -81,7 +93,7 @@ public class Tablero {
    * @return instancia actual del prompt
    */
   public static Prompt getPrompt() {
-    if (PROMPT == null) {
+    if (PROMPT == null) { // Necesario la primera vez que se ejecuta
       PROMPT = new Prompt(getTablero().getJugadorTurno());
     }
     return PROMPT;

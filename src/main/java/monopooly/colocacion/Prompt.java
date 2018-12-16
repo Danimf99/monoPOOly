@@ -25,6 +25,21 @@ public class Prompt {
         /*  Prompt vacio para inicializar la partida  */
     }
 
+    /**
+     * En caso de no estar uno seguro de si la instancia actual corresponde la
+     * de la clase tablero, puede usarse este método que copia todos los
+     * atributos.
+     */
+    void update() {
+        Prompt actual = Tablero.getPrompt();
+        this.jugador = actual.jugador;
+        this.modDinero = actual.modDinero;
+        this.motivoPago = actual.motivoPago;
+        this.help = actual.help;
+        this.compro = actual.compro;
+        this.posicionesTurno = actual.posicionesTurno;
+    }
+
     public void setModDinero(int modDinero) {
         this.modDinero = modDinero;
     }
