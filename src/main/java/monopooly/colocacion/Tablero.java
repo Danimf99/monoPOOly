@@ -65,9 +65,7 @@ public class Tablero {
     public void pasarTurno() {
         this.jugadoresTurno.add(this.getJugadorTurno());
         this.jugadoresTurno.remove(0);
-        Prompt antigua = PROMPT;
-        PROMPT = new Prompt(getTablero().getJugadorTurno());  // Resetea la prompt en cada turno =)
-        antigua.update(); // Actualiza instancias que se hayan guardado por ahi. Previene errores. No deberia ser necesario.
+        Tablero.getPrompt().reset();  // Resetea la prompt al pasar turno
     }
 
     /**
@@ -83,6 +81,14 @@ public class Tablero {
     }
 
     /**
+     *
+     * @return Numero de jugadores restantes en la partida
+     */
+    public int jugadoresRestantes() {
+        return this.jugadoresTurno.size();
+    }
+
+    /**
      * Permite obtener la instancia actual del tablero
      *
      * @return Instancia del tablero para la partida actual
@@ -93,12 +99,15 @@ public class Tablero {
 
     /**
      * Devuelve la instancia prompt correspondiente al turno actual
-     *
+     * Hay que controlar que tenga jugadores el tablero
      * @return instancia actual del prompt
      */
     public static Prompt getPrompt() {
         if (PROMPT == null) { // Necesario la primera vez que se ejecuta
-            PROMPT = new Prompt(getTablero().getJugadorTurno());
+            if (INSTANCIA_TABLERO.jugadoresRestantes() < 1) {
+                // Hay que meter una excepcion aqui
+            }
+            PROMPT = new Prompt();
         }
         return PROMPT;
     }
