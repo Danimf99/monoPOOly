@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Tablero {
     private static Tablero INSTANCIA_TABLERO;
     private static Prompt PROMPT;
+    public static Jugador BANCA = new Jugador();
     private ArrayList<Jugador> jugadoresTurno;
 
     private Tablero() {

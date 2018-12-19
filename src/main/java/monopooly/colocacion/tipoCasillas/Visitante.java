@@ -7,6 +7,7 @@ import monopooly.colocacion.tipoCasillas.tiposEspecial.Tarot;
 import monopooly.colocacion.tipoCasillas.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.tiposPropiedad.Solar;
+import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
 /**
@@ -24,6 +25,9 @@ public class Visitante implements VisitanteCasilla {
         this.jugadorVisitante = jugadorVisitante;
     }
 
+    public Visitante() {
+    }
+
     @Override
     public int calcularAlquiler(Estacion estacion) {
         return 0;
@@ -36,12 +40,14 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public int calcularAlquiler(Solar solar) {
-        return 0;
+        return 123;
     }
 
-    @Override
-    public void visitar(Propiedad propiedad) {
+    /*  Caer en las casillas  */
 
+    @Override
+    public void visitar(Solar solar) {
+        Juego.consola.imprimirln("Visito una propiedad");
     }
 
     @Override
@@ -60,7 +66,17 @@ public class Visitante implements VisitanteCasilla {
     }
 
     @Override
-    public void visitar(Casilla casilla) {
+    public void visitar(Estacion estacion) {
+
+    }
+
+    @Override
+    public void visitar(Servicio servicio) {
+
+    }
+
+    @Override
+    public void visitar(Impuesto impuesto) {
 
     }
 }

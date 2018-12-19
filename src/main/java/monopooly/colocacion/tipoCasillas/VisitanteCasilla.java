@@ -16,7 +16,11 @@ public interface VisitanteCasilla {
 
     int calcularAlquiler(Solar solar);
 
-    void visitar(Propiedad propiedad);
+    void visitar(Solar solar);
+
+    void visitar(Estacion estacion);
+
+    void visitar(Servicio servicio);
 
     void visitar(Tarot tarot);
 
@@ -24,5 +28,7 @@ public interface VisitanteCasilla {
 
     void visitar(Parking parking);
 
-    void visitar(Casilla casilla);
+    void visitar(Impuesto impuesto);
+
+
 }
