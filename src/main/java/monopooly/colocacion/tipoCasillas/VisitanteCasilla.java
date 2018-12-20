@@ -1,12 +1,11 @@
 package monopooly.colocacion.tipoCasillas;
 
-import monopooly.colocacion.Casilla;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.IrCarcel;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.Parking;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.Tarot;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Estacion;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Servicio;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Solar;
+import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
+import monopooly.colocacion.tipoCasillas.accion.Suerte;
+import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 
 public interface VisitanteCasilla {
 
@@ -22,13 +21,11 @@ public interface VisitanteCasilla {
 
     void visitar(Servicio servicio);
 
-    void visitar(Tarot tarot);
-
-    void visitar(IrCarcel irCarcel);
-
-    void visitar(Parking parking);
-
     void visitar(Impuesto impuesto);
 
+    void visitar(Especial especial);
 
+    void visitar(CajaComunidad cajaComunidad);
+
+    void visitar(Suerte suerte);
 }

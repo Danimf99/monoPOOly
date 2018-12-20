@@ -1,8 +1,10 @@
-package monopooly.colocacion.tipoCasillas;
+package monopooly.colocacion.tipoCasillas.propiedades;
 
 import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.Tarot;
+import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.player.Jugador;
 
 /**
@@ -16,17 +18,20 @@ import monopooly.player.Jugador;
  * @author Danimf99
  * @author luastan
  */
-public abstract class Propiedad extends Casilla implements Monopolio {
+public abstract class Propiedad extends Casilla implements Monopolio, Imprimible {
     private TipoMonopolio tipoMonopolio;
     private Jugador propietario;
     private Grupo monopolio;
     private int precio;
 
-    public Propiedad(TipoMonopolio tipoMonopolio, Grupo monopolio) {
-        this.tipoMonopolio = tipoMonopolio;
+    public Propiedad(Grupo monopolio, String nombre) {
+        super(nombre);
+        this.tipoMonopolio = monopolio.getTipoMonopolio();
         this.monopolio = monopolio;
         monopolio.addPropiedad(this);
     }
+
+
 
     public Jugador getPropietario() {
         return propietario;
@@ -35,6 +40,21 @@ public abstract class Propiedad extends Casilla implements Monopolio {
     public void setPropietario(Jugador propietario) {
         this.propietario = propietario;
     }
+
+
+    /**
+     * Dado un visitante calcula el alquiler
+     * @param visitante Visitante
+     * @return cantidad del alquiler
+     */
+    public abstract int calcularAlquiler(VisitanteCasilla visitante);
+
+    /**
+     * Calculo por defecto del alquiler
+     * @return Calcula el alquiler de una casilla
+     */
+    public abstract int calcularAlquiler();
+
 
     @Override
     public void incrementarPrecio() {
@@ -69,5 +89,9 @@ public abstract class Propiedad extends Casilla implements Monopolio {
         return this.monopolio.compartenPropietario();
     }
 
-    public abstract int calcularAlquiler(VisitanteCasilla visitante);
+    @Override
+    public String representar(String reprSubclases) {
+        String salida = "Lo añade propiedad\n" + reprSubclases;
+        return super.representar(salida);
+    }
 }

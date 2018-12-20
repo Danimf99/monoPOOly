@@ -1,4 +1,4 @@
-package monopooly.colocacion.tipoCasillas;
+package monopooly.colocacion.tipoCasillas.propiedades;
 
 public enum TipoMonopolio {
     marron,

@@ -1,12 +1,13 @@
 package monopooly.colocacion.tipoCasillas;
 
-import monopooly.colocacion.Casilla;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.IrCarcel;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.Parking;
-import monopooly.colocacion.tipoCasillas.tiposEspecial.Tarot;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Estacion;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Servicio;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Solar;
+import monopooly.colocacion.tipoCasillas.accion.Accion;
+import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
+import monopooly.colocacion.tipoCasillas.accion.Suerte;
+import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
+import monopooly.colocacion.tipoCasillas.accion.especiales.implementacionesEspecial.IrCarcel;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
@@ -26,6 +27,7 @@ public class Visitante implements VisitanteCasilla {
     }
 
     public Visitante() {
+        this.jugadorVisitante = null;
     }
 
     @Override
@@ -43,27 +45,21 @@ public class Visitante implements VisitanteCasilla {
         return 123;
     }
 
-    /*  Caer en las casillas  */
+    /*
+
+
+
+    Caer en las casillas
+
+
+
+    */
 
     @Override
     public void visitar(Solar solar) {
         Juego.consola.imprimirln("Visito una propiedad");
     }
 
-    @Override
-    public void visitar(Tarot tarot) {
-
-    }
-
-    @Override
-    public void visitar(IrCarcel irCarcel) {
-
-    }
-
-    @Override
-    public void visitar(Parking parking) {
-
-    }
 
     @Override
     public void visitar(Estacion estacion) {
@@ -77,6 +73,26 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public void visitar(Impuesto impuesto) {
+
+    }
+
+    @Override
+    public void visitar(Especial especial) {
+        if (jugadorVisitante == null) {
+            Juego.consola.error("No se puede visitar una casilla sin jugador",
+                    "Error pisando casilla");
+            return;
+        }
+        especial.getComportamiento().efectuar(this.jugadorVisitante);
+    }
+
+    @Override
+    public void visitar(CajaComunidad cajaComunidad) {
+
+    }
+
+    @Override
+    public void visitar(Suerte suerte) {
 
     }
 }

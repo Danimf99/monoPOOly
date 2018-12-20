@@ -1,9 +1,7 @@
-import monopooly.colocacion.Casilla;
-import monopooly.colocacion.tipoCasillas.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.Visitante;
-import monopooly.colocacion.tipoCasillas.tiposPropiedad.Solar;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.entradaSalida.Juego;
-import monopooly.player.Jugador;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +10,7 @@ public class VisitanteTest {
 
     @Before
     public void setUp() {
-        casilla1 = new Solar();
+//        casilla1 = new Solar();
     }
 
     @Test

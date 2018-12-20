@@ -1,8 +1,19 @@
 package monopooly.colocacion;
 
+import javafx.geometry.Pos;
+import monopooly.cartas.Carta;
+import monopooly.cartas.FabricaCartas;
+import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Esta clase permite devolver el tablero para la partida actual.
@@ -14,22 +25,45 @@ import java.util.ArrayList;
  * @author Danimf99
  */
 public class Tablero {
-    private static Tablero INSTANCIA_TABLERO;
-    private static Prompt PROMPT;
-    public static Jugador BANCA = new Jugador();
+    private static Tablero instanciaTablero;
+    private static Prompt prompt;
+    public static final Jugador BANCA = new Jugador();
+
     private ArrayList<Jugador> jugadoresTurno;
+    private ArrayList<Carta> cartasSuerte;
+    private ArrayList<Carta> cartasCajaComunidad;
+    private ArrayList<Casilla> casillas;
+
+    private HashMap<Posicion, Casilla> casillasPosicion;
+    private HashMap<String, Casilla> casillasNombre;
+    private HashMap<String, Jugador> jugadores;
+
 
     private Tablero() {
         /* Constructor de tablero */
-        PROMPT = null;
+        prompt = null;
         this.jugadoresTurno = new ArrayList<>();
+        this.casillas = FabricaCasillas.crearCasillas();
+        this.cartasSuerte = FabricaCartas.cartasSuerte();
+        this.cartasCajaComunidad = FabricaCartas.cartasCaja();
+
+        this.casillasNombre = new HashMap<>();
+        this.jugadores = new HashMap<>();
+        this.casillasPosicion = new HashMap<>();
+
+        casillas.forEach(casilla -> {
+            casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
+            casillasNombre.put(casilla.getNombre(), casilla);
+        });
+
+
     }
 
 
     // Inicializacion estatica de una instancia del tablero para el control de errores
     static {
         try {
-            INSTANCIA_TABLERO = new Tablero();
+            instanciaTablero = new Tablero();
         } catch (Exception e) {
             throw new RuntimeException("Error inicializando el tablero");
         }
@@ -42,13 +76,23 @@ public class Tablero {
      * @param jugador instancia del nuevo jugador añadido
      */
     public void meterJugador(Jugador jugador) {
-        for (Jugador j : this.jugadoresTurno) {
-            if (j.equals(jugador)) {
-                return;
-            }
+        if (jugadoresTurno.stream().anyMatch(j -> j.equals(jugador))) {
+            // El jugador ya existe
+            return;
         }
         this.jugadoresTurno.add(jugador);
+        this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);
     }
+
+
+    /**
+     *
+     * @param jugadores Jugadores que se quieren añadir a la partida
+     */
+    public void meterJugadores(ArrayList<Jugador> jugadores) {
+        jugadores.forEach(this::meterJugador);
+    }
+
 
     /**
      * Jugador que actualmente tiene el turno
@@ -62,6 +106,7 @@ public class Tablero {
 
     /**
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
+     *
      */
     public void pasarTurno() {
         this.jugadoresTurno.add(this.getJugadorTurno());
@@ -95,21 +140,35 @@ public class Tablero {
      * @return Instancia del tablero para la partida actual
      */
     public static Tablero getTablero() {
-        return INSTANCIA_TABLERO;
+        return instanciaTablero;
     }
 
     /**
      * Devuelve la instancia prompt correspondiente al turno actual
      * Hay que controlar que tenga jugadores el tablero
+     *
      * @return instancia actual del prompt
      */
     public static Prompt getPrompt() {
-        if (PROMPT == null) { // Necesario la primera vez que se ejecuta
-            if (INSTANCIA_TABLERO.jugadoresRestantes() < 1) {
+        if (prompt == null) { // Necesario la primera vez que se ejecuta
+            if (instanciaTablero.jugadoresRestantes() < 1) {
                 // Hay que meter una excepcion aqui
+                Juego.consola.error("No quedan jugadores en la partida actual",
+                        "Error inicializando la prompt");
             }
-            PROMPT = new Prompt();
+            prompt = new Prompt();
         }
-        return PROMPT;
+        return prompt;
+    }
+
+
+    /**
+     * Devuelve la posicion en la que se encuentra una casilla
+     *
+     * @param casilla Casilla que se busca
+     * @return Posicion de la casilla
+     */
+    public Posicion posicionCasilla(Casilla casilla) {
+        return new Posicion(casillas.indexOf(casilla));
     }
 }
