@@ -25,6 +25,8 @@ import static java.util.stream.Collectors.toMap;
  * @author Danimf99
  */
 public class Tablero {
+    private static FabricaCasillas fabricaCasillas = new FabricaCasillasImpl();
+
     private static Tablero instanciaTablero;
     private static Prompt prompt;
     public static final Jugador BANCA = new Jugador();
@@ -43,7 +45,7 @@ public class Tablero {
         /* Constructor de tablero */
         prompt = null;
         this.jugadoresTurno = new ArrayList<>();
-        this.casillas = FabricaCasillas.crearCasillas();
+        this.casillas = fabricaCasillas.crearCasillas();
         this.cartasSuerte = FabricaCartas.cartasSuerte();
         this.cartasCajaComunidad = FabricaCartas.cartasCaja();
 

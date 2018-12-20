@@ -1,6 +1,7 @@
 package monopooly.configuracion;
 
 import monopooly.colocacion.Posicion;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,55 @@ public class Posiciones {
     public static int VE_A_LA_CARCEL = 30;
 
     /* Metodos estaticos */
+
+
+    public static TipoMonopolio[] tipoSur = {
+            TipoMonopolio.marron,
+            TipoMonopolio.caja_comunidad,
+            TipoMonopolio.marron,
+            TipoMonopolio.impuesto,
+            TipoMonopolio.estacion,
+            TipoMonopolio.azul_claro,
+            TipoMonopolio.suerte,
+            TipoMonopolio.azul_claro,
+            TipoMonopolio.azul_claro
+    };
+
+    public static TipoMonopolio[] tipoOeste = {
+            TipoMonopolio.violeta,
+            TipoMonopolio.servicio,
+            TipoMonopolio.violeta,
+            TipoMonopolio.violeta,
+            TipoMonopolio.estacion,
+            TipoMonopolio.naranja,
+            TipoMonopolio.caja_comunidad,
+            TipoMonopolio.naranja,
+            TipoMonopolio.naranja
+    };
+
+    public static TipoMonopolio[] tipoNorte = {
+            TipoMonopolio.rojo,
+            TipoMonopolio.suerte,
+            TipoMonopolio.rojo,
+            TipoMonopolio.rojo,
+            TipoMonopolio.estacion,
+            TipoMonopolio.amarillo,
+            TipoMonopolio.servicio,
+            TipoMonopolio.amarillo,
+            TipoMonopolio.amarillo
+    };
+
+    public static TipoMonopolio[] tipoEste = {
+            TipoMonopolio.verde,
+            TipoMonopolio.caja_comunidad,
+            TipoMonopolio.verde,
+            TipoMonopolio.verde,
+            TipoMonopolio.estacion,
+            TipoMonopolio.suerte,
+            TipoMonopolio.azul_marino,
+            TipoMonopolio.impuesto,
+            TipoMonopolio.azul_marino
+    };
 
 
     /**

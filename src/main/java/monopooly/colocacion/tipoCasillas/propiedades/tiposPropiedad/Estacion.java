@@ -3,7 +3,6 @@ package monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 
 public class Estacion extends Propiedad {

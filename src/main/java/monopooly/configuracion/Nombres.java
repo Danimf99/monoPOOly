@@ -1,7 +1,7 @@
 package monopooly.configuracion;
 
 public class Nombres {
-    public static final String[] CALLES = {
+    public static String[] CALLES = {
             "Salida",
 
             "Murcia",
