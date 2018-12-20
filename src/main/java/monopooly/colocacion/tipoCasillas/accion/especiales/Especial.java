@@ -2,8 +2,9 @@ package monopooly.colocacion.tipoCasillas.accion.especiales;
 
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.tipoCasillas.accion.Accion;
 
-public class Especial extends Casilla {
+public class Especial extends Accion {
 
     private AccionEspecial comportamiento;
 

@@ -19,14 +19,12 @@ import monopooly.player.Jugador;
  * @author luastan
  */
 public abstract class Propiedad extends Casilla implements Monopolio, Imprimible {
-    private TipoMonopolio tipoMonopolio;
     private Jugador propietario;
     private Grupo monopolio;
     private int precio;
 
     public Propiedad(Grupo monopolio, String nombre) {
         super(nombre);
-        this.tipoMonopolio = monopolio.getTipoMonopolio();
         this.monopolio = monopolio;
         monopolio.addPropiedad(this);
     }
@@ -76,12 +74,12 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
 
     @Override
     public TipoMonopolio getTipoMonopolio() {
-        return tipoMonopolio;
+        return this.monopolio.getTipoMonopolio();
     }
 
     @Override
     public void setTipoMonopolio(TipoMonopolio tipo) {
-        this.tipoMonopolio = tipo;
+        this.monopolio.setTipoMonopolio(tipo);
     }
 
     @Override

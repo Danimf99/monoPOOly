@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="291.0" y="252.0">monopooly.colocacion.tipoCasillas.propiedades.Propiedad</node>
+    <node x="582.0" y="552.0">monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion</node>
+    <node x="0.0" y="750.0">monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio</node>
+    <node x="302.75000000000006" y="0.0">monopooly.colocacion.Casilla</node>
+    <node x="590.25" y="36.5">monopooly.colocacion.tipoCasillas.propiedades.Monopolio</node>
+    <node x="291.0" y="552.0">monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio</node>
+    <node x="0.0" y="552.0">monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar</node>
+    <node x="582.0" y="264.0">monopooly.colocacion.tipoCasillas.Grupo</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar" target="monopooly.colocacion.tipoCasillas.propiedades.Propiedad">
+      <point x="5.6843418860808015E-14" y="-76.5" />
+      <point x="135.50000000000006" y="527.0" />
+      <point x="336.1666666666667" y="527.0" />
+      <point x="-90.33333333333331" y="125.0" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.Grupo" target="monopooly.colocacion.tipoCasillas.propiedades.Monopolio">
+      <point x="66.25" y="-113.0" />
+      <point x="63.5" y="64.5" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.propiedades.Propiedad" target="monopooly.colocacion.Casilla">
+      <point x="-67.74999999999994" y="-125.0" />
+      <point x="-56.0" y="101.0" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.propiedades.Propiedad" target="monopooly.colocacion.tipoCasillas.propiedades.Monopolio">
+      <point x="67.75000000000006" y="-125.0" />
+      <point x="494.25000000000006" y="232.0" />
+      <point x="653.75" y="232.0" />
+      <point x="-63.5" y="64.5" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio" target="monopooly.colocacion.tipoCasillas.propiedades.Propiedad">
+      <point x="0.0" y="-76.5" />
+      <point x="0.0" y="125.0" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.Grupo" target="monopooly.colocacion.Casilla">
+      <point x="-66.25" y="-113.0" />
+      <point x="648.25" y="222.0" />
+      <point x="470.75000000000006" y="222.0" />
+      <point x="56.0" y="101.0" />
+    </edge>
+    <edge source="monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion" target="monopooly.colocacion.tipoCasillas.propiedades.Propiedad">
+      <point x="0.0" y="-76.5" />
+      <point x="717.5" y="527.0" />
+      <point x="516.8333333333333" y="527.0" />
+      <point x="90.33333333333331" y="125.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9999999999999996" x="553.2933455433451" y="414.00000000000017" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

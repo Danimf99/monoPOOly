@@ -8,8 +8,6 @@ import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 
 public class Estacion extends Propiedad {
 
-    private TipoMonopolio tipoMonopolio;
-
     public Estacion(Grupo monopolio, String nombre) {
         super(monopolio, nombre);
     }
@@ -31,4 +29,8 @@ public class Estacion extends Propiedad {
     }
 
 
+    @Override
+    public String toString() {
+        return super.representar("Estacion{}");
+    }
 }
