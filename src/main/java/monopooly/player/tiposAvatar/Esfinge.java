@@ -14,7 +14,7 @@ public class Esfinge extends Avatar {
 
     public String toString(){
         return PintadoAscii.encuadrar("Avatar{\n"+
-                "   Tipo: Pelota"+
+                "   Tipo: Esfinge"+
                 super.toString()
                 +"\n}");
     }

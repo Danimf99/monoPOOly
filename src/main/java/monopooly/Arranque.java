@@ -11,6 +11,5 @@ public class Arranque {
         Grupo monop = new Grupo(TipoMonopolio.naranja);
         Solar solar1 = new Solar(monop, "Nombre de la casilla");
         System.out.println(solar1);
-
     }
 }

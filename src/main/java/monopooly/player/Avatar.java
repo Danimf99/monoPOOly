@@ -74,6 +74,13 @@ public abstract class Avatar {
         return ascii;
     }
 
+    /* AQUI HABRIA QUE PONER EL MOVIMIENTO EN VEZ DE EN JUGADOR Y SE EMPLEMENTARIA EL BASICO*/
+
+    public void moverBasico(){
+
+    }
+    /* QUE LO IMPLEMENTE CADA SUBCLASE */
+   // public abstract void moverAvanzado();
 
     public String toString(){
         return "\n   Representación: "+representacion+
