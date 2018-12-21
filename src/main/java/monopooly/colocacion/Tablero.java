@@ -1,6 +1,5 @@
 package monopooly.colocacion;
 
-import javafx.geometry.Pos;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.entradaSalida.Juego;
@@ -8,10 +7,6 @@ import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -25,7 +20,7 @@ import static java.util.stream.Collectors.toMap;
  * @author Danimf99
  */
 public class Tablero {
-    private static FabricaCasillas fabricaCasillas = new FabricaCasillasImpl();
+    private static FabricaCasillas fabricaCasillas = new FabricaCasillas();
 
     private static Tablero instanciaTablero;
     private static Prompt prompt;
@@ -45,7 +40,7 @@ public class Tablero {
         /* Constructor de tablero */
         prompt = null;
         this.jugadoresTurno = new ArrayList<>();
-        this.casillas = fabricaCasillas.crearCasillas();
+        this.casillas = fabricaCasillas.genCasillas();
         this.cartasSuerte = FabricaCartas.cartasSuerte();
         this.cartasCajaComunidad = FabricaCartas.cartasCaja();
 

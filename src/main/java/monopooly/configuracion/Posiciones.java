@@ -15,7 +15,8 @@ public class Posiciones {
     /* Metodos estaticos */
 
 
-    public static TipoMonopolio[] tipoSur = {
+    public static final TipoMonopolio[] ORDENACION_POR_DEFECTO = {
+            TipoMonopolio.salida,
             TipoMonopolio.marron,
             TipoMonopolio.caja_comunidad,
             TipoMonopolio.marron,
@@ -24,10 +25,8 @@ public class Posiciones {
             TipoMonopolio.azul_claro,
             TipoMonopolio.suerte,
             TipoMonopolio.azul_claro,
-            TipoMonopolio.azul_claro
-    };
-
-    public static TipoMonopolio[] tipoOeste = {
+            TipoMonopolio.azul_claro,
+            TipoMonopolio.carcel,
             TipoMonopolio.violeta,
             TipoMonopolio.servicio,
             TipoMonopolio.violeta,
@@ -36,10 +35,8 @@ public class Posiciones {
             TipoMonopolio.naranja,
             TipoMonopolio.caja_comunidad,
             TipoMonopolio.naranja,
-            TipoMonopolio.naranja
-    };
-
-    public static TipoMonopolio[] tipoNorte = {
+            TipoMonopolio.naranja,
+            TipoMonopolio.parking,
             TipoMonopolio.rojo,
             TipoMonopolio.suerte,
             TipoMonopolio.rojo,
@@ -48,10 +45,8 @@ public class Posiciones {
             TipoMonopolio.amarillo,
             TipoMonopolio.servicio,
             TipoMonopolio.amarillo,
-            TipoMonopolio.amarillo
-    };
-
-    public static TipoMonopolio[] tipoEste = {
+            TipoMonopolio.amarillo,
+            TipoMonopolio.ir_carcel,
             TipoMonopolio.verde,
             TipoMonopolio.caja_comunidad,
             TipoMonopolio.verde,
@@ -61,6 +56,19 @@ public class Posiciones {
             TipoMonopolio.azul_marino,
             TipoMonopolio.impuesto,
             TipoMonopolio.azul_marino
+    };
+
+    public static final TipoMonopolio[] coloresValidos = {
+            TipoMonopolio.marron,
+            TipoMonopolio.azul_claro,
+            TipoMonopolio.violeta,
+            TipoMonopolio.naranja,
+            TipoMonopolio.rojo,
+            TipoMonopolio.amarillo,
+            TipoMonopolio.verde,
+            TipoMonopolio.azul_marino,
+            TipoMonopolio.servicio,
+            TipoMonopolio.estacion
     };
 
 

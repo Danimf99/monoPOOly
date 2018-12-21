@@ -12,8 +12,10 @@ public enum TipoMonopolio {
     estacion,
     servicio,
     impuesto,
-    parking,
     suerte,
     caja_comunidad,
-    none
+    parking,
+    salida,
+    carcel,
+    ir_carcel
 }
