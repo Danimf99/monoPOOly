@@ -18,7 +18,6 @@ class Partida { // Package Private
      */
     void init() { // Package Private
         // Meter los jugadores en el tablero
-        Juego.consola.imprimir("caracola");
         pedirJugadores();
 
         if (Tablero.getTablero().jugadoresRestantes() < 2) {
@@ -78,7 +77,16 @@ class Partida { // Package Private
                     exp=new Deshipotecar(args);
                     exp.interpretar(interprete);
                     break;
+
+                case "acabar":
+                case "a":
+                    Tablero.getTablero().pasarTurno();
+                    break;
                 default:
+                    Juego.consola.error(
+                            "El coomando introducido es incorrecto",
+                            "Expresion desconocida"
+                    );
                     Tablero.getPrompt().setHelp(true);
                     break;
 
@@ -89,9 +97,6 @@ class Partida { // Package Private
             if (exp != null) {
                 exp.interpretar(interprete);
             }
-
-
-            Tablero.getTablero().pasarTurno();
         } while (Tablero.getTablero().jugadoresRestantes() > 1);
 
     }
