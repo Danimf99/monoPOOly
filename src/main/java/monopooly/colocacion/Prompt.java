@@ -107,7 +107,7 @@ public class Prompt {
         String salida = "";
 
         if (modDinero == 0) {
-            separador = " ";
+            separador = "";
         } else if (modDinero < 0) {
             color = ReprASCII.ANSI_RED;
             modificador = ReprASCII.PROMPT_LOG_DINERO_DOWN;
