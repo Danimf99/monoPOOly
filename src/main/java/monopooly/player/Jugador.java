@@ -6,6 +6,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.EstadisticasJugador;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
@@ -243,7 +244,16 @@ public class Jugador {
         }
         this.propiedades.add(propiedad);
     }
+    public int calcularFortunaTotal(){
+        int fortuna=this.dinero;
 
+        for(Propiedad i: propiedades){
+            fortuna+=i.getPrecio();
+            //TODO calcular precio edificios
+        }
+
+        return fortuna;
+    }
     /**
      * Al jugador se le retira una propiedad de su lista de propiedades ya sea porque la vende, la intercambia....
      * @param propiedad propiedad que se quiere retirar
@@ -254,6 +264,37 @@ public class Jugador {
             return;
         }
         this.propiedades.remove(propiedad);
+    }
+    @Override
+    public String toString() {
+        int j=0;
+        StringBuilder imprimirJugador = new StringBuilder();
+        imprimirJugador.append("Jugador{\n" +
+                "   Nombre: " + nombre +
+                "\n   Fortuna: " + dinero +
+                "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
+        for(Propiedad i:propiedades){
+            if(propiedades.size()-1==j){
+                imprimirJugador.append(i.getNombre());
+            }
+            else {
+                imprimirJugador.append(i.getNombre()+",");
+            }
+            j++;
+        }
+        imprimirJugador.append("]\n   Hipotecadas: [");
+        j=0;
+        for(Propiedad h:hipotecas){
+            if(hipotecas.size()-1==j) {
+                imprimirJugador.append(h.getNombre());
+            }
+            else{
+                imprimirJugador.append(h.getNombre()+",");
+            }
+            j++;
+        }
+        imprimirJugador.append("]\n}");
+        return  PintadoAscii.encuadrar(imprimirJugador.toString());
     }
     @Override
     public boolean equals(Object o) {
