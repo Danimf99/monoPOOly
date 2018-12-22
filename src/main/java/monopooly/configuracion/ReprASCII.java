@@ -16,14 +16,11 @@ package monopooly.configuracion;
 * */
 
 
-import monopooly.colocacion.Casilla;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio.caja_comunidad;
 
 public class ReprASCII {
 
