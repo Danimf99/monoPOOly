@@ -16,4 +16,8 @@ public interface Comando {
     void hipotecar(Jugador jugador,Casilla casilla);
 
     void vender(Jugador jugador);
+
+    void deshipotecar(Jugador jugador,Casilla casilla);
+
+    void info(Jugador jugador);
 }

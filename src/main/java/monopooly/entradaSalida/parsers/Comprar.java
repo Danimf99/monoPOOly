@@ -63,14 +63,6 @@ public class Comprar implements Expresion {
             Juego.consola.error("Esa propiedad no existe.");
             return;
         }
-        if (!Tablero.getPrompt().getJugador().puedeComprar(comprar)) {
-            Juego.consola.error("No puedes comprar esa propiedad.");
-            return;
-        }
-        if(!(((Propiedad) comprar).getPropietario().getNombre().equals("Banca"))){
-            Juego.consola.error("La propiedad "+comprar.getNombre()+" ya pertenece a otro jugador");
-            return;
-        }
         interprete.comprar(Tablero.getPrompt().getJugador(),comprar);
 
         return;

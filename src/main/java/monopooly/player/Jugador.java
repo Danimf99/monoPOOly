@@ -206,6 +206,16 @@ public class Jugador {
         quitarPropiedad(inmueble);
         inmueble.setHipotecado(true);
     }
+    public void deshipotecar(Propiedad inmueble){
+        if(inmueble==null){
+            Juego.consola.error("Inmueble null, no se puedes deshipotecar");
+            return;
+        }
+        this.anhadirPropiedad(inmueble);
+        inmueble.setHipotecado(false);
+        this.hipotecas.remove(inmueble);
+        this.quitarDinero((int)(inmueble.getMonopolio().getPrecio()*1.1));
+    }
     /**
      * AL jugador se le suma una cantidad de dinero
      *
