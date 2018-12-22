@@ -19,7 +19,21 @@ public class Juego implements Comando{
 
     }
 
+    public void lanzar(Jugador jugador){
 
+    }
+
+    public void hipotecar(Jugador jugador,Casilla casilla){
+
+    }
+
+    public void vender(Jugador jugador){
+
+    }
+
+    public void casillaCorrecta(String casilla){
+
+    }
 
 
 }
