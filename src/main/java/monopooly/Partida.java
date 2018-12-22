@@ -3,6 +3,7 @@ package monopooly;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
+import monopooly.player.Jugador;
 
 class Partida { // Package Private
 
@@ -20,11 +21,11 @@ class Partida { // Package Private
         Juego.consola.imprimir("caracola");
         pedirJugadores();
 
-//        if (Tablero.getTablero().jugadoresRestantes() < 2) {
-//            // Comprueba que el tablero tiene los jugadores necesarios
-//            // Tirar excepcion
-//            return;
-//        }
+        if (Tablero.getTablero().jugadoresRestantes() < 2) {
+            // Comprueba que el tablero tiene los jugadores necesarios
+            // Tirar excepcion
+            return;
+        }
 
         // Iniciar el handler de la partida
         handler();
@@ -37,60 +38,60 @@ class Partida { // Package Private
      * Pide jugadores por pantalla y los introduce en el tablero
      */
     private void pedirJugadores(){
-
+        Tablero.getTablero().meterJugador(new Jugador("Dani", "Coche"));
+        Tablero.getTablero().meterJugador(new Jugador("Saul", "Pelota"));
     }
 
     /**
      * Controla el flujo de la partida
      */
     private void handler() {
-        Juego interprete = new Juego();
         String comandoIntroducido;
         String[] args;
-        Expresion exp = null;
+        Expresion exp;
 
         do { // Bucle de partida
-            do { // Bucle de turno
-                comandoIntroducido = Juego.consola.leer();
-                args = comandoIntroducido.split(" ");
+            exp = null;
+            Juego.consola.imprimir(Tablero.getPrompt().toString());
+            comandoIntroducido = Juego.consola.leer();
+            args = comandoIntroducido.split(" ");
 
-                switch (args[0].toLowerCase()) {  // Classic switch de comandos
-                    case "comprar":
-                    case "Comprar":
-                    case "c":
-                        exp = new Comprar(args);
-                        exp.interpretar(interprete);
-                        break;
-                    case "info":
-                    case "informacion":
-                        exp=new Info(args);
-                        exp.interpretar(interprete);
-                        break;
-                    case "hipotecar":
-                    case "Hipotecar":
-                        exp=new Hipotecar(args);
-                        exp.interpretar(interprete);
-                        break;
-                    case "deshipotecar":
-                    case "Deshipotecar":
-                        exp=new Deshipotecar(args);
-                        exp.interpretar(interprete);
-                        break;
-                    default:
-                        Tablero.getPrompt().setHelp(true);
-                        break;
-
-                }
-
-                // Se termina el switch y se analiza la expresion
-
-                if (exp != null) {
+            switch (args[0].toLowerCase()) {  // Classic switch de comandos
+                case "comprar":
+                case "Comprar":
+                case "c":
+                    exp = new Comprar(args);
                     exp.interpretar(interprete);
-                }
+                    break;
+                case "info":
+                case "informacion":
+                    exp=new Info(args);
+                    exp.interpretar(interprete);
+                    break;
+                case "hipotecar":
+                case "Hipotecar":
+                    exp=new Hipotecar(args);
+                    exp.interpretar(interprete);
+                    break;
+                case "deshipotecar":
+                case "Deshipotecar":
+                    exp=new Deshipotecar(args);
+                    exp.interpretar(interprete);
+                    break;
+                default:
+                    Tablero.getPrompt().setHelp(true);
+                    break;
+
+            }
+
+            // Se termina el switch y se analiza la expresion
+
+            if (exp != null) {
+                exp.interpretar(interprete);
+            }
 
 
-                Tablero.getTablero().pasarTurno();
-            } while (true);
+            Tablero.getTablero().pasarTurno();
         } while (Tablero.getTablero().jugadoresRestantes() > 1);
 
     }
