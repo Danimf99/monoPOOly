@@ -4,7 +4,10 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
+import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
@@ -73,6 +76,13 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
      */
     public abstract int calcularAlquiler();
 
+    public int alquiler() {
+        VisitanteCasilla visitante = new Visitante();
+        visitante.calcularAlquiler(this);
+
+        return 0;
+    }
+
 
     @Override
     public void incrementarPrecio() {
@@ -123,8 +133,11 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         deudor.anhadirPropiedad(this);
         this.propietario = deudor;
     }
+
     @Override
     public String representar(String reprSubclases) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
         String salida = "Lo añade propiedad\n" + reprSubclases;
         return super.representar(salida);
     }

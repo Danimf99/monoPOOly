@@ -4,6 +4,7 @@ import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.configuracion.Precios;
 
 public class Estacion extends Propiedad {
 
@@ -30,6 +31,6 @@ public class Estacion extends Propiedad {
 
     @Override
     public String toString() {
-        return super.representar("Estacion{}");
+        return super.representar("");
     }
 }
