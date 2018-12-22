@@ -57,7 +57,10 @@ class Partida { // Package Private
 
                 switch (args[0].toLowerCase()) {  // Classic switch de comandos
                     case "comprar":
-                        exp = new Comprar(comandoIntroducido);
+                    case "Comprar":
+                    case "c":
+                        exp = new Comprar(args);
+                        exp.interpretar(interprete);
                         break;
 
                     default:

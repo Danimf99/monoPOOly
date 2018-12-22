@@ -10,4 +10,10 @@ public interface Comando {
      * @param casilla Casilla que se quiere comprar
      */
     void comprar(Jugador jugador, Casilla casilla);
+
+    void lanzar(Jugador jugador);
+
+    void hipotecar(Jugador jugador,Casilla casilla);
+
+    void vender(Jugador jugador);
 }
