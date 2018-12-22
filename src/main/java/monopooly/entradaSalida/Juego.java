@@ -26,7 +26,7 @@ public class Juego implements Comando{
             Tablero.getPrompt().setMotivoPago("Compra de la propiedad "+casilla.getNombre());
             jugador.getEstadisticas().sumarInvertido(((Propiedad)casilla).getPrecio());
             if (!jugador.getAvatar().isNitroso() || !(jugador.getAvatar() instanceof Pelota)) {
-                Tablero.getPrompt().setCompro(true);
+                Tablero.getPrompt().isCompro();
             }
         }else{
             Juego.consola.info("No tiene suficiente dinero para comprar "+casilla.getNombre());

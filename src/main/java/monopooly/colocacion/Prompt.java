@@ -33,6 +33,38 @@ public class Prompt {
         this.modDinero = modDinero;
     }
 
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public String getMotivoPago() {
+        return motivoPago;
+    }
+
+    public void setJugador(Jugador jugador) {
+        this.jugador = jugador;
+    }
+
+    public void setMotivoPago(String motivoPago) {
+        this.motivoPago = motivoPago;
+    }
+
+    public boolean isCompro() {
+        return compro;
+    }
+
+    public ArrayList<Posicion> getPosicionesTurno() {
+        return posicionesTurno;
+    }
+
+    public boolean isHelp() {
+        return help;
+    }
+
+    public void setPosicionesTurno(ArrayList<Posicion> posicionesTurno) {
+        this.posicionesTurno = posicionesTurno;
+    }
+
     public int getModDinero() {
         return modDinero;
     }
