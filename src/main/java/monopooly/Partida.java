@@ -2,8 +2,7 @@ package monopooly;
 
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
-import monopooly.entradaSalida.parsers.Comprar;
-import monopooly.entradaSalida.parsers.Expresion;
+import monopooly.entradaSalida.parsers.*;
 
 class Partida { // Package Private
 
@@ -62,7 +61,21 @@ class Partida { // Package Private
                         exp = new Comprar(args);
                         exp.interpretar(interprete);
                         break;
-
+                    case "info":
+                    case "informacion":
+                        exp=new Info(args);
+                        exp.interpretar(interprete);
+                        break;
+                    case "hipotecar":
+                    case "Hipotecar":
+                        exp=new Hipotecar(args);
+                        exp.interpretar(interprete);
+                        break;
+                    case "deshipotecar":
+                    case "Deshipotecar":
+                        exp=new Deshipotecar(args);
+                        exp.interpretar(interprete);
+                        break;
                     default:
                         Tablero.getPrompt().setHelp(true);
                         break;
