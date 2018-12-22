@@ -60,22 +60,18 @@ class Partida { // Package Private
                 case "Comprar":
                 case "c":
                     exp = new Comprar(args);
-                    exp.interpretar(interprete);
                     break;
                 case "info":
                 case "informacion":
                     exp=new Info(args);
-                    exp.interpretar(interprete);
                     break;
                 case "hipotecar":
                 case "Hipotecar":
                     exp=new Hipotecar(args);
-                    exp.interpretar(interprete);
                     break;
                 case "deshipotecar":
                 case "Deshipotecar":
                     exp=new Deshipotecar(args);
-                    exp.interpretar(interprete);
                     break;
 
                 case "acabar":
