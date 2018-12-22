@@ -167,25 +167,29 @@ public class Prompt {
 
         // Dados
         Dados dadosPlayer = jugador.getDados();
-        String salida = "";
-        if (jugador.getCooldown() > 0) {
-            salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
-            salida += jugador.getCooldown() + "  ";
-        }
-        if (dadosPlayer.sonDobles()) {
-            salida += ReprASCII.ANSI_BLACK_BOLD;
+
+        if (dadosPlayer.getDado1() * dadosPlayer.getDado2() != 0){
+            String salida = "";
+            if (jugador.getCooldown() > 0) {
+                salida += ReprASCII.ANSI_BLUE_BOLD + "Cooldown: " + ReprASCII.ANSI_RESET;
+                salida += jugador.getCooldown() + "  ";
+            }
+            if (dadosPlayer.sonDobles()) {
+                salida += ReprASCII.ANSI_BLACK_BOLD;
+            }
+
+            elementos.add(salida
+                    + ReprASCII.PROMPT_DADOS
+                    + dadosPlayer.tirada()
+                    + " ("
+                    + dadosPlayer.getDado1()
+                    + "-"
+                    + dadosPlayer.getDado2()
+                    + ")"
+                    + ReprASCII.ANSI_RESET
+            );
         }
 
-        elementos.add(salida
-                + ReprASCII.PROMPT_DADOS
-                + dadosPlayer.tirada()
-                + " ("
-                + dadosPlayer.getDado1()
-                + "-"
-                + dadosPlayer.getDado2()
-                + ")"
-                + ReprASCII.ANSI_RESET
-        );
 
 
         // Informacion sobre el dinero
