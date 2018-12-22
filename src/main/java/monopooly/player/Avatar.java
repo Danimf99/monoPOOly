@@ -81,7 +81,7 @@ public abstract class Avatar {
     }
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
    // public abstract void moverAvanzado();
-
+    @Override
     public String toString(){
         return "\n   Representación: "+representacion+
                 "\n   Jugador: "+jugador.getNombre()+
