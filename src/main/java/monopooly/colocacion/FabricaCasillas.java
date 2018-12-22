@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author Danimf99
  * @author luastan
  */
-public class FabricaCasillas {  // Package-private
+public class FabricaCasillas {
     private static final Iterator nombres = Arrays.asList(Nombres.CALLES).iterator();
     private static final HashMap<TipoMonopolio, Grupo> grupos = new HashMap<>();
 
@@ -77,7 +77,7 @@ public class FabricaCasillas {  // Package-private
      *
      * @return Casillas en un ArrayList en el orden por defecto
      */
-    public ArrayList<Casilla> genCasillas() {  // Package-private
+    public ArrayList<Casilla> genCasillas() {
         Arrays.stream(Posiciones.coloresValidos).forEach(monopolio -> grupos.put(monopolio, new Grupo(monopolio)));
         return Arrays.stream(Posiciones.ORDENACION_POR_DEFECTO).map(this::genCasilla).collect(Collectors.toCollection(ArrayList::new));
     }

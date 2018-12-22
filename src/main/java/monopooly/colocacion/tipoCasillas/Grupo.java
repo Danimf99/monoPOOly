@@ -5,6 +5,7 @@ import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.Monopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.configuracion.Precios;
 import monopooly.player.Jugador;
 
 import java.util.HashSet;
@@ -30,11 +31,47 @@ public class Grupo extends Casilla implements Monopolio {
         super(genNombre(tipoMonopolio));
         this.tipoMonopolio = tipoMonopolio;
         this.propiedades = new HashSet<>();
+        switch (tipoMonopolio) {
+            case estacion:
+                this.precio = Precios.ESTACION;
+                break;
+            case marron:
+                this.precio = Precios.PRECIO_MARRON;
+                break;
+            case azul_claro:
+                this.precio = Precios.PRECIO_AZUL_CLARO;
+                break;
+            case violeta:
+                this.precio = Precios.PRECIO_VIOLETA;
+                break;
+            case naranja:
+                this.precio = Precios.PRECIO_NARANJA;
+                break;
+            case rojo:
+                this.precio = Precios.PRECIO_ROJO;
+                break;
+            case amarillo:
+                this.precio = Precios.PRECIO_AMARILLO;
+                break;
+            case verde:
+                this.precio = Precios.PRECIO_VERDE;
+                break;
+            case azul_marino:
+                this.precio = Precios.PRECIO_AZUL_MARINO;
+                break;
+            case servicio:
+                this.precio = Precios.SERVICIOS;
+                break;
+            default:
+                this.precio = 0;
+        }
+
     }
 
     public Grupo(String nombre, int precio, TipoMonopolio tipoMonopolio) {
         super(nombre);
         this.precio = precio;
+        this.propiedades = new HashSet<>();
         this.tipoMonopolio = tipoMonopolio;
     }
 
@@ -52,6 +89,7 @@ public class Grupo extends Casilla implements Monopolio {
 
     public void addPropiedad(Propiedad propiedad) {
         this.propiedades.add(propiedad);
+        propiedad.setPrecio(this.precio);
     }
 
 
@@ -67,9 +105,7 @@ public class Grupo extends Casilla implements Monopolio {
 
     @Override
     public boolean compartenPropietario() {
-        HashSet<Jugador> propietarios = new HashSet<>();
-        propiedades.forEach(propiedad -> propietarios.add(propiedad.getPropietario()));
-        return propietarios.size() == 1;
+        return propiedades.stream().map(Propiedad::getPropietario).distinct().count() == 1;
     }
 
     @Override
@@ -79,6 +115,7 @@ public class Grupo extends Casilla implements Monopolio {
 
     @Override
     public void setPrecio(int precio) {
+        this.propiedades.forEach(propiedad -> propiedad.setPrecio(precio));
         this.precio = precio;
     }
 
