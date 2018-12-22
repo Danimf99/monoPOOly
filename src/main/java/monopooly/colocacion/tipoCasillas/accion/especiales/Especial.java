@@ -3,6 +3,7 @@ package monopooly.colocacion.tipoCasillas.accion.especiales;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.accion.Accion;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 public class Especial extends Accion {
 
@@ -33,5 +34,10 @@ public class Especial extends Accion {
         return "Especial{" +
                 "comportamiento=" + comportamiento +
                 '}';
+    }
+
+    @Override
+    public TipoMonopolio getTipo() {
+        return comportamiento.getTipo();
     }
 }

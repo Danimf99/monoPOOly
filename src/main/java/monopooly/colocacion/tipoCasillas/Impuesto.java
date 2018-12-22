@@ -1,6 +1,7 @@
 package monopooly.colocacion.tipoCasillas;
 
 import monopooly.colocacion.Casilla;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 public class Impuesto extends Casilla {
     private int cantidad;
@@ -20,5 +21,10 @@ public class Impuesto extends Casilla {
         final StringBuilder sb = new StringBuilder("Impuesto{");
         sb.append('}');
         return super.representar(sb.toString());
+    }
+
+    @Override
+    public TipoMonopolio getTipo() {
+        return TipoMonopolio.impuesto;
     }
 }
