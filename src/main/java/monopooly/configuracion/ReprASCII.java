@@ -16,9 +16,14 @@ package monopooly.configuracion;
 * */
 
 
+import monopooly.colocacion.Casilla;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio.caja_comunidad;
 
 public class ReprASCII {
 
@@ -168,42 +173,40 @@ public class ReprASCII {
             ANSI_RESET;
 
 
-//    public static String colorMonopolio(TipoMonopolio tipo) {
-//        switch (tipo) {
-//            case rojo:
-//                return ANSI_RED_BACKGROUND ;
-//            case verde:
-//                return ANSI_GREEN_BACKGROUND;
-//            case marron:
-//                return ANSI_BLACK_BACKGROUND + ANSI_WHITE;
-//            case naranja:
-//                return ANSI_HIGH_YELLOW_BACKGROUND;
-//            case violeta:
-//                return ANSI_PURPLE_BACKGROUND;
-//            case amarillo:
-//                return ANSI_YELLOW_BACKGROUND;
-//            case estacion:
-//                return ANSI_HIGH_WHITE_BACKGROUND;
-//            case servicio:
-//                return ANSI_BLACK_BOLD;
-//            case azul_claro:
-//                return ANSI_CYAN_BACKGROUND;
-//            case azul_marino:
-//                return ANSI_BLUE_BACKGROUND + ANSI_WHITE_BOLD;
-//            case none:
-//                return ANSI_BLACK_BOLD;
-//            case parking:
-//                return ANSI_BLACK_BOLD;
-//            case suerte:
-//                return ANSI_RED_BOLD;
-//            case caja_comunidad:
-//                return ANSI_BLUE_BOLD;
-//            case impuesto:
-//                return ANSI_BLACK_BOLD;
-//            default:
-//                return ANSI_BLACK;
-//
-//        }
-//    }
+    public static String colorMonopolio(TipoMonopolio tipo) {
+        switch (tipo) {
+            case rojo:
+                return ANSI_RED_BACKGROUND ;
+            case verde:
+                return ANSI_GREEN_BACKGROUND;
+            case marron:
+                return ANSI_BLACK_BACKGROUND + ANSI_WHITE;
+            case naranja:
+                return ANSI_HIGH_YELLOW_BACKGROUND;
+            case violeta:
+                return ANSI_PURPLE_BACKGROUND;
+            case amarillo:
+                return ANSI_YELLOW_BACKGROUND;
+            case estacion:
+                return ANSI_HIGH_WHITE_BACKGROUND;
+            case servicio:
+                return ANSI_BLACK_BOLD;
+            case azul_claro:
+                return ANSI_CYAN_BACKGROUND;
+            case azul_marino:
+                return ANSI_BLUE_BACKGROUND + ANSI_WHITE_BOLD;
+            case parking:
+                return ANSI_BLACK_BOLD;
+            case suerte:
+                return ANSI_RED_BOLD;
+            case caja_comunidad:
+                return ANSI_BLUE_BOLD;
+            case impuesto:
+                return ANSI_BLACK_BOLD;
+            default:
+                return ANSI_BLACK;
+
+        }
+    }
 
 }

@@ -130,4 +130,8 @@ public class Grupo extends Casilla implements Monopolio {
     }
 
 
+    @Override
+    public TipoMonopolio getTipo() {
+        return tipoMonopolio;
+    }
 }

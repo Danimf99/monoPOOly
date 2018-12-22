@@ -1,6 +1,7 @@
 package monopooly.colocacion.tipoCasillas.accion;
 
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 public class CajaComunidad extends Accion {
 
@@ -12,6 +13,11 @@ public class CajaComunidad extends Accion {
     @Override
     public void visitar(VisitanteCasilla visitante) {
         visitante.visitar(this);
+    }
+
+    @Override
+    public TipoMonopolio getTipo() {
+        return TipoMonopolio.caja_comunidad;
     }
 
     @Override

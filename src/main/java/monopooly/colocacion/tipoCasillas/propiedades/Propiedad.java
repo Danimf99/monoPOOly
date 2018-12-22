@@ -63,6 +63,11 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
     }
 
     @Override
+    public TipoMonopolio getTipo() {
+        return this.getTipoMonopolio();
+    }
+
+    @Override
     public void setPrecio(int precio) {
         this.precio = precio;
     }

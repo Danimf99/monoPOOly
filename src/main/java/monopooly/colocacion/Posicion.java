@@ -77,4 +77,27 @@ public class Posicion {
         return cantidad;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Posicion)) return false;
+
+        Posicion posicion = (Posicion) o;
+
+        return getX() == posicion.getX();
+    }
+
+    @Override
+    public int hashCode() {
+        // Con este hash llega que solo es para el Hashmap de colocacion en el tablero
+        return getX();
+    }
+
+    @Override
+    public String toString() {
+        return "Posicion{" +
+                "x=" + x +
+                '}';
+    }
 }
