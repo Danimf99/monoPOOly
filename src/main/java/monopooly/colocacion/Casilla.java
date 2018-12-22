@@ -3,15 +3,21 @@ package monopooly.colocacion;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.player.Avatar;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 public abstract class Casilla implements Imprimible {
     private String nombre;
     private HashSet<Avatar> avatares;
+    private final static Iterator<Integer> generadorId = Stream.iterate(0, i -> i + 1).iterator();
+    private Integer id;
 
     public Casilla(String nombre) {
         this.nombre = nombre;
         this.avatares = new HashSet<>();
+        this.id = generadorId.next();
     }
 
     public String getNombre() {
@@ -42,9 +48,9 @@ public abstract class Casilla implements Imprimible {
 
     public abstract void visitar(VisitanteCasilla visitante);
 
-    public String representar(String reprSubclases) {
-
-        return "Lo añade casilla \n" + reprSubclases;
+    public ArrayList<String> representar(ArrayList<String> reprSubclases) {
+        reprSubclases.add(1, this.nombre);
+        return reprSubclases;
     }
 
     @Override
@@ -54,8 +60,7 @@ public abstract class Casilla implements Imprimible {
 
         Casilla casilla = (Casilla) o;
 
-        return getNombre().equals(casilla.getNombre());
+        return nombre.equals(casilla.nombre)
+                && id.equals(casilla.id);
     }
-
-
 }

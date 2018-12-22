@@ -11,6 +11,8 @@ import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
+import java.util.ArrayList;
+
 /**
  *
  * Como hay que manejar dos precios en las casillas. El inicial y luego el que
@@ -32,6 +34,7 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         super(nombre);
         this.monopolio = monopolio;
         this.hipotecado=false;
+        this.propietario = Tablero.BANCA;
         monopolio.addPropiedad(this);
     }
 
@@ -135,10 +138,15 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
     }
 
     @Override
-    public String representar(String reprSubclases) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
-        String salida = "Lo añade propiedad\n" + reprSubclases;
-        return super.representar(salida);
+    public ArrayList<String> representar(ArrayList<String> reprSubclases) {
+        reprSubclases.add("Titulo de propiedad");
+        reprSubclases.add("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
+        reprSubclases.add("Hipoteca: {VALOR}");
+        reprSubclases.add("");
+        reprSubclases.add("Propietario: " + this.propietario.getNombre());
+
+        return super.representar(reprSubclases);
     }
+
+
 }

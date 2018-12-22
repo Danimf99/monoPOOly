@@ -51,6 +51,7 @@ class Partida { // Package Private
 
         do { // Bucle de partida
             exp = null;
+            Juego.consola.imprimirln(Tablero.getTablero().toString());
             Juego.consola.imprimir(Tablero.getPrompt().toString());
             comandoIntroducido = Juego.consola.leer();
             args = comandoIntroducido.split(" ");

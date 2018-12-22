@@ -1,9 +1,11 @@
 package monopooly.colocacion.tipoCasillas.accion.especiales;
 
-import monopooly.colocacion.Casilla;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.accion.Accion;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.entradaSalida.PintadoAscii;
+
+import java.util.ArrayList;
 
 public class Especial extends Accion {
 
@@ -31,9 +33,10 @@ public class Especial extends Accion {
 
     @Override
     public String toString() {
-        return "Especial{" +
-                "comportamiento=" + comportamiento +
-                '}';
+        ArrayList<String> lineas = new ArrayList<>();
+        lineas.add("Casilla especial");
+        lineas.addAll(comportamiento.describir());
+        return PintadoAscii.genCasilla(super.representar(lineas), this);
     }
 
     @Override

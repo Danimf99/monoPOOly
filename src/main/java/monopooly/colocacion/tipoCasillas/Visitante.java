@@ -1,10 +1,8 @@
 package monopooly.colocacion.tipoCasillas;
 
-import monopooly.colocacion.tipoCasillas.accion.Accion;
 import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
 import monopooly.colocacion.tipoCasillas.accion.Suerte;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
-import monopooly.colocacion.tipoCasillas.accion.especiales.implementacionesEspecial.IrCarcel;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;

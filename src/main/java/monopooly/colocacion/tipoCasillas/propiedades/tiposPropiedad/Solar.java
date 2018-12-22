@@ -1,9 +1,13 @@
 package monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad;
 
+import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.entradaSalida.PintadoAscii;
+
+import java.util.ArrayList;
 
 public class Solar extends Propiedad {
 
@@ -28,6 +32,7 @@ public class Solar extends Propiedad {
 
     @Override
     public String toString() {
-        return super.representar("\nSoy un solar\n");
+        ArrayList<String> lineas = new ArrayList<>();
+        return PintadoAscii.genCasilla(super.representar(lineas), this);
     }
 }

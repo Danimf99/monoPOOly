@@ -5,6 +5,8 @@ import monopooly.player.Dados;
 import monopooly.player.Jugador;
 import org.junit.*;
 
+import static org.junit.Assert.*;
+
 public class PromptTest {
     private static Prompt prompt;
     private static Jugador testPlayer;
@@ -20,6 +22,11 @@ public class PromptTest {
         testPlayer.setDados(new Dados(1, 2));
         testPlayer2.setDados(new Dados(6, 5));
         prompt = Tablero.getPrompt();
+    }
+
+    @AfterClass
+    public static void cleanStdout() {
+        Juego.consola.imprimirln("");
     }
 
     @After
@@ -71,6 +78,12 @@ public class PromptTest {
 
     @Test
     public void testPasoTurno() {
+        prompt.setHelp(true);
+        Jugador tmp = prompt.getJugador();
+        prompt.setModDinero(213, "something");
         Tablero.getTablero().pasarTurno();
+        assertFalse(prompt.isHelp());
+        assertEquals(0, prompt.getModDinero());
+        assertNotEquals(tmp, prompt.getJugador());
     }
 }

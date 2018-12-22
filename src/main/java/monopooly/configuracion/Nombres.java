@@ -12,7 +12,7 @@ public class Nombres {
             "Invierno",
 
             "Plasencia",
-            "suerte",
+            "Suerte",
             "Ciudad Real",
             "Almería",
 
@@ -33,7 +33,7 @@ public class Nombres {
             "Parking",
 
             "Salamanca",
-            "suerte",
+            "Suerte",
             "Cádiz",
             "Sevilla",
 
@@ -53,7 +53,7 @@ public class Nombres {
 
             "Primavera",
 
-            "suerte",
+            "Suerte",
             "Marbella",
             "IVA",
             "Ibiza",
@@ -76,14 +76,4 @@ public class Nombres {
     };
 
 
-    public static int maxLen() {
-        int max = 0;
-        for (String nombre :
-                CALLES) {
-            if (nombre.length() > max) {
-                max = nombre.length();
-            }
-        }
-        return max;
-    }
 }

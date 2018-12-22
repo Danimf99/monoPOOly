@@ -3,6 +3,7 @@ package monopooly.colocacion;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Jugador;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Tablero {
     private static Prompt prompt;
     public static final Jugador BANCA = new Jugador();
 
+    private int bote;
     private ArrayList<Jugador> jugadoresTurno;
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasCajaComunidad;
@@ -43,6 +45,8 @@ public class Tablero {
         this.cartasSuerte = FabricaCartas.cartasSuerte();
         this.cartasCajaComunidad = FabricaCartas.cartasCaja();
 
+        this.bote = 0;
+
         this.casillasNombre = new HashMap<>();
         this.jugadores = new HashMap<>();
         this.casillasPosicion = new HashMap<>();
@@ -51,8 +55,6 @@ public class Tablero {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
             casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
         });
-
-
     }
 
 
@@ -175,5 +177,18 @@ public class Tablero {
 
     public Casilla getCasilla(String nombre) {
         return this.casillasNombre.get(nombre.toLowerCase());
+    }
+
+    public int getBote() {
+        return bote;
+    }
+
+    public void setBote(int bote) {
+        this.bote = bote;
+    }
+
+    @Override
+    public String toString() {
+        return PintadoAscii.genTablero();
     }
 }

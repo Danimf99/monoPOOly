@@ -3,6 +3,8 @@ package monopooly.colocacion.tipoCasillas.accion.especiales;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.player.Jugador;
 
+import java.util.ArrayList;
+
 /**
  * Metodos que todo tipo de casilla especial debe tener.
  * Refleja el comportamiento de las otras casillas basicamente.
@@ -12,5 +14,5 @@ import monopooly.player.Jugador;
 public interface AccionEspecial {
     void efectuar(Jugador jugador);
     TipoMonopolio getTipo();
-    String describir();
+    ArrayList<String> describir();
 }

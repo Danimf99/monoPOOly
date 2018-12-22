@@ -1,7 +1,11 @@
 package monopooly.colocacion.tipoCasillas.accion;
 
+import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.entradaSalida.PintadoAscii;
+
+import java.util.ArrayList;
 
 public class Suerte extends Accion {
 
@@ -16,9 +20,10 @@ public class Suerte extends Accion {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Suerte{");
-        sb.append('}');
-        return sb.toString();
+        ArrayList<String> lineas = new ArrayList<>();
+        lineas.add("Suerte");
+        lineas.add("");
+        return PintadoAscii.genCasilla(super.representar(lineas), this);
     }
 
     @Override

@@ -4,6 +4,8 @@ import monopooly.configuracion.Posiciones;
 
 import java.util.ArrayList;
 
+import static java.util.Objects.hash;
+
 public class Posicion {
     private int x;
     private ArrayList<Posicion> historialPosiciones;
@@ -67,14 +69,7 @@ public class Posicion {
 
 
     public int contarRepeticiones(Posicion p){
-        int cantidad = 0;
-        for (Posicion pos :
-                this.historialPosiciones) {
-            if (pos.equals(p)) {
-                cantidad++;
-            }
-        }
-        return cantidad;
+        return (int) this.historialPosiciones.stream().filter(pos -> pos.equals(p)).count();
     }
 
 
@@ -85,13 +80,13 @@ public class Posicion {
 
         Posicion posicion = (Posicion) o;
 
-        return getX() == posicion.getX();
+        return this.x == posicion.x;
     }
 
     @Override
     public int hashCode() {
         // Con este hash llega que solo es para el Hashmap de colocacion en el tablero
-        return getX();
+        return this.x;
     }
 
     @Override

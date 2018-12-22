@@ -1,9 +1,13 @@
 package monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad;
 
+import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.entradaSalida.PintadoAscii;
+
+import java.util.ArrayList;
 
 public class Servicio extends Propiedad {
 
@@ -29,8 +33,8 @@ public class Servicio extends Propiedad {
 
     @Override
     public String toString() {
-        String texto = "servicio";
-        return "Servicio{}";
+        ArrayList<String> lineas = new ArrayList<>();
+        return PintadoAscii.genCasilla(super.representar(lineas), this);
     }
 }
 

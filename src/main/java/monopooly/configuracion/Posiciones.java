@@ -15,6 +15,7 @@ public class Posiciones {
     /* Metodos estaticos */
 
 
+
     public static final TipoMonopolio[] ORDENACION_POR_DEFECTO = {
             TipoMonopolio.salida,
             TipoMonopolio.marron,

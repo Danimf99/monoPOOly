@@ -1,10 +1,13 @@
 package monopooly.colocacion.tipoCasillas.accion;
 
+import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.entradaSalida.PintadoAscii;
+
+import java.util.ArrayList;
 
 public class CajaComunidad extends Accion {
-
 
     public CajaComunidad(String nombre) {
         super(nombre);
@@ -22,6 +25,9 @@ public class CajaComunidad extends Accion {
 
     @Override
     public String toString() {
-        return super.representar("CajaComunidad{}");
+        ArrayList<String> lineas = new ArrayList<>();
+        lineas.add("Caja de Comunidad");
+        lineas.add("");
+        return PintadoAscii.genCasilla(super.representar(lineas), this);
     }
 }

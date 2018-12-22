@@ -8,6 +8,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Precios;
 import monopooly.player.Jugador;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -128,7 +129,6 @@ public class Grupo extends Casilla implements Monopolio {
     public void visitar(VisitanteCasilla visitante) {
         // Un grupo no se visita =P
     }
-
 
     @Override
     public TipoMonopolio getTipo() {
