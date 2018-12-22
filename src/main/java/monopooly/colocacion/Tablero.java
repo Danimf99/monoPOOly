@@ -8,7 +8,6 @@ import monopooly.player.Jugador;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static java.util.stream.Collectors.toMap;
 
 /**
  * Esta clase permite devolver el tablero para la partida actual.
@@ -50,7 +49,7 @@ public class Tablero {
 
         casillas.forEach(casilla -> {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
-            casillasNombre.put(casilla.getNombre(), casilla);
+            casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
         });
 
 
@@ -167,5 +166,14 @@ public class Tablero {
      */
     public Posicion posicionCasilla(Casilla casilla) {
         return new Posicion(casillas.indexOf(casilla));
+    }
+
+
+    public Casilla getCasilla(Posicion posicion) {
+        return this.casillasPosicion.get(posicion);
+    }
+
+    public Casilla getCasilla(String nombre) {
+        return this.casillasNombre.get(nombre.toLowerCase());
     }
 }
