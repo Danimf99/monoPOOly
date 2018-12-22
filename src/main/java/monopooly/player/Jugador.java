@@ -1,7 +1,11 @@
 package monopooly.player;
 
+import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
+import monopooly.entradaSalida.Juego;
 import monopooly.estadisticas.EstadisticasJugador;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
@@ -9,6 +13,7 @@ import monopooly.player.tiposAvatar.Pelota;
 import monopooly.player.tiposAvatar.Sombrero;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Jugador {
 
@@ -179,4 +184,74 @@ public class Jugador {
     /*-------------------------*/
     /* METODOS PARA JUGADOR */
     /*-------------------------*/
+    public boolean puedeComprar(Casilla casilla) {
+        if (Tablero.getPrompt().isCompro()) {
+            return false;
+        }
+        for (Posicion posicion : Tablero.getPrompt().getPosicionesTurno()) {
+            if (casilla.equals(Tablero.getTablero().getCasilla(posicion))) {
+                return true;
+            }
+        }
+        return !Tablero.getPrompt().isCompro();
+    }
+
+    public void hipotecar(Propiedad inmueble){
+        if(inmueble==null){
+            Juego.consola.error("Inmueble null, no se puede hipotecar");
+            return;
+        }
+        hipotecas.add(inmueble);
+        anhadirDinero(inmueble.getMonopolio().getPrecio()/2);
+        quitarPropiedad(inmueble);
+        inmueble.setHipotecado(true);
+    }
+    /**
+     * AL jugador se le suma una cantidad de dinero
+     *
+     * @param cantidad cantidad que se desea sumar al jugador
+     */
+    public void anhadirDinero(int cantidad) {
+        this.dinero += cantidad;
+    }
+    public void quitarDinero(int cantidad) {
+        if (cantidad < 0) {
+            Juego.consola.error("Error en la cantidad que quiere quitar, tiene que ser positiva");
+            return;
+        }
+        this.dinero -= cantidad;
+    }
+
+    /**
+     * Al jugador se le añade una propiedad ya sea porque la compra, la intercambia por otro jugador...
+     * @param propiedad propiedad nueva que se le introduce al jugador
+     */
+    public void anhadirPropiedad(Propiedad propiedad){
+        if(propiedad==null){
+            Juego.consola.error("La propiedad que se quiere añadir es nula");
+            return;
+        }
+        this.propiedades.add(propiedad);
+    }
+
+    /**
+     * Al jugador se le retira una propiedad de su lista de propiedades ya sea porque la vende, la intercambia....
+     * @param propiedad propiedad que se quiere retirar
+     */
+    public void quitarPropiedad(Propiedad propiedad){
+        if(propiedad==null){
+            Juego.consola.error("La propiedad que se quiere retirar es nula");
+            return;
+        }
+        this.propiedades.remove(propiedad);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Jugador jugador = (Jugador) o;
+        return dinero == jugador.dinero &&
+                Objects.equals(nombre, jugador.nombre);
+
+    }
 }

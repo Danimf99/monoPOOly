@@ -5,6 +5,7 @@ import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 
 /**
@@ -22,10 +23,12 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
     private Jugador propietario;
     private Grupo monopolio;
     private int precio;
+    private boolean hipotecado;
 
     public Propiedad(Grupo monopolio, String nombre) {
         super(nombre);
         this.monopolio = monopolio;
+        this.hipotecado=false;
         monopolio.addPropiedad(this);
     }
 
@@ -39,6 +42,23 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         this.propietario = propietario;
     }
 
+    public boolean isHipotecado() {
+        return hipotecado;
+    }
+
+    public void setHipotecado(boolean hipotecado) {
+        this.hipotecado = hipotecado;
+    }
+    public boolean getHipotecado(){
+        return this.hipotecado;
+    }
+    public Grupo getMonopolio() {
+        return monopolio;
+    }
+
+    public void setMonopolio(Grupo monopolio) {
+        this.monopolio = monopolio;
+    }
 
     /**
      * Dado un visitante calcula el alquiler
@@ -87,6 +107,17 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return this.monopolio.compartenPropietario();
     }
 
+    public void compra(Jugador deudor) {
+        if (deudor == null) {
+            Juego.consola.error("Un jugador null no puede comprar una propiedad");
+            return;
+        }
+        this.propietario.anhadirDinero(this.precio);
+        this.propietario.quitarPropiedad(this);
+        deudor.quitarDinero(this.precio);
+        deudor.anhadirPropiedad(this);
+        this.propietario = deudor;
+    }
     @Override
     public String representar(String reprSubclases) {
         String salida = "Lo añade propiedad\n" + reprSubclases;

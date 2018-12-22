@@ -1,5 +1,8 @@
 package monopooly.entradaSalida.parsers;
 
+import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
 
 public class Comprar implements Expresion {
@@ -10,6 +13,8 @@ public class Comprar implements Expresion {
             // Hay que meter excepciones aqui
             return;
         }
+        comandoIntroducido=new String[comandoIntroducido.length];
+
         for(int i=0;i<comandoIntroducido.length;i++){
             this.comandoIntroducido[i] = comandoIntroducido[i];
         }
@@ -41,6 +46,8 @@ public class Comprar implements Expresion {
          * el comando sean distintas.
          *
          */
+        Casilla comprar;
+
         if (comandoIntroducido.length <2) {
             Juego.consola.error("Comando incorrecto");
             return;
@@ -51,6 +58,21 @@ public class Comprar implements Expresion {
                 comandoIntroducido[1] = comandoIntroducido[1].concat(" " + comandoIntroducido[i]);
             }
         }
-        interprete.casillaCorrecta(comandoIntroducido[1]);
+        comprar=interprete.casillaCorrecta(comandoIntroducido[1]);
+        if(comprar==null || !(comprar instanceof Propiedad)){
+            Juego.consola.error("Esa propiedad no existe.");
+            return;
+        }
+        if (!Tablero.getPrompt().getJugador().puedeComprar(comprar)) {
+            Juego.consola.error("No puedes comprar esa propiedad.");
+            return;
+        }
+        if(!(((Propiedad) comprar).getPropietario().getNombre().equals("Banca"))){
+            Juego.consola.error("La propiedad "+comprar.getNombre()+" ya pertenece a otro jugador");
+            return;
+        }
+        interprete.comprar(Tablero.getPrompt().getJugador(),comprar);
+
+        return;
     }
 }
