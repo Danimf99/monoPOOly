@@ -5,6 +5,7 @@ import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
 import monopooly.colocacion.tipoCasillas.accion.Suerte;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
 import monopooly.colocacion.tipoCasillas.accion.especiales.implementacionesEspecial.IrCarcel;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
@@ -32,6 +33,22 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public int calcularAlquiler(Estacion estacion) {
+        return 0;
+    }
+
+    @Override
+    public int calcularAlquiler(Propiedad propiedad) {
+        if (propiedad instanceof Estacion) {
+            return calcularAlquiler((Estacion) propiedad);
+        }
+
+        if (propiedad instanceof Servicio) {
+            return calcularAlquiler((Servicio) propiedad);
+        }
+
+        if (propiedad instanceof Solar) {
+            return calcularAlquiler((Solar) propiedad);
+        }
         return 0;
     }
 
@@ -94,5 +111,20 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(Suerte suerte) {
 
+    }
+
+    @Override
+    public void visitar(Propiedad propiedad) {
+        if (propiedad instanceof Estacion) {
+            visitar((Estacion) propiedad);
+        }
+
+        if (propiedad instanceof Servicio) {
+            visitar((Servicio) propiedad);
+        }
+
+        if (propiedad instanceof Solar) {
+            visitar((Solar) propiedad);
+        }
     }
 }
