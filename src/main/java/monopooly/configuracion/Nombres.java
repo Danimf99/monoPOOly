@@ -63,7 +63,7 @@ public class Nombres {
     public static final String AYUDA_SYNOPSIS = "SYNOPSIS:";
     public static final String AYUDA_DESCRIPCION = "DESCRIPTION:";
     public static final String[] LISTA_COMANDOS = {
-            "lanzar dados  -  Lanza los dados",
+            "Lanzar dados  -  Lanza los dados",
             "describir     -  Describe elementos",
             "jugador       -  Informacion del jugador actual",
             "comprar       -  Comprar una propiedad",
