@@ -49,6 +49,11 @@ public class Prompt {
         this.motivoPago = motivoPago;
     }
 
+    public void setModDinero(int modDinero, String motivoPago) {
+        this.modDinero = modDinero;
+        this.motivoPago = motivoPago;
+    }
+
     public boolean isCompro() {
         return compro;
     }
