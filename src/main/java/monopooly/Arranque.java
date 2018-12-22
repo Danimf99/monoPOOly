@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Arranque {
     public static void main(String[] args) {
-        Juego.consola.imprimir("We back !\n");
+        new Partida(new Juego()).init();
 
     }
 }
