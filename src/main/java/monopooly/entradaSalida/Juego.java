@@ -4,6 +4,7 @@ package monopooly.entradaSalida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.configuracion.Precios;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import monopooly.player.tiposAvatar.Pelota;
@@ -30,6 +31,32 @@ public class Juego implements Comando, Subject {
         observadores = new HashSet<>();
         cambio = false;
     }
+
+    @Override
+    public void verTablero() {
+        Juego.consola.imprimirln(Tablero.getTablero().toString());
+    }
+
+    @Override
+    public void cambiarModo(Avatar avatar) {
+        avatar.setNitroso(!avatar.isNitroso());
+        if(Tablero.getPrompt().getTiradasEspeciales()>0){
+            avatar.getJugador().getDados().setContador(1);
+        }
+    }
+
+    @Override
+    public void salirCarcel(Jugador jugador) {
+        if(!jugador.isEstarEnCarcel()){
+            Juego.consola.info("No estás en la cárcel");
+            return;
+        }
+        jugador.quitarDinero(Precios.SALIR_CARCEL);
+        Tablero.getPrompt().setModDinero(-Precios.SALIR_CARCEL,"Salida de la cárcel");
+        jugador.setEstarEnCarcel(false);
+        Juego.consola.info("Ya saliste de la cárcel, puedes volver a tirar");
+    }
+
 
     @Override
     public void describirJugador(Jugador jugador) {

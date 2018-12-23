@@ -78,6 +78,10 @@ public class Prompt {
         return modDinero;
     }
 
+    public int getTiradasEspeciales() {
+        return this.posicionesTurno.size();
+    }
+
     public void anhadirPosicion(Posicion posicion){
         this.posicionesTurno.add(posicion);
     }
