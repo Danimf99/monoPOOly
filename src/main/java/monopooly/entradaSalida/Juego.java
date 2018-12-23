@@ -167,6 +167,6 @@ public class Juego implements Comando, Subject {
 
     @Override
     public Object getUpdate(Observador observador) {
-        return this.ultimoSuceso;
+        return this.cambio ? this.ultimoSuceso : null;
     }
 }

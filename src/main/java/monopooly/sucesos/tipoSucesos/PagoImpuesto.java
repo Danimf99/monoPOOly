@@ -4,6 +4,8 @@ import monopooly.configuracion.Precios;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
+import static java.lang.Math.abs;
+
 public class PagoImpuesto extends Suceso {
     private int cantidad;
 
@@ -14,7 +16,7 @@ public class PagoImpuesto extends Suceso {
 
     public PagoImpuesto(Jugador jugadorOriginador, int cantidad) {
         super(jugadorOriginador);
-        this.cantidad = cantidad;
+        this.cantidad = abs(cantidad);
     }
 
     public int getCantidad() {
