@@ -1,7 +1,10 @@
 package monopooly.player;
 
 import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Tablero;
+import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
+import monopooly.entradaSalida.Juego;
 
 import java.util.List;
 import java.util.Random;
@@ -75,10 +78,43 @@ public abstract class Avatar {
     }
 
     /* AQUI HABRIA QUE PONER EL MOVIMIENTO EN VEZ DE EN JUGADOR Y SE EMPLEMENTARIA EL BASICO*/
+    public void moverAvatar( int desplazamiento) {
+        if (desplazamiento == 0) {
+            return;
+        }
+        Tablero tablero = Tablero.getTablero();
+        tablero.getCasilla(this.getPosicion()).getAvatares().remove(this);
+        getPosicion().mover(desplazamiento);
+        //tablero.getCasilla(getPosicion()).insertarAvatar(this.avatar);
+    }
 
     public void moverBasico(){
+        if (this.getJugador().getCooldown() > 0) {
+            this.getJugador().setCooldown(this.getJugador().getCooldown()-1);
+            return;
+        }
 
+        if(this.getJugador().getTurnosEnCarcel()==3){
+            Juego.consola.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
+            if(this.getJugador().getDinero()< Precios.SALIR_CARCEL){
+                Juego.consola.info("Debes declararte en bancarrota, no tienes dinero suficiente para salir de la carcel");
+            }
+            this.getJugador().quitarDinero(Precios.SALIR_CARCEL);
+            this.getJugador().setEstarEnCarcel(false);
+            this.getJugador().setTurnosEnCarcel(0);
+        }
+        this.getJugador().getDados().lanzar();
+        this.getJugador().aumentarVecesDados();
+        getJugador().checkCarcel();
+        if(getJugador().isEstarEnCarcel()){
+            return;
+        }
+        Tablero.getPrompt().getPosicionesTurno().clear();
+        Tablero.getPrompt().setCompro(false);
+        moverAvatar(getJugador().getDados().tirada());
+        getJugador().pagoSalida();
     }
+
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
    // public abstract void moverAvanzado();
     @Override

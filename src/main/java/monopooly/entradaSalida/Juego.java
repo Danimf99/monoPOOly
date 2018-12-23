@@ -38,7 +38,7 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void describirCasilla(Casilla casilla) {
-
+        Juego.consola.imprimir(casilla.toString());
     }
 
     @Override

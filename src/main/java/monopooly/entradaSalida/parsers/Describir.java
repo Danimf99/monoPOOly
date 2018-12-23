@@ -1,5 +1,6 @@
 package monopooly.entradaSalida.parsers;
 
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Avatar;
@@ -49,6 +50,22 @@ public class Describir implements Expresion {
                 interprete.describirAvatar(avatar);
                 break;
             default:
+                if(comandoIntroducido.length<2){
+                    Juego.consola.error("Error en el comando");
+                    Tablero.getPrompt().setHelp(true);
+                    return;
+                }
+                if(comandoIntroducido.length>2){
+                    for(int i=2;i<comandoIntroducido.length;i++){
+                        comandoIntroducido[1] = comandoIntroducido[1].concat(" " + comandoIntroducido[i]);
+                    }
+                }
+                Casilla casilla= Tablero.getTablero().getCasilla(comandoIntroducido[1]);
+                if(casilla==null){
+                    Juego.consola.info("La casilla "+comandoIntroducido[1]+" no existe.");
+                    return;
+                }
+                interprete.describirCasilla(casilla);
                 break;
         }
     }
