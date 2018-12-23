@@ -82,10 +82,11 @@ public abstract class Avatar {
         if (desplazamiento == 0) {
             return;
         }
-        Tablero tablero = Tablero.getTablero();
-        tablero.getCasilla(this.getPosicion()).getAvatares().remove(this);
-        getPosicion().mover(desplazamiento);
-        //tablero.getCasilla(getPosicion()).insertarAvatar(this.avatar);
+        Posicion posicion=new Posicion();
+        posicion.mover(desplazamiento+getPosicion().getX());
+        Tablero.getTablero().recolocar(this,posicion);
+        this.getPosicion().mover(desplazamiento);
+
     }
 
     public void moverBasico(){
