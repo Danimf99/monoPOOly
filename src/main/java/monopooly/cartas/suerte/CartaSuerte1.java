@@ -16,6 +16,11 @@ public class CartaSuerte1 implements Carta {
     }
 
     @Override
+    public void deshacer() {
+        // Deshacer
+    }
+
+    @Override
     public int cantidadBanca() {
         return 0;
     }

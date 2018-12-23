@@ -5,6 +5,8 @@ import monopooly.player.Jugador;
 public interface Carta {
   void aplicar();
 
+  void deshacer();
+
   /**
    * Si se pago a la banca devuelve la cantidad del pago
    *
