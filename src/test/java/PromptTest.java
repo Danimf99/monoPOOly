@@ -31,7 +31,7 @@ public class PromptTest {
 
     @After
     public void imprimir() {
-        Juego.consola.imprimir(prompt.toString());
+        assertNotNull(prompt.toString());
         testPlayer.setEstarEnCarcel(false);
         testPlayer.setDados(new Dados(1, 3));
         testPlayer.getAvatar().setNitroso(false);

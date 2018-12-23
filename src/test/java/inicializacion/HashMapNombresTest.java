@@ -1,7 +1,6 @@
 package inicializacion;
 
 
-import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.configuracion.Nombres;
 import org.junit.Test;
@@ -10,15 +9,17 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.junit.runners.Parameterized.Parameter;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class HashMapNombresTest {
     private static Tablero tablero = Tablero.getTablero();
 
-    @Parameters(name = "{index}: Casilla -> {0}")
+    @Parameters(name = "Buscando casilla -> {0}")
     public static Object[] nombres() {
-        return Nombres.CALLES;
+        return Arrays.stream(Nombres.CALLES).distinct().toArray();
     }
 
     @Parameter
@@ -26,7 +27,7 @@ public class HashMapNombresTest {
 
 
     @Test
-    public void testME() {
+    public void testGetCasilla() {
         assertNotNull(tablero.getCasilla(nombreCalle));
     }
 }

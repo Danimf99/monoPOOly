@@ -18,9 +18,11 @@ import static org.junit.Assert.*;
 public class PosicionesHashMapTest {
     private static Tablero tablero = Tablero.getTablero();
 
-    @Parameters(name = "{0}")
+    @Parameters(name = "Probando {0}")
     public static Object[] posiciones() {
-        return IntStream.range(0, Posiciones.TOTAL).mapToObj(Posicion::new).toArray(Posicion[]::new);
+        return IntStream.range(0, Posiciones.TOTAL)
+                .mapToObj(Posicion::new)
+                .toArray(Posicion[]::new);
     }
 
     @Parameter
@@ -28,7 +30,7 @@ public class PosicionesHashMapTest {
 
 
     @Test
-    public void testME() {
+    public void testGetCasilla() {
         assertNotNull(tablero.getCasilla(posicion));
     }
 }

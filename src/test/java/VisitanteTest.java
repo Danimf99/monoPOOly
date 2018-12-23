@@ -5,6 +5,7 @@ import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.entradaSalida.Juego;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class VisitanteTest {
@@ -15,7 +16,7 @@ public class VisitanteTest {
         casilla1 = Tablero.getTablero().getCasilla("Lugo");
     }
 
-    @Test
+    @Ignore
     public void caerSolar() {
         casilla1.visitar(new Visitante());
         Juego.consola.imprimir("" + ((Propiedad) casilla1).calcularAlquiler(new Visitante()));
