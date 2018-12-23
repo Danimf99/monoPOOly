@@ -19,7 +19,7 @@ public interface Comando {
 
     void vender(Jugador jugador);
 
-    void deshipotecar(Jugador jugador,Casilla casilla);
+    void deshipotecar(Jugador jugador,Casilla casilla) throws ExcepcionMonopooly;
 
     void info(Jugador jugador);
 
@@ -29,12 +29,12 @@ public interface Comando {
 
     void describirAvatar(Avatar avatar);
 
-    void salirCarcel(Jugador jugador);
+    void salirCarcel(Jugador jugador) throws ExcepcionMonopooly;
 
     void verTablero();
 
     void cambiarModo(Avatar avatar);
 
-    void bancarrota(Jugador jugador);
+    void bancarrota(Jugador jugador) throws ExcepcionMonopooly;
 }
 

@@ -7,6 +7,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.parsers.Comprar;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import org.junit.After;
 import org.junit.Before;
@@ -93,7 +94,7 @@ public class CompraPropiedadesTest {
     }
 
     @Test
-    public void testComandoCompraCasillaValida() {
+    public void testComandoCompraCasillaValida() throws ExcepcionMonopooly {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
 

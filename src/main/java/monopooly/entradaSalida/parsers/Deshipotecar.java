@@ -4,6 +4,8 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
 
 public class Deshipotecar implements Expresion {
     private String[] comandoIntroducido;
@@ -16,7 +18,7 @@ public class Deshipotecar implements Expresion {
         this.comandoIntroducido=comandoIntroducido;
     }
     @Override
-    public void interpretar(Juego interprete) {
+    public void interpretar(Juego interprete) throws ExcepcionAccionInvalida, ExcepcionArgumentosIncorrectos {
 
         if(comandoIntroducido.length<2){
             Juego.consola.error("Error en el comando");
@@ -34,12 +36,9 @@ public class Deshipotecar implements Expresion {
 
         deshipotecada=interprete.casillaCorrecta(comandoIntroducido[1]);
 
-        if(deshipotecada==null|| !(deshipotecada instanceof Propiedad)){
-            Juego.consola.error("Esa propiedad no existe.");
-            return;
+        if(!(deshipotecada instanceof Propiedad)){
+            throw new ExcepcionArgumentosIncorrectos("La casilla no es una propiedad");
         }
         interprete.deshipotecar(Tablero.getPrompt().getJugador(),deshipotecada);
-
-        return;
     }
 }

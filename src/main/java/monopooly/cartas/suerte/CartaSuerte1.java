@@ -24,4 +24,9 @@ public class CartaSuerte1 implements Carta {
     public int cantidadBanca() {
         return 0;
     }
+
+    @Override
+    public int modDinero() {
+        return 0;
+    }
 }

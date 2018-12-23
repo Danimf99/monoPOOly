@@ -105,36 +105,13 @@ public class Partida {
                         "El comando no existe"
                 );
             }
-
-
             // Se termina el switch y se analiza la expresion
 
             if (exp != null) {
                 try {
                     exp.interpretar(interprete);
-                } catch (ExcepcionAccionInvalida e) {
-                    Juego.consola.error(
-                            e.getMessage(),
-                            "Accion invalida"
-                    );
-                } catch (ExcepcionArgumentosIncorrectos e) {
-                    Juego.consola.error(
-                            e.getMessage(),
-                            "Argumentos del mensaje incorrectos"
-                    );
-                } catch (ExcepcionComando excepcionComando) {
-                    Juego.consola.error(
-                            excepcionComando.getMessage(),
-                            "Error interpretando el comando"
-                    );
-                } catch (ExcepcionParametrosInvalidos e) {
-                    Juego.consola.error(
-                            e.getMessage(),
-                            "Parametros invalidos"
-                    );
-
-                } catch (ExcepcionMonopooly excepcionMonopooly) {
-                    Juego.consola.error(excepcionMonopooly.getMessage());
+                } catch (ExcepcionMonopooly e) {
+                    e.imprimeError();
                 }
             }
         } while (Tablero.getTablero().jugadoresRestantes() > 1);

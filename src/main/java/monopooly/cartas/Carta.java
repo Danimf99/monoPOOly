@@ -14,4 +14,6 @@ public interface Carta {
    * devuelve 0
    */
   int cantidadBanca();
+
+  int modDinero();
 }

@@ -1,19 +1,28 @@
 package monopooly.colocacion;
 
+import monopooly.Partida;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.player.Dados;
 import monopooly.player.Jugador;
+import monopooly.sucesos.Observador;
+import monopooly.sucesos.Subject;
+import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.*;
 
 import java.util.ArrayList;
 
-public class Prompt {
+public class Prompt implements Observador {
     private Jugador jugador;
     private int modDinero;
     private String motivoPago;
     private boolean help;
     private boolean compro;
     private ArrayList<Posicion> posicionesTurno;
+    private Subject subject;
+    private ArrayList<Suceso> sucesosTurno;
 
 
     void reset() {
@@ -23,10 +32,13 @@ public class Prompt {
         this.help = false;
         this.compro = false;
         this.posicionesTurno = new ArrayList<>();
+        this.sucesosTurno = new ArrayList<>();
     }
 
     protected Prompt() {
         this.reset();
+        this.subject = Partida.interprete;
+        this.subject.registrar(this);
     }
 
     public void setModDinero(int modDinero) {
@@ -64,6 +76,14 @@ public class Prompt {
 
     public ArrayList<Posicion> getPosicionesTurno() {
         return posicionesTurno;
+    }
+
+    public ArrayList<Suceso> getSucesosTurno() {
+        return new ArrayList<>(sucesosTurno);
+    }
+
+    public void setSucesosTurno(ArrayList<Suceso> sucesosTurno) {
+        this.sucesosTurno = sucesosTurno;
     }
 
     public boolean isHelp() {
@@ -141,7 +161,6 @@ public class Prompt {
         salida += ReprASCII.ANSI_RESET;
         return salida;
     }
-
 
 
     /**
@@ -245,13 +264,96 @@ public class Prompt {
         return sBuilder.toString();
     }
 
+    /**
+     * Determina si un jugador piso una casilla concreta este turno
+     *
+     * @param casilla Casilla que se quiere saber si piso
+     * @return Boolean, true si la piso falso si no
+     */
+    public boolean pisoCasilla(Casilla casilla) {
+        return this.sucesosTurno.stream()
+                .filter(suceso -> suceso instanceof Caer)
+                .anyMatch(suceso -> ((Caer) suceso).getPosicion().equals(casilla.getPosicion()));
+    }
+
 
     @Override
     public String toString() {
         ArrayList<String> elementos = this.mandatoryElems();
-
-
-
          return this.genPrompt(elementos);
+    }
+
+    @Override
+    public void update() {
+        Suceso suceso = (Suceso) this.subject.getUpdate(this);
+        if (suceso == null) {
+            return;
+        }
+
+        if (!suceso.getDeshacer()) {
+            return;
+        }
+
+        this.sucesosTurno.add(suceso);
+
+        /* Modificaciones de dinero */
+
+        if (suceso instanceof Comprar) {  // Si fue una compra
+            Object compra = ((Comprar) suceso).getObjetoComprado();
+            Comprar sucesoCompra = (Comprar) suceso;
+            this.modDinero = -sucesoCompra.getPrecioPagado();
+
+            if (compra instanceof Propiedad) {
+                this.motivoPago = "Compra de la propiedad " +
+                        ((Propiedad) compra).getNombre();
+            }
+
+            if (compra instanceof Edificio) {
+                this.motivoPago = "Edificacion de " +
+                        ((Edificio) compra).getNombre();
+            }
+            return;
+        }
+
+        if (suceso instanceof AccionCarta) {
+            this.modDinero = ((AccionCarta) suceso).getCarta().modDinero();
+            this.motivoPago = "Accion de carta especial";
+            return;
+        }
+
+        if (suceso instanceof PagoImpuesto) {
+            this.modDinero = -((PagoImpuesto) suceso).getCantidad();
+            this.motivoPago = "Pagaste un impuesto";
+            return;
+        }
+
+        if (suceso instanceof ConseguirBote) {
+            this.modDinero = ((ConseguirBote) suceso).getCantidadBote();
+            this.motivoPago = "Conseguiste el bote del parking";
+            return;
+        }
+
+        if (suceso instanceof PasoSalida) {
+            this.modDinero = Precios.SALIDA;
+            this.motivoPago = "Pasaste por la Salida";
+            return;
+        }
+
+        if (suceso instanceof PagoBanca) {
+            this.modDinero = ((PagoBanca) suceso).getCantidad();
+            this.motivoPago = ((PagoBanca) suceso).getExplicacion();
+            return;
+        }
+
+        if (suceso instanceof Alquiler) {
+            this.modDinero = -((Alquiler) suceso).getCantidad();
+            this.motivoPago = "Alquiler en " + ((Alquiler) suceso).getPropiedad().getNombre();
+        }
+
+    }
+
+    @Override
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }

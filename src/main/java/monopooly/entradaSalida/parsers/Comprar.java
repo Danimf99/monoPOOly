@@ -4,6 +4,8 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 public class Comprar implements Expresion {
     private String[] comandoIntroducido;
@@ -18,7 +20,7 @@ public class Comprar implements Expresion {
 
 
     @Override
-    public void interpretar(Juego interprete) {
+    public void interpretar(Juego interprete) throws ExcepcionMonopooly {
         /*
          * Este metodo es el que se encarga de decidir que es lo que se hace
          * con un comando comprar Mira si se quiere
@@ -45,8 +47,7 @@ public class Comprar implements Expresion {
         Casilla comprar;
 
         if (comandoIntroducido.length <2) {
-            Juego.consola.error("Comando incorrecto");
-            return;
+            throw new ExcepcionArgumentosIncorrectos("El numero de argumentos introducido es insuficiente");
         }
         //Si el nombre tiene espacios pues hacemos esto
         if (comandoIntroducido.length > 2) {
@@ -55,12 +56,11 @@ public class Comprar implements Expresion {
             }
         }
         comprar=interprete.casillaCorrecta(comandoIntroducido[1]);
-        if(comprar==null || !(comprar instanceof Propiedad)){
-            Juego.consola.error("Esa propiedad no existe.");
-            return;
-        }
-        interprete.comprar(Tablero.getPrompt().getJugador(),comprar);
 
-        return;
+        if(!(comprar instanceof Propiedad)){
+            throw new ExcepcionArgumentosIncorrectos("La casilla introducida no es una propiedad");
+        }
+
+        interprete.comprar(Tablero.getPrompt().getJugador(),comprar);
     }
 }

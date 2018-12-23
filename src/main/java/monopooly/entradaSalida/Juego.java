@@ -5,6 +5,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -34,7 +35,7 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void bancarrota(Jugador jugador) {
+    public void bancarrota(Jugador jugador) throws ExcepcionMonopooly {
 
         Tablero.getTablero().eliminarJugador(jugador);
 
@@ -67,7 +68,7 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void salirCarcel(Jugador jugador) {
+    public void salirCarcel(Jugador jugador) throws ExcepcionMonopooly {
         if(!jugador.isEstarEnCarcel()){
             Juego.consola.info("No estás en la cárcel");
             return;
@@ -95,7 +96,7 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void deshipotecar(Jugador jugador, Casilla casilla) {
+    public void deshipotecar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
         if(!((Propiedad)casilla).getPropietario().equals(jugador)){
             Juego.consola.info("No eres el dueño de la propiedad "+casilla.getNombre());
             return;
@@ -111,27 +112,17 @@ public class Juego implements Comando, Subject {
     @Override
     public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
 
-        if (!jugador.puedeComprar(casilla)) {
-            Juego.consola.error("No puedes comprar esa propiedad.");
-            return;
-        }
-        if(!(((Propiedad) casilla).getPropietario().getNombre().equals("Banca"))){
-            Juego.consola.error("La propiedad "+casilla.getNombre()+" ya pertenece a otro jugador");
-            return;
-        }
-        if (jugador.getDinero() > ((Propiedad) casilla).getPrecio()) {
-            ((Propiedad)casilla).comprar(jugador);
-            Tablero.getPrompt().setModDinero(-((Propiedad)casilla).getPrecio());
-            Tablero.getPrompt().setMotivoPago("Compra de la propiedad "+casilla.getNombre());
-            jugador.getEstadisticas().sumarInvertido(((Propiedad)casilla).getPrecio());
-            if (!jugador.getAvatar().isNitroso() || !(jugador.getAvatar() instanceof Pelota)) {
-                Tablero.getPrompt().setCompro(true);
-            }
-            // Suceso de comprar
-            this.enviarSuceso(new Comprar(jugador, casilla, ((Propiedad) casilla).getPrecio()));
+        if (!jugador.puedeComprar(casilla)) throw new ExcepcionAccionInvalida("No puedes comprar esa propiedad.");
 
-        }else{
-            Juego.consola.info("No tiene suficiente dinero para comprar "+casilla.getNombre());
+
+        if(!(((Propiedad) casilla).getPropietario().getNombre().equals("Banca")))
+            throw new ExcepcionAccionInvalida("La propiedad " + casilla.getNombre() + " ya pertenece a otro jugador");
+
+        ((Propiedad)casilla).comprar(jugador);
+
+        jugador.getEstadisticas().sumarInvertido(((Propiedad)casilla).getPrecio());
+        if (!jugador.getAvatar().isNitroso() || !(jugador.getAvatar() instanceof Pelota)) {
+            Tablero.getPrompt().setCompro(true);
         }
     }
     @Override
@@ -175,12 +166,12 @@ public class Juego implements Comando, Subject {
                 "\n}");
     }
 
-    public Casilla casillaCorrecta(String casilla){
+    public Casilla casillaCorrecta(String casilla) throws ExcepcionAccionInvalida {
         Casilla casillaComprar;
 
         casillaComprar=Tablero.getTablero().getCasilla(casilla);
         if(casillaComprar==null){
-            return null;
+            throw new ExcepcionAccionInvalida("La casilla no existe");
         }
         return casillaComprar;
     }

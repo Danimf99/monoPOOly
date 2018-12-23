@@ -11,6 +11,7 @@ import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.EstadisticasJugador;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.player.tiposAvatar.Pelota;
@@ -257,7 +258,7 @@ public class Jugador {
         quitarPropiedad(inmueble);
         inmueble.setHipotecado(true);
     }
-    public void deshipotecar(Propiedad inmueble){
+    public void deshipotecar(Propiedad inmueble) throws ExcepcionMonopooly {
         if(inmueble==null){
             Juego.consola.error("Inmueble null, no se puedes deshipotecar");
             return;
@@ -275,10 +276,9 @@ public class Jugador {
     public void anhadirDinero(int cantidad) {
         this.dinero += cantidad;
     }
-    public void quitarDinero(int cantidad) {
+    public void quitarDinero(int cantidad) throws ExcepcionMonopooly {
         if (cantidad < 0) {
-            Juego.consola.error("Error en la cantidad que quiere quitar, tiene que ser positiva");
-            return;
+            throw new ExcepcionParametrosInvalidos("Error en la cantidad que quiere quitar, tiene que ser positiva");
         }
         this.dinero -= cantidad;
     }

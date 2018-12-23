@@ -23,4 +23,9 @@ public class CartaCaja1 implements Carta {
     public int cantidadBanca() {
         return DINERO;
     }
+
+    @Override
+    public int modDinero() {
+        return -DINERO;
+    }
 }

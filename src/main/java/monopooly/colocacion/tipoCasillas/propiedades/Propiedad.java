@@ -1,5 +1,6 @@
 package monopooly.colocacion.tipoCasillas.propiedades;
 
+import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.Tablero;
@@ -8,7 +9,11 @@ import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.Comprar;
 
 import java.util.ArrayList;
 
@@ -93,15 +98,21 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return (int) (this.getMonopolio().getPrecio() * Precios.HIPOTECA);
     }
 
-    public void comprar(Jugador deudor) {
+    public void comprar(Jugador deudor) throws ExcepcionMonopooly {
         if (deudor == null) {
-            Juego.consola.error("Un jugador null no puede comprar una propiedad");
-            return;
+            throw new ExcepcionParametrosInvalidos("Un jugador null no puede comprar una propiedad");
         }
+
+        if (deudor.getDinero() < precio) {
+            throw new ExcepcionAccionInvalida("No tienes suficiente dinero para comprar la propiedad");
+        }
+
         this.propietario.anhadirDinero(this.precio);
         deudor.quitarDinero(this.precio);
         deudor.anhadirPropiedad(this);
         this.propietario = deudor;
+
+        Partida.interprete.enviarSuceso(new Comprar(deudor, this, precio));
     }
 
     @Override
