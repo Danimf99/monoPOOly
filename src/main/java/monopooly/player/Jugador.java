@@ -4,6 +4,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
@@ -223,14 +224,17 @@ public class Jugador {
             Juego.consola.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
             this.estadisticas.sumarVecesCarcel(1);
             this.estarEnCarcel = true;
-            avatar.getPosicion().irCarcel();
-            Tablero.getTablero().getCasilla(this.avatar.getPosicion());//TODO
+            Posicion posicion=new Posicion();
+            posicion.setX(Posiciones.CARCEL);
+            Tablero.getTablero().recolocar(avatar,posicion);
+            getAvatar().getPosicion().mover(posicion.getX());
             return;
         }
     }
     public void aumentarVueltas(){
         this.vueltas++;
     }
+
     public void pagoSalida() {
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();

@@ -79,6 +79,10 @@ public class Partida {
                 case "a":
                     Tablero.getTablero().pasarTurno();
                     break;
+                case "lanzar":
+                case "Lanzar":
+                    exp=new Lanzar(args);
+                    break;
                 default:
                     Juego.consola.error(
                             "El coomando introducido es incorrecto",

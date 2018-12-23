@@ -98,6 +98,7 @@ public class Tablero implements Observador {
     }
 
 
+
     /**
      *
      * @param jugadores Jugadores que se quieren añadir a la partida

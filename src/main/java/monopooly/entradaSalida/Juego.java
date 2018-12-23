@@ -88,7 +88,7 @@ public class Juego implements Comando, Subject {
     }
     @Override
     public void lanzar(Jugador jugador){
-
+        jugador.getAvatar().moverBasico();
     }
     @Override
     public void hipotecar(Jugador jugador,Casilla casilla){
