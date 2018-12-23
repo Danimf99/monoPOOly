@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Arranque {
     public static void main(String[] args) {
-        new Partida(new Juego()).init();
+        new Partida().init();
 
     }
 }

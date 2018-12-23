@@ -7,11 +7,8 @@ import monopooly.player.Jugador;
 
 class Partida { // Package Private
 
-    private Juego interprete;
+    public static final Juego interprete = new Juego();
 
-    public Partida(Juego interprete) {
-        this.interprete = interprete;
-    }
 
     /**
      * Inicia la partida
