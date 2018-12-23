@@ -6,6 +6,7 @@ import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 import java.util.List;
 import java.util.Random;
@@ -98,7 +99,7 @@ public abstract class Avatar {
         Visitante visitante = new Visitante(getJugador());
     }
 
-    public void moverBasico(){
+    public void moverBasico() throws ExcepcionMonopooly {
         if (this.getJugador().getCooldown() > 0) {
             this.getJugador().setCooldown(this.getJugador().getCooldown()-1);
             return;

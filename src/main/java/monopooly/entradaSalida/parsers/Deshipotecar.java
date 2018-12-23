@@ -6,6 +6,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 public class Deshipotecar implements Expresion {
     private String[] comandoIntroducido;
@@ -18,7 +19,7 @@ public class Deshipotecar implements Expresion {
         this.comandoIntroducido=comandoIntroducido;
     }
     @Override
-    public void interpretar(Juego interprete) throws ExcepcionAccionInvalida, ExcepcionArgumentosIncorrectos {
+    public void interpretar(Juego interprete) throws ExcepcionMonopooly {
 
         if(comandoIntroducido.length<2){
             Juego.consola.error("Error en el comando");

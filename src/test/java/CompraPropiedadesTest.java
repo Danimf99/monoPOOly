@@ -59,7 +59,7 @@ public class CompraPropiedadesTest {
     }
 
     @Test
-    public void testDineroCompraValida() {
+    public void testDineroCompraValida() throws ExcepcionMonopooly {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
         propiedad.comprar(jugador);
@@ -72,7 +72,7 @@ public class CompraPropiedadesTest {
 
 
     @Test
-    public void testPropietarioCompraValida() {
+    public void testPropietarioCompraValida() throws ExcepcionMonopooly {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
         propiedad.comprar(jugador);
@@ -84,7 +84,7 @@ public class CompraPropiedadesTest {
 
 
     @Test
-    public void testHashSetPropiedadesCompraValida() {
+    public void testHashSetPropiedadesCompraValida() throws ExcepcionMonopooly {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
         propiedad.comprar(jugador);

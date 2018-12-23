@@ -13,7 +13,7 @@ public interface Comando {
      */
     void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly;
 
-    void lanzar(Jugador jugador);
+    void lanzar(Jugador jugador) throws ExcepcionMonopooly;
 
     void hipotecar(Jugador jugador,Casilla casilla);
 

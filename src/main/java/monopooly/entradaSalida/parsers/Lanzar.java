@@ -2,6 +2,7 @@ package monopooly.entradaSalida.parsers;
 
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 
 public class Lanzar implements Expresion{
@@ -14,7 +15,7 @@ public class Lanzar implements Expresion{
         this.comandoIntroducido=comandoIntroducido;
     }
     @Override
-    public void interpretar(Juego interprete) {
+    public void interpretar(Juego interprete) throws ExcepcionMonopooly {
         if(comandoIntroducido.length!=2){
             Juego.consola.error("Error en el comando");
             Tablero.getPrompt().setHelp(true);

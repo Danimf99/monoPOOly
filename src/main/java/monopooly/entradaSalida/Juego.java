@@ -126,7 +126,7 @@ public class Juego implements Comando, Subject {
         }
     }
     @Override
-    public void lanzar(Jugador jugador){
+    public void lanzar(Jugador jugador) throws ExcepcionMonopooly {
         if (jugador.getDados().getContador() == 1) {
             Juego.consola.info("Ya lanzaste este turno, no puedes volver a tirar");
             return;
