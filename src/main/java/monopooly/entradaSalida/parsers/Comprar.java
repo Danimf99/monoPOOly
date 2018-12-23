@@ -38,7 +38,7 @@ public class Comprar implements Expresion {
          * Luego con la interfaz solo se necesita el codigo que está dentro de
          * la clase Juego. El de estas clases que miran lineas de codigo no es
          * necesario. Pulsar un boton de comprar una casilla necesita que la
-         * implementacion de la compra y la implementación de mirar que hace
+         * implementacion de la comprar y la implementación de mirar que hace
          * el comando sean distintas.
          *
          */

@@ -5,6 +5,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import monopooly.player.tiposAvatar.Pelota;
@@ -108,7 +109,7 @@ public class Juego implements Comando, Subject {
         Tablero.getPrompt().setModDinero(-(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1));
     }
     @Override
-    public void comprar(Jugador jugador, Casilla casilla) {
+    public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
 
         if (!jugador.puedeComprar(casilla)) {
             Juego.consola.error("No puedes comprar esa propiedad.");
@@ -119,14 +120,14 @@ public class Juego implements Comando, Subject {
             return;
         }
         if (jugador.getDinero() > ((Propiedad) casilla).getPrecio()) {
-            ((Propiedad)casilla).compra(jugador);
+            ((Propiedad)casilla).comprar(jugador);
             Tablero.getPrompt().setModDinero(-((Propiedad)casilla).getPrecio());
             Tablero.getPrompt().setMotivoPago("Compra de la propiedad "+casilla.getNombre());
             jugador.getEstadisticas().sumarInvertido(((Propiedad)casilla).getPrecio());
             if (!jugador.getAvatar().isNitroso() || !(jugador.getAvatar() instanceof Pelota)) {
                 Tablero.getPrompt().setCompro(true);
             }
-            // Suceso de compra
+            // Suceso de comprar
             this.enviarSuceso(new Comprar(jugador, casilla, ((Propiedad) casilla).getPrecio()));
 
         }else{

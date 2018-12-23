@@ -9,6 +9,8 @@ import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.EstadisticasJugador;
+import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.player.tiposAvatar.Pelota;
@@ -186,9 +188,9 @@ public class Jugador {
     /*-------------------------*/
     /* METODOS PARA JUGADOR */
     /*-------------------------*/
-    public boolean puedeComprar(Casilla casilla) {
+    public boolean puedeComprar(Casilla casilla) throws ExcepcionMonopooly {
         if (Tablero.getPrompt().isCompro()) {
-            return false;
+            throw new ExcepcionAccionInvalida("El jugador ya comrpró este turno");
         }
         if(Tablero.getPrompt().getPosicionesTurno().size()==0){
             if(!casilla.getPosicion().equals(Tablero.getPrompt().getJugador().getAvatar().getPosicion())){
@@ -282,7 +284,7 @@ public class Jugador {
     }
 
     /**
-     * Al jugador se le añade una propiedad ya sea porque la compra, la intercambia por otro jugador...
+     * Al jugador se le añade una propiedad ya sea porque la comprar, la intercambia por otro jugador...
      * @param propiedad propiedad nueva que se le introduce al jugador
      */
     public void anhadirPropiedad(Propiedad propiedad){

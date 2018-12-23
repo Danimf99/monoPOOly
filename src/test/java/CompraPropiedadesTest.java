@@ -61,7 +61,7 @@ public class CompraPropiedadesTest {
     public void testDineroCompraValida() {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
-        propiedad.compra(jugador);
+        propiedad.comprar(jugador);
 
         assertEquals(  // Comprobar la reduccion de pasta
                 Precios.DINERO_INICIAL - propiedad.getPrecio(),
@@ -74,7 +74,7 @@ public class CompraPropiedadesTest {
     public void testPropietarioCompraValida() {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
-        propiedad.compra(jugador);
+        propiedad.comprar(jugador);
         assertEquals(
                 propiedad.getPropietario(),
                 jugador
@@ -86,7 +86,7 @@ public class CompraPropiedadesTest {
     public void testHashSetPropiedadesCompraValida() {
         Propiedad propiedad = (Propiedad) tablero.getCasilla(posicion);
         assertEquals(Tablero.BANCA, propiedad.getPropietario());
-        propiedad.compra(jugador);
+        propiedad.comprar(jugador);
         assertTrue(
                 jugador.getPropiedades().contains(propiedad)
         );
