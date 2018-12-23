@@ -1,5 +1,7 @@
 package monopooly.colocacion.tipoCasillas;
 
+import monopooly.Partida;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
 import monopooly.colocacion.tipoCasillas.accion.Suerte;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
@@ -9,6 +11,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.Caer;
 
 /**
  * Esta clase es la que visita las cassillas y sabe cuanto se debe pagar por el
@@ -27,6 +30,10 @@ public class Visitante implements VisitanteCasilla {
 
     public Visitante() {
         this.jugadorVisitante = null;
+    }
+
+    private void notificarCaer(Casilla casilla) {
+        Partida.interprete.enviarSuceso(new Caer(jugadorVisitante, casilla.getPosicion()));
     }
 
     @Override
@@ -98,21 +105,40 @@ public class Visitante implements VisitanteCasilla {
                     "Error pisando casilla");
             return;
         }
+        notificarCaer(especial);
+
         especial.getComportamiento().efectuar(this.jugadorVisitante);
     }
 
     @Override
     public void visitar(CajaComunidad cajaComunidad) {
-
+        if (jugadorVisitante == null) {
+            Juego.consola.error("No se puede visitar una casilla sin jugador",
+                    "Error pisando casilla");
+            return;
+        }
+        notificarCaer(cajaComunidad);
     }
 
     @Override
     public void visitar(Suerte suerte) {
-
+        if (jugadorVisitante == null) {
+            Juego.consola.error("No se puede visitar una casilla sin jugador",
+                    "Error pisando casilla");
+            return;
+        }
+        notificarCaer(suerte);
     }
 
     @Override
     public void visitar(Propiedad propiedad) {
+        if (jugadorVisitante == null) {
+            Juego.consola.error("No se puede visitar una casilla sin jugador",
+                    "Error pisando casilla");
+            return;
+        }
+        notificarCaer(propiedad);
+
         if (propiedad instanceof Estacion) {
             visitar((Estacion) propiedad);
         }

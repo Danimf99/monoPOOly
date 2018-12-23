@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Salida implements AccionEspecial {
     @Override
     public void efectuar(Jugador jugador) {
-
+        /* No pasa nada especial */
     }
 
     @Override
