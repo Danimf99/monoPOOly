@@ -59,6 +59,14 @@ public class Partida {
                 case "c":
                     exp = new Comprar(args);
                     break;
+                case "salir":
+                case "Salir":
+                    exp=new SalirCarcel(args);
+                    break;
+                case "cambiar":
+                case "Cambiar":
+                    exp=new CambiarModo(args);
+                    break;
                 case "info":
                 case "informacion":
                     exp=new Info(args);
@@ -74,6 +82,10 @@ public class Partida {
                 case "describir":
                 case "Describir":
                     exp=new Describir(args);
+                    break;
+                case "ver":
+                case "Ver":
+                    exp=new VerTablero(args);
                     break;
                 case "acabar":
                 case "a":

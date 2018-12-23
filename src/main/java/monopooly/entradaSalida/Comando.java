@@ -27,5 +27,11 @@ public interface Comando {
     void describirCasilla(Casilla casilla);
 
     void describirAvatar(Avatar avatar);
+
+    void salirCarcel(Jugador jugador);
+
+    void verTablero();
+
+    void cambiarModo(Avatar avatar);
 }
 
