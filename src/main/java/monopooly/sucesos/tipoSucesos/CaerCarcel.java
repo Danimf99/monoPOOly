@@ -1,9 +1,13 @@
 package monopooly.sucesos.tipoSucesos;
 
-public class CaerCarcel {
+import monopooly.player.Jugador;
+import monopooly.sucesos.Suceso;
+
+public class CaerCarcel extends Suceso {
     private boolean encarcelado;
 
-    public CaerCarcel() {
+    public CaerCarcel(Jugador jugador) {
+        super(jugador);
         this.encarcelado = true;
     }
 
