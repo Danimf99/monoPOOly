@@ -33,7 +33,7 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void describirJugador(Jugador jugador) {
-
+        Juego.consola.imprimir(jugador.toString());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void describirAvatar(Avatar avatar) {
-
+        Juego.consola.imprimir(avatar.toString());
     }
 
     @Override

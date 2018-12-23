@@ -74,7 +74,10 @@ class Partida { // Package Private
                 case "Deshipotecar":
                     exp=new Deshipotecar(args);
                     break;
-
+                case "describir":
+                case "Describir":
+                    exp=new Describir(args);
+                    break;
                 case "acabar":
                 case "a":
                     Tablero.getTablero().pasarTurno();

@@ -46,6 +46,7 @@ public class Describir implements Expresion {
                     Juego.consola.info("No hay ningún avatar con esa representación");
                     return;
                 }
+                interprete.describirAvatar(avatar);
                 break;
             default:
                 break;
