@@ -20,6 +20,11 @@ public class Lanzar implements Expresion{
             Tablero.getPrompt().setHelp(true);
             return;
         }
+        if (!comandoIntroducido[1].equals("dados")) {
+            Juego.consola.error("Comando incorrecto");
+            Tablero.getPrompt().setHelp(true);
+            return;
+        }
         Jugador jugador= Tablero.getPrompt().getJugador();
 
         if(!jugador.getAvatar().isNitroso()){

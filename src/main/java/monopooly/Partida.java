@@ -77,7 +77,10 @@ public class Partida {
                     break;
                 case "acabar":
                 case "a":
-                    Tablero.getTablero().pasarTurno();
+                    if(Tablero.getPrompt().getJugador().getDados().getContador()==1){
+                        Tablero.getPrompt().getJugador().getDados().setContador(0);
+                        Tablero.getTablero().pasarTurno();
+                    }
                     break;
                 case "lanzar":
                 case "Lanzar":

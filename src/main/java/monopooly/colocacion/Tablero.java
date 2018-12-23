@@ -4,7 +4,6 @@ import monopooly.Partida;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
-import monopooly.colocacion.tipoCasillas.accion.Accion;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Avatar;

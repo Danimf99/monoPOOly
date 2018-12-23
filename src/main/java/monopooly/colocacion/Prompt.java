@@ -78,7 +78,9 @@ public class Prompt {
         return modDinero;
     }
 
-
+    public void anhadirPosicion(Posicion posicion){
+        this.posicionesTurno.add(posicion);
+    }
     /**
      * Dada una lista de elementos que debe presentar genera el String de la prompt
      *

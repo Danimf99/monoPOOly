@@ -88,6 +88,16 @@ public class Juego implements Comando, Subject {
     }
     @Override
     public void lanzar(Jugador jugador){
+        if (jugador.getDados().getContador() == 1) {
+            Juego.consola.info("Ya lanzaste este turno, no puedes volver a tirar");
+            return;
+        }
+
+        if (jugador.getCooldown() > 0) {
+            Juego.consola.info("Tienes que esperar " + jugador.getCooldown() + " turnos\n para volver a tirar.");
+            jugador.getDados().setContador(1);
+            return;
+        }
         jugador.getAvatar().moverBasico();
     }
     @Override

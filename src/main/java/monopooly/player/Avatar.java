@@ -2,6 +2,7 @@ package monopooly.player;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
@@ -86,6 +87,8 @@ public abstract class Avatar {
         posicion.mover(desplazamiento+getPosicion().getX());
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().mover(desplazamiento);
+        Tablero.getPrompt().anhadirPosicion(this.getPosicion());
+        Visitante visitante=new Visitante(getJugador());
 
     }
 
