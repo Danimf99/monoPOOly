@@ -278,7 +278,16 @@ public class Jugador {
                 "   Nombre: " + nombre +
                 "\n   Fortuna: " + dinero +
                 "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
-        for(Propiedad i:propiedades){
+        meterPropiedades(j, imprimirJugador, propiedades);
+        imprimirJugador.append("]\n   Hipotecadas: [");
+        j=0;
+        meterPropiedades(j, imprimirJugador, hipotecas);
+        imprimirJugador.append("]\n}");
+        return  PintadoAscii.encuadrar(imprimirJugador.toString());
+    }
+
+    private void meterPropiedades(int j, StringBuilder imprimirJugador, HashSet<Propiedad> propiedades) {
+        for(Propiedad i: propiedades){
             if(propiedades.size()-1==j){
                 imprimirJugador.append(i.getNombre());
             }
@@ -287,20 +296,8 @@ public class Jugador {
             }
             j++;
         }
-        imprimirJugador.append("]\n   Hipotecadas: [");
-        j=0;
-        for(Propiedad h:hipotecas){
-            if(hipotecas.size()-1==j) {
-                imprimirJugador.append(h.getNombre());
-            }
-            else{
-                imprimirJugador.append(h.getNombre()+",");
-            }
-            j++;
-        }
-        imprimirJugador.append("]\n}");
-        return  PintadoAscii.encuadrar(imprimirJugador.toString());
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
