@@ -36,6 +36,7 @@ public class Partida {
     private void pedirJugadores(){
         Tablero.getTablero().meterJugador(new Jugador("Dani", "Coche"));
         Tablero.getTablero().meterJugador(new Jugador("Saul", "Pelota"));
+        Tablero.getTablero().meterJugador(new Jugador("Lola", "Coche"));
     }
 
     /**
@@ -58,6 +59,10 @@ public class Partida {
                 case "Comprar":
                 case "c":
                     exp = new Comprar(args);
+                    break;
+                case "Bancarrota":
+                case "bancarrota":
+                    exp=new Bancarrota(args);
                     break;
                 case "salir":
                 case "Salir":

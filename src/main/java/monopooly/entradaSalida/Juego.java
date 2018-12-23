@@ -33,6 +33,26 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void bancarrota(Jugador jugador) {
+
+        Tablero.getTablero().eliminarJugador(jugador);
+
+        if(jugador.getHipotecas().size()>0){
+            for(Propiedad p:jugador.getHipotecas()){
+                jugador.deshipotecar(p);
+            }
+        }
+        if(jugador.getPropiedades().size()>0){
+            for(Propiedad p:jugador.getPropiedades()){
+                jugador.quitarPropiedad(p);
+                Tablero.BANCA.anhadirPropiedad(p);
+                p.setPropietario(Tablero.BANCA);
+            }
+        }
+        Tablero.getTablero().pasarTurno();
+    }
+
+    @Override
     public void verTablero() {
         Juego.consola.imprimirln(Tablero.getTablero().toString());
     }

@@ -33,5 +33,7 @@ public interface Comando {
     void verTablero();
 
     void cambiarModo(Avatar avatar);
+
+    void bancarrota(Jugador jugador);
 }
 

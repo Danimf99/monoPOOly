@@ -82,6 +82,11 @@ public class Tablero implements Observador {
         }
     }
 
+    public void eliminarJugador(Jugador jugador){
+        this.jugadoresTurno.remove(0);
+        this.jugadores.remove(jugador);
+
+    }
     /**
      * Añade un jugador a la lista de jugadores de la partida. Si el jugador ya
      * se añadió no se realiza ninguna acción.
