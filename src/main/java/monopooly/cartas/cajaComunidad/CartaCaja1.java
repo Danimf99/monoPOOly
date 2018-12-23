@@ -13,4 +13,9 @@ public class CartaCaja1 implements Carta {
     public void aplicar() {
         // Accion de la carta 1
     }
+
+    @Override
+    public int cantidadBanca() {
+        return DINERO;
+    }
 }

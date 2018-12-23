@@ -5,7 +5,7 @@ import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
 import monopooly.player.Jugador;
 
-class Partida { // Package Private
+public class Partida {
 
     public static final Juego interprete = new Juego();
 

@@ -1,9 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
-public class Carcel {
+public class CaerCarcel {
     private boolean encarcelado;
 
-    public Carcel() {
+    public CaerCarcel() {
         this.encarcelado = true;
     }
 

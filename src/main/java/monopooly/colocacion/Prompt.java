@@ -203,7 +203,7 @@ public class Prompt {
         // Movimiento especial activado ?
         elementos.add(movmientoEspecial());
 
-        // Carcel
+        // CaerCarcel
         if (jugador.isEstarEnCarcel()) {
             elementos.add(ReprASCII.PROMPT_CARCEL);
         }

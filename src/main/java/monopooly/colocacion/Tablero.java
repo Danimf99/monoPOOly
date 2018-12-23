@@ -1,11 +1,17 @@
 package monopooly.colocacion;
 
+import monopooly.Partida;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.sucesos.Observador;
+import monopooly.sucesos.Subject;
+import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +26,7 @@ import java.util.HashMap;
  * @author luastan
  * @author Danimf99
  */
-public class Tablero {
+public class Tablero implements Observador {
     private static FabricaCasillas fabricaCasillas = new FabricaCasillas();
 
     private static Tablero instanciaTablero;
@@ -37,6 +43,8 @@ public class Tablero {
     private HashMap<Posicion, Casilla> casillasPosicion;
     private HashMap<String, Casilla> casillasNombre;
     private HashMap<String, Jugador> jugadores;
+
+    private Subject subject;
 
 
     private Tablero() {
@@ -58,6 +66,9 @@ public class Tablero {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
             casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
         });
+
+        this.subject = Partida.interprete;
+        this.subject.registrar(this);
     }
 
 
@@ -170,6 +181,28 @@ public class Tablero {
         return prompt;
     }
 
+    /**
+     * Cambia a un jugador de posicion
+     * @param jugador Jugador que se desea mover
+     * @param posicion Posicion que tendra
+     */
+    public void recolocar(Jugador jugador, Posicion posicion) {
+        this.casillasPosicion.get(jugador.getAvatar().getPosicion()).quitarJugador(jugador);
+        Casilla siguiente = this.casillasPosicion.get(posicion);
+        siguiente.meterJugador(jugador);
+    }
+
+    /**
+     * Cambia a un jugador de posicion
+     * @param avatar Jugador que se desea mover
+     * @param posicion Posicion que tendra
+     */
+    public void recolocar(Avatar avatar, Posicion posicion) {
+        this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
+        Casilla siguiente = this.casillasPosicion.get(posicion);
+        siguiente.meterJugador(avatar);
+    }
+
 
     /**
      * Devuelve la posicion en la que se encuentra una casilla
@@ -201,5 +234,23 @@ public class Tablero {
     @Override
     public String toString() {
         return PintadoAscii.genTablero();
+    }
+
+    @Override
+    public void update() {
+        Suceso suceso = (Suceso) this.subject.getUpdate(this);
+        if (suceso == null) {
+            return;
+        }
+
+        if (suceso instanceof PagoImpuesto) {
+            this.bote += ((PagoImpuesto) suceso).getCantidad();
+        }
+
+    }
+
+    @Override
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }
