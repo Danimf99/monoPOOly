@@ -89,7 +89,13 @@ public abstract class Avatar {
         this.getPosicion().mover(desplazamiento);
         Tablero.getPrompt().anhadirPosicion(this.getPosicion());
         Visitante visitante=new Visitante(getJugador());
+    }
 
+    public void moverAvatar(Posicion posicion) {
+        Tablero.getTablero().recolocar(this,posicion);
+        this.getPosicion().setX(posicion.getX());
+        Tablero.getPrompt().anhadirPosicion(this.getPosicion());
+        Visitante visitante = new Visitante(getJugador());
     }
 
     public void moverBasico(){

@@ -238,6 +238,26 @@ public class Tablero implements Observador {
         this.bote = bote;
     }
 
+    public ArrayList<Grupo> getGrupos() {
+        return new ArrayList<>(grupos);
+    }
+
+    public void setGrupos(ArrayList<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public ArrayList<Casilla> getCasillas() {
+        return new ArrayList<>(casillas);
+    }
+
+    public void setCasillas(ArrayList<Casilla> casillas) {
+        this.casillas = casillas;
+    }
+
+    public Posicion localizarCasilla(Casilla casilla) {
+        return new Posicion(casillas.indexOf(casilla));
+    }
+
     @Override
     public String toString() {
         return PintadoAscii.genTablero();

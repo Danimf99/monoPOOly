@@ -99,7 +99,6 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
             return;
         }
         this.propietario.anhadirDinero(this.precio);
-        this.propietario.quitarPropiedad(this);
         deudor.quitarDinero(this.precio);
         deudor.anhadirPropiedad(this);
         this.propietario = deudor;

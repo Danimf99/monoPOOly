@@ -93,6 +93,13 @@ public class Grupo extends Casilla implements Monopolio {
         propiedad.setPrecio(this.precio);
     }
 
+    public HashSet<Propiedad> getPropiedades() {
+        return new HashSet<>(propiedades);
+    }
+
+    public void setPropiedades(HashSet<Propiedad> propiedades) {
+        this.propiedades = propiedades;
+    }
 
     @Override
     public TipoMonopolio getTipoMonopolio() {
