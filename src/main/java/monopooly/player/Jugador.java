@@ -189,6 +189,11 @@ public class Jugador {
         if (Tablero.getPrompt().isCompro()) {
             return false;
         }
+        if(Tablero.getPrompt().getPosicionesTurno().size()==0){
+            if(!casilla.getPosicion().equals(Tablero.getPrompt().getJugador().getAvatar().getPosicion())){
+                return false;
+            }
+        }
         for (Posicion posicion : Tablero.getPrompt().getPosicionesTurno()) {
             if (casilla.equals(Tablero.getTablero().getCasilla(posicion))) {
                 return true;
