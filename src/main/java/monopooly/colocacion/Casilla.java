@@ -1,5 +1,6 @@
 package monopooly.colocacion;
 
+import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -70,6 +71,14 @@ public abstract class Casilla implements Imprimible {
         this.avatares.remove(avatar);
     }
 
+    public boolean estaAvatar(Avatar avatar) {
+        return this.avatares.contains(avatar);
+    }
+
+    public boolean estaJugador(Jugador jugador) {
+        return this.estaAvatar(jugador.getAvatar());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,5 +88,13 @@ public abstract class Casilla implements Imprimible {
 
         return nombre.equals(casilla.nombre)
                 && id.equals(casilla.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Casilla{" +
+                "nombre='" + nombre + '\'' +
+                ", avatares=" + avatares +
+                '}';
     }
 }

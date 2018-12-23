@@ -1,7 +1,6 @@
 package monopooly.colocacion.tipoCasillas.propiedades.edificios;
 
 
-import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 
 public abstract class Edificio {
