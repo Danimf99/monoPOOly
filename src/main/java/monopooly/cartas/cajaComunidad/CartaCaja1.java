@@ -15,6 +15,11 @@ public class CartaCaja1 implements Carta {
     }
 
     @Override
+    public void deshacer() {
+        // Deshacer
+    }
+
+    @Override
     public int cantidadBanca() {
         return DINERO;
     }

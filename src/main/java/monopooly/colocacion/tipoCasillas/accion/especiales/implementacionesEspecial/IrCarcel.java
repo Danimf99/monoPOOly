@@ -8,7 +8,6 @@ import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.accion.especiales.AccionEspecial;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Posiciones;
-import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.CaerCarcel;
 
