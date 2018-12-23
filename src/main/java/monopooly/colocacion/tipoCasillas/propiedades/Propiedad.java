@@ -6,7 +6,6 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.tipoCasillas.Visitante;
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
-import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.player.Jugador;
@@ -86,6 +85,25 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return 0;
     }
 
+    /**
+     *
+     * @return Dinero a cambio de hipotecar la propiedad
+     */
+    public int hipoteca() {
+        return (int) (this.getMonopolio().getPrecio() * Precios.HIPOTECA);
+    }
+
+    public void compra(Jugador deudor) {
+        if (deudor == null) {
+            Juego.consola.error("Un jugador null no puede comprar una propiedad");
+            return;
+        }
+        this.propietario.anhadirDinero(this.precio);
+        this.propietario.quitarPropiedad(this);
+        deudor.quitarDinero(this.precio);
+        deudor.anhadirPropiedad(this);
+        this.propietario = deudor;
+    }
 
     @Override
     public void incrementarPrecio() {
@@ -125,23 +143,14 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return this.monopolio.compartenPropietario();
     }
 
-    public void compra(Jugador deudor) {
-        if (deudor == null) {
-            Juego.consola.error("Un jugador null no puede comprar una propiedad");
-            return;
-        }
-        this.propietario.anhadirDinero(this.precio);
-        this.propietario.quitarPropiedad(this);
-        deudor.quitarDinero(this.precio);
-        deudor.anhadirPropiedad(this);
-        this.propietario = deudor;
-    }
+
 
     @Override
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {
         reprSubclases.add("Titulo de propiedad");
         reprSubclases.add("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
-        reprSubclases.add("Hipoteca: {VALOR}");
+        reprSubclases.add("");
+        reprSubclases.add("Hipoteca: " + this.hipoteca() + " " + Precios.MONEDA);
         reprSubclases.add("");
         reprSubclases.add("Propietario: " + this.propietario.getNombre());
 

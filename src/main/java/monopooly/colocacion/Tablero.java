@@ -2,6 +2,7 @@ package monopooly.colocacion;
 
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
+import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Jugador;
@@ -31,6 +32,7 @@ public class Tablero {
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasCajaComunidad;
     private ArrayList<Casilla> casillas;
+    private ArrayList<Grupo> grupos;
 
     private HashMap<Posicion, Casilla> casillasPosicion;
     private HashMap<String, Casilla> casillasNombre;
@@ -41,9 +43,10 @@ public class Tablero {
         /* Constructor de tablero */
         prompt = null;
         this.jugadoresTurno = new ArrayList<>();
-        this.casillas = fabricaCasillas.genCasillas();
-        this.cartasSuerte = FabricaCartas.cartasSuerte();
-        this.cartasCajaComunidad = FabricaCartas.cartasCaja();
+        this.casillas = new ArrayList<>(fabricaCasillas.genCasillas());
+        this.grupos = new ArrayList<>(fabricaCasillas.getGrupos());
+        this.cartasSuerte = new ArrayList<>(FabricaCartas.cartasSuerte());
+        this.cartasCajaComunidad = new ArrayList<>(FabricaCartas.cartasCaja());
 
         this.bote = 0;
 

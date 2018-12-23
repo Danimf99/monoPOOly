@@ -81,4 +81,14 @@ public class FabricaCasillas {
         Arrays.stream(Posiciones.coloresValidos).forEach(monopolio -> grupos.put(monopolio, new Grupo(monopolio)));
         return Arrays.stream(Posiciones.ORDENACION_POR_DEFECTO).map(this::genCasilla).collect(Collectors.toCollection(ArrayList::new));
     }
+
+
+    /**
+     *
+     * @return ArrayList con los grupos de propiedades
+     */
+    public ArrayList<Grupo> getGrupos() {
+        return new ArrayList<>(grupos.values());
+    }
+
 }
