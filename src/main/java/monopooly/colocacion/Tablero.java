@@ -80,6 +80,8 @@ public class Tablero {
         }
         this.jugadoresTurno.add(jugador);
         this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);
+        this.casillasPosicion.get(jugador.getAvatar().getPosicion()).meterJugador(jugador);
+
     }
 
 

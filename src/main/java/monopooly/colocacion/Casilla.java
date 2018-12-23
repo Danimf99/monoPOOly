@@ -2,6 +2,7 @@ package monopooly.colocacion;
 
 import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
 import monopooly.player.Avatar;
+import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,6 +52,22 @@ public abstract class Casilla implements Imprimible {
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {
         reprSubclases.add(1, this.nombre);
         return reprSubclases;
+    }
+
+    public void meterJugador(Jugador jugador) {
+        this.meterJugador(jugador.getAvatar());
+    }
+
+    public void meterJugador(Avatar avatar) {
+        this.avatares.add(avatar);
+    }
+
+    public void quitarJugador(Jugador jugador) {
+        this.quitarJugador(jugador.getAvatar());
+    }
+
+    public void quitarJugador(Avatar avatar) {
+        this.avatares.remove(avatar);
     }
 
     @Override

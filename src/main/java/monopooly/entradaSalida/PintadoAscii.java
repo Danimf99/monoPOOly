@@ -1,17 +1,13 @@
 package monopooly.entradaSalida;
 
-import monopooly.colocacion.Casilla;
-import monopooly.colocacion.Posicion;
-import monopooly.colocacion.Tablero;
+import monopooly.colocacion.*;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.configuracion.Nombres;
-import monopooly.configuracion.Posiciones;
-import monopooly.configuracion.Precios;
-import monopooly.configuracion.ReprASCII;
+import monopooly.configuracion.*;
 import monopooly.player.Avatar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PintadoAscii {
@@ -63,10 +59,7 @@ public class PintadoAscii {
      * @return Longitud mayor
      */
     private static int tamMaxArrayString(ArrayList<String> lineas) {
-        return lineas.stream()
-                .mapToInt(String::length)
-                .max()
-                .orElse(0);
+        return lineas.stream().mapToInt(String::length).max().orElse(0);
     }
 
     /**
@@ -181,20 +174,16 @@ public class PintadoAscii {
             String lineaAsciiArt = ReprASCII.ASCII_TITLE_ARRAY[numLineaAsciiArt];
             salida.append(ReprASCII.ANSI_RED_BOLD);
             // i = 1; Para que no me cuente la barra vertical
-            for (int i = 1; i < (tamHueco - 77) / 2; i++) {
-                salida.append(" ");
-            }
+            IntStream.range(1, (tamHueco - 77) / 2).mapToObj(i -> " ").forEach(salida::append);
             salida.append(lineaAsciiArt);
             // +6; Para Ajustar el aumento de longitud por el ANSI_Code
             while (salida.length() < tamHueco + 6) {
                 salida.append(" ");
             }
-            salida.append(ReprASCII.ANSI_BLACK);
+            salida.append(ReprASCII.ANSI_RESET);
         } else {
             // i = 1; Para que no me cuente la barra vertical
-            for (int i = 1; i < tamHueco; i++) {
-                salida.append(" ");
-            }
+            IntStream.range(1, tamHueco).mapToObj(i -> " ").forEach(salida::append);
         }
         return salida.toString();
     }
@@ -204,12 +193,11 @@ public class PintadoAscii {
         StringBuilder sBuilder;
         salida.append(ReprASCII.BARRA_VERTICAL);
         for (Posicion pos : posiciones) {
-            salida.append(' ');
+            salida.append(' ');//        salida.append("\n");
             sBuilder = new StringBuilder();
 
             for (Avatar ficha : tablero.getCasilla(pos).getAvatares()) {
-                sBuilder.append(ficha.getRepresentacion());
-                sBuilder.append(' ');
+                sBuilder.append(ficha.getRepresentacion()).append(" ");
             }
             salida.append(
                     widear(sBuilder.toString(), longMaxima)
@@ -250,52 +238,49 @@ public class PintadoAscii {
     private static String barraInterna(String separador, int anchoCasilla) {
         StringBuilder salida = new StringBuilder();
         salida.append(ReprASCII.T_LADO_D);
-        for (int i = 0; i < anchoCasilla - 1; i++) {
-            salida.append(ReprASCII.BARRA_HORIZONTAL);
-        }
+        IntStream.range(0, anchoCasilla - 1).mapToObj(i -> ReprASCII.BARRA_HORIZONTAL).forEach(salida::append);
         salida.append(ReprASCII.CRUZ); // Esquina
-        for (int i = 1; i < anchoCasilla * 9; i++) {
-            if ((i % anchoCasilla) == 0) {
-                salida.append(separador); // ReprASCII.T_LADO_C
-            } else {
-                salida.append(ReprASCII.BARRA_HORIZONTAL);
-            }
-        }
+        IntStream.range(1, anchoCasilla * 9).forEach(i -> {
+            salida.append((i % anchoCasilla) == 0 ? separador : ReprASCII.BARRA_HORIZONTAL); // ReprASCII.T_LADO_C
+        });
         salida.append(ReprASCII.CRUZ); // Esquina
-        for (int i = 0; i < anchoCasilla - 1; i++) {
-            salida.append(ReprASCII.BARRA_HORIZONTAL);
-        }
+        IntStream.range(0, anchoCasilla - 1).mapToObj(i -> ReprASCII.BARRA_HORIZONTAL).forEach(salida::append);
         salida.append(ReprASCII.T_LADO_B + '\n');
         return salida.toString();
     }
 
     private static String separadorCentral(int anchoCasilla) {
         StringBuilder salida = new StringBuilder();
-        salida.append(ReprASCII.T_LADO_D);
-        for (int i = 1; i < anchoCasilla; i++) {
-            salida.append(ReprASCII.BARRA_HORIZONTAL);
-        }
-        salida.append(ReprASCII.T_LADO_B);
+        genTlatetal(anchoCasilla, salida);
         salida.append(espacioCentral(anchoCasilla * 11));
-        salida.append(ReprASCII.T_LADO_D);
-        for (int i = 1; i < anchoCasilla; i++) {
-            salida.append(ReprASCII.BARRA_HORIZONTAL);
-        }
-        salida.append(ReprASCII.T_LADO_B);
+        genTlatetal(anchoCasilla, salida);
         salida.append("\n");
         return salida.toString();
     }
 
 
+    private static void genTlatetal(int anchoCasilla, StringBuilder salida) {
+        salida.append(IntStream.range(1, anchoCasilla)
+                .mapToObj(i -> ReprASCII.BARRA_HORIZONTAL)
+                .collect(Collectors.joining("", ReprASCII.T_LADO_D, ReprASCII.T_LADO_B)));
+    }
+
+
+    private static Casilla getCasillaRepr(Tablero tablero, StringBuilder salida, Posicion pos) {
+        Casilla casilla = tablero.getCasilla(pos);
+        if (casilla.getTipo() != null) salida.append(ReprASCII.colorMonopolio(casilla.getTipo()));
+        salida.append(' ');
+        return casilla;
+    }
+
     /**
      * Devuelve una representacion ASCII de un tablero.
-     * @param tablero Tablero que se desea representar
      * @return String de la representacion
      */
     public static String genTablero() {
         Tablero tablero = Tablero.getTablero();
 
-        Casilla inmuebleAuxiliar; // NO MODIFICAR
+        Casilla casilla; // NO MODIFICAR
         int longitudMax = tamMaxArrayString(new ArrayList<>(Arrays.asList(Nombres.CALLES)));
         if (longitudMax < 5 * 2 + 1) { // 5 * 2 + 1 es lo minimo para representar 6 avatares separados con un espacio
             longitudMax = 5 * 2 +1;
@@ -308,43 +293,29 @@ public class PintadoAscii {
         StringBuilder sBuilder = new StringBuilder();
         sBuilder.append(ReprASCII.ESQUINA_1);
         for (int i = 1; i <= anchoTablero - 2; i++) { // -2 para las esquinas
-            if ((i % anchoCasilla) == 0) {
-                sBuilder.append(ReprASCII.T_LADO_A);
-            } else {
-                sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
-            }
+            sBuilder.append((i % anchoCasilla) == 0 ? ReprASCII.T_LADO_A : ReprASCII.BARRA_HORIZONTAL);
         }
-        sBuilder.append(ReprASCII.ESQUINA_2);
-        sBuilder.append("\n");
+        sBuilder.append(ReprASCII.ESQUINA_2).append("\n");
         salida.append(sBuilder);
         // Fin Barra Superior del tablero
-
 
         // Fila nombre calles NORTE
         salida.append(ReprASCII.BARRA_VERTICAL);
         for (Posicion pos : Posiciones.posicionesNorteIzqDer()) {
-            inmuebleAuxiliar = tablero.getCasilla(pos);
-            if (inmuebleAuxiliar.getTipo() != null) {
-                salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getTipo()));
-            }
-            salida.append(' ');
+            casilla = getCasillaRepr(tablero, salida, pos);
             salida.append(
-                    widear(tablero.getCasilla(pos).getNombre(), longitudMax)
-            );
-//            salida.append(ReprASCII.ANSI_RESET);
-            salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
+                    widear(casilla.getNombre(), longitudMax)
+            ).append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
         }
         // Calculo de cuan ancho es el tablero
         salida.append("\n");
         // Fin fila nombre calles NORTE
-
 
         // Jugadores y precios de la zona NORTE
         salida.append(reprAvatares(tablero, Posiciones.posicionesNorteIzqDer(), longitudMax, anchoTablero));
         salida.append('\n');
         salida.append(reprPrecio(tablero, Posiciones.posicionesNorteIzqDer(), longitudMax, anchoTablero));
         // Fin Jugadores y precios de la zona norte
-
 
         // Barra separadora inferior zona NORTE
         salida.append(barraInterna(ReprASCII.T_LADO_C, anchoCasilla));
@@ -355,30 +326,22 @@ public class PintadoAscii {
         for (ArrayList<Posicion> par : Posiciones.posicionesEsteOeste()) {
             // Lado izquierdo
             salida.append(ReprASCII.BARRA_VERTICAL);
-            inmuebleAuxiliar = tablero.getCasilla(par.get(0));
-            if (inmuebleAuxiliar.getTipo() != null) {
-                salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getTipo()));
-            }
-            salida.append(' ');
-            salida.append(
+            casilla = tablero.getCasilla(par.get(0));
+            if (casilla.getTipo() != null) salida.append(ReprASCII.colorMonopolio(casilla.getTipo()));
+            salida.append(' ').append(
                     widear(tablero.getCasilla(par.get(0)).getNombre(), longitudMax)
-            );
-            salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
+            ).append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
 
             // Espacio central
             salida.append(espacioCentral(anchoTablero));
 
             // Lado derecho
             salida.append(ReprASCII.BARRA_VERTICAL);
-            inmuebleAuxiliar = tablero.getCasilla(par.get(1));
-            if (inmuebleAuxiliar.getTipo() != null) {
-                salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getTipo()));
-            }
-            salida.append(' ');
-            salida.append(
+            casilla = tablero.getCasilla(par.get(1));
+            if (casilla.getTipo() != null) salida.append(ReprASCII.colorMonopolio(casilla.getTipo()));
+            salida.append(' ').append(
                     widear(tablero.getCasilla(par.get(1)).getNombre(), longitudMax)
-            );
-            salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL + "\n");
+            ).append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL + "\n");
 
             asciiArtHelper++;
 
@@ -395,51 +358,34 @@ public class PintadoAscii {
         }
         // Toca borrar la ultima separacion porque sobra
         salida.delete(salida.length() - separadorCentral(anchoCasilla).length() - 1, salida.length() - 1);
-//        salida.append('\n');
         // Fin seccion central
-
-
 
         // Barra separadora inferior zona SUR
         salida.append(barraInterna(ReprASCII.T_LADO_A, anchoCasilla));
         // Fin Barra separadora inferior zona SUR
 
-
         // Fila nombres lado SUR
         salida.append(ReprASCII.BARRA_VERTICAL);
         for (Posicion pos : Posiciones.posicionesSurIzqDer()) {
-            inmuebleAuxiliar = tablero.getCasilla(pos);
-            if (inmuebleAuxiliar.getTipo() != null) {
-                salida.append(ReprASCII.colorMonopolio(inmuebleAuxiliar.getTipo()));
-            }
-            salida.append(' ');
+            casilla = getCasillaRepr(tablero, salida, pos);
             salida.append(
-                    widear(inmuebleAuxiliar.getNombre(), longitudMax)
-            );
-            salida.append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
+                    widear(casilla.getNombre(), longitudMax)
+            ).append(' ' + ReprASCII.ANSI_RESET + ReprASCII.BARRA_VERTICAL);
         }
         salida.append("\n");
         // Fin fila de nombres del lado SUR
-
 
         // Jugadores y precios de la zona SUR
         salida.append(reprAvatares(tablero, Posiciones.posicionesSurIzqDer(), longitudMax, anchoTablero));
         salida.append("\n");
         salida.append(reprPrecio(tablero, Posiciones.posicionesSurIzqDer(), longitudMax, anchoTablero));
-//        salida.append("\n");
         // Fin Jugadores y precios de la zona SUR
-
 
         // Barra inferior SUR
         sBuilder = new StringBuilder();
         sBuilder.append(ReprASCII.ESQUINA_4);
         for (int i = 1; i <= anchoTablero - 2; i++) { // -2 para las esquinas
-            if ((i % (anchoTablero/11)) == 0) {
-                sBuilder.append(ReprASCII.T_LADO_C);
-            } else {
-                sBuilder.append(ReprASCII.BARRA_HORIZONTAL);
-            }
-
+            sBuilder.append((i % (anchoTablero / 11)) == 0 ? ReprASCII.T_LADO_C : ReprASCII.BARRA_HORIZONTAL);
         }
         sBuilder.append(ReprASCII.ESQUINA_3);
         salida.append(sBuilder);
@@ -447,12 +393,4 @@ public class PintadoAscii {
 
         return salida.toString();
     }
-
-    /* FIN Representacion del tablero
-     *
-     *
-     *
-     * */
-
-
 }
