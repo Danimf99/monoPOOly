@@ -37,6 +37,10 @@ public class Prompt {
         return jugador;
     }
 
+    public void setCompro(boolean compro) {
+        this.compro = compro;
+    }
+
     public String getMotivoPago() {
         return motivoPago;
     }
