@@ -1,6 +1,7 @@
 package monopooly.entradaSalida;
 
 import monopooly.colocacion.Casilla;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
 public interface Comando {
@@ -20,4 +21,11 @@ public interface Comando {
     void deshipotecar(Jugador jugador,Casilla casilla);
 
     void info(Jugador jugador);
+
+    void describirJugador(Jugador jugador);
+
+    void describirCasilla(Casilla casilla);
+
+    void describirAvatar(Avatar avatar);
 }
+

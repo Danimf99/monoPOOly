@@ -105,7 +105,14 @@ public class Tablero {
         return this.jugadoresTurno.get(0);
     }
 
-
+    public Jugador getJugador(String nombre){
+        for(Jugador j: jugadores.values()){
+            if(j.getNombre().equals(nombre)){
+                return j;
+            }
+        }
+        return null;
+    }
     /**
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
      *

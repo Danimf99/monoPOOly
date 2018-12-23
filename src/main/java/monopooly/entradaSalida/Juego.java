@@ -19,6 +19,16 @@ public class Juego implements Comando{
     }
 
     @Override
+    public void describirJugador(Jugador jugador) {
+
+    }
+
+    @Override
+    public void describirCasilla(Casilla casilla) {
+
+    }
+
+    @Override
     public void deshipotecar(Jugador jugador, Casilla casilla) {
         if(!((Propiedad)casilla).getPropietario().equals(jugador)){
             Juego.consola.info("No eres el dueño de la propiedad "+casilla.getNombre());
