@@ -4,6 +4,7 @@ import monopooly.Partida;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.accion.Accion;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Avatar;
@@ -11,6 +12,7 @@ import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 import java.util.ArrayList;
@@ -244,7 +246,13 @@ public class Tablero implements Observador {
         }
 
         if (suceso instanceof PagoImpuesto) {
-            this.bote += ((PagoImpuesto) suceso).getCantidad();
+            int pago = ((PagoImpuesto) suceso).getCantidad();
+            this.bote += suceso.getDeshacer() ? - pago : + pago;
+        }
+
+        if (suceso instanceof AccionCarta) {
+            int pago = ((AccionCarta) suceso).pagoBanca();
+            this.bote += suceso.getDeshacer() ? - pago : + pago;
         }
 
     }
