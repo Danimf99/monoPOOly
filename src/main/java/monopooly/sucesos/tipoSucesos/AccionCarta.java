@@ -4,11 +4,13 @@ import monopooly.cartas.Carta;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
+import static java.lang.Math.abs;
+
 
 public class AccionCarta extends Suceso {
     private Carta carta;
 
-    public AccionCarta(Jugador jugadorOriginador, monopooly.cartas.Carta carta) {
+    public AccionCarta(Jugador jugadorOriginador, Carta carta) {
         super(jugadorOriginador);
         this.carta = carta;
     }
@@ -22,7 +24,7 @@ public class AccionCarta extends Suceso {
     }
 
     public int pagoBanca() {
-        return this.carta.cantidadBanca();
+        return abs(this.carta.cantidadBanca());
     }
 
 
