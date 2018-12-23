@@ -4,8 +4,6 @@ import monopooly.configuracion.Posiciones;
 
 import java.util.ArrayList;
 
-import static java.util.Objects.hash;
-
 public class Posicion {
     private int x;
     private ArrayList<Posicion> historialPosiciones;
@@ -46,6 +44,14 @@ public class Posicion {
         this.historialPosiciones.add(new Posicion(this.x));
     }
 
+    public boolean pasoPorSalida() {
+        if (historialPosiciones.size() < 2) {
+            return false;
+        }
+
+        // -2 porque la posicion anterior debio ser la penultima
+        return this.getX() < this.historialPosiciones.get(historialPosiciones.size() - 2).getX();
+    }
 
     public void mover(int desplazamiento){
         this.x += desplazamiento;

@@ -202,6 +202,45 @@ public class Jugador {
         return !Tablero.getPrompt().isCompro();
     }
 
+    public void aumentarVecesDados(){
+        this.vecesDados++;
+    }
+
+    public void checkCarcel() {
+        if(this.estarEnCarcel && dados.sonDobles()) {
+            Juego.consola.info("Sacaste dobles, sales de la carcel");
+            this.estarEnCarcel = false;
+        }
+
+        if(this.estarEnCarcel && this.turnosEnCarcel!=3){
+            Juego.consola.info("Estás en la cárcel, no puedes moverte.\n" +
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
+            this.turnosEnCarcel++;
+            return;
+        }
+
+        if(this.dados.getDobles()==3) {
+            Juego.consola.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
+            this.estadisticas.sumarVecesCarcel(1);
+            this.estarEnCarcel = true;
+            avatar.getPosicion().irCarcel();
+            Tablero.getTablero().getCasilla(this.avatar.getPosicion());//TODO
+            return;
+        }
+    }
+    public void aumentarVueltas(){
+        this.vueltas++;
+    }
+    public void pagoSalida() {
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+        if (posJugadorActual.pasoPorSalida() && !jActual.isEstarEnCarcel()) {
+            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
+            jActual.anhadirDinero(Precios.SALIDA);
+            jActual.aumentarVueltas();
+            Tablero.getPrompt().setModDinero(Precios.SALIDA, "El jugador paso por la salida");
+        }
+    }
     public void hipotecar(Propiedad inmueble){
         if(inmueble==null){
             Juego.consola.error("Inmueble null, no se puede hipotecar");
