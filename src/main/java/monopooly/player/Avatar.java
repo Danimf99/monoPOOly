@@ -107,14 +107,12 @@ public abstract class Avatar {
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().mover(desplazamiento);
         Tablero.getPrompt().anhadirPosicion(this.getPosicion());
-        Visitante visitante=new Visitante(getJugador());
     }
 
     public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().setX(posicion.getX());
         Tablero.getPrompt().anhadirPosicion(this.getPosicion());
-        Visitante visitante = new Visitante(getJugador());
     }
 
     public void moverBasico() throws ExcepcionMonopooly {

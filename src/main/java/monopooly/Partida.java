@@ -111,6 +111,8 @@ public class Partida {
             if (exp != null) {
                 try {
                     exp.interpretar(interprete);
+                } catch (ExcepcionAcontecimiento e) {
+                    e.imprimeInfo();
                 } catch (ExcepcionComando e) {
                     Tablero.getPrompt().setHelp(true);
                     e.imprimeError();

@@ -8,6 +8,7 @@ import monopooly.colocacion.Visitante;
 import monopooly.colocacion.tipoCasillas.accion.especiales.AccionEspecial;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Posiciones;
+import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.CaerCarcel;
@@ -29,6 +30,7 @@ public class IrCarcel implements AccionEspecial {
         jugador.getAvatar().getPosicion().setX(Posiciones.CARCEL);
         carcel.visitar(new Visitante(jugador));
         Partida.interprete.enviarSuceso(new CaerCarcel(jugador));
+        throw new ExcepcionAcontecimiento("Caiste en ve a la carcel");
     }
 
     @Override
