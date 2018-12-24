@@ -148,10 +148,7 @@ public abstract class Avatar {
 
     public void lanzarDados() throws ExcepcionMonopooly {
         Tablero.getPrompt().aumentarLanzamientosDados();
-        if (this.getJugador().getCooldown() > 0) {
-            this.getJugador().setCooldown(this.getJugador().getCooldown()-1);
-            return;
-        }
+
 
         if(this.getJugador().getTurnosEnCarcel()==3){
             Juego.consola.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
