@@ -207,6 +207,7 @@ public class Jugador {
     }
 
     public void pasarTurno() throws ExcepcionMonopooly {
+        this.avatar.pasarTurno();
         if (dinero < 0) {
             throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA);
         }
@@ -245,12 +246,9 @@ public class Jugador {
 
     public void pagoSalida() {
         Jugador jActual = Tablero.getPrompt().getJugador();
-        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
-        if (posJugadorActual.pasoPorSalida() && !jActual.isEstarEnCarcel()) {
-            jActual.anhadirDinero(Precios.SALIDA);
-            Partida.interprete.enviarSuceso(new PasoSalida(this));
-        }
+
     }
+
     public void hipotecar(Propiedad inmueble){
         if(inmueble==null){
             Juego.consola.error("Inmueble null, no se puede hipotecar");

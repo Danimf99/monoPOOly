@@ -31,7 +31,6 @@ public class CompraPropiedadesTest {
     public static void setUpClass() throws ExcepcionMonopooly {
         jugador = new Jugador("Amancio Ortega", Avatar.TIPO.esfinge);
         tablero.meterJugador(jugador);
-        tablero.pasarTurno();
     }
 
     @After
