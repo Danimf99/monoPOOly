@@ -42,6 +42,50 @@ public class Solar extends Propiedad {
         return new Visitante().calcularAlquiler(this);
     }
 
+    public int calcularNumCasas(){
+        int cont=0;
+        for(Edificio e: this.edificios){
+            if(e.getNombre().contains("Casa")){
+                cont++;
+            }
+        }
+        return cont;
+    }
+   // public Edificio getEdificio(Edificio.TIPO tipo){
+   //     for(Edificio e:edificios){
+   //         if(e=tipo){
+   //             return e;
+   //         }
+   //     }
+   //     return null;
+   // }
+    public int calcularNumHoteles(){
+        int cont=0;
+        for(Edificio e: edificios){
+            if(e.getNombre().contains("Hotel")){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumPiscinas(){
+        int cont=0;
+        for(Edificio e: edificios){
+            if(e.getNombre().contains("Piscina")){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int calcularNumDeportes(){
+        int cont=0;
+        for(Edificio e: edificios){
+            if(e.getNombre().contains("PistaDeporte")){
+                cont++;
+            }
+        }
+        return cont;
+    }
     @Override
     public void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly {
         visitante.visitar(this);

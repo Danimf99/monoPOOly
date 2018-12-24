@@ -7,6 +7,12 @@ public abstract class Edificio {
     private String nombre;
     private Solar solar;
 
+    public static enum TIPO {
+        casa,
+        hotel,
+        deporte,
+        piscina
+    }
     public Edificio(int id, Solar solar) {
         this.nombre = this.getClass().getName() + '-' + id;
         this.solar = solar;
@@ -24,4 +30,5 @@ public abstract class Edificio {
     public void setSolar(Solar solar) {
         this.solar = solar;
     }
+
 }

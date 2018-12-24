@@ -6,6 +6,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Monopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Precios;
+import monopooly.player.Jugador;
 
 import java.util.HashSet;
 
@@ -74,6 +75,13 @@ public class Grupo extends Casilla implements Monopolio {
         this.tipoMonopolio = tipoMonopolio;
     }
 
+    public boolean esCompleto() {
+        HashSet<Jugador> propietariosCalles = new HashSet<>();
+        for (Propiedad calle : propiedades) {
+            propietariosCalles.add(calle.getPropietario());
+        }
+        return propietariosCalles.size() == 1;
+    }
     /**
      * Genera el nombre del grupo / monopolio en funcion de su tipo
      *

@@ -2,8 +2,10 @@ package monopooly.entradaSalida;
 
 
 import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -13,7 +15,6 @@ import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.Comprar;
 
 import java.util.HashSet;
 
@@ -32,6 +33,35 @@ public class Juego implements Comando, Subject {
         ultimoSuceso = null;
         observadores = new HashSet<>();
         cambio = false;
+    }
+
+    @Override
+    public void edificar(Casilla casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly{
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+
+        if (!((Propiedad)casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
+            throw new ExcepcionAccionInvalida("La casilla no te pertenece");
+        }
+        int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+        if (!((Propiedad)casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+            throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+        }
+        if(((Propiedad)casilla).getHipotecado()){
+            throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
+        }
+
+        switch (tipo){
+            case casa:
+                break;
+            case piscina:
+                break;
+            case deporte:
+                break;
+            case hotel:
+                break;
+
+        }
     }
 
     @Override

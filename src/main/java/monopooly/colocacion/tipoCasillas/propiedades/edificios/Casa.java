@@ -9,7 +9,7 @@ public class Casa extends Edificio {
 
     private final static Iterator<Integer> generadorId = Stream.iterate(0, i -> i + 1).iterator();
 
-    private Casa(Solar solar) {
+    public Casa(Solar solar) {
         super(generadorId.next(), solar);
     }
 }
