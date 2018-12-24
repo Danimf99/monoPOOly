@@ -21,7 +21,7 @@ public interface Comando {
 
     void hipotecar(Jugador jugador,Casilla casilla);
 
-    void vender(Jugador jugador);
+    void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo)throws ExcepcionMonopooly;
 
     void listarJugadores();
 

@@ -46,7 +46,7 @@ public class Solar extends Propiedad {
         return new Visitante().calcularAlquiler(this);
     }
 
-    public void quitarEdifico(Edificio.TIPO tipo){
+    public void quitarEdificio(Edificio.TIPO tipo){
         for(Edificio e:edificios){
             if(e.getNombre().toLowerCase().contains(tipo.toString())){
                 edificios.remove(e);

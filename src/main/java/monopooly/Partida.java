@@ -1,11 +1,12 @@
 package monopooly;
 
-import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
-import monopooly.excepciones.*;
+import monopooly.excepciones.ExcepcionAcontecimiento;
+import monopooly.excepciones.ExcepcionComando;
+import monopooly.excepciones.ExcepcionComandoInexistente;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
@@ -93,6 +94,9 @@ public class Partida {
                         break;
                     case "describir":
                         exp=new Describir(args);
+                        break;
+                    case "vender":
+                        exp=new Vender(args);
                         break;
                     case "ver":
                         exp=new VerTablero(args);
