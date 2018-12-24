@@ -78,14 +78,4 @@ public class PromptTest {
         prompt.setHelp(true);
     }
 
-    @Test
-    public void testPasoTurno() throws ExcepcionMonopooly {
-        prompt.setHelp(true);
-        Jugador tmp = prompt.getJugador();
-        prompt.setModDinero(213, "something");
-        Tablero.getTablero().pasarTurno();
-        assertFalse(prompt.isHelp());
-        assertEquals(0, prompt.getModDinero());
-        assertNotEquals(tmp, prompt.getJugador());
-    }
 }

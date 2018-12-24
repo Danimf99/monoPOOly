@@ -13,6 +13,7 @@ import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.MementoAvatar;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,19 @@ public class Pelota extends Avatar {
 
     public Pelota(Jugador jugador){
         super(jugador);
+    }
+
+    @Override
+    public void pasarTurno() throws ExcepcionMonopooly {
+        if (!this.isNitroso()) {
+            super.pasarTurno();
+            return;
+        }
+
+        if (!Tablero.getPrompt().isUsoMovEspecial()) {
+            throw new ExcepcionAccionInvalida("Aun no tiraste este turno");
+        }
+        this.backup();
     }
 
 

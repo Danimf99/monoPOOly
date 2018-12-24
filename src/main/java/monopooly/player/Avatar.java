@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
@@ -8,6 +9,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.sucesos.tipoSucesos.PasoSalida;
 
 import java.util.List;
 import java.util.Random;
@@ -43,6 +45,14 @@ public abstract class Avatar {
     /*-------------------------*/
     /*SETTERS Y GETTERS*/
     /*-------------------------*/
+
+    public MementoAvatar getMementoAvatar() {
+        return mementoAvatar;
+    }
+
+    public void setMementoAvatar(MementoAvatar mementoAvatar) {
+        this.mementoAvatar = mementoAvatar;
+    }
 
     public char getRepresentacion() {
         return representacion;
@@ -82,7 +92,18 @@ public abstract class Avatar {
     /* METODOS PARA AVATAR */
     /*-------------------------*/
 
-    public void pasarTurno() {
+    /**
+     * Comprueba si puede pasarse turno y guarda info del turno actual
+     */
+    public void pasarTurno() throws ExcepcionMonopooly {
+        if (Tablero.getPrompt().getLanzamientosDados() == 0 ||
+                Tablero.getPrompt().getLanzamientosDados() < 3 && jugador.getDados().sonDobles()) {
+            throw new ExcepcionAccionInvalida("Aun no tiraste todas las veces permitidas");
+        }
+        this.backup();
+    }
+
+    protected void backup() {
         MementoAvatar old = mementoAvatar;
         mementoAvatar = new MementoAvatar(this, old);
     }
@@ -136,6 +157,15 @@ public abstract class Avatar {
     public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().setX(posicion.getX());
+    }
+
+    protected void pasoSalida() throws ExcepcionMonopooly {
+        this.jugador.pagoSalida();
+        Posicion posJugadorActual = posicion;
+        if (posJugadorActual.pasoPorSalida() && !this.jugador.isEstarEnCarcel()) {
+            this.jugador.anhadirDinero(Precios.SALIDA);
+            Partida.interprete.enviarSuceso(new PasoSalida(this.getJugador()));
+        }
     }
 
     protected void preLanzamiento() throws ExcepcionMonopooly {

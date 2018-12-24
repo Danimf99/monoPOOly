@@ -62,7 +62,7 @@ public class Partida {
                     case "c":
                         exp = new Comprar(args);
                         break;
-                    case "Bancarrota":
+                    case "bancarrota":
                         exp=new Bancarrota(args);
                         break;
                     case "salir":
@@ -89,10 +89,7 @@ public class Partida {
                         break;
                     case "acabar":
                     case "a":
-                        if(Tablero.getPrompt().getJugador().getDados().getContador()==1){
-                            Tablero.getPrompt().getJugador().getDados().setContador(0);
-                            Tablero.getTablero().pasarTurno();
-                        }
+                        Tablero.getTablero().pasarTurno();
                         break;
                     case "lanzar":
                         exp=new Lanzar(args);
