@@ -1,9 +1,17 @@
 package monopooly.entradaSalida;
 
-import monopooly.colocacion.*;
+import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.configuracion.*;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
+import monopooly.configuracion.Nombres;
+import monopooly.configuracion.Posiciones;
+import monopooly.configuracion.Precios;
+import monopooly.configuracion.ReprASCII;
 import monopooly.player.Avatar;
+import monopooly.player.Jugador;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,6 +120,60 @@ public class PintadoAscii {
         return topBar + out + bottomBar;
     }
 
+    public static String genEdificaciones(Solar calle) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("Edificaciones en ");
+        sBuilder.append(calle.getNombre());
+        sBuilder.append(":\n");
+        sBuilder.append(" \n");
+        for (Edificio edificio : calle.getEdificios()) {
+            sBuilder.append(PintadoAscii.genEdificio(edificio));
+            sBuilder.append("\n");
+        }
+        return sBuilder.toString();
+    }
+
+    public static String genInfo(String mensaje, String titulo) {
+        String out = ReprASCII.ANSI_BLUE_BOLD
+                + "\n[i] "
+                + ReprASCII.ANSI_RESET
+                + titulo
+                + "\n";
+        return out + encuadrar(mensaje);
+    }
+
+    public static String genEdificio(Edificio edificio) {
+        StringBuilder sBuilder = new StringBuilder();
+        Solar inmuebleActual = edificio.getSolar();
+        Jugador propietario = inmuebleActual.getPropietario();
+        int maxLen = " Propietario: ".length();
+
+        sBuilder.append(widear(" Id:", maxLen));
+        sBuilder.append(edificio.getNombre());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Grupo:", maxLen));
+        sBuilder.append(edificio.getSolar().getMonopolio().getTipo());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Tipo:", maxLen));
+        sBuilder.append(edificio.getClass().getSimpleName());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Precio:", maxLen));
+        sBuilder.append(edificio.getPrecio());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Propietario:", maxLen));
+        sBuilder.append(propietario.getNombre());
+        sBuilder.append("\n");
+
+        sBuilder.append(widear(" Posicion:", maxLen));
+        sBuilder.append(inmuebleActual.getNombre());
+        sBuilder.append("\n");
+
+        return sBuilder.toString();
+    }
     public static String genCasilla(ArrayList<String> lineas, Casilla casilla) {
         lineas.add(""); // MArgen para que quede mejor
         int anchoRequerido = tamMaxArrayString(lineas) + 2; // +2 para que quede algo espaciado y bien colocado

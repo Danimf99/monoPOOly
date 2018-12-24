@@ -6,6 +6,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Casa;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Hotel;
@@ -43,6 +44,47 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void listarJugadores() {
+        for (Jugador jugador : Tablero.getTablero().getJugadores()) {
+            System.out.println(jugador.toString());
+        }
+    }
+
+    @Override
+    public void listarAvatares() {
+        for (Jugador jugador : Tablero.getTablero().getJugadores()) {
+            System.out.println(jugador.getAvatar().toString());
+        }
+    }
+
+    @Override
+    public void listarEnVenta() {
+        for(Casilla i:Tablero.getTablero().getCasillas()){
+            if ( (i instanceof Propiedad) && ((Propiedad) i).getPropietario().getNombre().equals("Banca")) {
+                Juego.consola.imprimir(i.toString());
+            }
+        }
+    }
+
+    @Override
+    public void listarEdificios() {
+        for(Casilla i:Tablero.getTablero().getCasillas()){
+            if( (i) instanceof Solar){
+                if(((Solar) i).getEdificios().size()>0){
+                    Juego.consola.imprimir(((Solar) i).listarEdificaciones());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void listarEdificiosGrupo(TipoMonopolio tipo) {
+
+       Juego.consola.imprimir(Tablero.getTablero().getTipoGrupo(tipo).listaEdificaciones());
+
+    }
+
+    @Override
     public void edificar(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly{
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();
@@ -50,10 +92,10 @@ public class Juego implements Comando, Subject {
         if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
             throw new ExcepcionAccionInvalida("La casilla no te pertenece");
         }
-       int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
-       if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
-           throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
-       }
+       //int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+       //if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+       //    throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+       //}
         if((casilla).getHipotecado()){
             throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
         }

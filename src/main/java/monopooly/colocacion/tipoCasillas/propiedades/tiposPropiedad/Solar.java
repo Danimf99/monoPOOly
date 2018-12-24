@@ -27,9 +27,13 @@ public class Solar extends Propiedad {
         super(monopolio, nombre);
         this.edificios = new HashSet<>();
     }
-
     public void edificar(Edificio edificio) {
         edificios.add(edificio);
+    }
+
+
+    public String listarEdificaciones() {
+        return PintadoAscii.encuadrar(PintadoAscii.genEdificaciones(this));
     }
 
     @Override
@@ -44,7 +48,7 @@ public class Solar extends Propiedad {
 
     public void quitarEdifico(Edificio.TIPO tipo){
         for(Edificio e:edificios){
-            if(e.getNombre().contains(tipo.toString())){
+            if(e.getNombre().toLowerCase().contains(tipo.toString())){
                 edificios.remove(e);
                 return;
             }

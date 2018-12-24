@@ -69,6 +69,10 @@ public class Partida {
                     case "Edificar":
                         exp=new Edificar(args);
                         break;
+                    case "listar":
+                    case "Listar":
+                        exp=new Listar(args);
+                        break;
                     case "salir":
                         exp=new SalirCarcel(args);
                         break;

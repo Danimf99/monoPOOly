@@ -4,9 +4,9 @@ import monopooly.Partida;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
-import monopooly.estadisticas.EstadisticasGlobales;
 import monopooly.estadisticas.StatsGlobales;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
@@ -76,6 +76,14 @@ public class Tablero implements Observador {
         this.subject.registrar(this);
     }
 
+    public Grupo getTipoGrupo(TipoMonopolio tipo){
+        for(Grupo g:grupos){
+            if(g.getTipo().equals(tipo)){
+                return g;
+            }
+        }
+        return null;
+    }
 
     // Inicializacion estatica de una instancia del tablero para el control de errores
     static {

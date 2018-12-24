@@ -5,10 +5,15 @@ import monopooly.colocacion.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.Monopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
+import monopooly.configuracion.ReprASCII;
 import monopooly.player.Jugador;
 
 import java.util.HashSet;
+
+import static monopooly.entradaSalida.PintadoAscii.genEdificaciones;
+import static monopooly.entradaSalida.PintadoAscii.genInfo;
 
 /**
  * Grupo tiene que ser una agregacion lo cual es un poco...
@@ -76,6 +81,21 @@ public class Grupo extends Casilla implements Monopolio {
     }
     public int sizeMonopolio(){
         return propiedades.size();
+    }
+
+    public String listaEdificaciones() {
+        String nombre = "Monopolio "
+                + ReprASCII.colorMonopolio(this.tipoMonopolio)
+                + " " + this.tipoMonopolio.toString() + " "
+                + ReprASCII.ANSI_RESET;
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("\n");
+        for (Propiedad calle : this.propiedades) {
+            if(calle instanceof Solar) {
+                sBuilder.append(genEdificaciones((Solar)calle));
+            }
+        }
+        return genInfo(sBuilder.toString(), nombre);
     }
     public boolean esCompleto() {
         HashSet<Jugador> propietariosCalles = new HashSet<>();

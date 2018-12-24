@@ -14,7 +14,7 @@ public abstract class Edificio {
         piscina
     }
     public Edificio(int id, Solar solar,int precio) {
-        this.nombre = this.getClass().getName() + '-' + id;
+        this.nombre = this.getClass().getSimpleName() + '-' + id;
         this.solar = solar;
         this.precio=precio;
         solar.edificar(this);
