@@ -22,6 +22,7 @@ public class Prompt implements Observador {
     private boolean help;
     private boolean compro;
     private boolean usoMovEspecial;
+    private int lanzamientosDados;
     private ArrayList<Posicion> posicionesTurno;
     private Subject subject;
     private ArrayList<Suceso> sucesosTurno;
@@ -36,6 +37,7 @@ public class Prompt implements Observador {
         this.posicionesTurno = new ArrayList<>();
         this.sucesosTurno = new ArrayList<>();
         this.usoMovEspecial = false;
+        this.lanzamientosDados = 0;
     }
 
     protected Prompt() {
@@ -115,6 +117,18 @@ public class Prompt implements Observador {
 
     public void setUsoMovEspecial(boolean usoMovEspecial) {
         this.usoMovEspecial = usoMovEspecial;
+    }
+
+    public int getLanzamientosDados() {
+        return lanzamientosDados;
+    }
+
+    public void setLanzamientosDados(int lanzamientosDados) {
+        this.lanzamientosDados = lanzamientosDados;
+    }
+
+    public void aumentarLanzamientosDados() {
+        this.lanzamientosDados++;
     }
 
     /**

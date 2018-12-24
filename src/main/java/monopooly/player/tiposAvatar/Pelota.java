@@ -28,6 +28,12 @@ public class Pelota extends Avatar {
         return TIPO.pelota;
     }
 
+    @Override
+    public void moverBasico() throws ExcepcionMonopooly {
+        super.moverBasico();
+    }
+
+
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
 

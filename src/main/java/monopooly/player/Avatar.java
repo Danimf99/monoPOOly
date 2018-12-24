@@ -143,6 +143,14 @@ public abstract class Avatar {
     }
 
     public void moverBasico() throws ExcepcionMonopooly {
+        Tablero.getPrompt().getPosicionesTurno().clear();
+        Tablero.getPrompt().setCompro(false);
+        moverAvatar(getJugador().getDados().tirada());
+        getJugador().pagoSalida();
+    }
+
+    public void lanzarDados() throws ExcepcionMonopooly {
+        Tablero.getPrompt().aumentarLanzamientosDados();
         if (this.getJugador().getCooldown() > 0) {
             this.getJugador().setCooldown(this.getJugador().getCooldown()-1);
             return;
@@ -161,12 +169,11 @@ public abstract class Avatar {
         this.getJugador().aumentarVecesDados();
         getJugador().checkCarcel();
         if(getJugador().isEstarEnCarcel()){
-            return;
+            throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
         }
-        Tablero.getPrompt().getPosicionesTurno().clear();
-        Tablero.getPrompt().setCompro(false);
-        moverAvatar(getJugador().getDados().tirada());
-        getJugador().pagoSalida();
+
+        if (nitroso) this.moverAvanzado();
+        else this.moverBasico();
     }
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */

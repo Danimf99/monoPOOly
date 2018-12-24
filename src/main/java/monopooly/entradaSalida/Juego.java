@@ -144,7 +144,7 @@ public class Juego implements Comando, Subject {
             jugador.getDados().setContador(1);
             return;
         }
-        jugador.getAvatar().moverBasico();
+        jugador.getAvatar().lanzarDados();
     }
     @Override
     public void hipotecar(Jugador jugador,Casilla casilla){
