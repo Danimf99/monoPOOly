@@ -44,6 +44,7 @@ public class Listar implements Expresion {
                         return;
                     }
                 }
+                //Si no existe ningun grupo con el nombre se lanza una excepcion
                 throw new ExcepcionArgumentosIncorrectos("Grupo incorrecto");
         }
     }

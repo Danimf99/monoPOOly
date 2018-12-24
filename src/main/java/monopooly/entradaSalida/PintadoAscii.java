@@ -210,7 +210,6 @@ public class PintadoAscii {
             sBuilder.append(" " + ReprASCII.ANSI_RESET);
             sBuilder.append(ReprASCII.BARRA_VERTICAL + "\n");
         }
-
         // Barra inferior
         sBuilder.append(ReprASCII.ESQUINA_4);
 
