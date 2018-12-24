@@ -74,7 +74,9 @@ public class Grupo extends Casilla implements Monopolio {
         this.propiedades = new HashSet<>();
         this.tipoMonopolio = tipoMonopolio;
     }
-
+    public int sizeMonopolio(){
+        return propiedades.size();
+    }
     public boolean esCompleto() {
         HashSet<Jugador> propietariosCalles = new HashSet<>();
         for (Propiedad calle : propiedades) {

@@ -2,6 +2,7 @@ package monopooly.entradaSalida.parsers;
 
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.entradaSalida.Juego;
@@ -38,6 +39,6 @@ public class Edificar implements Expresion {
             default:
                 throw new ExcepcionArgumentosIncorrectos("No se identifica el tipo de edificio");
         }
-        interprete.edificar(casilla, Edificio.TIPO.valueOf(comandoIntroducido[1]));
+        interprete.edificar((Propiedad)casilla, Edificio.TIPO.valueOf(comandoIntroducido[1]));
     }
 }

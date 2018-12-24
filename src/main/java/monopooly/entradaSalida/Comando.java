@@ -1,6 +1,7 @@
 package monopooly.entradaSalida;
 
 import monopooly.colocacion.Casilla;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -21,7 +22,7 @@ public interface Comando {
 
     void vender(Jugador jugador);
 
-    void edificar(Casilla casilla, Edificio.TIPO tipo)throws ExcepcionMonopooly;
+    void edificar(Propiedad casilla, Edificio.TIPO tipo)throws ExcepcionMonopooly;
 
     void deshipotecar(Jugador jugador,Casilla casilla) throws ExcepcionMonopooly;
 

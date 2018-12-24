@@ -65,6 +65,10 @@ public class Partida {
                     case "bancarrota":
                         exp=new Bancarrota(args);
                         break;
+                    case "edificar":
+                    case "Edificar":
+                        exp=new Edificar(args);
+                        break;
                     case "salir":
                         exp=new SalirCarcel(args);
                         break;

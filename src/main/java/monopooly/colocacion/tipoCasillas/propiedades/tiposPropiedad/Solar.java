@@ -42,6 +42,14 @@ public class Solar extends Propiedad {
         return new Visitante().calcularAlquiler(this);
     }
 
+    public void quitarEdifico(Edificio.TIPO tipo){
+        for(Edificio e:edificios){
+            if(e.getNombre().contains(tipo.toString())){
+                edificios.remove(e);
+                return;
+            }
+        }
+    }
     public int calcularNumCasas(){
         int cont=0;
         for(Edificio e: this.edificios){
@@ -51,14 +59,6 @@ public class Solar extends Propiedad {
         }
         return cont;
     }
-   // public Edificio getEdificio(Edificio.TIPO tipo){
-   //     for(Edificio e:edificios){
-   //         if(e=tipo){
-   //             return e;
-   //         }
-   //     }
-   //     return null;
-   // }
     public int calcularNumHoteles(){
         int cont=0;
         for(Edificio e: edificios){

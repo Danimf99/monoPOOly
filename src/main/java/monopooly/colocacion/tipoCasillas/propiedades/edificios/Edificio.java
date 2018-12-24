@@ -6,17 +6,22 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 public abstract class Edificio {
     private String nombre;
     private Solar solar;
-
+    private int precio;
     public static enum TIPO {
         casa,
         hotel,
         deporte,
         piscina
     }
-    public Edificio(int id, Solar solar) {
+    public Edificio(int id, Solar solar,int precio) {
         this.nombre = this.getClass().getName() + '-' + id;
         this.solar = solar;
+        this.precio=precio;
         solar.edificar(this);
+    }
+
+    public int getPrecio() {
+        return precio;
     }
 
     public String getNombre() {
