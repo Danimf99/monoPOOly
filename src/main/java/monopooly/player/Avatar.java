@@ -83,7 +83,11 @@ public abstract class Avatar {
         return nitroso;
     }
 
-    public void setNitroso(boolean nitroso) {
+    public void setNitroso(boolean nitroso) throws ExcepcionAccionInvalida {
+        if (Tablero.getPrompt().getLanzamientosDados() > 0 || Tablero.getPrompt().isUsoMovEspecial()) {
+            throw new ExcepcionAccionInvalida("No puedes cambiar de modo despues de tirar.\n" +
+                    "Inténtalo el próximo turno");
+        }
         this.nitroso = nitroso;
     }
 

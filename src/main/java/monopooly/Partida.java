@@ -40,9 +40,7 @@ public class Partida {
     private void pedirJugadores(){
         Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.pelota));
         Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.pelota));
-        Tablero.getTablero().recolocar(Tablero.getTablero().getJugadorTurno(), new Posicion(Posiciones.CARCEL));
-        Tablero.getTablero().getJugadorTurno().setEstarEnCarcel(true);
-        //Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.pelota));
+        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.pelota));
     }
 
     /**
