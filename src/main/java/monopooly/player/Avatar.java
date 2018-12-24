@@ -131,8 +131,18 @@ public abstract class Avatar {
             throw new ExcepcionAccionInvalida("Ya compraste este turno.\n" +
                     "No puedes volver a comprar hasta el siguiente.");
         }
+    }
 
-
+    public void intentarEdificar(Casilla casilla) throws ExcepcionMonopooly {
+        if (!casilla.getPosicion().equals(this.posicion)) {
+            throw new ExcepcionAccionInvalida(
+                    "No puedes edificar en la casilla '" +
+                            casilla.getNombre() + "'.\n" +
+                            "Porque actualmente te encuentras en '" +
+                            Tablero.getTablero().getCasilla(this.getPosicion()).getNombre() +
+                            "'."
+            );
+        }
     }
 
     private char sorteoAvatar(List<Character> AVATARES){
