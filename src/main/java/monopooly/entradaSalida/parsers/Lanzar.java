@@ -28,8 +28,6 @@ public class Lanzar implements Expresion{
         }
         Jugador jugador= Tablero.getPrompt().getJugador();
 
-        if(!jugador.getAvatar().isNitroso()){
-            interprete.lanzar(jugador);
-        }
+        interprete.lanzar(jugador);
     }
 }

@@ -3,7 +3,6 @@ package monopooly.player;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.Visitante;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
@@ -132,24 +131,17 @@ public abstract class Avatar {
         Posicion posicion=new Posicion();
         posicion.mover(desplazamiento+getPosicion().getX());
         Tablero.getTablero().recolocar(this,posicion);
-        this.getPosicion().mover(desplazamiento);
-        Tablero.getPrompt().anhadirPosicion(this.getPosicion());
     }
 
     public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().setX(posicion.getX());
-        Tablero.getPrompt().anhadirPosicion(this.getPosicion());
     }
 
-    public void moverBasico() throws ExcepcionMonopooly {
-        moverAvatar(getJugador().getDados().tirada());
-    }
-
-    public void lanzarDados() throws ExcepcionMonopooly {
+    private void preLanzamiento() throws ExcepcionMonopooly {
         Tablero.getPrompt().aumentarLanzamientosDados();
-
-
+        this.getJugador().getDados().lanzar();
+        getJugador().checkCarcel();
         if(this.getJugador().getTurnosEnCarcel()==3){
             Juego.consola.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
             if(this.getJugador().getDinero()< Precios.SALIR_CARCEL){
@@ -159,13 +151,24 @@ public abstract class Avatar {
             this.getJugador().setEstarEnCarcel(false);
             this.getJugador().setTurnosEnCarcel(0);
         }
-        this.getJugador().getDados().lanzar();
-        this.getJugador().aumentarVecesDados();
-        getJugador().checkCarcel();
         if(getJugador().isEstarEnCarcel()){
             throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
         }
+    }
 
+    public void moverBasico() throws ExcepcionMonopooly {
+        if (Tablero.getPrompt().getLanzamientosDados() == 0) {
+            preLanzamiento();
+            moverAvatar(getJugador().getDados().tirada());
+        } else if (Tablero.getPrompt().getLanzamientosDados() < 3 && this.getJugador().getDados().sonDobles()) {
+            preLanzamiento();
+            moverAvatar(getJugador().getDados().tirada());
+        } else {
+            throw new ExcepcionAccionInvalida("Ya tiraste este turno");
+        }
+    }
+
+    public void lanzarDados() throws ExcepcionMonopooly {
         if (nitroso) this.moverAvanzado();
         else this.moverBasico();
 
@@ -174,6 +177,7 @@ public abstract class Avatar {
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
     public abstract void moverAvanzado() throws ExcepcionMonopooly;
+
     @Override
     public String toString(){
         return "\n   Representación: "+representacion+

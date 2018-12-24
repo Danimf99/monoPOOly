@@ -24,7 +24,7 @@ public class Coche extends Avatar {
                         "Usando el movimiento básico.",
                 "Movimiento avanzado no disponible"
         );
-        super.moverBasico();
+        this.moverBasico();
     }
 
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/

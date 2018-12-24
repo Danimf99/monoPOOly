@@ -23,7 +23,7 @@ public class ConsolaNormal implements Consola {
     public String genInfo(String mensaje, String titulo) {
         String out = ReprASCII.ANSI_BLUE_BOLD
                 + "\n[i] "
-                + ReprASCII.ANSI_RESET + titulo
+                + ReprASCII.ANSI_RESET
                 + titulo
                 + "\n";
         return out + encuadrar(mensaje);
