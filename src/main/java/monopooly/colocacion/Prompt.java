@@ -21,6 +21,7 @@ public class Prompt implements Observador {
     private String motivoPago;
     private boolean help;
     private boolean compro;
+    private boolean usoMovEspecial;
     private ArrayList<Posicion> posicionesTurno;
     private Subject subject;
     private ArrayList<Suceso> sucesosTurno;
@@ -34,6 +35,7 @@ public class Prompt implements Observador {
         this.compro = false;
         this.posicionesTurno = new ArrayList<>();
         this.sucesosTurno = new ArrayList<>();
+        this.usoMovEspecial = false;
     }
 
     protected Prompt() {
@@ -106,6 +108,15 @@ public class Prompt implements Observador {
     public void anhadirPosicion(Posicion posicion){
         this.posicionesTurno.add(posicion);
     }
+
+    public boolean isUsoMovEspecial() {
+        return usoMovEspecial;
+    }
+
+    public void setUsoMovEspecial(boolean usoMovEspecial) {
+        this.usoMovEspecial = usoMovEspecial;
+    }
+
     /**
      * Dada una lista de elementos que debe presentar genera el String de la prompt
      *

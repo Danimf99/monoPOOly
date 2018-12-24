@@ -182,6 +182,7 @@ public class Jugador {
     /* METODOS PARA JUGADOR */
     /*-------------------------*/
     public boolean puedeComprar(Casilla casilla) throws ExcepcionMonopooly {
+        /*
         if (Tablero.getPrompt().isCompro()) {
             throw new ExcepcionAccionInvalida("El jugador ya comrpró este turno");
         }
@@ -196,6 +197,13 @@ public class Jugador {
             }
         }
         return !Tablero.getPrompt().isCompro();
+        */
+
+        // La comprobacion de la compra es distinta para cada avatar y tambien varia dependiendo de si está
+        // activado el movimiento especial o no. Es mas facil meter las comprobaciones en cada tipo de avatar
+
+        this.avatar.intentarComprar(casilla);
+        return true; // Permite usarla de la misma manera que antes
     }
 
     public void pasarTurno() throws ExcepcionMonopooly {

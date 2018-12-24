@@ -212,10 +212,10 @@ public class Tablero implements Observador {
      */
     public void recolocar(Avatar avatar, Posicion posicion) throws ExcepcionMonopooly {
         this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
-        Casilla siguiente = this.casillasPosicion.get(posicion);
-        siguiente.meterJugador(avatar);
+        Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
+        siguienteCasilla.meterJugador(avatar);
         avatar.getPosicion().setX(posicion.getX());
-        siguiente.visitar(new Visitante(avatar.getJugador()));
+        siguienteCasilla.visitar(new Visitante(avatar.getJugador()));
     }
 
 

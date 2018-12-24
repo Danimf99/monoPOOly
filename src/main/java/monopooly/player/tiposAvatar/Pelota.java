@@ -4,9 +4,11 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.Visitante;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
@@ -29,36 +31,30 @@ public class Pelota extends Avatar {
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
 
-    private void avanzar(int tirada) throws ExcepcionMonopooly {
-        this.moverAvatar(5);
-        for (int i = 6; i <= tirada; i++) {
-            if (i % 2 != 0) {
-                this.moverAvatar(2);
-            } else if (i == tirada) {
-                this.moverAvatar(1);
-            }
-        }
-    }
+    @Override
+    public void moverAvanzado() throws ExcepcionMonopooly {
+        int tirada = this.getJugador().getDados().tirada();
+        boolean avanzar = tirada > 4;
 
-    private void retroceder(int tirada) throws ExcepcionMonopooly {
-        this.moverAvatar(-2);
-        for (int i = 0; i <= tirada; i++) {
-            if (i % 2 != 0) {
-                this.moverAvatar(-2);
-            } else if (i == tirada) {
-                this.moverAvatar(-1);
-            }
-        }
+        this.moverAvatar(avanzar ? 5 : -1);
+        for (int i = avanzar ? 6 : 2; i <= tirada; i++)
+            if (i % 2 != 0) this.moverAvatar(avanzar ? 2 : -2);
+            else if (i == tirada) this.moverAvatar(avanzar ? 1 : -1);
     }
 
     @Override
-    public void moverAvanzado() throws ExcepcionMonopooly {
-        int dados = this.getJugador().getDados().tirada();
-        if (dados > 4) {
-            avanzar(dados);
-        } else {
-            retroceder(dados);
+    public void intentarComprar(Casilla casilla) throws ExcepcionMonopooly {
+        if (this.isNitroso()) {
+            if (!Tablero.getPrompt().pisoCasilla(casilla)) {
+                throw new ExcepcionAccionInvalida(
+                        "No pasaste por la casilla '" + casilla.getNombre() + "'\n" +
+                                "este turno."
+                );
+            }
+            return;
         }
+
+        super.intentarComprar(casilla);
     }
 
 

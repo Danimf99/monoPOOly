@@ -1,6 +1,7 @@
 package monopooly.entradaSalida;
 
 import monopooly.colocacion.Casilla;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -33,7 +34,7 @@ public interface Comando {
 
     void verTablero();
 
-    void cambiarModo(Avatar avatar);
+    void cambiarModo(Avatar avatar) throws ExcepcionAccionInvalida;
 
     void bancarrota(Jugador jugador) throws ExcepcionMonopooly;
 }

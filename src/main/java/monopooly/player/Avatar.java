@@ -1,11 +1,13 @@
 package monopooly.player;
 
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.Visitante;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 
 import java.util.List;
@@ -78,7 +80,7 @@ public abstract class Avatar {
     public abstract Avatar.TIPO getTipo();
 
     /*-------------------------*/
-    /* METODOS PARA VATAR */
+    /* METODOS PARA AVATAR */
     /*-------------------------*/
 
     public void pasarTurno() {
@@ -86,6 +88,31 @@ public abstract class Avatar {
         mementoAvatar = new MementoAvatar(this, old);
     }
 
+
+    /**
+     * Comprobacion clasica de la compra. Si está en la casilla y no ha comprado este turno puede comprar
+     *
+     * @throws ExcepcionMonopooly Excepcion en caso de que no se pueda comprar
+     */
+    public void intentarComprar(Casilla casilla) throws ExcepcionMonopooly {
+        if (!casilla.getPosicion().equals(this.posicion)) {
+            throw new ExcepcionAccionInvalida(
+                "No puedes comprar la casilla '" +
+                casilla.getNombre() + "'.\n" +
+                "Porque actualmente te encuentras en '" +
+                Tablero.getTablero().getCasilla(this.getPosicion()).getNombre() +
+                "'."
+            );
+        }
+
+        if (Tablero.getPrompt().isCompro()) {
+            // Se usará como fallback en caso de que no esté el movimiento especial activo
+            throw new ExcepcionAccionInvalida("Ya compraste este turno.\n" +
+                    "No puedes volver a comprar hasta el siguiente.");
+        }
+
+
+    }
 
     private char sorteoAvatar(List<Character> AVATARES){
         Random avatar=new Random();

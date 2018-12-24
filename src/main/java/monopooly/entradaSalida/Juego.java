@@ -60,7 +60,15 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void cambiarModo(Avatar avatar) {
+    public void cambiarModo(Avatar avatar) throws ExcepcionAccionInvalida {
+        // Vamos a caparlo de otra manera cuz es mas facil.
+        // La logica es que si ya te moviste este turno no puedas combiar de modo
+        if (Tablero.getPrompt().isUsoMovEspecial()) {
+            throw new ExcepcionAccionInvalida("No puedes cambiar el modo si ya has tirado este turno");
+        }
+
+        // TODO generalizar la comprobacion de si ha lanzado dados este turno o no
+
         avatar.setNitroso(!avatar.isNitroso());
         if(Tablero.getPrompt().getTiradasEspeciales()>0){
             avatar.getJugador().getDados().setContador(1);
