@@ -143,8 +143,6 @@ public abstract class Avatar {
     }
 
     public void moverBasico() throws ExcepcionMonopooly {
-        Tablero.getPrompt().getPosicionesTurno().clear();
-        Tablero.getPrompt().setCompro(false);
         moverAvatar(getJugador().getDados().tirada());
     }
 
