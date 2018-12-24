@@ -18,4 +18,11 @@ public class ConseguirBote extends Suceso {
     public void setCantidadBote(int cantidadBote) {
         this.cantidadBote = cantidadBote;
     }
+
+    @Override
+    public String toString() {
+        return "ConseguirBote{" +
+                "cantidadBote=" + cantidadBote +
+                '}';
+    }
 }

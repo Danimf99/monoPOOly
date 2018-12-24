@@ -18,4 +18,11 @@ public class CaerCarcel extends Suceso {
     public boolean entraEnCarcel() {
         return encarcelado;
     }
+
+    @Override
+    public String toString() {
+        return "CaerCarcel{" +
+                "encarcelado=" + encarcelado +
+                '}';
+    }
 }

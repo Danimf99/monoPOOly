@@ -39,6 +39,11 @@ public class Pelota extends Avatar {
 
     @Override
     public void moverAvanzado() throws ExcepcionMonopooly {
+        if (Tablero.getPrompt().isUsoMovEspecial()) {
+            throw new ExcepcionAccionInvalida("Ya tiraste este turno");
+        }
+        this.preLanzamiento();
+        Tablero.getPrompt().setUsoMovEspecial(true);
         int tirada = this.getJugador().getDados().tirada();
         boolean avanzar = tirada > 4;
 

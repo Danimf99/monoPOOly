@@ -379,7 +379,6 @@ public class Prompt implements Observador {
             this.modDinero = ((HipotecarPropiedad) suceso).getDinero();
             this.motivoPago = "Hipoteca propiedad " + ((HipotecarPropiedad) suceso).getPropiedad().getNombre();
         }
-
     }
 
     public String listarAccionesTurno() {

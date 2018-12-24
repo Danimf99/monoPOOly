@@ -40,4 +40,13 @@ public class Alquiler extends Suceso {
     public void setPropietario(Jugador propietario) {
         this.propietario = propietario;
     }
+
+    @Override
+    public String toString() {
+        return "Alquiler{" +
+                "cantidad=" + cantidad +
+                ", propiedad=" + propiedad.getNombre() +
+                ", propietario=" + propietario +
+                '}';
+    }
 }

@@ -20,4 +20,11 @@ public class Caer extends Suceso {
     public void setPosicion(Posicion posicion) {
         this.posicion = posicion;
     }
+
+    @Override
+    public String toString() {
+        return "Caer{" +
+                "posicion=" + posicion +
+                '}';
+    }
 }

@@ -8,4 +8,9 @@ public class PasoSalida extends Suceso {
     public PasoSalida(Jugador jugadorOriginador) {
         super(jugadorOriginador);
     }
+
+    @Override
+    public String toString() {
+        return "PasoSalida{}";
+    }
 }

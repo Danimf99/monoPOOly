@@ -38,4 +38,12 @@ public class HipotecarPropiedad extends Suceso {
     public void setHipotecar(boolean hipotecar) {
         this.hipotecar = hipotecar;
     }
+
+    @Override
+    public String toString() {
+        return "HipotecarPropiedad{" +
+                "propiedad=" + propiedad.getNombre() +
+                ", hipotecar=" + hipotecar +
+                '}';
+    }
 }

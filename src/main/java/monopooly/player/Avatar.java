@@ -138,7 +138,7 @@ public abstract class Avatar {
         this.getPosicion().setX(posicion.getX());
     }
 
-    private void preLanzamiento() throws ExcepcionMonopooly {
+    protected void preLanzamiento() throws ExcepcionMonopooly {
         Tablero.getPrompt().aumentarLanzamientosDados();
         this.getJugador().getDados().lanzar();
         getJugador().checkCarcel();
@@ -173,6 +173,10 @@ public abstract class Avatar {
         else this.moverBasico();
 
         getJugador().pagoSalida();
+        Juego.consola.info(
+                Tablero.getPrompt().listarAccionesTurno(),
+                "Acciones durante este turno"
+        );
     }
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */

@@ -27,5 +27,10 @@ public class AccionCarta extends Suceso {
         return abs(this.carta.cantidadBanca());
     }
 
-
+    @Override
+    public String toString() {
+        return "AccionCarta{" +
+                "carta=" + carta +
+                '}';
+    }
 }

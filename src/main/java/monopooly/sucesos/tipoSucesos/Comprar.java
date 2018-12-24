@@ -46,4 +46,13 @@ public class Comprar extends Suceso {
     public void setCuentaIngreso(Jugador cuentaIngreso) {
         this.cuentaIngreso = cuentaIngreso;
     }
+
+    @Override
+    public String toString() {
+        return "Comprar{" +
+                "Clase objetoComprado=" + objetoComprado.getClass().getName() +
+                ", precioPagado=" + precioPagado +
+                ", cuentaIngreso=" + cuentaIngreso +
+                '}';
+    }
 }

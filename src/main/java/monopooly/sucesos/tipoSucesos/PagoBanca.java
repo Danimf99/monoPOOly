@@ -29,4 +29,12 @@ public class PagoBanca extends Suceso {
     public void setExplicacion(String explicacion) {
         this.explicacion = explicacion;
     }
+
+    @Override
+    public String toString() {
+        return "PagoBanca{" +
+                "cantidad=" + cantidad +
+                ", explicacion='" + explicacion + '\'' +
+                '}';
+    }
 }
