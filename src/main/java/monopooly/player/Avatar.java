@@ -146,7 +146,6 @@ public abstract class Avatar {
         Tablero.getPrompt().getPosicionesTurno().clear();
         Tablero.getPrompt().setCompro(false);
         moverAvatar(getJugador().getDados().tirada());
-        getJugador().pagoSalida();
     }
 
     public void lanzarDados() throws ExcepcionMonopooly {
@@ -174,6 +173,8 @@ public abstract class Avatar {
 
         if (nitroso) this.moverAvanzado();
         else this.moverBasico();
+
+        getJugador().pagoSalida();
     }
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
