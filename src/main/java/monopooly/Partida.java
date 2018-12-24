@@ -1,6 +1,8 @@
 package monopooly;
 
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
 import monopooly.excepciones.*;
@@ -38,7 +40,9 @@ public class Partida {
     private void pedirJugadores(){
         Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.pelota));
         Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.pelota));
-        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.pelota));
+        Tablero.getTablero().recolocar(Tablero.getTablero().getJugadorTurno(), new Posicion(Posiciones.CARCEL));
+        Tablero.getTablero().getJugadorTurno().setEstarEnCarcel(true);
+        //Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.pelota));
     }
 
     /**

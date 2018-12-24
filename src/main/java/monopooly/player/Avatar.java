@@ -9,6 +9,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PasoSalida;
 
 import java.util.List;
@@ -130,8 +131,18 @@ public abstract class Avatar {
             throw new ExcepcionAccionInvalida("Ya compraste este turno.\n" +
                     "No puedes volver a comprar hasta el siguiente.");
         }
+    }
 
-
+    public void intentarEdificar(Casilla casilla) throws ExcepcionMonopooly {
+        if (!casilla.getPosicion().equals(this.posicion)) {
+            throw new ExcepcionAccionInvalida(
+                    "No puedes edificar en la casilla '" +
+                            casilla.getNombre() + "'.\n" +
+                            "Porque actualmente te encuentras en '" +
+                            Tablero.getTablero().getCasilla(this.getPosicion()).getNombre() +
+                            "'."
+            );
+        }
     }
 
     private char sorteoAvatar(List<Character> AVATARES){
@@ -152,6 +163,9 @@ public abstract class Avatar {
         Posicion posicion=new Posicion();
         posicion.mover(desplazamiento+getPosicion().getX());
         Tablero.getTablero().recolocar(this,posicion);
+        if (posicion.getX() - desplazamiento < 0) {
+            this.getJugador().pagoSalida();
+        }
     }
 
     public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
@@ -159,14 +173,6 @@ public abstract class Avatar {
         this.getPosicion().setX(posicion.getX());
     }
 
-    protected void pasoSalida() throws ExcepcionMonopooly {
-        this.jugador.pagoSalida();
-        Posicion posJugadorActual = posicion;
-        if (posJugadorActual.pasoPorSalida() && !this.jugador.isEstarEnCarcel()) {
-            this.jugador.anhadirDinero(Precios.SALIDA);
-            Partida.interprete.enviarSuceso(new PasoSalida(this.getJugador()));
-        }
-    }
 
     protected void preLanzamiento() throws ExcepcionMonopooly {
         Tablero.getPrompt().aumentarLanzamientosDados();
@@ -180,6 +186,7 @@ public abstract class Avatar {
             this.getJugador().quitarDinero(Precios.SALIR_CARCEL);
             this.getJugador().setEstarEnCarcel(false);
             this.getJugador().setTurnosEnCarcel(0);
+            Partida.interprete.enviarSuceso(new PagoBanca(this.getJugador(), -Precios.SALIR_CARCEL, "Pago por salir de la carcel"));
         }
         if(getJugador().isEstarEnCarcel()){
             throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
@@ -191,6 +198,9 @@ public abstract class Avatar {
             preLanzamiento();
             moverAvatar(getJugador().getDados().tirada());
         } else if (Tablero.getPrompt().getLanzamientosDados() < 3 && this.getJugador().getDados().sonDobles()) {
+            if(getJugador().isEstarEnCarcel()){
+                throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
+            }
             preLanzamiento();
             moverAvatar(getJugador().getDados().tirada());
         } else {
@@ -202,7 +212,6 @@ public abstract class Avatar {
         if (nitroso) this.moverAvanzado();
         else this.moverBasico();
 
-        getJugador().pagoSalida();
         Juego.consola.info(
                 Tablero.getPrompt().listarAccionesTurno(),
                 "Acciones durante este turno"
