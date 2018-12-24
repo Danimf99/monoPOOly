@@ -145,7 +145,7 @@ public abstract class Avatar {
     }
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
-   // public abstract void moverAvanzado();
+    public abstract void moverAvanzado() throws ExcepcionMonopooly;
     @Override
     public String toString(){
         return "\n   Representación: "+representacion+

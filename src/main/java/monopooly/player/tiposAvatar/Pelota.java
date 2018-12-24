@@ -1,6 +1,8 @@
 package monopooly.player.tiposAvatar;
 
+import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
@@ -14,6 +16,16 @@ public class Pelota extends Avatar {
     @Override
     public TIPO getTipo() {
         return TIPO.pelota;
+    }
+
+    @Override
+    public void moverAvanzado() throws ExcepcionMonopooly {
+        Juego.consola.info(
+                "El movimiento avanzado no esta disponible en estos momentos.\n" +
+                        "Usando el movimiento básico.",
+                "Movimiento avanzado no disponible"
+        );
+        super.moverBasico();
     }
 
 
