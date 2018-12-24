@@ -241,6 +241,8 @@ public class Jugador {
 
     public void pagoSalida() {
         Jugador jActual = Tablero.getPrompt().getJugador();
+        jActual.anhadirDinero(Precios.SALIDA);
+        Partida.interprete.enviarSuceso(new PasoSalida(jActual));
 
     }
 
