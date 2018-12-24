@@ -10,10 +10,7 @@ import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsJugador;
-import monopooly.excepciones.ExcepcionAccionInvalida;
-import monopooly.excepciones.ExcepcionMonopooly;
-import monopooly.excepciones.ExcepcionParametrosInvalidos;
-import monopooly.excepciones.ExcepcionRecursosInsuficientes;
+import monopooly.excepciones.*;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.player.tiposAvatar.Pelota;
@@ -228,19 +225,17 @@ public class Jugador {
         }
 
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
-            Juego.consola.info("Estás en la cárcel, no puedes moverte.\n" +
-                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
             this.turnosEnCarcel++;
-            return;
+            throw new ExcepcionAccionInvalida("Estás en la cárcel, no puedes moverte.\n" +
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
         }
 
         if(this.dados.getDobles()==3) {
-            Juego.consola.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
             this.estarEnCarcel = true;
             Posicion posicion=new Posicion();
             posicion.setX(Posiciones.CARCEL);
             Tablero.getTablero().recolocar(avatar,posicion);
-            getAvatar().getPosicion().mover(posicion.getX());
+            throw new ExcepcionAcontecimiento("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
         }
     }
 

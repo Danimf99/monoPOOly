@@ -46,6 +46,14 @@ public abstract class Avatar {
     /*SETTERS Y GETTERS*/
     /*-------------------------*/
 
+    public MementoAvatar getMementoAvatar() {
+        return mementoAvatar;
+    }
+
+    public void setMementoAvatar(MementoAvatar mementoAvatar) {
+        this.mementoAvatar = mementoAvatar;
+    }
+
     public char getRepresentacion() {
         return representacion;
     }
@@ -92,7 +100,10 @@ public abstract class Avatar {
                 Tablero.getPrompt().getLanzamientosDados() < 3 && jugador.getDados().sonDobles()) {
             throw new ExcepcionAccionInvalida("Aun no tiraste todas las veces permitidas");
         }
+        this.backup();
+    }
 
+    protected void backup() {
         MementoAvatar old = mementoAvatar;
         mementoAvatar = new MementoAvatar(this, old);
     }
