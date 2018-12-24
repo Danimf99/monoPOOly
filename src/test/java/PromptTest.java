@@ -1,6 +1,7 @@
 import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Dados;
@@ -32,7 +33,7 @@ public class PromptTest {
     }
 
     @After
-    public void imprimir() {
+    public void imprimir() throws ExcepcionAccionInvalida {
         assertNotNull(prompt.toString());
         testPlayer.setEstarEnCarcel(false);
         testPlayer.setDados(new Dados(1, 3));
@@ -64,7 +65,7 @@ public class PromptTest {
     }
 
     @Test
-    public void testMovimientoEspecial() {
+    public void testMovimientoEspecial() throws ExcepcionAccionInvalida {
         prompt.getJugador().getAvatar().setNitroso(true);
     }
 
