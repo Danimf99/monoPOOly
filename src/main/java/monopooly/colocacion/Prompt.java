@@ -13,6 +13,7 @@ import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.*;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Prompt implements Observador {
     private Jugador jugador;
@@ -137,13 +138,12 @@ public class Prompt implements Observador {
         String salida = "";
 
         if (modDinero == 0) {
-            separador = "";
+            separador = motivoPago.length() > 1 ? " " : "";
         } else if (modDinero < 0) {
             color = ReprASCII.ANSI_RED;
             modificador = ReprASCII.PROMPT_LOG_DINERO_DOWN;
 
             reprMotivo += color + " " + this.modDinero + Precios.MONEDA;
-
 
         } else {
             color = ReprASCII.ANSI_GREEN;
@@ -178,7 +178,7 @@ public class Prompt implements Observador {
                 + "Tipo"
                 + ReprASCII.ANSI_RESET
                 + ": "
-                + "tipo");
+                + this.jugador.getAvatar().getTipo());
 
         // Nombre jugador
         elementos.add(this.jugador.getNombre());
@@ -290,7 +290,7 @@ public class Prompt implements Observador {
             return;
         }
 
-        if (!suceso.getDeshacer()) {
+        if (suceso.getDeshacer()) {
             return;
         }
 
@@ -350,6 +350,15 @@ public class Prompt implements Observador {
             this.motivoPago = "Alquiler en " + ((Alquiler) suceso).getPropiedad().getNombre();
         }
 
+        if (suceso instanceof HipotecarPropiedad) {
+            this.modDinero = ((HipotecarPropiedad) suceso).getDinero();
+            this.motivoPago = "Hipoteca propiedad " + ((HipotecarPropiedad) suceso).getPropiedad().getNombre();
+        }
+
+    }
+
+    public String listarAccionesTurno() {
+        return this.sucesosTurno.stream().map(suceso -> suceso.toString() + "\n").collect(Collectors.joining());
     }
 
     @Override

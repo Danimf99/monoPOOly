@@ -1,9 +1,9 @@
 package monopooly.colocacion.tipoCasillas.accion;
 
-import monopooly.colocacion.Imprimible;
-import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class CajaComunidad extends Accion {
     }
 
     @Override
-    public void visitar(VisitanteCasilla visitante) {
+    public void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly {
         visitante.visitar(this);
     }
 

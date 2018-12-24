@@ -1,7 +1,7 @@
-package monopooly.colocacion.tipoCasillas;
+package monopooly.colocacion;
 
 import monopooly.Partida;
-import monopooly.colocacion.Casilla;
+import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
 import monopooly.colocacion.tipoCasillas.accion.Suerte;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
@@ -9,9 +9,12 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
+import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.Caer;
+import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 /**
  * Esta clase es la que visita las cassillas y sabe cuanto se debe pagar por el
@@ -78,32 +81,44 @@ public class Visitante implements VisitanteCasilla {
     */
 
     @Override
-    public void visitar(Solar solar) {
-        Juego.consola.imprimirln("Visito una propiedad");
-    }
-
-
-    @Override
-    public void visitar(Estacion estacion) {
-
-    }
-
-    @Override
-    public void visitar(Servicio servicio) {
-
-    }
-
-    @Override
-    public void visitar(Impuesto impuesto) {
-
-    }
-
-    @Override
-    public void visitar(Especial especial) {
+    public void visitar(Solar solar) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            Juego.consola.error("No se puede visitar una casilla sin jugador",
-                    "Error pisando casilla");
-            return;
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+        }
+        notificarCaer(solar);
+    }
+
+
+    @Override
+    public void visitar(Estacion estacion) throws ExcepcionMonopooly {
+        if (jugadorVisitante == null) {
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+        }
+        notificarCaer(estacion);
+    }
+
+    @Override
+    public void visitar(Servicio servicio) throws ExcepcionMonopooly {
+        if (jugadorVisitante == null) {
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+        }
+        notificarCaer(servicio);
+    }
+
+    @Override
+    public void visitar(Impuesto impuesto) throws ExcepcionMonopooly {
+        if (jugadorVisitante == null) {
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+        }
+        notificarCaer(impuesto);
+        jugadorVisitante.quitarDinero(Precios.IMPUESTOS);
+        Partida.interprete.enviarSuceso(new PagoImpuesto(jugadorVisitante));
+    }
+
+    @Override
+    public void visitar(Especial especial) throws ExcepcionMonopooly {
+        if (jugadorVisitante == null) {
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
         }
         notificarCaer(especial);
 
@@ -111,31 +126,25 @@ public class Visitante implements VisitanteCasilla {
     }
 
     @Override
-    public void visitar(CajaComunidad cajaComunidad) {
+    public void visitar(CajaComunidad cajaComunidad) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            Juego.consola.error("No se puede visitar una casilla sin jugador",
-                    "Error pisando casilla");
-            return;
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
         }
         notificarCaer(cajaComunidad);
     }
 
     @Override
-    public void visitar(Suerte suerte) {
+    public void visitar(Suerte suerte) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            Juego.consola.error("No se puede visitar una casilla sin jugador",
-                    "Error pisando casilla");
-            return;
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
         }
         notificarCaer(suerte);
     }
 
     @Override
-    public void visitar(Propiedad propiedad) {
+    public void visitar(Propiedad propiedad) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            Juego.consola.error("No se puede visitar una casilla sin jugador",
-                    "Error pisando casilla");
-            return;
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
         }
         notificarCaer(propiedad);
 

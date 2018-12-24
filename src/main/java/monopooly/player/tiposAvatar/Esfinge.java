@@ -10,6 +10,11 @@ public class Esfinge extends Avatar {
         super(jugador);
     }
 
+    @Override
+    public TIPO getTipo() {
+        return TIPO.esfinge;
+    }
+
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
     public String toString(){

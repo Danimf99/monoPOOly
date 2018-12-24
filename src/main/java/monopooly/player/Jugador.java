@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
@@ -8,14 +9,17 @@ import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
-import monopooly.estadisticas.EstadisticasJugador;
+import monopooly.estadisticas.StatsJugador;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionParametrosInvalidos;
+import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.player.tiposAvatar.Pelota;
 import monopooly.player.tiposAvatar.Sombrero;
+import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
+import monopooly.sucesos.tipoSucesos.PasoSalida;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,16 +34,18 @@ public class Jugador {
     private HashSet<Propiedad> hipotecas;
     private boolean estarEnCarcel;
     private int turnosEnCarcel;
-    private EstadisticasJugador estadisticas;
-    private int vueltas;
+    private StatsJugador estadisticas;
     private int vecesDados;
     private int cooldown;
+    private MementoJugador mementoJugador;
+
+
 
     /*-------------------------*/
     /* CONSTRUCTORES PARA JUGADOR */
     /*-------------------------*/
 
-    public Jugador(String nombre,String avatar) {
+    public Jugador(String nombre,Avatar.TIPO avatar) {
         this.nombre = nombre;
         this.dinero= Precios.DINERO_INICIAL;
         this.dados=new Dados();
@@ -47,26 +53,22 @@ public class Jugador {
         this.hipotecas=new HashSet<>();
         this.estarEnCarcel=false;
         this.turnosEnCarcel=0;
-        this.estadisticas=new EstadisticasJugador();
-        this.vueltas=0;
+        this.estadisticas=new StatsJugador(Partida.interprete, this);
         this.vecesDados=0;
         this.cooldown=0;
+        this.mementoJugador = null;
 
         switch(avatar){
-            case "coche":
-            case "Coche":
+            case coche:
                 this.avatar=new Coche(this);
                 break;
-            case "Esfinge":
-            case "esfinge":
+            case esfinge:
                 this.avatar=new Esfinge(this);
                 break;
-            case "Sombrero":
-            case "sombrero":
+            case sombrero:
                 this.avatar=new Sombrero(this);
                 break;
-            case "Pelota":
-            case "pelota":
+            case pelota:
                 this.avatar=new Pelota(this);
                 break;
         }
@@ -82,9 +84,7 @@ public class Jugador {
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
         this.turnosEnCarcel=0;
-        this.vueltas=0;
         this.vecesDados=0;
-        estadisticas=new EstadisticasJugador();
     }
 
     /*-------------------------*/
@@ -155,20 +155,12 @@ public class Jugador {
         this.turnosEnCarcel = turnosEnCarcel;
     }
 
-    public EstadisticasJugador getEstadisticas() {
-        return estadisticas;
-    }
-
-    public void setEstadisticas(EstadisticasJugador estadisticas) {
-        this.estadisticas = estadisticas;
-    }
-
     public int getVueltas() {
-        return vueltas;
+        return this.estadisticas.getVueltas();
     }
 
     public void setVueltas(int vueltas) {
-        this.vueltas = vueltas;
+        this.estadisticas.setVueltas(vueltas);
     }
 
     public int getVecesDados() {
@@ -206,14 +198,24 @@ public class Jugador {
         return !Tablero.getPrompt().isCompro();
     }
 
+    public void pasarTurno() throws ExcepcionMonopooly {
+        if (dinero < 0) {
+            throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA);
+        }
+        // TODO comprobaciones de paso de turno aqui con sus excepciones
+        MementoJugador old = mementoJugador;
+        mementoJugador = new MementoJugador(Tablero.getPrompt().getSucesosTurno(), old);
+    }
+
     public void aumentarVecesDados(){
         this.vecesDados++;
     }
 
-    public void checkCarcel() {
+    public void checkCarcel() throws ExcepcionMonopooly {
         if(this.estarEnCarcel && dados.sonDobles()) {
             Juego.consola.info("Sacaste dobles, sales de la carcel");
             this.estarEnCarcel = false;
+            return;
         }
 
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
@@ -225,27 +227,20 @@ public class Jugador {
 
         if(this.dados.getDobles()==3) {
             Juego.consola.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
-            this.estadisticas.sumarVecesCarcel(1);
             this.estarEnCarcel = true;
             Posicion posicion=new Posicion();
             posicion.setX(Posiciones.CARCEL);
             Tablero.getTablero().recolocar(avatar,posicion);
             getAvatar().getPosicion().mover(posicion.getX());
-            return;
         }
-    }
-    public void aumentarVueltas(){
-        this.vueltas++;
     }
 
     public void pagoSalida() {
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();
         if (posJugadorActual.pasoPorSalida() && !jActual.isEstarEnCarcel()) {
-            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
             jActual.anhadirDinero(Precios.SALIDA);
-            jActual.aumentarVueltas();
-            Tablero.getPrompt().setModDinero(Precios.SALIDA, "El jugador paso por la salida");
+            Partida.interprete.enviarSuceso(new PasoSalida(this));
         }
     }
     public void hipotecar(Propiedad inmueble){
@@ -257,6 +252,7 @@ public class Jugador {
         anhadirDinero(inmueble.getMonopolio().getPrecio()/2);
         quitarPropiedad(inmueble);
         inmueble.setHipotecado(true);
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(this, inmueble, true));
     }
     public void deshipotecar(Propiedad inmueble) throws ExcepcionMonopooly {
         if(inmueble==null){
@@ -267,6 +263,7 @@ public class Jugador {
         inmueble.setHipotecado(false);
         this.hipotecas.remove(inmueble);
         this.quitarDinero((int)(inmueble.getMonopolio().getPrecio()*1.1));
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(this, inmueble, false));
     }
     /**
      * AL jugador se le suma una cantidad de dinero
@@ -348,8 +345,7 @@ public class Jugador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jugador jugador = (Jugador) o;
-        return dinero == jugador.dinero &&
-                Objects.equals(nombre, jugador.nombre);
+        return Objects.equals(nombre, jugador.nombre);
 
     }
 }

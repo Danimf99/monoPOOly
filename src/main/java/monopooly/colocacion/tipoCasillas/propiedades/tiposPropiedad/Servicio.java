@@ -1,11 +1,11 @@
 package monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad;
 
-import monopooly.colocacion.Imprimible;
 import monopooly.colocacion.tipoCasillas.Grupo;
-import monopooly.colocacion.tipoCasillas.Visitante;
+import monopooly.colocacion.Visitante;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.VisitanteCasilla;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Servicio extends Propiedad {
     }
 
     @Override
-    public void visitar(VisitanteCasilla visitante) {
+    public void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly {
         visitante.visitar(this);
     }
 

@@ -1,7 +1,6 @@
 package monopooly.colocacion;
 
-import monopooly.colocacion.tipoCasillas.Impuesto;
-import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
@@ -48,7 +47,7 @@ public abstract class Casilla implements Imprimible {
         return Tablero.getTablero().posicionCasilla(this);
     }
 
-    public abstract void visitar(VisitanteCasilla visitante);
+    public abstract void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly;
 
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {
         reprSubclases.add(1, this.nombre);

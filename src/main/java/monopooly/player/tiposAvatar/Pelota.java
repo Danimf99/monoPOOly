@@ -10,6 +10,13 @@ public class Pelota extends Avatar {
         super(jugador);
     }
 
+
+    @Override
+    public TIPO getTipo() {
+        return TIPO.pelota;
+    }
+
+
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
     public String toString(){

@@ -4,6 +4,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
 import monopooly.excepciones.*;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
 public class Partida {
@@ -35,9 +36,9 @@ public class Partida {
      * Pide jugadores por pantalla y los introduce en el tablero
      */
     private void pedirJugadores(){
-        Tablero.getTablero().meterJugador(new Jugador("Dani", "Coche"));
-        Tablero.getTablero().meterJugador(new Jugador("Saul", "Pelota"));
-        Tablero.getTablero().meterJugador(new Jugador("Lola", "Coche"));
+        Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.coche));
+        Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.pelota));
+        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.esfinge));
     }
 
     /**
@@ -54,6 +55,7 @@ public class Partida {
             Juego.consola.imprimir(Tablero.getPrompt().toString());
             comandoIntroducido = Juego.consola.leer();
             args = comandoIntroducido.split(" ");
+            Tablero.getPrompt().setHelp(false);
             try {
                 switch (args[0].toLowerCase()) {  // Classic switch de comandos
                     case "comprar":
@@ -100,16 +102,18 @@ public class Partida {
                 }
             } catch (ExcepcionComandoInexistente e) {
                 Tablero.getPrompt().setHelp(true);
-                Juego.consola.error(
-                        e.getMessage(),
-                        "El comando no existe"
-                );
+                e.imprimeError();
+            } catch (ExcepcionMonopooly e) {
+                e.imprimeError();
             }
             // Se termina el switch y se analiza la expresion
 
             if (exp != null) {
                 try {
                     exp.interpretar(interprete);
+                } catch (ExcepcionComando e) {
+                    Tablero.getPrompt().setHelp(true);
+                    e.imprimeError();
                 } catch (ExcepcionMonopooly e) {
                     e.imprimeError();
                 }

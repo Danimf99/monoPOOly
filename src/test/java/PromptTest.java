@@ -1,6 +1,8 @@
 import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.player.Avatar;
 import monopooly.player.Dados;
 import monopooly.player.Jugador;
 import org.junit.*;
@@ -14,8 +16,8 @@ public class PromptTest {
 
     @BeforeClass
     public static void setUp() {
-        testPlayer = new Jugador("Saul", "pelota");
-        testPlayer2 = new Jugador("Dani", "sombrero");
+        testPlayer = new Jugador("Saul", Avatar.TIPO.sombrero);
+        testPlayer2 = new Jugador("Dani", Avatar.TIPO.pelota);
         Tablero.getTablero().meterJugador(testPlayer);
         Tablero.getTablero().meterJugador(testPlayer2);
         //Tablero.getTablero().meterJugador(new Jugador("manolo", "sombrero"));
@@ -77,7 +79,7 @@ public class PromptTest {
     }
 
     @Test
-    public void testPasoTurno() {
+    public void testPasoTurno() throws ExcepcionMonopooly {
         prompt.setHelp(true);
         Jugador tmp = prompt.getJugador();
         prompt.setModDinero(213, "something");

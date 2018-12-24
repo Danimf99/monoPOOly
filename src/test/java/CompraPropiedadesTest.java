@@ -8,6 +8,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.parsers.Comprar;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import org.junit.After;
 import org.junit.Before;
@@ -27,8 +28,8 @@ public class CompraPropiedadesTest {
     private static Jugador jugador;
 
     @BeforeClass
-    public static void setUpClass() {
-        jugador = new Jugador("Amancio Ortega", "Esfinge");
+    public static void setUpClass() throws ExcepcionMonopooly {
+        jugador = new Jugador("Amancio Ortega", Avatar.TIPO.esfinge);
         tablero.meterJugador(jugador);
         tablero.pasarTurno();
     }

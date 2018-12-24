@@ -1,14 +1,12 @@
 package monopooly.colocacion.tipoCasillas;
 
 import monopooly.colocacion.Casilla;
-import monopooly.colocacion.tipoCasillas.VisitanteCasilla;
+import monopooly.colocacion.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.Monopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Precios;
-import monopooly.player.Jugador;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**

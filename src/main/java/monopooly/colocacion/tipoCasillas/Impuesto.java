@@ -1,10 +1,10 @@
 package monopooly.colocacion.tipoCasillas;
 
 import monopooly.colocacion.Casilla;
-import monopooly.colocacion.Imprimible;
+import monopooly.colocacion.VisitanteCasilla;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
-import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class Impuesto extends Casilla {
     }
 
     @Override
-    public void visitar(VisitanteCasilla visitante) {
+    public void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly {
         visitante.visitar(this);
     }
 

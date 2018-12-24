@@ -10,6 +10,11 @@ public class Sombrero extends Avatar {
         super(jugador);
     }
 
+    @Override
+    public TIPO getTipo() {
+        return TIPO.sombrero;
+    }
+
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
     public String toString(){

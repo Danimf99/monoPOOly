@@ -2,7 +2,7 @@ package monopooly.player;
 
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.tipoCasillas.Visitante;
+import monopooly.colocacion.Visitante;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
@@ -17,6 +17,15 @@ public abstract class Avatar {
     private Jugador jugador;
     private Posicion posicion;
     private boolean nitroso;
+    private MementoAvatar mementoAvatar;
+
+    public static enum TIPO {
+        sombrero,
+        esfinge,
+        coche,
+        pelota
+    }
+
 
     /*-------------------------*/
     /*CONSTRUCTOR AVATAR*/
@@ -27,6 +36,7 @@ public abstract class Avatar {
         this.jugador=jugador;
         this.posicion=new Posicion();
         this.nitroso=false;
+        this.mementoAvatar = null;
     }
 
     /*-------------------------*/
@@ -65,9 +75,17 @@ public abstract class Avatar {
         this.nitroso = nitroso;
     }
 
+    public abstract Avatar.TIPO getTipo();
+
     /*-------------------------*/
     /* METODOS PARA VATAR */
     /*-------------------------*/
+
+    public void pasarTurno() {
+        MementoAvatar old = mementoAvatar;
+        mementoAvatar = new MementoAvatar(this, old);
+    }
+
 
     private char sorteoAvatar(List<Character> AVATARES){
         Random avatar=new Random();
@@ -80,7 +98,7 @@ public abstract class Avatar {
     }
 
     /* AQUI HABRIA QUE PONER EL MOVIMIENTO EN VEZ DE EN JUGADOR Y SE EMPLEMENTARIA EL BASICO*/
-    public void moverAvatar( int desplazamiento) {
+    public void moverAvatar( int desplazamiento) throws ExcepcionMonopooly {
         if (desplazamiento == 0) {
             return;
         }
@@ -92,7 +110,7 @@ public abstract class Avatar {
         Visitante visitante=new Visitante(getJugador());
     }
 
-    public void moverAvatar(Posicion posicion) {
+    public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
         Tablero.getTablero().recolocar(this,posicion);
         this.getPosicion().setX(posicion.getX());
         Tablero.getPrompt().anhadirPosicion(this.getPosicion());

@@ -10,6 +10,11 @@ public class Coche extends Avatar {
         super(jugador);
     }
 
+    @Override
+    public TIPO getTipo() {
+        return TIPO.coche;
+    }
+
     /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
 
     @Override

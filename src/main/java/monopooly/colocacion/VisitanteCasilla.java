@@ -1,5 +1,6 @@
-package monopooly.colocacion.tipoCasillas;
+package monopooly.colocacion;
 
+import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.accion.CajaComunidad;
 import monopooly.colocacion.tipoCasillas.accion.Suerte;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
@@ -7,6 +8,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 public interface VisitanteCasilla {
 
@@ -18,19 +20,19 @@ public interface VisitanteCasilla {
 
     int calcularAlquiler(Solar solar);
 
-    void visitar(Solar solar);
+    void visitar(Solar solar) throws ExcepcionMonopooly;
 
-    void visitar(Estacion estacion);
+    void visitar(Estacion estacion) throws ExcepcionMonopooly;
 
-    void visitar(Servicio servicio);
+    void visitar(Servicio servicio) throws ExcepcionMonopooly;
 
-    void visitar(Impuesto impuesto);
+    void visitar(Impuesto impuesto) throws ExcepcionMonopooly;
 
-    void visitar(Especial especial);
+    void visitar(Especial especial) throws ExcepcionMonopooly;
 
-    void visitar(CajaComunidad cajaComunidad);
+    void visitar(CajaComunidad cajaComunidad) throws ExcepcionMonopooly;
 
-    void visitar(Suerte suerte);
+    void visitar(Suerte suerte) throws ExcepcionMonopooly;
 
-    void visitar(Propiedad propiedad);
+    void visitar(Propiedad propiedad) throws ExcepcionMonopooly;
 }

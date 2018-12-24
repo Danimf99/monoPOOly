@@ -2,6 +2,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import org.junit.After;
 import org.junit.Test;
@@ -65,8 +66,8 @@ public class RepresentacionTest {
 
     @Test
     public void testTablero() {
-        Tablero.getTablero().meterJugador(new Jugador("Saul", "pelota"));
-        Tablero.getTablero().meterJugador(new Jugador("Dani", "sombrero"));
+        Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.pelota));
+        Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.sombrero));
         target = Tablero.getTablero();
     }
 }

@@ -120,7 +120,6 @@ public class Juego implements Comando, Subject {
 
         ((Propiedad)casilla).comprar(jugador);
 
-        jugador.getEstadisticas().sumarInvertido(((Propiedad)casilla).getPrecio());
         if (!jugador.getAvatar().isNitroso() || !(jugador.getAvatar() instanceof Pelota)) {
             Tablero.getPrompt().setCompro(true);
         }
@@ -150,8 +149,6 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.hipotecar(((Propiedad) casilla));
-        Tablero.getPrompt().setModDinero(((Propiedad) casilla).getMonopolio().getPrecio()/2);
-        Tablero.getPrompt().setMotivoPago("Hipoteca de la propiedad "+casilla.getNombre());
     }
     @Override
     public void vender(Jugador jugador){

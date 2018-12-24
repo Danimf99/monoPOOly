@@ -1,12 +1,11 @@
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.colocacion.tipoCasillas.Visitante;
-import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
+import monopooly.colocacion.Visitante;
 import monopooly.entradaSalida.Juego;
+import monopooly.excepciones.ExcepcionMonopooly;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Test;
 
 public class VisitanteTest {
     private static Casilla casilla1;
@@ -17,7 +16,7 @@ public class VisitanteTest {
     }
 
     @Ignore
-    public void caerSolar() {
+    public void caerSolar() throws ExcepcionMonopooly {
         casilla1.visitar(new Visitante());
         Juego.consola.imprimir("" + ((Propiedad) casilla1).calcularAlquiler(new Visitante()));
     }

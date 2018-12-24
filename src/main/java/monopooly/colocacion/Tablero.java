@@ -6,6 +6,9 @@ import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
+import monopooly.estadisticas.EstadisticasGlobales;
+import monopooly.estadisticas.StatsGlobales;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
@@ -29,6 +32,7 @@ import java.util.HashMap;
  */
 public class Tablero implements Observador {
     private static FabricaCasillas fabricaCasillas = new FabricaCasillas();
+    private static StatsGlobales ESTADISTICAS;
 
     private static Tablero instanciaTablero;
     private static Prompt prompt;
@@ -77,8 +81,9 @@ public class Tablero implements Observador {
     static {
         try {
             instanciaTablero = new Tablero();
+            ESTADISTICAS = new StatsGlobales(Partida.interprete);
         } catch (Exception e) {
-            throw new RuntimeException("Error inicializando el tablero");
+            throw new RuntimeException("No se pudo inicializar el tablero");
         }
     }
 
@@ -135,7 +140,8 @@ public class Tablero implements Observador {
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
      *
      */
-    public void pasarTurno() {
+    public void pasarTurno() throws ExcepcionMonopooly {
+        this.getJugadorTurno().pasarTurno();
         this.jugadoresTurno.add(this.getJugadorTurno());
         this.jugadoresTurno.remove(0);
         Tablero.getPrompt().reset();  // Resetea la prompt al pasar turno
@@ -204,10 +210,11 @@ public class Tablero implements Observador {
      * @param avatar Jugador que se desea mover
      * @param posicion Posicion que tendra
      */
-    public void recolocar(Avatar avatar, Posicion posicion) {
+    public void recolocar(Avatar avatar, Posicion posicion) throws ExcepcionMonopooly {
         this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
         Casilla siguiente = this.casillasPosicion.get(posicion);
         siguiente.meterJugador(avatar);
+        siguiente.visitar(new Visitante(avatar.getJugador()));
     }
 
 
@@ -256,6 +263,10 @@ public class Tablero implements Observador {
 
     public Posicion localizarCasilla(Casilla casilla) {
         return new Posicion(casillas.indexOf(casilla));
+    }
+
+    public static StatsGlobales getStatsGlobales() {
+        return ESTADISTICAS;
     }
 
     @Override
