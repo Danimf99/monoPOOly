@@ -55,7 +55,7 @@ public class Alquiler extends Suceso {
         return "Alquiler{" +
                 "cantidad=" + cantidad +
                 ", propiedad=" + propiedad.getNombre() +
-                ", propietario=" + propietario +
+                ", propietario=" + propietario.getNombre() +
                 '}';
     }
 }
