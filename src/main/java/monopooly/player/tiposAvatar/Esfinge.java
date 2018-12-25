@@ -7,6 +7,7 @@ import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionAcontecimiento;
+import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -109,6 +110,19 @@ public class Esfinge extends Avatar {
                 this.moverAvatar(new Posicion(Posiciones.SALIDA));
                 inicioSur(tirada);
             }
+        } catch (ExcepcionCarta e) {
+            e.imprimeInfo();
+            elegirLadoInicio(tirada);
+        }
+    }
+
+    private void elegirLadoInicio(int tirada) throws ExcepcionMonopooly {
+        int posicion = this.getPosicion().getX();
+        if (posicion >= Posiciones.VE_A_LA_CARCEL || posicion < Posiciones.CARCEL) {
+            // Estrictamente si estuviera en ve a la carcel empezaría en el lado sur. Anque nunca habrá un avatar ahi
+            inicioSur(tirada);
+        } else {
+            inicioNorte(tirada);
         }
     }
 
@@ -135,13 +149,7 @@ public class Esfinge extends Avatar {
             }
         }
         this.setOldPosicion(this.getPosicion());
-        int posicion = this.getPosicion().getX();
-        if (posicion >= Posiciones.VE_A_LA_CARCEL || posicion < Posiciones.CARCEL) {
-            // Estrictamente si estuviera en ve a la carcel empezaría en el lado sur. Anque nunca habrá un avatar ahi
-            inicioSur(tirada);
-        } else {
-            inicioNorte(tirada);
-        }
+        elegirLadoInicio(tirada);
     }
 
     @Override

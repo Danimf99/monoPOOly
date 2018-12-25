@@ -4,6 +4,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -50,11 +51,19 @@ public class Pelota extends Avatar {
         this.preLanzamiento();
         int tirada = this.getJugador().getDados().tirada();
         boolean avanzar = tirada > 4;
-
-        this.moverAvatar(avanzar ? 5 : -1);
-        for (int i = avanzar ? 6 : 2; i <= tirada; i++)
-            if (i % 2 != 0) this.moverAvatar(avanzar ? 2 : -2);
-            else if (i == tirada) this.moverAvatar(avanzar ? 1 : -1);
+        try {
+            this.moverAvatar(avanzar ? 5 : -1);
+        } catch (ExcepcionCarta e) {
+            e.imprimeInfo();
+        }
+        for (int i = avanzar ? 6 : 2; i <= tirada; i++) {
+            try {
+                if (i % 2 != 0) this.moverAvatar(avanzar ? 2 : -2);
+                else if (i == tirada) this.moverAvatar(avanzar ? 1 : -1);
+            } catch (ExcepcionCarta e){
+                e.imprimeInfo();
+            }
+        }
     }
 
     @Override
