@@ -12,10 +12,7 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.AccionCarta;
-import monopooly.sucesos.tipoSucesos.Alquiler;
-import monopooly.sucesos.tipoSucesos.PagoBanca;
-import monopooly.sucesos.tipoSucesos.PasoSalida;
+import monopooly.sucesos.tipoSucesos.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -260,13 +257,15 @@ public abstract class Avatar implements Observador {
      */
 
     public Memento guardar() {
-        return new Memento(sucesos, posicion);
+        Partida.interprete.enviarSuceso(new Guardado(this.getJugador()));
+        return new Memento(sucesos, oldPosicion);
     }
 
     public void deshacer(Object object) throws ExcepcionMonopooly {
         Memento memento = (Memento) object;
         Tablero.getTablero().recolocacionSimple(this, memento.posicion);
         this.posicion = memento.posicion;
+        Tablero.getPrompt().setModDinero(0, "Viajaste en el tiempo");
         for (Suceso suceso : memento.sucesosTirada) {
             suceso.deshacer();
             Partida.interprete.enviarSuceso(suceso);
@@ -280,7 +279,7 @@ public abstract class Avatar implements Observador {
 
         Memento(ArrayList<Suceso> sucesosTirada, Posicion posicion) {
             this.sucesosTirada = new ArrayList<>(sucesosTirada);
-            this.posicion = new Posicion(oldPosicion);
+            this.posicion = new Posicion(posicion);
             sucesosTirada.clear();
         }
     }

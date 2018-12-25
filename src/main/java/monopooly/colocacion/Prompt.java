@@ -321,6 +321,7 @@ public class Prompt implements Observador {
         }
 
         if (suceso.getDeshacer()) {
+            this.sucesosTurno.remove(suceso);
             return;
         }
 
