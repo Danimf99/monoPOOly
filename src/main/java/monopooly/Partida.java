@@ -41,7 +41,7 @@ public class Partida {
     private void pedirJugadores(){
         Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.esfinge));
         Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.esfinge));
-        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.esfinge));
+        //Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.esfinge));
     }
 
     /**

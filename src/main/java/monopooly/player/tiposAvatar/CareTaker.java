@@ -9,11 +9,11 @@ import java.util.Stack;
 public class CareTaker {
     private Stack<Object> historial;
 
-    CareTaker() {
+    public CareTaker() {
         historial = new Stack<>();
     }
 
-    void guardar(Avatar avatar) {
+    public void guardar(Avatar avatar) {
         this.historial.push(avatar.guardar());
     }
 

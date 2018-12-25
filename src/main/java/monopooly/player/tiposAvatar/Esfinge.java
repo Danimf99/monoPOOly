@@ -19,11 +19,9 @@ import java.util.stream.Stream;
 
 public class Esfinge extends Avatar {
 
-    private CareTaker careTaker;
 
     public Esfinge(Jugador jugador){
         super(jugador);
-        careTaker = new CareTaker();
     }
 
     @Override
@@ -122,12 +120,11 @@ public class Esfinge extends Avatar {
 
         this.preLanzamiento();
 
-        this.careTaker.guardar(this);
         int tirada = this.getJugador().getDados().tirada();
 
-        if (tirada < 4) {
+        if (tirada < 8) {
             try {
-                this.careTaker.deshacer(this);
+                this.restore();
                 throw new ExcepcionAcontecimiento(
                         "Sacaste menos de 4.\n" +
                                 "Vuelves atrás en el tiempo.\n"
@@ -137,9 +134,7 @@ public class Esfinge extends Avatar {
                         "No viajas en el tiempo");
             }
         }
-
         this.setOldPosicion(this.getPosicion());
-
         int posicion = this.getPosicion().getX();
         if (posicion >= Posiciones.VE_A_LA_CARCEL || posicion < Posiciones.CARCEL) {
             // Estrictamente si estuviera en ve a la carcel empezaría en el lado sur. Anque nunca habrá un avatar ahi
@@ -151,8 +146,6 @@ public class Esfinge extends Avatar {
 
     @Override
     public void moverBasico() throws ExcepcionMonopooly {
-        this.careTaker.guardar(this);
-        this.setOldPosicion(this.getPosicion());
         super.moverBasico();
     }
 

@@ -9,6 +9,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.player.tiposAvatar.CareTaker;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
@@ -25,6 +26,7 @@ public abstract class Avatar implements Observador {
     private Posicion posicion;
     private Posicion oldPosicion;
     private boolean nitroso;
+    private CareTaker careTaker;
 
     private Subject subject;
     private ArrayList<Suceso> sucesos;
@@ -42,6 +44,11 @@ public abstract class Avatar implements Observador {
         if (suceso == null) {
             return;
         }
+
+        if (suceso instanceof Guardado) {
+            return;
+        }
+
         if (!suceso.getDeshacer()) {
             sucesos.add(suceso);
         }
@@ -66,12 +73,17 @@ public abstract class Avatar implements Observador {
         this.nitroso=false;
         this.sucesos = new ArrayList<>();
         this.setSubject(Partida.interprete);
+        this.careTaker = new CareTaker();
     }
 
     /*-------------------------*/
     /*SETTERS Y GETTERS*/
     /*-------------------------*/
 
+
+    public ArrayList<Suceso> getSucesos() {
+        return sucesos;
+    }
 
     public char getRepresentacion() {
         return representacion;
@@ -201,7 +213,6 @@ public abstract class Avatar implements Observador {
 
 
     protected void preLanzamiento() throws ExcepcionMonopooly {
-
         Tablero.getPrompt().aumentarLanzamientosDados();
         this.getJugador().getDados().lanzar();
         getJugador().checkCarcel();
@@ -218,11 +229,13 @@ public abstract class Avatar implements Observador {
         if(getJugador().isEstarEnCarcel()){
             throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
         }
+        this.backup();
     }
 
     public void moverBasico() throws ExcepcionMonopooly {
         if (Tablero.getPrompt().getLanzamientosDados() == 0) {
             preLanzamiento();
+            this.setOldPosicion(this.getPosicion());
             moverAvatar(getJugador().getDados().tirada());
         } else if (Tablero.getPrompt().getLanzamientosDados() < 3 && this.getJugador().getDados().sonDobles()) {
             if(getJugador().isEstarEnCarcel()){
@@ -264,6 +277,18 @@ public abstract class Avatar implements Observador {
 
      */
 
+
+    public void backup() {
+        if (this.sucesos.size() == 0) {
+            return;
+        }
+        this.careTaker.guardar(this);
+    }
+
+    public void restore() throws ExcepcionMonopooly {
+        this.careTaker.deshacer(this);
+    }
+
     public Memento guardar() {
         Partida.interprete.enviarSuceso(new Guardado(this.getJugador()));
         return new Memento(sucesos, oldPosicion);
@@ -285,10 +310,18 @@ public abstract class Avatar implements Observador {
         private ArrayList<Suceso> sucesosTirada;
         private Posicion posicion;
 
-        Memento(ArrayList<Suceso> sucesosTirada, Posicion posicion) {
+        Memento(ArrayList<Suceso> sucesosTirada, Posicion pos) {
             this.sucesosTirada = new ArrayList<>(sucesosTirada);
-            this.posicion = new Posicion(posicion);
+            this.posicion = new Posicion(pos);
             sucesosTirada.clear();
+        }
+
+        @Override
+        public String toString() {
+            return "Memento{" +
+                    "sucesosTirada=" + sucesosTirada +
+                    ", posicion=" + posicion +
+                    '}';
         }
     }
 }
