@@ -51,10 +51,9 @@ public class Partida {
         String comandoIntroducido;
         String[] args;
         Expresion exp;
-
+        Juego.consola.imprimirln(Tablero.getTablero().toString());
         do { // Bucle de partida
             exp = null;
-            Juego.consola.imprimirln(Tablero.getTablero().toString());
             Juego.consola.imprimir(Tablero.getPrompt().toString());
             comandoIntroducido = Juego.consola.leer();
             args = comandoIntroducido.split(" ");
@@ -102,6 +101,7 @@ public class Partida {
                     case "acabar":
                     case "a":
                         Tablero.getTablero().pasarTurno();
+                        Juego.consola.imprimirln(Tablero.getTablero().toString());
                         break;
                     case "lanzar":
                         exp=new Lanzar(args);

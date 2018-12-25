@@ -345,6 +345,7 @@ public class Juego implements Comando, Subject {
     @Override
     public void lanzar(Jugador jugador) throws ExcepcionMonopooly {
         jugador.getAvatar().lanzarDados();
+        Juego.consola.imprimirln(Tablero.getTablero().toString());
     }
 
     @Override
