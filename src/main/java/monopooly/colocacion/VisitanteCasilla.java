@@ -20,12 +20,6 @@ public interface VisitanteCasilla {
 
     int calcularAlquiler(Solar solar);
 
-    void visitar(Solar solar) throws ExcepcionMonopooly;
-
-    void visitar(Estacion estacion) throws ExcepcionMonopooly;
-
-    void visitar(Servicio servicio) throws ExcepcionMonopooly;
-
     void visitar(Impuesto impuesto) throws ExcepcionMonopooly;
 
     void visitar(Especial especial) throws ExcepcionMonopooly;

@@ -112,42 +112,7 @@ public class Visitante implements VisitanteCasilla {
 
     */
 
-    @Override
-    public void visitar(Solar solar) throws ExcepcionMonopooly {
-        if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
-        }
-        notificarCaer(solar);
-        if(!jugadorVisitante.equals(solar.getPropietario()) &&!solar.getPropietario().equals(Tablero.BANCA)) {
-            jugadorVisitante.quitarDinero(calcularAlquiler(solar));
-            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(solar), solar, solar.getPropietario()));
-        }
-    }
 
-
-    @Override
-    public void visitar(Estacion estacion) throws ExcepcionMonopooly {
-        if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
-        }
-        notificarCaer(estacion);
-        if(!jugadorVisitante.equals(estacion.getPropietario()) && !estacion.getPropietario().equals(Tablero.BANCA)) {
-            jugadorVisitante.quitarDinero(calcularAlquiler(estacion));
-            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(estacion), estacion, estacion.getPropietario()));
-        }
-    }
-
-    @Override
-    public void visitar(Servicio servicio) throws ExcepcionMonopooly {
-        if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
-        }
-        notificarCaer(servicio);
-        if(!jugadorVisitante.equals(servicio.getPropietario()) && !servicio.getPropietario().equals(Tablero.BANCA)) {
-            jugadorVisitante.quitarDinero(calcularAlquiler(servicio));
-            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(servicio), servicio, servicio.getPropietario()));
-        }
-    }
 
     @Override
     public void visitar(Impuesto impuesto) throws ExcepcionMonopooly {
@@ -192,16 +157,10 @@ public class Visitante implements VisitanteCasilla {
         }
         notificarCaer(propiedad);
 
-        if (propiedad instanceof Estacion) {
-            visitar((Estacion) propiedad);
-        }
-
-        if (propiedad instanceof Servicio) {
-            visitar((Servicio) propiedad);
-        }
-
-        if (propiedad instanceof Solar) {
-            visitar((Solar) propiedad);
+        if(!jugadorVisitante.equals(propiedad.getPropietario()) && !propiedad.getPropietario().equals(Tablero.BANCA)) {
+            jugadorVisitante.quitarDinero(calcularAlquiler(propiedad));
+            propiedad.getPropietario().anhadirDinero(calcularAlquiler(propiedad));
+            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(propiedad), propiedad, propiedad.getPropietario()));
         }
     }
 }
