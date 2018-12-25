@@ -1,6 +1,8 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.control.Tab;
 import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Tablero;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -24,7 +26,7 @@ public class Caer extends Suceso {
     @Override
     public String toString() {
         return "Caer{" +
-                "posicion=" + posicion +
+                "posicion=" + Tablero.getTablero().getCasilla(posicion).getNombre() +
                 '}';
     }
 }

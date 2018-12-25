@@ -50,9 +50,9 @@ public class Comprar extends Suceso {
     @Override
     public String toString() {
         return "Comprar{" +
-                "Clase objetoComprado=" + objetoComprado.getClass().getName() +
+                "Clase objetoComprado=" + objetoComprado.getClass().getSimpleName() +
                 ", precioPagado=" + precioPagado +
-                ", cuentaIngreso=" + cuentaIngreso +
+                ", cuentaIngreso=" + cuentaIngreso.getNombre() +
                 '}';
     }
 }

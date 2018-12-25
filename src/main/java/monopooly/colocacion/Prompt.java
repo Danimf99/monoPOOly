@@ -128,6 +128,7 @@ public class Prompt implements Observador {
     }
 
     public void aumentarLanzamientosDados() {
+        System.out.println("lol");
         this.lanzamientosDados++;
     }
 

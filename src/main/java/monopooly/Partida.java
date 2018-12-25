@@ -38,9 +38,9 @@ public class Partida {
      * Pide jugadores por pantalla y los introduce en el tablero
      */
     private void pedirJugadores(){
-        Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.pelota));
-        Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.pelota));
-        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.pelota));
+        Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.coche));
+        Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.coche));
+        Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.coche));
     }
 
     /**

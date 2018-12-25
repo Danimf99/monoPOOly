@@ -215,11 +215,6 @@ public abstract class Avatar {
     public void lanzarDados() throws ExcepcionMonopooly {
         if (nitroso) this.moverAvanzado();
         else this.moverBasico();
-
-        Juego.consola.info(
-                Tablero.getPrompt().listarAccionesTurno(),
-                "Acciones durante este turno"
-        );
     }
 
     /* QUE LO IMPLEMENTE CADA SUBCLASE */
