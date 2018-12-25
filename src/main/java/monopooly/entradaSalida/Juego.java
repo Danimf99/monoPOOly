@@ -176,16 +176,16 @@ public class Juego implements Comando, Subject {
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();
 
-        //if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
-        //    throw new ExcepcionAccionInvalida("La casilla no te pertenece");
-        //}
-        //int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
-        //if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
-        //    throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
-        //}
-        //if((casilla).getHipotecado()){
-        //    throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
-        //}
+        if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
+            throw new ExcepcionAccionInvalida("La casilla no te pertenece");
+        }
+        int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+        if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+            throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+        }
+        if((casilla).getHipotecado()){
+            throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
+        }
 
         switch (tipo){
             case casa:
