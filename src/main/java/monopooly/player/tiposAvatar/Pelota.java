@@ -1,21 +1,12 @@
 package monopooly.player.tiposAvatar;
 
 import monopooly.colocacion.Casilla;
-import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.Visitante;
-import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.configuracion.Posiciones;
-import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionAccionInvalida;
-import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
-import monopooly.player.MementoAvatar;
-
-import java.util.ArrayList;
 
 public class Pelota extends Avatar {
 
@@ -33,7 +24,6 @@ public class Pelota extends Avatar {
         if (!Tablero.getPrompt().isUsoMovEspecial()) {
             throw new ExcepcionAccionInvalida("Aun no tiraste este turno");
         }
-        this.backup();
     }
 
 

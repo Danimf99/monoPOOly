@@ -1,6 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -54,5 +57,24 @@ public class Comprar extends Suceso {
                 ", precioPagado=" + precioPagado +
                 ", cuentaIngreso=" + cuentaIngreso.getNombre() +
                 '}';
+    }
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        getJugadorOriginador().anhadirDinero(precioPagado);
+        cuentaIngreso.quitarDinero(precioPagado);
+
+        if (objetoComprado instanceof Propiedad) {
+            Propiedad propiedad = (Propiedad) objetoComprado;
+            getJugadorOriginador().quitarPropiedad(propiedad);
+            cuentaIngreso.anhadirPropiedad(propiedad);
+            propiedad.setPropietario(cuentaIngreso);
+            return;
+        }
+        if (objetoComprado instanceof Edificio) {
+            Edificio edificio = (Edificio) objetoComprado;
+            //edificio.getSolar().quitarEdificio(edificio);
+        }
     }
 }

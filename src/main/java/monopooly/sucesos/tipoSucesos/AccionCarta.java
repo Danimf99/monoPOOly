@@ -1,6 +1,7 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.cartas.Carta;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -25,6 +26,12 @@ public class AccionCarta extends Suceso {
 
     public int pagoBanca() {
         return abs(this.carta.cantidadBanca());
+    }
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        carta.deshacer();
     }
 
     @Override

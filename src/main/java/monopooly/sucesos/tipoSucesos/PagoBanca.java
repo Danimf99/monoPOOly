@@ -1,5 +1,6 @@
 package monopooly.sucesos.tipoSucesos;
 
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -36,5 +37,12 @@ public class PagoBanca extends Suceso {
                 "cantidad=" + cantidad +
                 ", explicacion='" + explicacion + '\'' +
                 '}';
+    }
+
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        getJugadorOriginador().anhadirDinero(cantidad);
     }
 }

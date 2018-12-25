@@ -1,6 +1,7 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -40,6 +41,14 @@ public class Alquiler extends Suceso {
     public void setPropietario(Jugador propietario) {
         this.propietario = propietario;
     }
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        propietario.quitarDinero(cantidad);
+        getJugadorOriginador().anhadirDinero(cantidad);
+    }
+
 
     @Override
     public String toString() {

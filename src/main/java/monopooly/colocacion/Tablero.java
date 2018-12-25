@@ -152,6 +152,7 @@ public class Tablero implements Observador {
         this.getJugadorTurno().pasarTurno();
         this.jugadoresTurno.add(this.getJugadorTurno());
         this.jugadoresTurno.remove(0);
+        this.subject.registrar(this.jugadoresTurno.get(0).getAvatar());
         Tablero.getPrompt().reset();  // Resetea la prompt al pasar turno
     }
 
@@ -225,6 +226,17 @@ public class Tablero implements Observador {
         siguienteCasilla.meterJugador(avatar);
         avatar.getPosicion().setX(posicion.getX());
         siguienteCasilla.visitar(new Visitante(avatar.getJugador()));
+    }
+
+    /**
+     * Cambia a un jugador de posicion sin generar sucesos ni visitar la casilla
+     * @param avatar avatar que se mueve
+     * @param posicion Posicion nueva
+     */
+    public void recolocacionSimple(Avatar avatar, Posicion posicion) {
+        this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
+        Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
+        siguienteCasilla.meterJugador(avatar);
     }
 
 

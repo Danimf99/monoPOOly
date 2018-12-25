@@ -1,5 +1,6 @@
 package monopooly.sucesos.tipoSucesos;
 
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -24,5 +25,12 @@ public class ConseguirBote extends Suceso {
         return "ConseguirBote{" +
                 "cantidadBote=" + cantidadBote +
                 '}';
+    }
+
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        getJugadorOriginador().quitarDinero(cantidadBote);
     }
 }

@@ -9,19 +9,28 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.sucesos.Observador;
+import monopooly.sucesos.Subject;
+import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
+import monopooly.sucesos.tipoSucesos.Alquiler;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PasoSalida;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Avatar {
+public abstract class Avatar implements Observador {
 
     private char representacion;
     private Jugador jugador;
     private Posicion posicion;
+    private Posicion oldPosicion;
     private boolean nitroso;
-    private MementoAvatar mementoAvatar;
+
+    private Subject subject;
+    private ArrayList<Suceso> sucesos;
 
     public static enum TIPO {
         sombrero,
@@ -30,30 +39,42 @@ public abstract class Avatar {
         pelota
     }
 
+    @Override
+    public void update() {
+        Suceso suceso = (Suceso) this.subject.getUpdate(this);
+        if (suceso == null) {
+            return;
+        }
+        if (!suceso.getDeshacer()) {
+            sucesos.add(suceso);
+        }
+    }
+
+    @Override
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
 
     /*-------------------------*/
     /*CONSTRUCTOR AVATAR*/
     /*-------------------------*/
 
+
+
     public Avatar(Jugador jugador){
         this.representacion=sorteoAvatar(ReprASCII.AVATARES);
         this.jugador=jugador;
         this.posicion=new Posicion();
+        this.oldPosicion=new Posicion();
         this.nitroso=false;
-        this.mementoAvatar = null;
+        this.sucesos = new ArrayList<>();
+        this.setSubject(Partida.interprete);
     }
 
     /*-------------------------*/
     /*SETTERS Y GETTERS*/
     /*-------------------------*/
 
-    public MementoAvatar getMementoAvatar() {
-        return mementoAvatar;
-    }
-
-    public void setMementoAvatar(MementoAvatar mementoAvatar) {
-        this.mementoAvatar = mementoAvatar;
-    }
 
     public char getRepresentacion() {
         return representacion;
@@ -105,13 +126,10 @@ public abstract class Avatar {
                 Tablero.getPrompt().getLanzamientosDados() < 3 && jugador.getDados().sonDobles()) {
             throw new ExcepcionAccionInvalida("Aun no tiraste todas las veces permitidas");
         }
-        this.backup();
+        this.subject.eliminar(this);
     }
 
-    protected void backup() {
-        MementoAvatar old = mementoAvatar;
-        mementoAvatar = new MementoAvatar(this, old);
-    }
+
 
 
     /**
@@ -174,11 +192,11 @@ public abstract class Avatar {
 
     public void moverAvatar(Posicion posicion) throws ExcepcionMonopooly {
         Tablero.getTablero().recolocar(this,posicion);
-        this.getPosicion().setX(posicion.getX());
     }
 
 
     protected void preLanzamiento() throws ExcepcionMonopooly {
+        this.oldPosicion = new Posicion(this.posicion);
         Tablero.getPrompt().aumentarLanzamientosDados();
         this.getJugador().getDados().lanzar();
         getJugador().checkCarcel();
@@ -233,5 +251,37 @@ public abstract class Avatar {
         if (o == null || getClass() != o.getClass()) return false;
         Avatar avatar = (Avatar) o;
         return representacion == avatar.representacion;
+    }
+
+    /*
+
+        MEMENTO
+
+     */
+
+    public Memento guardar() {
+        return new Memento(sucesos, posicion);
+    }
+
+    public void deshacer(Object object) throws ExcepcionMonopooly {
+        Memento memento = (Memento) object;
+        Tablero.getTablero().recolocacionSimple(this, memento.posicion);
+        this.posicion = memento.posicion;
+        for (Suceso suceso : memento.sucesosTirada) {
+            suceso.deshacer();
+            Partida.interprete.enviarSuceso(suceso);
+        }
+    }
+
+
+    private class Memento {
+        private ArrayList<Suceso> sucesosTirada;
+        private Posicion posicion;
+
+        Memento(ArrayList<Suceso> sucesosTirada, Posicion posicion) {
+            this.sucesosTirada = new ArrayList<>(sucesosTirada);
+            this.posicion = new Posicion(oldPosicion);
+            sucesosTirada.clear();
+        }
     }
 }

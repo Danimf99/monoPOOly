@@ -1,5 +1,6 @@
 package monopooly.sucesos;
 
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 
 import java.util.Iterator;
@@ -39,6 +40,10 @@ public abstract class Suceso {
 
     public void setDeshacer(boolean deshacer) {
         this.deshacer = deshacer;
+    }
+
+    public void deshacer() throws ExcepcionMonopooly {
+        this.deshacer = true;
     }
 
     @Override

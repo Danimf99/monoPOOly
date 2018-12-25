@@ -1,6 +1,7 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -45,5 +46,15 @@ public class HipotecarPropiedad extends Suceso {
                 "propiedad=" + propiedad.getNombre() +
                 ", hipotecar=" + hipotecar +
                 '}';
+    }
+
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        propiedad.setHipotecado(!hipotecar);
+        getJugadorOriginador().anhadirDinero(-getDinero());
+        getJugadorOriginador().getHipotecas().remove(propiedad);
+        getJugadorOriginador().anhadirPropiedad(propiedad);
     }
 }

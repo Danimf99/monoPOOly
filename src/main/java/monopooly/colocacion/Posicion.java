@@ -17,6 +17,14 @@ public class Posicion {
         this.historialPosiciones.add(new Posicion(this.x));
     }
 
+    /*
+    Para el memento
+     */
+    public Posicion(Posicion posicion) {
+        this.x = posicion.x;
+        this.historialPosiciones = new ArrayList<>(posicion.historialPosiciones);
+    }
+
     public Posicion(int x) {
         this.x = x;
         this.historialPosiciones = new ArrayList<>();

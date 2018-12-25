@@ -34,8 +34,6 @@ public class Jugador {
     private StatsJugador estadisticas;
     private int vecesDados;
     private int cooldown;
-    private MementoJugador mementoJugador;
-
 
 
     /*-------------------------*/
@@ -53,7 +51,6 @@ public class Jugador {
         this.estadisticas=new StatsJugador(Partida.interprete, this);
         this.vecesDados=0;
         this.cooldown=0;
-        this.mementoJugador = null;
 
         switch(avatar){
             case coche:
@@ -203,14 +200,14 @@ public class Jugador {
         return true; // Permite usarla de la misma manera que antes
     }
 
+
     public void pasarTurno() throws ExcepcionMonopooly {
         this.avatar.pasarTurno();
         if (dinero < 0) {
             throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA);
         }
         // TODO comprobaciones de paso de turno aqui con sus excepciones
-        MementoJugador old = mementoJugador;
-        mementoJugador = new MementoJugador(Tablero.getPrompt().getSucesosTurno(), old);
+
     }
 
     public void aumentarVecesDados(){

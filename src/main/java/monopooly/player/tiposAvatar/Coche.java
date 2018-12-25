@@ -31,9 +31,8 @@ public class Coche extends Avatar {
         if (cooldown > 0) {
             this.cooldown--;
         }
-
-        this.backup();
     }
+
 
     @Override
     public TIPO getTipo() {
@@ -47,8 +46,6 @@ public class Coche extends Avatar {
                     "que esperar " + cooldown + " turnos.");
         }
 
-
-
         if (Tablero.getPrompt().getLanzamientosDados() >= 4) {
             throw new ExcepcionAccionInvalida("Ya tiraste 4 veces este turno, no puedes tirar más.");
         }
@@ -61,10 +58,7 @@ public class Coche extends Avatar {
         } else {
             this.cooldown = 2;
             this.moverAvatar(-tirada);
-
         }
-
-
     }
 
     @Override

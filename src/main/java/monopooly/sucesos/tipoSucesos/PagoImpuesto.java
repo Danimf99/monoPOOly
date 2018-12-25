@@ -1,6 +1,7 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.configuracion.Precios;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -32,5 +33,12 @@ public class PagoImpuesto extends Suceso {
         return "PagoImpuesto{" +
                 "cantidad=" + cantidad +
                 '}';
+    }
+
+
+    @Override
+    public void deshacer() throws ExcepcionMonopooly {
+        super.deshacer();
+        getJugadorOriginador().anhadirDinero(cantidad);
     }
 }

@@ -44,6 +44,7 @@ public class Prompt implements Observador {
         this.reset();
         this.subject = Partida.interprete;
         this.subject.registrar(this);
+        this.subject.registrar(jugador.getAvatar());
     }
 
     public void setModDinero(int modDinero) {
@@ -85,6 +86,10 @@ public class Prompt implements Observador {
 
     public ArrayList<Suceso> getSucesosTurno() {
         return new ArrayList<>(sucesosTurno);
+    }
+
+    public void clearSucesos() {
+        this.sucesosTurno.clear();
     }
 
     public void setSucesosTurno(ArrayList<Suceso> sucesosTurno) {
