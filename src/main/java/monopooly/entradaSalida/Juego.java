@@ -20,6 +20,7 @@ import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.Comprar;
+import monopooly.sucesos.tipoSucesos.DeshipotecarPropiedad;
 import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
 
 import java.util.HashSet;
@@ -325,8 +326,7 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.deshipotecar(((Propiedad)casilla));
-        Tablero.getPrompt().setMotivoPago("Deshipotecación de la propiedad "+casilla.getNombre());
-        Tablero.getPrompt().setModDinero(-(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1));
+        Partida.interprete.enviarSuceso(new DeshipotecarPropiedad(jugador,(Propiedad)casilla,(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1)));
     }
     @Override
     public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
