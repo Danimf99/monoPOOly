@@ -7,7 +7,10 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.Visitante;
 import monopooly.colocacion.VisitanteCasilla;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
+import monopooly.configuracion.ReprASCII;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionParametrosInvalidos;
@@ -162,7 +165,17 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         reprSubclases.add("Hipoteca: " + this.hipoteca() + " " + Precios.MONEDA);
         reprSubclases.add("");
         reprSubclases.add("Propietario: " + this.propietario.getNombre());
-
+        if(this instanceof Solar) {
+            reprSubclases.add(ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL + ReprASCII.BARRA_HORIZONTAL);
+            reprSubclases.add("Edificaciones:");
+            reprSubclases.add("");
+            for (Edificio edificio : ((Solar) this).getEdificios()) {
+                reprSubclases.add(" > " + edificio.getNombre());
+                reprSubclases.add("Tipo: " + edificio.getClass().getSimpleName());
+                reprSubclases.add("Precio: " + edificio.getPrecio() + " " + Precios.MONEDA);
+                reprSubclases.add("");
+            }
+        }
         return super.representar(reprSubclases);
     }
 

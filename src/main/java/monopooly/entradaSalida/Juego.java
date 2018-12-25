@@ -7,10 +7,7 @@ import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
-import monopooly.colocacion.tipoCasillas.propiedades.edificios.Casa;
-import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
-import monopooly.colocacion.tipoCasillas.propiedades.edificios.Hotel;
-import monopooly.colocacion.tipoCasillas.propiedades.edificios.Piscina;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.*;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionAccionInvalida;
@@ -41,6 +38,83 @@ public class Juego implements Comando, Subject {
         ultimoSuceso = null;
         observadores = new HashSet<>();
         cambio = false;
+    }
+
+
+    @Override
+    public void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo) throws ExcepcionMonopooly{
+        Solar solar=(Solar)casilla;
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        switch (tipo){
+            case casa:
+                if(solar.calcularNumCasas()==0){
+                    throw new ExcepcionAccionInvalida("No hay casas en ese solar");
+                }
+                if(solar.calcularNumCasas()<numeroEdificios){
+                    jActual.anhadirDinero((int)(solar.calcularNumCasas()*solar.getPrecio()*Precios.VALOR_CASA/2));
+                    for(int i=0;i<solar.calcularNumCasas();i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                else{
+                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_CASA/2));
+                    for(int i=0;i<numeroEdificios;i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                break;
+            case hotel:
+                if(solar.calcularNumHoteles()==0){
+                    throw new ExcepcionAccionInvalida("No hay hoteles en ese solar");
+                }
+                if(solar.calcularNumHoteles()<numeroEdificios){
+                    jActual.anhadirDinero((int)(solar.calcularNumHoteles()*solar.getPrecio()*Precios.VALOR_HOTEL/2));
+                    for(int i=0;i<solar.calcularNumHoteles();i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                else{
+                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_HOTEL/2));
+                    for(int i=0;i<numeroEdificios;i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                break;
+            case deporte:
+                if(solar.calcularNumDeportes()==0){
+                    throw new ExcepcionAccionInvalida("No hay pistas de deporte en ese solar");
+                }
+                if(solar.calcularNumDeportes()<numeroEdificios){
+                    jActual.anhadirDinero((int)(solar.calcularNumDeportes()*solar.getPrecio()*Precios.VALOR_DEPORTE/2));
+                    for(int i=0;i<solar.calcularNumDeportes();i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                else{
+                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_DEPORTE/2));
+                    for(int i=0;i<numeroEdificios;i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                break;
+            case piscina:
+                if(solar.calcularNumPiscinas()==0){
+                    throw new ExcepcionAccionInvalida("No hay piscinas en ese solar");
+                }
+                if(solar.calcularNumPiscinas()<numeroEdificios){
+                    jActual.anhadirDinero((int)(solar.calcularNumPiscinas()*solar.getPrecio()*Precios.VALOR_PISCINA/2));
+                    for(int i=0;i<solar.calcularNumPiscinas();i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                else{
+                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_PISCINA/2));
+                    for(int i=0;i<numeroEdificios;i++){
+                        solar.quitarEdificio(tipo);
+                    }
+                }
+                break;
+        }
     }
 
     @Override
@@ -92,10 +166,10 @@ public class Juego implements Comando, Subject {
         if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
             throw new ExcepcionAccionInvalida("La casilla no te pertenece");
         }
-       //int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
-       //if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
-       //    throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
-       //}
+        int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+        if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+            throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+        }
         if((casilla).getHipotecado()){
             throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
         }
@@ -129,7 +203,7 @@ public class Juego implements Comando, Subject {
                     throw new ExcepcionAccionInvalida("Necesitas 4 casas para construir un hotel");
                 }
                 for (int i=0;i<4;i++) {
-                    ((Solar)casilla).quitarEdifico(Edificio.TIPO.casa);
+                    ((Solar)casilla).quitarEdificio(Edificio.TIPO.casa);
                 }
                 Edificio edificioH=new Hotel(((Solar)casilla));
                 Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioH,edificioH.getPrecio()));
@@ -159,9 +233,9 @@ public class Juego implements Comando, Subject {
                     throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir una pista de deporte en la casilla " + casilla.getNombre());
                 }
                 if (((Solar)casilla).calcularNumHoteles()<2) {
-                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 casas y 1 hotel para construir una piscina");
+                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 hoteles ");
                 }
-                Edificio edificioD=new Piscina(((Solar)casilla));
+                Edificio edificioD=new PistaDeporte(((Solar)casilla));
                 Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioD,edificioD.getPrecio()));
                 Tablero.getPrompt().getJugador().quitarDinero(edificioD.getPrecio());
                 break;
@@ -285,10 +359,7 @@ public class Juego implements Comando, Subject {
         }
         jugador.hipotecar(((Propiedad) casilla));
     }
-    @Override
-    public void vender(Jugador jugador){
 
-    }
 
     @Override
     public void info(Jugador jugador) {

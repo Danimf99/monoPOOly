@@ -1,9 +1,9 @@
 package monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad;
 
-import monopooly.colocacion.tipoCasillas.Grupo;
 import monopooly.colocacion.Visitante;
-import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.VisitanteCasilla;
+import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -46,7 +46,7 @@ public class Solar extends Propiedad {
         return new Visitante().calcularAlquiler(this);
     }
 
-    public void quitarEdifico(Edificio.TIPO tipo){
+    public void quitarEdificio(Edificio.TIPO tipo){
         for(Edificio e:edificios){
             if(e.getNombre().toLowerCase().contains(tipo.toString())){
                 edificios.remove(e);

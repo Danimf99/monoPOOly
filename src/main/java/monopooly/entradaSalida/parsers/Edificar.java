@@ -26,10 +26,10 @@ public class Edificar implements Expresion {
         }
 
         Casilla casilla= Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
-
         if(!(casilla instanceof Solar)){
             throw new ExcepcionArgumentosIncorrectos("La casilla en la que se quiere edificar no es un solar");
         }
+
         switch (comandoIntroducido[1].toLowerCase()){
             case "casa":
             case "hotel":
