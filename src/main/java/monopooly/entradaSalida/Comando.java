@@ -23,6 +23,10 @@ public interface Comando {
 
     void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo)throws ExcepcionMonopooly;
 
+    void estadisticasJugador(Jugador jugador);
+
+    void estadistiscasGlobales();
+
     void listarJugadores();
 
     void listarAvatares();

@@ -350,6 +350,16 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void estadisticasJugador(Jugador jugador) {
+        jugador.getEstadisticas().toString();
+    }
+
+    @Override
+    public void estadistiscasGlobales() {
+        Juego.consola.info(Tablero.getStatsGlobales().toString());
+    }
+
+    @Override
     public void hipotecar(Jugador jugador,Casilla casilla){
         if(!((Propiedad) casilla).getPropietario().equals(jugador)){
             Juego.consola.error("Esa propiedad pertenece a otro jugador");

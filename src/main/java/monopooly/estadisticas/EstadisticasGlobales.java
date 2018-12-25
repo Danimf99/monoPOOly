@@ -1,5 +1,6 @@
 package monopooly.estadisticas;
 
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Jugador;
@@ -34,7 +35,7 @@ public class EstadisticasGlobales {
 
     public void calcularEstadisticas(){
        // calcularGrupoMasRentable();
-       // calcularInmuebleFrecuentado();
+        calcularInmuebleFrecuentado();
        // calcularInmuebleMasRentable();
         calcularEnCabeza();
         calcularJugadorMasVueltas();
@@ -64,16 +65,16 @@ public class EstadisticasGlobales {
     //    }
     //}
 //
-    //private void calcularInmuebleFrecuentado(){
-    //    int freq=0;
-//
-    //    for(Casilla i: tablero.getCasillas().values()){
-    //        if(freq<i.getCalle().getVecesFrecuentado()){
-    //            freq=i.getCalle().getVecesFrecuentado();
-    //            inmuebleMasFrecuentado=new String(i.getCalle().getNombre());
-    //        }
-    //    }
-    //}
+    private void calcularInmuebleFrecuentado(){
+        int freq=0;
+
+        for(Casilla i: tablero.getCasillas()){
+            if(freq<i.frecuenciaVisita()){
+                freq=i.frecuenciaVisita();
+                inmuebleMasFrecuentado=new String(i.getNombre());
+            }
+        }
+    }
 
     private void calcularJugadorMasVueltas(){
         int max=0;

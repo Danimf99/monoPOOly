@@ -14,11 +14,13 @@ public abstract class Casilla implements Imprimible {
     private HashSet<Avatar> avatares;
     private final static Iterator<Integer> generadorId = Stream.iterate(0, i -> i + 1).iterator();
     private Integer id;
+    private int frecuenciaVisita;
 
     public Casilla(String nombre) {
         this.nombre = nombre;
         this.avatares = new HashSet<>();
         this.id = generadorId.next();
+        this.frecuenciaVisita=0;
     }
 
     public String getNombre() {
@@ -47,6 +49,13 @@ public abstract class Casilla implements Imprimible {
         return Tablero.getTablero().posicionCasilla(this);
     }
 
+    public void setFrecuenciaVisita(int frecuenciaVisita) {
+        this.frecuenciaVisita = frecuenciaVisita;
+    }
+
+    public int frecuenciaVisita(){
+        return frecuenciaVisita;
+    }
     public abstract void visitar(VisitanteCasilla visitante) throws ExcepcionMonopooly;
 
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {
