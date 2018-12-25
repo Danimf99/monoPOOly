@@ -97,6 +97,17 @@ public class Grupo extends Casilla implements Monopolio {
         }
         return genInfo(sBuilder.toString(), nombre);
     }
+
+    public int cantidadPropiedades(Jugador player) {
+        int total = 0;
+        for (Propiedad calle : propiedades) {
+            if (calle.getPropietario().equals(player)) {
+                total++;
+            }
+        }
+        return total;
+    }
+
     public boolean esCompleto() {
         HashSet<Jugador> propietariosCalles = new HashSet<>();
         for (Propiedad calle : propiedades) {

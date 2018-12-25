@@ -20,6 +20,7 @@ import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.Comprar;
+import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
 
 import java.util.HashSet;
 
@@ -359,6 +360,7 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.hipotecar(((Propiedad) casilla));
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(jugador,(Propiedad)casilla,true));
     }
 
 
