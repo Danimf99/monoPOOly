@@ -85,6 +85,14 @@ public class Jugador {
     /* SETTERS Y GETTERS*/
     /*-------------------------*/
 
+    public void setEstadisticas(StatsJugador estadisticas) {
+        this.estadisticas = estadisticas;
+    }
+
+    public StatsJugador getEstadisticas() {
+        return estadisticas;
+    }
+
     public String getNombre() {
         return nombre;
     }

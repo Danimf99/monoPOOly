@@ -20,6 +20,9 @@ import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.Comprar;
+import monopooly.sucesos.tipoSucesos.DeshipotecarPropiedad;
+import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
+import monopooly.sucesos.tipoSucesos.VenderEdificios;
 
 import java.util.HashSet;
 
@@ -45,19 +48,22 @@ public class Juego implements Comando, Subject {
     public void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo) throws ExcepcionMonopooly{
         Solar solar=(Solar)casilla;
         Jugador jActual = Tablero.getPrompt().getJugador();
+        int dinero=0;
         switch (tipo){
             case casa:
                 if(solar.calcularNumCasas()==0){
                     throw new ExcepcionAccionInvalida("No hay casas en ese solar");
                 }
                 if(solar.calcularNumCasas()<numeroEdificios){
-                    jActual.anhadirDinero((int)(solar.calcularNumCasas()*solar.getPrecio()*Precios.VALOR_CASA/2));
+                    dinero=(int)(solar.calcularNumCasas()*solar.getPrecio()*Precios.VALOR_CASA/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<solar.calcularNumCasas();i++){
                         solar.quitarEdificio(tipo);
                     }
                 }
                 else{
-                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_CASA/2));
+                    dinero=(int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_CASA/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<numeroEdificios;i++){
                         solar.quitarEdificio(tipo);
                     }
@@ -68,13 +74,15 @@ public class Juego implements Comando, Subject {
                     throw new ExcepcionAccionInvalida("No hay hoteles en ese solar");
                 }
                 if(solar.calcularNumHoteles()<numeroEdificios){
-                    jActual.anhadirDinero((int)(solar.calcularNumHoteles()*solar.getPrecio()*Precios.VALOR_HOTEL/2));
+                    dinero=(int)(solar.calcularNumHoteles()*solar.getPrecio()*Precios.VALOR_HOTEL/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<solar.calcularNumHoteles();i++){
                         solar.quitarEdificio(tipo);
                     }
                 }
                 else{
-                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_HOTEL/2));
+                    dinero=(int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_HOTEL/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<numeroEdificios;i++){
                         solar.quitarEdificio(tipo);
                     }
@@ -85,13 +93,15 @@ public class Juego implements Comando, Subject {
                     throw new ExcepcionAccionInvalida("No hay pistas de deporte en ese solar");
                 }
                 if(solar.calcularNumDeportes()<numeroEdificios){
-                    jActual.anhadirDinero((int)(solar.calcularNumDeportes()*solar.getPrecio()*Precios.VALOR_DEPORTE/2));
+                    dinero=(int)(solar.calcularNumDeportes()*solar.getPrecio()*Precios.VALOR_DEPORTE/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<solar.calcularNumDeportes();i++){
                         solar.quitarEdificio(tipo);
                     }
                 }
                 else{
-                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_DEPORTE/2));
+                    dinero=(int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_DEPORTE/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<numeroEdificios;i++){
                         solar.quitarEdificio(tipo);
                     }
@@ -102,19 +112,22 @@ public class Juego implements Comando, Subject {
                     throw new ExcepcionAccionInvalida("No hay piscinas en ese solar");
                 }
                 if(solar.calcularNumPiscinas()<numeroEdificios){
-                    jActual.anhadirDinero((int)(solar.calcularNumPiscinas()*solar.getPrecio()*Precios.VALOR_PISCINA/2));
+                    dinero=(int)(solar.calcularNumPiscinas()*solar.getPrecio()*Precios.VALOR_PISCINA/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<solar.calcularNumPiscinas();i++){
                         solar.quitarEdificio(tipo);
                     }
                 }
                 else{
-                    jActual.anhadirDinero((int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_PISCINA/2));
+                    dinero=(int)(numeroEdificios*solar.getPrecio()*Precios.VALOR_PISCINA/2);
+                    jActual.anhadirDinero(dinero);
                     for(int i=0;i<numeroEdificios;i++){
                         solar.quitarEdificio(tipo);
                     }
                 }
                 break;
         }
+        Partida.interprete.enviarSuceso(new VenderEdificios(jActual,solar,dinero,tipo));
     }
 
     @Override
@@ -324,8 +337,7 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.deshipotecar(((Propiedad)casilla));
-        Tablero.getPrompt().setMotivoPago("Deshipotecación de la propiedad "+casilla.getNombre());
-        Tablero.getPrompt().setModDinero(-(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1));
+        Partida.interprete.enviarSuceso(new DeshipotecarPropiedad(jugador,(Propiedad)casilla,(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1)));
     }
     @Override
     public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
@@ -349,6 +361,16 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void estadisticasJugador(Jugador jugador) {
+        jugador.getEstadisticas().toString();
+    }
+
+    @Override
+    public void estadistiscasGlobales() {
+        Juego.consola.info(Tablero.getStatsGlobales().toString());
+    }
+
+    @Override
     public void hipotecar(Jugador jugador,Casilla casilla){
         if(!((Propiedad) casilla).getPropietario().equals(jugador)){
             Juego.consola.error("Esa propiedad pertenece a otro jugador");
@@ -359,6 +381,7 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.hipotecar(((Propiedad) casilla));
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(jugador,(Propiedad)casilla,true));
     }
 
 

@@ -10,9 +10,9 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
-import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.Alquiler;
 import monopooly.sucesos.tipoSucesos.Caer;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
@@ -41,7 +41,7 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public int calcularAlquiler(Estacion estacion) {
-        return 0;
+        return ((Precios.SALIDA/4) * estacion.getMonopolio().cantidadPropiedades(estacion.getPropietario()));
     }
 
     @Override
@@ -62,12 +62,44 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public int calcularAlquiler(Servicio servicio) {
-        return 0;
+        return Precios.FACTOR_SERVICIOS * jugadorVisitante.getDados().tirada();
     }
 
     @Override
     public int calcularAlquiler(Solar solar) {
-        return 123;
+        int dineroAlquiler=0;
+        if(solar.calcularNumDeportes()>0){
+            dineroAlquiler=(int) (solar.getMonopolio().getPrecio())*25*solar.calcularNumDeportes();
+        }
+        else if(solar.calcularNumPiscinas()>0){
+            dineroAlquiler+=25*solar.calcularNumPiscinas()*(int) (solar.getMonopolio().getPrecio());
+        }
+        else if(solar.calcularNumHoteles()>0){
+            dineroAlquiler+=70*dineroAlquiler*(int) (solar.getMonopolio().getPrecio());
+        }
+        else if(solar.calcularNumCasas()>0){
+            if(solar.calcularNumCasas()==4){
+                dineroAlquiler=50*(int) (solar.getMonopolio().getPrecio());
+            }
+            if(solar.calcularNumCasas()==3){
+                dineroAlquiler+=35*(int) (solar.getMonopolio().getPrecio());
+            }
+            if (solar.calcularNumCasas()==2){
+                dineroAlquiler+=15*(int) (solar.getMonopolio().getPrecio());
+            }
+            else{
+                dineroAlquiler+=5*(int) (solar.getMonopolio().getPrecio());
+            }
+        }
+        else{
+            dineroAlquiler=(int)(solar.getMonopolio().getPrecio());
+        }
+
+        // Habria que tener en cuenta las casas pero de momento no hay
+        if (solar.getMonopolio().esCompleto()) {
+            dineroAlquiler *= 2;
+        }
+        return dineroAlquiler;
     }
 
     /*
@@ -83,32 +115,44 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(Solar solar) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(solar);
+        if(!jugadorVisitante.equals(solar.getPropietario()) &&!solar.getPropietario().equals(Tablero.BANCA)) {
+            jugadorVisitante.quitarDinero(calcularAlquiler(solar));
+            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(solar), solar, solar.getPropietario()));
+        }
     }
 
 
     @Override
     public void visitar(Estacion estacion) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(estacion);
+        if(!jugadorVisitante.equals(estacion.getPropietario()) && !estacion.getPropietario().equals(Tablero.BANCA)) {
+            jugadorVisitante.quitarDinero(calcularAlquiler(estacion));
+            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(estacion), estacion, estacion.getPropietario()));
+        }
     }
 
     @Override
     public void visitar(Servicio servicio) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(servicio);
+        if(!jugadorVisitante.equals(servicio.getPropietario()) && !servicio.getPropietario().equals(Tablero.BANCA)) {
+            jugadorVisitante.quitarDinero(calcularAlquiler(servicio));
+            Partida.interprete.enviarSuceso(new Alquiler(jugadorVisitante, calcularAlquiler(servicio), servicio, servicio.getPropietario()));
+        }
     }
 
     @Override
     public void visitar(Impuesto impuesto) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(impuesto);
         jugadorVisitante.quitarDinero(Precios.IMPUESTOS);
@@ -118,7 +162,7 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(Especial especial) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(especial);
 
@@ -128,7 +172,7 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(CajaComunidad cajaComunidad) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(cajaComunidad);
     }
@@ -136,7 +180,7 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(Suerte suerte) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(suerte);
     }
@@ -144,7 +188,7 @@ public class Visitante implements VisitanteCasilla {
     @Override
     public void visitar(Propiedad propiedad) throws ExcepcionMonopooly {
         if (jugadorVisitante == null) {
-            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugado para visitarla");
+            throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(propiedad);
 
