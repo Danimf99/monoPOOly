@@ -35,7 +35,6 @@ public class Esfinge extends Avatar {
     public void pasarTurno() throws ExcepcionMonopooly {
         if (!this.isNitroso()) {
             super.pasarTurno();
-            careTaker.guardar(this);
             return;
         }
 
@@ -122,6 +121,8 @@ public class Esfinge extends Avatar {
         }
 
         this.preLanzamiento();
+
+        this.careTaker.guardar(this);
         int tirada = this.getJugador().getDados().tirada();
 
         if (tirada < 4) {
@@ -137,20 +138,23 @@ public class Esfinge extends Avatar {
             }
         }
 
-        try {
-            int posicion = this.getPosicion().getX();
-            if (posicion >= Posiciones.VE_A_LA_CARCEL || posicion < Posiciones.CARCEL) {
-                // Estrictamente si estuviera en ve a la carcel empezaría en el lado sur. Anque nunca habrá un avatar ahi
-                inicioSur(tirada);
-            } else {
-                inicioNorte(tirada);
-            }
-        } finally {
-            this.careTaker.guardar(this);
+        this.setOldPosicion(this.getPosicion());
+
+        int posicion = this.getPosicion().getX();
+        if (posicion >= Posiciones.VE_A_LA_CARCEL || posicion < Posiciones.CARCEL) {
+            // Estrictamente si estuviera en ve a la carcel empezaría en el lado sur. Anque nunca habrá un avatar ahi
+            inicioSur(tirada);
+        } else {
+            inicioNorte(tirada);
         }
     }
 
-    /*MOVIMIENTO ESPECIAL PARA CADA AVATAR*/
+    @Override
+    public void moverBasico() throws ExcepcionMonopooly {
+        this.careTaker.guardar(this);
+        this.setOldPosicion(this.getPosicion());
+        super.moverBasico();
+    }
 
     public String toString(){
         return PintadoAscii.encuadrar("Avatar{\n"+

@@ -101,6 +101,14 @@ public abstract class Avatar implements Observador {
         return nitroso;
     }
 
+    public Posicion getOldPosicion() {
+        return oldPosicion;
+    }
+
+    public void setOldPosicion(Posicion oldPosicion) {
+        this.oldPosicion = new Posicion(oldPosicion);
+    }
+
     public void setNitroso(boolean nitroso) throws ExcepcionAccionInvalida {
         if (Tablero.getPrompt().getLanzamientosDados() > 0 || Tablero.getPrompt().isUsoMovEspecial()) {
             throw new ExcepcionAccionInvalida("No puedes cambiar de modo despues de tirar.\n" +
@@ -193,7 +201,7 @@ public abstract class Avatar implements Observador {
 
 
     protected void preLanzamiento() throws ExcepcionMonopooly {
-        this.oldPosicion = new Posicion(this.posicion);
+
         Tablero.getPrompt().aumentarLanzamientosDados();
         this.getJugador().getDados().lanzar();
         getJugador().checkCarcel();
