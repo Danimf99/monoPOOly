@@ -379,7 +379,7 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void estadistiscasGlobales() {
-        Juego.consola.info(Tablero.getStatsGlobales().toString());
+        Juego.consola.imprimirln(Tablero.getStatsGlobales().toString());
     }
 
     @Override

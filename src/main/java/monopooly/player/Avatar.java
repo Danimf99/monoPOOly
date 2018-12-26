@@ -332,6 +332,7 @@ public abstract class Avatar implements Observador {
     public void moverBasico() throws ExcepcionMonopooly {
         if (Tablero.getPrompt().getLanzamientosDados() == 0) {
             preLanzamiento();
+            this.getJugador().aumentarVecesDados();
             this.setOldPosicion(this.getPosicion());
             moverAvatar(getJugador().getDados().tirada());
         } else if (Tablero.getPrompt().getLanzamientosDados() < 3 && this.getJugador().getDados().sonDobles()) {
