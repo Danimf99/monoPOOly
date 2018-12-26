@@ -273,7 +273,7 @@ public class Juego implements Comando, Subject {
                 p.setPropietario(Tablero.BANCA);
             }
         }
-        Tablero.getTablero().pasarTurno();
+        //Tablero.getPrompt()
     }
 
     @Override

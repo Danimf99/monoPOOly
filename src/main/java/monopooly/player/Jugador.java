@@ -118,7 +118,7 @@ public class Jugador {
     }
 
     public HashSet<Propiedad> getPropiedades() {
-        return propiedades;
+        return new HashSet<>(propiedades);
     }
 
     public void setPropiedades(HashSet<Propiedad> propiedades) {

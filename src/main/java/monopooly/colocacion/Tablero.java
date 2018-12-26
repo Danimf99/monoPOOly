@@ -96,9 +96,10 @@ public class Tablero implements Observador {
     }
 
     public void eliminarJugador(Jugador jugador){
-        this.jugadoresTurno.remove(0);
-        this.jugadores.remove(jugador);
-
+        instanciaTablero.getCasilla(instanciaTablero.getJugadorTurno().getAvatar().getPosicion()).quitarJugador(jugador);
+        this.jugadoresTurno.remove(jugador);
+        this.jugadores.remove(jugador.getNombre());
+        prompt.reset();
     }
     /**
      * Añade un jugador a la lista de jugadores de la partida. Si el jugador ya
