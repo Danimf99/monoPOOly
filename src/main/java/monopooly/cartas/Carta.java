@@ -1,21 +1,17 @@
 package monopooly.cartas;
 
-import monopooly.player.Jugador;
 
-public interface Carta {
-  void aplicar();
+import monopooly.excepciones.ExcepcionCarta;
+import monopooly.excepciones.ExcepcionMonopooly;
 
-  String getMensaje();
+public abstract class Carta {
 
-  void deshacer();
 
-  /**
-   * Si se pago a la banca devuelve la cantidad del pago
-   *
-   * @return Cantidad del pago a la banca. En caso de no pagar a la banca
-   * devuelve 0
-   */
-  int cantidadBanca();
+    public abstract void accion() throws ExcepcionMonopooly;
 
-  int modDinero();
+    public abstract String getMensaje();
+
+    public abstract void deshacer() throws ExcepcionMonopooly;
+
+    public abstract int modDinero();
 }

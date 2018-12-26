@@ -1,31 +1,28 @@
 package monopooly.cartas.cajaComunidad;
 
+import javafx.scene.control.Tab;
 import monopooly.Partida;
 import monopooly.cartas.CajaComunidad;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.accion.especiales.implementacionesEspecial.IrCarcel;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionCarta;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.AccionCarta;
-import monopooly.sucesos.tipoSucesos.PagoBanca;
 
-public class CartaCaja1 extends CajaComunidad {
-    private static final int DINERO = -150;
+public class CartaCaja2 extends CajaComunidad {
+    private static final int DINERO = 0;
     private static final String MENSAJE = ""
-            + "Vas a un balneario de 5 estrellas \n"
-            + "paga " + -DINERO + " " + Precios.MONEDA
-            + ""
+            + "\"Ve a la carcel sin cobrar por la casilla de salida\\n\""
             + "";
 
 
     @Override
-    public void accion() throws ExcepcionCarta {
+    public void accion() throws ExcepcionMonopooly {
         Jugador jugador = Tablero.getPrompt().getJugador();
-        jugador.anhadirDinero(DINERO);
-        Partida.interprete.enviarSuceso( // Necesario enviarlo para que el parking lo pille =)
-                new PagoBanca(jugador, DINERO, "Carta de Caja de Comunidad")
-        );
         Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
+        new IrCarcel().efectuar(jugador);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class CartaCaja1 extends CajaComunidad {
 
     @Override
     public void deshacer() {
-        /* Los pagos de la banca se deshacen solos */
+        /* No es necesario el suceso generado al ir a la carcel es el que se deshace */
     }
 
     @Override

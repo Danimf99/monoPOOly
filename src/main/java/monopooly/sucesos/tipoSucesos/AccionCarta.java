@@ -24,9 +24,6 @@ public class AccionCarta extends Suceso {
         this.carta = carta;
     }
 
-    public int pagoBanca() {
-        return abs(this.carta.cantidadBanca());
-    }
 
     @Override
     public void deshacer() throws ExcepcionMonopooly {
