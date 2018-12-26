@@ -107,6 +107,9 @@ public class Partida {
                         Tablero.getTablero().pasarTurno();
                         Juego.consola.imprimirln(Tablero.getTablero().toString());
                         break;
+                    case "tratos":
+                        exp=new VerTratos(args);
+                        break;
                     case "lanzar":
                         exp=new Lanzar(args);
                         break;
