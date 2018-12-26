@@ -92,7 +92,7 @@ public class Visitante implements VisitanteCasilla {
             }
         }
         else{
-            dineroAlquiler=(int)(solar.getMonopolio().getPrecio());
+            dineroAlquiler=(int)(solar.getMonopolio().getPrecio()*0.1);
         }
 
         // Habria que tener en cuenta las casas pero de momento no hay
