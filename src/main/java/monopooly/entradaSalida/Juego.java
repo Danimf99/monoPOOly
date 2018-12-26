@@ -352,6 +352,14 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void eliminarTrato(Jugador jugador,Trato trato) throws ExcepcionMonopooly{
+        if(Tablero.getPrompt().getJugador().equals(trato.getOriginador())){
+            jugador.getTratos().remove(trato);
+        }
+        throw new ExcepcionAccionInvalida("No eres el que realizó la petición del trato "+trato.getId());
+    }
+
+    @Override
     public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
         receptor.getTratos().add(new Trato3(originador,receptor,cantidadDinero,propiedadR));
     }

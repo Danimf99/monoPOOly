@@ -8,6 +8,7 @@ import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.Trato;
 
 public interface Comando {
     /**
@@ -34,6 +35,8 @@ public interface Comando {
     void Hacertrato3(Jugador originador,Jugador receptor,int cantidadDinero,Propiedad propiedadR) throws ExcepcionMonopooly;
 
     void verTratos(Jugador jugador) throws ExcepcionMonopooly;
+
+    void eliminarTrato(Jugador jugador, Trato Trato) throws ExcepcionMonopooly;
 
     void listarJugadores();
 
