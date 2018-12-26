@@ -1,7 +1,5 @@
 package monopooly.estadisticas;
 
-import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
-import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Jugador;
@@ -50,7 +48,9 @@ public class StatsJugador implements Observador {
 
         if (suceso instanceof Alquiler && ((Alquiler) suceso).getPropietario().equals(this.jugador))
             this.cobroDeAlquileres += ((Alquiler) suceso).getCantidad();
-
+        if(suceso instanceof Alquiler && !((Alquiler) suceso).getPropietario().equals(this.jugador)){
+            this.pagoDeAlquileres +=((Alquiler)suceso).getCantidad();
+        }
         if (!suceso.getJugadorOriginador().equals(this.jugador)) return;
 
         if (suceso instanceof Comprar) {  // Si fue una compra
@@ -174,7 +174,7 @@ public class StatsJugador implements Observador {
                 "Dinero pagado por alquileres: " + pagoDeAlquileres + Precios.MONEDA + "\n" +
                 "Dinero cobrado por alquileres: " + cobroDeAlquileres + Precios.MONEDA + "\n" +
                 "Dinero cobrado de haber pasado por salida: " + dineroPasoPorSalida + Precios.MONEDA + "\n" +
-                "Veces que estuvo en la carcel: " + vecesCarcel + Precios.MONEDA + "\n" +
+                "Veces que estuvo en la carcel: " + vecesCarcel + "\n" +
                 "Dinero obtenido por inversiones o por el bote: " + inversionesBote + Precios.MONEDA + "\n" +
                 "Dinero pagado por tasas e impuestos: " + pagoTasas + Precios.MONEDA + "\n";
         return PintadoAscii.encuadrar(stats);

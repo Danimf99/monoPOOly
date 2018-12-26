@@ -4,9 +4,7 @@ package monopooly.entradaSalida;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
-import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.*;
@@ -376,7 +374,7 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void estadisticasJugador(Jugador jugador) {
-        jugador.getEstadisticas().toString();
+        Juego.consola.imprimirln(jugador.getEstadisticas().toString());
     }
 
     @Override
