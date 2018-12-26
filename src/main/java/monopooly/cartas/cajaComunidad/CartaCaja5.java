@@ -21,7 +21,7 @@ public class CartaCaja5 extends CajaComunidad {
     public void accion() throws ExcepcionCarta {
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.anhadirDinero(DINERO);
-        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -DINERO, MENSAJE));
+        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -DINERO, "Carta de caja de comunidad"));
     }
 
     @Override

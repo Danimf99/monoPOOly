@@ -55,7 +55,7 @@ public class CartaSuerte8 extends Suerte {
             }
         }
         jugador.quitarDinero(pago);
-        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -pago, MENSAJE));
+        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -pago, "Carta de Suerte"));
 
     }
 

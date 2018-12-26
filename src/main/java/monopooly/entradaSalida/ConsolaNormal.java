@@ -203,6 +203,9 @@ public class ConsolaNormal implements Consola {
         int eleccion = 0;
         try {
             eleccion = this.sc.nextInt();
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+            }
         } finally {
             if (eleccion < 1 || eleccion > 6) {
                 error("Elige un numero entre el 1 y el 6.", "Error eligiendo carta");

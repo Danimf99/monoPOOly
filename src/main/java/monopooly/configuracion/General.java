@@ -60,7 +60,7 @@ public class General {
     };
 
 
-    public static final boolean MODO_ABURRIDO = true;
+    public static final boolean MODO_ABURRIDO = false;
 
     public static final int TIRADA_ROLLBACK = 6;
 

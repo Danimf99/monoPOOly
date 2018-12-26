@@ -156,6 +156,9 @@ public class Jugador {
     }
 
     public void setEstarEnCarcel(boolean estarEnCarcel) throws ExcepcionAccionInvalida {
+        if (estarEnCarcel) {
+            Tablero.getPrompt().setLanzamientosDados(100);
+        }
         this.estarEnCarcel = estarEnCarcel;
         if (avatar instanceof Esfinge && estarEnCarcel) {
             avatar.setNitroso(false);
@@ -247,7 +250,7 @@ public class Jugador {
             throw new ExcepcionAccionInvalida("Estás en la cárcel, no puedes moverte.\n" +
                     "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel,\n" +
                     "saca dobles en alguna de tus tiradas disponibles o \n" +
-                    "espera " + ( 3 - this.turnosEnCarcel ) + " turnos más.");
+                    "espera " + ( 4 - this.turnosEnCarcel ) + " turnos más.");
         }
 
         if(this.dados.getDobles()==3) {

@@ -18,7 +18,7 @@ public class CartaSuerte3 extends Suerte {
     public void accion() {
         Jugador actual = Tablero.getPrompt().getJugador();
         actual.anhadirDinero(DINERO);
-        Partida.interprete.enviarSuceso(new PagoBanca(actual, DINERO, MENSAJE));
+        Partida.interprete.enviarSuceso(new PagoBanca(actual, DINERO, "Carta de Suerte"));
     }
 
     @Override
