@@ -15,6 +15,7 @@ import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.AccionCarta;
+import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 import java.util.ArrayList;
@@ -311,8 +312,8 @@ public class Tablero implements Observador {
             this.bote += suceso.getDeshacer() ? - pago : + pago;
         }
 
-        if (suceso instanceof AccionCarta) {
-            int pago = ((AccionCarta) suceso).pagoBanca();
+        if (suceso instanceof PagoBanca) {
+            int pago = ((PagoBanca) suceso).getCantidad();
             this.bote += suceso.getDeshacer() ? - pago : + pago;
         }
 

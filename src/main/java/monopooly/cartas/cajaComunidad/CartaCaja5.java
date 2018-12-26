@@ -6,13 +6,12 @@ import monopooly.colocacion.Tablero;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionCarta;
 import monopooly.player.Jugador;
-import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 
-public class CartaCaja1 extends CajaComunidad {
+public class CartaCaja5 extends CajaComunidad {
     private static final int DINERO = -150;
     private static final String MENSAJE = ""
-            + "Vas a un balneario de 5 estrellas \n"
+            + "Invitas a todos tus amigos a un viaje a Leon.\n"
             + "paga " + -DINERO + " " + Precios.MONEDA
             + ""
             + "";
@@ -22,10 +21,7 @@ public class CartaCaja1 extends CajaComunidad {
     public void accion() throws ExcepcionCarta {
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.anhadirDinero(DINERO);
-        Partida.interprete.enviarSuceso( // Necesario enviarlo para que el parking lo pille =)
-                new PagoBanca(jugador, DINERO, "Carta de Caja de Comunidad")
-        );
-        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
+        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -DINERO, MENSAJE));
     }
 
     @Override
@@ -35,8 +31,9 @@ public class CartaCaja1 extends CajaComunidad {
 
     @Override
     public void deshacer() {
-        /* Los pagos de la banca se deshacen solos */
+        /* Va por pago de Banca entonces se deshace solo */
     }
+
 
     @Override
     public int modDinero() {

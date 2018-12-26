@@ -25,7 +25,7 @@ public class AccionCarta extends Suceso {
     }
 
     public int pagoBanca() {
-        return abs(this.carta.cantidadBanca());
+        return this.carta.cantidadBanca();
     }
 
     @Override

@@ -44,6 +44,6 @@ public class PagoBanca extends Suceso {
     @Override
     public void deshacer() throws ExcepcionMonopooly {
         super.deshacer();
-        getJugadorOriginador().anhadirDinero(cantidad);
+        getJugadorOriginador().anhadirDinero(-cantidad);
     }
 }
