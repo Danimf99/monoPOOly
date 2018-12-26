@@ -160,6 +160,9 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
     @Override
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {
         reprSubclases.add("Titulo de propiedad");
+        reprSubclases.add("");
+        reprSubclases.add("Precio: "+this.precio+" "+Precios.MONEDA);
+        reprSubclases.add("");
         reprSubclases.add("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
         reprSubclases.add("");
         reprSubclases.add("Hipoteca: " + this.hipoteca() + " " + Precios.MONEDA);
