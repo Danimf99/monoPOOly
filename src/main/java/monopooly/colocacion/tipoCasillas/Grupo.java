@@ -73,12 +73,7 @@ public class Grupo extends Casilla implements Monopolio {
 
     }
 
-    public Grupo(String nombre, int precio, TipoMonopolio tipoMonopolio) {
-        super(nombre);
-        this.precio = precio;
-        this.propiedades = new HashSet<>();
-        this.tipoMonopolio = tipoMonopolio;
-    }
+
     public int sizeMonopolio(){
         return propiedades.size();
     }
