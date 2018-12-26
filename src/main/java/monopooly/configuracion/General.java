@@ -59,6 +59,9 @@ public class General {
             "Ibiza",
     };
 
+
+    public static final boolean MODO_ABURRIDO = true;
+
     public static final int TIRADA_ROLLBACK = 6;
 
     public static final String AYUDA_NOMBRE = "NAME:";

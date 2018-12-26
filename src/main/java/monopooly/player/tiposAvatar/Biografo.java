@@ -6,6 +6,9 @@ import monopooly.player.Avatar;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+/**
+ *
+ */
 public class Biografo {
     private Stack<Object> historial;
 

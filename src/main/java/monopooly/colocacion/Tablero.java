@@ -239,6 +239,7 @@ public class Tablero implements Observador {
         this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
         Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
         siguienteCasilla.meterJugador(avatar);
+        avatar.setPosicion(posicion);
     }
 
 

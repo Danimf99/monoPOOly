@@ -1,7 +1,10 @@
 package monopooly.sucesos;
 
+import monopooly.Partida;
+import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.*;
 
 import java.util.Iterator;
 import java.util.stream.Stream;
@@ -9,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * Almacena informacion sobre un suceso del juego. Toda la necesaria para
  * que se tenga en cuenta en las estadísticas y para revertirla en movimientos
- * especiales como los del sombrero o la esfinge
+ * especiales como los del sombrero o la esfinge.
  *
  * @author Danimf99
  * @author luastan
@@ -24,6 +27,40 @@ public abstract class Suceso {
         this.jugadorOriginador = jugadorOriginador;
         this.id = generadorId.next();
         this.deshacer = false;
+    }
+
+    private static void deshacerEnviar(Juego interprete, Suceso suceso) throws ExcepcionMonopooly {
+        suceso.deshacer();
+        interprete.enviarSuceso(suceso);
+    }
+
+    public static void enviarSoloBeneficios(Suceso suceso) throws ExcepcionMonopooly {
+        Juego interprete = Partida.interprete;
+
+        if (suceso instanceof AccionCarta) {
+            AccionCarta accionCarta = (AccionCarta) suceso;
+            if (accionCarta.getCarta().modDinero() > 0) {
+                deshacerEnviar(interprete, suceso);
+            }
+            return;
+        }
+
+        if (suceso instanceof Comprar) {
+            deshacerEnviar(interprete, suceso);
+            return;
+        }
+
+        if (suceso instanceof ConseguirBote) {
+            deshacerEnviar(interprete, suceso);
+            return;
+        }
+
+        if (suceso instanceof PagoBanca) {
+            if (((PagoBanca) suceso).getCantidad() > 0) {
+                deshacerEnviar(interprete, suceso);
+            }
+        }
+
     }
 
     public Jugador getJugadorOriginador() {
