@@ -19,6 +19,7 @@ import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -241,6 +242,16 @@ public class Tablero implements Observador {
         Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
         siguienteCasilla.meterJugador(avatar);
         avatar.setPosicion(posicion);
+    }
+
+    public void cartaComunidad(int eleccion) throws ExcepcionMonopooly {
+        Collections.shuffle(this.cartasCajaComunidad);
+        this.cartasCajaComunidad.get(eleccion).accion();
+    }
+
+    public void cartaSuerte(int eleccion) throws ExcepcionMonopooly {
+        Collections.shuffle(this.cartasSuerte);
+        this.cartasSuerte.get(eleccion).accion();
     }
 
 
