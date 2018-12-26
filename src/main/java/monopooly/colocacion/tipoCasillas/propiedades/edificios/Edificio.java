@@ -7,7 +7,7 @@ public abstract class Edificio {
     private String nombre;
     private Solar solar;
     private int precio;
-    public static enum TIPO {
+    public enum TIPO {
         casa,
         hotel,
         deporte,

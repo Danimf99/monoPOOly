@@ -5,7 +5,6 @@ import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.configuracion.General;
 import monopooly.configuracion.Posiciones;
-import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionAcontecimiento;
