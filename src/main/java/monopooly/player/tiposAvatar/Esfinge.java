@@ -31,6 +31,19 @@ public class Esfinge extends Avatar {
     }
 
     @Override
+    public void setNitroso(boolean nitroso) throws ExcepcionAccionInvalida {
+        if (getJugador().isEstarEnCarcel() && nitroso) {
+            throw new ExcepcionAccionInvalida(
+                    "La esfinge no puede activar el nitroso en la carcel"
+            );
+        } else if (getJugador().isEstarEnCarcel()) {
+            this.nitroso = nitroso;
+            return;
+        }
+        super.setNitroso(nitroso);
+    }
+
+    @Override
     public void pasarTurno() throws ExcepcionMonopooly {
         if (!this.isNitroso()) {
             super.pasarTurno();
@@ -82,7 +95,6 @@ public class Esfinge extends Avatar {
             this.moverAvatar(new Posicion(Posiciones.PARKING + 1));
         }
         zigzag(tirada, posicionesNorte, posicionesSur);
-
     }
 
     private void zigzag(int tirada, ArrayList<Posicion> posicionesComienzo, ArrayList<Posicion> posicionesFin) throws ExcepcionMonopooly {

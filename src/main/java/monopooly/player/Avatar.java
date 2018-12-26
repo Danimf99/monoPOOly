@@ -25,7 +25,7 @@ public abstract class Avatar implements Observador {
     private Jugador jugador;
     private Posicion posicion;
     private Posicion oldPosicion;
-    private boolean nitroso;
+    protected boolean nitroso;
     private CareTaker careTaker;
 
     private Subject subject;

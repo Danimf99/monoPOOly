@@ -110,4 +110,23 @@ public class Posiciones {
         return conjunto;
     }
 
+    public static ArrayList<Posicion> posicionesOesteFromCarcel() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        for (int i = Posiciones.CARCEL; i <= Posiciones.PARKING; i++) {
+            conjunto.add(new Posicion(i));
+        }
+        return conjunto;
+    }
+
+    public static ArrayList<Posicion> posicionesEsteFromSalida() {
+        ArrayList<Posicion> conjunto = new ArrayList<>();
+        conjunto.add(new Posicion(0));
+        for (int i = Posiciones.TOTAL - 1; i >= Posiciones.VE_A_LA_CARCEL; i--) {
+            conjunto.add(new Posicion(i));
+        }
+        return conjunto;
+    }
+
+
+
 }

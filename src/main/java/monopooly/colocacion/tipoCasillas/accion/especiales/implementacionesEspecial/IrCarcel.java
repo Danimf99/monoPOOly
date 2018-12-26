@@ -10,7 +10,9 @@ import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.configuracion.Posiciones;
 import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.sucesos.tipoSucesos.CaerCarcel;
 
 import java.util.ArrayList;
@@ -24,12 +26,9 @@ public class IrCarcel implements AccionEspecial {
     @Override
     public void efectuar(Jugador jugador) throws ExcepcionMonopooly {
         Posicion posCarcel = new Posicion(Posiciones.CARCEL);
-        Casilla carcel = Tablero.getTablero().getCasilla(posCarcel);
+        Partida.interprete.enviarSuceso(new CaerCarcel(jugador));
         jugador.setEstarEnCarcel(true);
         Tablero.getTablero().recolocar(jugador, new Posicion(Posiciones.CARCEL));
-        jugador.getAvatar().getPosicion().setX(Posiciones.CARCEL);
-        carcel.visitar(new Visitante(jugador));
-        Partida.interprete.enviarSuceso(new CaerCarcel(jugador));
         throw new ExcepcionAcontecimiento("Caiste en ve a la carcel");
     }
 

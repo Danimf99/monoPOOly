@@ -145,8 +145,11 @@ public class Jugador {
         return estarEnCarcel;
     }
 
-    public void setEstarEnCarcel(boolean estarEnCarcel) {
+    public void setEstarEnCarcel(boolean estarEnCarcel) throws ExcepcionAccionInvalida {
         this.estarEnCarcel = estarEnCarcel;
+        if (avatar instanceof Esfinge && estarEnCarcel) {
+            avatar.setNitroso(false);
+        }
     }
 
     public int getTurnosEnCarcel() {
@@ -232,7 +235,9 @@ public class Jugador {
         if(this.estarEnCarcel && this.turnosEnCarcel!=3){
             this.turnosEnCarcel++;
             throw new ExcepcionAccionInvalida("Estás en la cárcel, no puedes moverte.\n" +
-                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel,\n" +
+                    "saca dobles en alguna de tus tiradas disponibles o \n" +
+                    "espera " + ( 3 - this.turnosEnCarcel ) + " turnos más.");
         }
 
         if(this.dados.getDobles()==3) {

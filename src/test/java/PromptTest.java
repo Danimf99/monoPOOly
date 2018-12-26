@@ -60,7 +60,7 @@ public class PromptTest {
     }
 
     @Test
-    public void testEstarEnCarcel() {
+    public void testEstarEnCarcel() throws ExcepcionAccionInvalida {
         prompt.getJugador().setEstarEnCarcel(true);
     }
 
