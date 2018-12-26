@@ -15,6 +15,8 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.ClasesTratos.TratoDinero;
+import monopooly.player.Tratos.ClasesTratos.TratoPropiedad;
 import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
@@ -349,8 +351,20 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) {
+    public void Hacertrato2(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDinero) throws ExcepcionMonopooly {
+        receptor.getTratos().add(new TratoDinero(originador,receptor,propiedadO,cantidadDinero));
+    }
 
+    @Override
+    public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly{
+       // if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new TratoPropiedad(originador, receptor, propiedadO, propiedadR));
+            return;
+       // }
+     //   else if(!propiedadO.getPropietario().equals(originador) ) {
+     //       throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+     //   }
+     //   throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
