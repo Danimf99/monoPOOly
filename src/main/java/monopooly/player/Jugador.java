@@ -11,6 +11,7 @@ import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsJugador;
 import monopooly.excepciones.*;
+import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
 import monopooly.player.tiposAvatar.Pelota;
@@ -34,6 +35,7 @@ public class Jugador {
     private StatsJugador estadisticas;
     private int vecesDados;
     private int cooldown;
+    private HashSet<Trato> tratos;
 
 
     /*-------------------------*/
@@ -51,7 +53,7 @@ public class Jugador {
         this.estadisticas=new StatsJugador(Partida.interprete, this);
         this.vecesDados=0;
         this.cooldown=0;
-
+        this.tratos=new HashSet<>();
         switch(avatar){
             case coche:
                 this.avatar=new Coche(this);
@@ -87,6 +89,14 @@ public class Jugador {
 
     public void setEstadisticas(StatsJugador estadisticas) {
         this.estadisticas = estadisticas;
+    }
+
+    public HashSet<Trato> getTratos() {
+        return tratos;
+    }
+
+    public void setTratos(HashSet<Trato> tratos) {
+        this.tratos = tratos;
     }
 
     public StatsJugador getEstadisticas() {

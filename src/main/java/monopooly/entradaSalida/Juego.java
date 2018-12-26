@@ -15,6 +15,7 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
@@ -40,6 +41,15 @@ public class Juego implements Comando, Subject {
         cambio = false;
     }
 
+    @Override
+    public void verTratos(Jugador jugador) throws ExcepcionMonopooly{
+        if(jugador.getTratos().size()==0){
+            throw new ExcepcionAccionInvalida("No se te ha propuesto ningún trato");
+        }
+        for(Trato trato:jugador.getTratos()){
+            Juego.consola.info(trato.toString());
+        }
+    }
 
     @Override
     public void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo) throws ExcepcionMonopooly{
@@ -339,7 +349,7 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void trato(Jugador originador, Jugador receptor) {
+    public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) {
 
     }
 
