@@ -1,5 +1,6 @@
 package monopooly.cartas.cajaComunidad;
 
+import monopooly.Partida;
 import monopooly.cartas.CajaComunidad;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
@@ -21,6 +22,7 @@ public class CartaCaja3 extends CajaComunidad {
     public void accion() throws ExcepcionMonopooly {
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.getAvatar().moverAvatar(new Posicion(Posiciones.SALIDA));
+        jugador.pagoSalida();
         throw new ExcepcionCarta(MENSAJE, this); // Permite que los movimientos especiales sigan con normalidad
     }
 
@@ -31,7 +33,7 @@ public class CartaCaja3 extends CajaComunidad {
 
     @Override
     public void deshacer() {
-        /* El pago de ve a la carcel y el movimiento se deshacen solos, se genera en mover avatar el suceso */
+        /* El pago salida se hace solo */
     }
 
 
