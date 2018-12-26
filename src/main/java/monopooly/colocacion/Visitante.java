@@ -62,37 +62,40 @@ public class Visitante implements VisitanteCasilla {
 
     @Override
     public int calcularAlquiler(Servicio servicio) {
-        return Precios.FACTOR_SERVICIOS * jugadorVisitante.getDados().tirada();
+        if(jugadorVisitante!=null) {
+            return Precios.FACTOR_SERVICIOS * jugadorVisitante.getDados().tirada();
+        }
+        return Precios.FACTOR_SERVICIOS;
     }
 
     @Override
     public int calcularAlquiler(Solar solar) {
         int dineroAlquiler=0;
         if(solar.calcularNumDeportes()>0){
-            dineroAlquiler=(int) (solar.getMonopolio().getPrecio())*25*solar.calcularNumDeportes();
+            dineroAlquiler=(int) (solar.getPrecio())*25*solar.calcularNumDeportes();
         }
-        else if(solar.calcularNumPiscinas()>0){
-            dineroAlquiler+=25*solar.calcularNumPiscinas()*(int) (solar.getMonopolio().getPrecio());
+        if(solar.calcularNumPiscinas()>0){
+            dineroAlquiler+=25*solar.calcularNumPiscinas()*(int) (solar.getPrecio());
         }
-        else if(solar.calcularNumHoteles()>0){
-            dineroAlquiler+=70*dineroAlquiler*(int) (solar.getMonopolio().getPrecio());
+        if(solar.calcularNumHoteles()>0){
+            dineroAlquiler+=70*dineroAlquiler*(int) (solar.getPrecio());
         }
-        else if(solar.calcularNumCasas()>0){
+        if(solar.calcularNumCasas()>0){
             if(solar.calcularNumCasas()==4){
-                dineroAlquiler=50*(int) (solar.getMonopolio().getPrecio());
+                dineroAlquiler=50*(int) (solar.getPrecio());
             }
             if(solar.calcularNumCasas()==3){
-                dineroAlquiler+=35*(int) (solar.getMonopolio().getPrecio());
+                dineroAlquiler+=35*(int) (solar.getPrecio());
             }
             if (solar.calcularNumCasas()==2){
-                dineroAlquiler+=15*(int) (solar.getMonopolio().getPrecio());
+                dineroAlquiler+=15*(int) (solar.getPrecio());
             }
             else{
-                dineroAlquiler+=5*(int) (solar.getMonopolio().getPrecio());
+                dineroAlquiler+=5*(int) (solar.getPrecio());
             }
         }
         else{
-            dineroAlquiler=(int)(solar.getMonopolio().getPrecio()*0.1);
+            dineroAlquiler=(int)(solar.getPrecio()*0.1);
         }
 
         // Habria que tener en cuenta las casas pero de momento no hay
