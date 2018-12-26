@@ -43,6 +43,32 @@ public class HacerTrato implements Expresion {
         if(comandoIntroducido[3].contains(",") || comandoIntroducido[4].equals("y")){
             comandoReplace=comandoIntroducido[3].replace("(","");
             comandoReplace=comandoReplace.replace(",","");
+            if(esNumero(comandoReplace)){
+                int dinero=Integer.parseInt(comandoReplace);
+                if(comandoIntroducido[4].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
+                    comandoReplace=comandoIntroducido[4].replace(")","");
+                    Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
+                    if(casilla2 instanceof Propiedad) {
+                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(), receptor, dinero, (Propiedad) casilla2);
+                    }
+                    else{
+                        throw new ExcepcionAccionInvalida("La casilla "+casilla2.getNombre()+ " no es una propiedad");
+                    }
+
+                }
+                else {
+                    comandoIntroducido[4] = comandoIntroducido[4].concat(" " + comandoIntroducido[5]);
+                    comandoReplace = comandoIntroducido[4].replace(")", "");
+                    Casilla casilla2 = interprete.casillaCorrecta(comandoReplace);
+                    if(casilla2 instanceof Propiedad) {
+                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(), receptor, dinero, (Propiedad) casilla2);
+                    }
+                    else{
+                        throw new ExcepcionAccionInvalida("La casilla "+casilla2.getNombre()+ " no es una propiedad");
+                    }
+                }
+                return;
+            }
             Casilla casilla1 = interprete.casillaCorrecta(comandoReplace);
             if(comandoIntroducido[4].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
                 comandoReplace=comandoIntroducido[4].replace(")","");
@@ -77,9 +103,6 @@ public class HacerTrato implements Expresion {
         comandoReplace=comandoReplace.replace(",","");
 
         Casilla casilla1=interprete.casillaCorrecta(comandoReplace);
-        if(casilla1==null){
-            throw new ExcepcionAccionInvalida("La casilla no 1 no existe");
-        }
 
         if(comandoIntroducido[5].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
             comandoReplace=comandoIntroducido[5].replace(")","");

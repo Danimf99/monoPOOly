@@ -31,6 +31,8 @@ public interface Comando {
 
     void Hacertrato2(Jugador originador,Jugador receptor,Propiedad propiedadO,int cantidadDinero) throws ExcepcionMonopooly;
 
+    void Hacertrato3(Jugador originador,Jugador receptor,int cantidadDinero,Propiedad propiedadR) throws ExcepcionMonopooly;
+
     void verTratos(Jugador jugador) throws ExcepcionMonopooly;
 
     void listarJugadores();
