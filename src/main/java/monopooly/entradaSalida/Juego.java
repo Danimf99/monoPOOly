@@ -339,6 +339,11 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void trato(Jugador originador, Jugador receptor) {
+
+    }
+
+    @Override
     public void deshipotecar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
         if(!((Propiedad)casilla).getPropietario().equals(jugador)){
             Juego.consola.info("No eres el dueño de la propiedad "+casilla.getNombre());

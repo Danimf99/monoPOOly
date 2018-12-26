@@ -27,6 +27,8 @@ public interface Comando {
 
     void estadistiscasGlobales();
 
+    void trato(Jugador originador,Jugador receptor);
+
     void listarJugadores();
 
     void listarAvatares();
