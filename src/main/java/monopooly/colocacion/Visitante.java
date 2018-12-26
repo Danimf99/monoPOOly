@@ -10,6 +10,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
+import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.Alquiler;
@@ -143,6 +144,7 @@ public class Visitante implements VisitanteCasilla {
             throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(cajaComunidad);
+        Tablero.getTablero().cartaComunidad(Juego.consola.elegirCarta());
     }
 
     @Override
@@ -151,6 +153,7 @@ public class Visitante implements VisitanteCasilla {
             throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(suerte);
+        Tablero.getTablero().cartaSuerte(Juego.consola.elegirCarta());
     }
 
     @Override

@@ -2,6 +2,7 @@ package monopooly.entradaSalida;
 
 import monopooly.configuracion.ReprASCII;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static monopooly.entradaSalida.PintadoAscii.encuadrar;
@@ -196,5 +197,18 @@ public class ConsolaNormal implements Consola {
         return leer();
     }
 
-
+    @Override
+    public int elegirCarta() {
+        System.out.print(ReprASCII.PROMPT_ELECCION_CARTA);
+        int eleccion = 0;
+        try {
+            eleccion = this.sc.nextInt();
+        } finally {
+            if (eleccion < 1 || eleccion > 6) {
+                error("Elige un numero entre el 1 y el 6.", "Error eligiendo carta");
+                eleccion = elegirCarta();
+            }
+        }
+        return eleccion;
+    }
 }
