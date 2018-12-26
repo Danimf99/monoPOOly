@@ -25,6 +25,7 @@ public class Pelota extends Avatar {
         if (!Tablero.getPrompt().isUsoMovEspecial()) {
             throw new ExcepcionAccionInvalida("Aun no tiraste este turno");
         }
+        this.getSubject().eliminar(this);
     }
 
 

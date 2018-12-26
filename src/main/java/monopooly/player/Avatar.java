@@ -41,17 +41,8 @@ public abstract class Avatar implements Observador {
     @Override
     public void update() {
         Suceso suceso = (Suceso) this.subject.getUpdate(this);
-        if (suceso == null) {
-            return;
-        }
-
-        if (suceso instanceof Guardado) {
-            return;
-        }
-
-        if (!suceso.getDeshacer()) {
-            sucesos.add(suceso);
-        }
+        if (suceso == null || suceso instanceof Guardado) return;
+        if (!suceso.getDeshacer()) sucesos.add(suceso);
     }
 
     @Override
@@ -119,6 +110,10 @@ public abstract class Avatar implements Observador {
 
     public void setOldPosicion(Posicion oldPosicion) {
         this.oldPosicion = new Posicion(oldPosicion);
+    }
+
+    public Subject getSubject() {
+        return subject;
     }
 
     public void setNitroso(boolean nitroso) throws ExcepcionAccionInvalida {
@@ -293,8 +288,8 @@ public abstract class Avatar implements Observador {
         return new Snapshot(sucesos, oldPosicion);
     }
 
-    public void deshacer(Object object) throws ExcepcionMonopooly {
-        Snapshot snapshot = (Snapshot) object;
+    public void recuperar(Object anteriorVersion) throws ExcepcionMonopooly {
+        Snapshot snapshot = (Snapshot) anteriorVersion;
         Tablero.getTablero().recolocacionSimple(this, snapshot.posicion);
         this.posicion = snapshot.posicion;
         Tablero.getPrompt().setModDinero(0, "Viajaste en el tiempo");

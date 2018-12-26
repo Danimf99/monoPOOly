@@ -73,6 +73,7 @@ public class Sombrero extends Avatar {
     }
 
 
+
     private void inicioOeste(int tirada) throws ExcepcionMonopooly {
         if (tirada == 0) {
             return;
@@ -109,6 +110,21 @@ public class Sombrero extends Avatar {
             this.moverAvatar(new Posicion(Posiciones.VE_A_LA_CARCEL + 1));
         }
         zigzag(tirada, posicionesEste, posicionesOeste);
+    }
+
+    @Override
+    public void pasarTurno() throws ExcepcionMonopooly {
+        if (!this.isNitroso()) {
+            super.pasarTurno();
+            return;
+        }
+        int restantes = 3 - Tablero.getPrompt().getLanzamientosDados();
+        if (restantes > 0) {
+            throw new ExcepcionAccionInvalida("Aun no tiraste suficientes veces este turno.\n Te faltan " +
+                            restantes + " lanzamientos."
+            );
+        }
+        this.getSubject().eliminar(this);
     }
 
 

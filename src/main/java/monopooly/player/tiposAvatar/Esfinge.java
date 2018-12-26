@@ -60,6 +60,7 @@ public class Esfinge extends Avatar {
                             "Te faltan " + restantes + " lanzamientos."
             );
         }
+        this.getSubject().eliminar(this);
     }
 
 

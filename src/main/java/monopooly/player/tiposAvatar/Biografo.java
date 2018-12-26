@@ -18,6 +18,6 @@ public class Biografo {
     }
 
     public void deshacer(Avatar avatar) throws EmptyStackException, ExcepcionMonopooly {
-        avatar.deshacer(this.historial.pop());
+        avatar.recuperar(this.historial.pop());
     }
 }

@@ -31,6 +31,7 @@ public class Coche extends Avatar {
         if (cooldown > 0) {
             this.cooldown--;
         }
+        this.getSubject().eliminar(this);
     }
 
 
