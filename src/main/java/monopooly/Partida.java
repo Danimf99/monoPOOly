@@ -71,6 +71,9 @@ public class Partida {
                     case "estadísticas":
                         exp=new Estadisticas(args);
                         break;
+                    case "trato":
+                        exp=new HacerTrato(args);
+                        break;
                     case "edificar":
                         exp=new Edificar(args);
                         break;
