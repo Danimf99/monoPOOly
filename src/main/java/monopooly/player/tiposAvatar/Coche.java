@@ -1,7 +1,6 @@
 package monopooly.player.tiposAvatar;
 
 import monopooly.colocacion.Tablero;
-import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;

@@ -15,7 +15,8 @@ import monopooly.player.tiposAvatar.Biografo;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.*;
+import monopooly.sucesos.tipoSucesos.Guardado;
+import monopooly.sucesos.tipoSucesos.PagoBanca;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public abstract class Avatar implements Observador {
     private Subject subject;
     private ArrayList<Suceso> sucesos;
 
-    public static enum TIPO {
+    public enum TIPO {
         sombrero,
         esfinge,
         coche,
@@ -373,13 +374,6 @@ public abstract class Avatar implements Observador {
         Avatar avatar = (Avatar) o;
         return representacion == avatar.representacion;
     }
-
-    /*
-
-        MEMENTO
-
-     */
-
 
     /**
      * Pide al Avatar que guarde su estado actual.
