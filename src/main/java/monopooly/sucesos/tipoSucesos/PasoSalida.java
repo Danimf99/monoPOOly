@@ -13,7 +13,9 @@ public class PasoSalida extends Suceso {
 
     @Override
     public String toString() {
-        return "PasoSalida{" + Precios.SALIDA + Precios.MONEDA + "}";
+        return "Paso por la salida {\n" +
+                "   Cantidad -> " + Precios.SALIDA + " " + Precios.MONEDA + "\n" +
+                "}";
     }
 
 

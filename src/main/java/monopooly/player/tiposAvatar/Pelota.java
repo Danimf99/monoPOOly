@@ -69,12 +69,7 @@ public class Pelota extends Avatar {
     @Override
     public void intentarComprar(Casilla casilla) throws ExcepcionMonopooly {
         if (this.isNitroso()) {
-            if (!Tablero.getPrompt().pisoCasilla(casilla)) {
-                throw new ExcepcionAccionInvalida(
-                        "No pasaste por la casilla '" + casilla.getNombre() + "'\n" +
-                                "este turno."
-                );
-            }
+            Tablero.getPrompt().intentaCompraEspecial(casilla);
             return;
         }
         super.intentarComprar(casilla);

@@ -6,10 +6,10 @@ import monopooly.player.Avatar;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
-public class CareTaker {
+public class Biografo {
     private Stack<Object> historial;
 
-    public CareTaker() {
+    public Biografo() {
         historial = new Stack<>();
     }
 

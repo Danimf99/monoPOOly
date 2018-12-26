@@ -2,7 +2,7 @@ package inicializacion;
 
 
 import monopooly.colocacion.Tablero;
-import monopooly.configuracion.Nombres;
+import monopooly.configuracion.General;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -19,7 +19,7 @@ public class HashMapNombresTest {
 
     @Parameters(name = "Buscando casilla -> {0}")
     public static Object[] nombres() {
-        return Arrays.stream(Nombres.CALLES).distinct().toArray();
+        return Arrays.stream(General.CALLES).distinct().toArray();
     }
 
     @Parameter

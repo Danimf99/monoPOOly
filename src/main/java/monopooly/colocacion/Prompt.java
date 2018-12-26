@@ -5,6 +5,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.player.Dados;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
@@ -74,6 +75,15 @@ public class Prompt implements Observador {
     public void setModDinero(int modDinero, String motivoPago) {
         this.modDinero = modDinero;
         this.motivoPago = motivoPago;
+    }
+
+    public void intentaCompraEspecial(Casilla casilla) throws ExcepcionAccionInvalida {
+        if (!pisoCasilla(casilla)) {
+            throw new ExcepcionAccionInvalida(
+                    "No pasaste por la casilla '" + casilla.getNombre() + "'\n" +
+                            "este turno."
+            );
+        }
     }
 
     public boolean isCompro() {
@@ -384,11 +394,6 @@ public class Prompt implements Observador {
         if (suceso instanceof HipotecarPropiedad) {
             this.modDinero = ((HipotecarPropiedad) suceso).getDinero();
             this.motivoPago = "Hipoteca propiedad " + ((HipotecarPropiedad) suceso).getPropiedad().getNombre();
-        }
-
-        if(suceso instanceof DeshipotecarPropiedad){
-            this.modDinero=-((DeshipotecarPropiedad) suceso).getPrecioDeshipotecar();
-            this.motivoPago="Deshipoteca propiedad "+((DeshipotecarPropiedad) suceso).getPropiedad().getNombre();
         }
 
         if(suceso instanceof VenderEdificios){

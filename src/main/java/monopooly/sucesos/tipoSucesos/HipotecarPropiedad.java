@@ -1,6 +1,7 @@
 package monopooly.sucesos.tipoSucesos;
 
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
@@ -42,9 +43,9 @@ public class HipotecarPropiedad extends Suceso {
 
     @Override
     public String toString() {
-        return "HipotecarPropiedad{" +
-                "propiedad=" + propiedad.getNombre() +
-                ", hipotecar=" + hipotecar +
+        return "DeshipotecarPropiedad{" +
+                "   cantidad    -> " + getDinero() + " " + Precios.MONEDA + ",\n" +
+                "   propiedad   -> " + propiedad.getNombre() + "\n" +
                 '}';
     }
 

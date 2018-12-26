@@ -1,5 +1,6 @@
 package monopooly.sucesos.tipoSucesos;
 
+import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
@@ -33,9 +34,9 @@ public class PagoBanca extends Suceso {
 
     @Override
     public String toString() {
-        return "PagoBanca{" +
-                "cantidad=" + cantidad +
-                ", explicacion='" + explicacion + '\'' +
+        return "Pago de la banca {\n" +
+                "   Cantidad -> " + cantidad + " " + Precios.MONEDA + ",\n" +
+                "   Concepto -> " + explicacion + "\n" +
                 '}';
     }
 

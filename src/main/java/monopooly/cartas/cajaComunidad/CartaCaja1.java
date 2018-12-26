@@ -15,6 +15,11 @@ public class CartaCaja1 implements Carta {
     }
 
     @Override
+    public String getMensaje() {
+        return MENSAJE;
+    }
+
+    @Override
     public void deshacer() {
         // Deshacer
     }

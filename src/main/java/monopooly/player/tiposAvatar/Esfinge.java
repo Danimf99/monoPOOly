@@ -1,7 +1,9 @@
 package monopooly.player.tiposAvatar;
 
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.configuracion.General;
 import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
@@ -148,11 +150,11 @@ public class Esfinge extends Avatar {
 
         int tirada = this.getJugador().getDados().tirada();
 
-        if (tirada < 4) {
+        if (tirada <= 4) {
             try {
                 this.restore();
                 throw new ExcepcionAcontecimiento(
-                        "Sacaste menos de 4.\n" +
+                        "Sacaste menos o igual que " + General.TIRADA_ROLLBACK + ".\n" +
                                 "Vuelves atrás en el tiempo.\n"
                 );
             } catch (EmptyStackException e) {
@@ -162,6 +164,19 @@ public class Esfinge extends Avatar {
         }
         this.setOldPosicion(this.getPosicion());
         elegirLadoInicio(tirada);
+    }
+
+    @Override
+    public void intentarComprar(Casilla casilla) throws ExcepcionMonopooly {
+        if (this.isNitroso()) {
+            if (Tablero.getPrompt().isCompro()) {
+                throw new ExcepcionAccionInvalida("Ya compraste este turno.\n" +
+                        "No puedes volver a comprar hasta el siguiente.");
+            }
+            Tablero.getPrompt().intentaCompraEspecial(casilla);
+            return;
+        }
+        super.intentarComprar(casilla);
     }
 
     @Override

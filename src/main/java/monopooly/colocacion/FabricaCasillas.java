@@ -13,7 +13,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Estacion;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Servicio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
-import monopooly.configuracion.Nombres;
+import monopooly.configuracion.General;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @author luastan
  */
 public class FabricaCasillas {
-    private static final Iterator nombres = Arrays.asList(Nombres.CALLES).iterator();
+    private static final Iterator nombres = Arrays.asList(General.CALLES).iterator();
     private static final HashMap<TipoMonopolio, Grupo> grupos = new HashMap<>();
 
     /**

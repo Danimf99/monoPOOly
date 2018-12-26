@@ -6,7 +6,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
-import monopooly.configuracion.Nombres;
+import monopooly.configuracion.General;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.configuracion.ReprASCII;
@@ -342,7 +342,7 @@ public class PintadoAscii {
         Tablero tablero = Tablero.getTablero();
 
         Casilla casilla; // NO MODIFICAR
-        int longitudMax = tamMaxArrayString(new ArrayList<>(Arrays.asList(Nombres.CALLES)));
+        int longitudMax = tamMaxArrayString(new ArrayList<>(Arrays.asList(General.CALLES)));
         if (longitudMax < 5 * 2 + 1) { // 5 * 2 + 1 es lo minimo para representar 6 avatares separados con un espacio
             longitudMax = 5 * 2 +1;
         }

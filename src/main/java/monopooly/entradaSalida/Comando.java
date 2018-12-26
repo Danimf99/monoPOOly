@@ -49,6 +49,8 @@ public interface Comando {
 
     void describirAvatar(Avatar avatar);
 
+    void describirFinanzas(Avatar avatar);
+
     void salirCarcel(Jugador jugador) throws ExcepcionMonopooly;
 
     void verTablero();

@@ -1,7 +1,9 @@
 package monopooly.player.tiposAvatar;
 
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.configuracion.General;
 import monopooly.configuracion.Posiciones;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
@@ -116,16 +118,25 @@ public class Sombrero extends Avatar {
     }
 
     @Override
+    public void intentarComprar(Casilla casilla) throws ExcepcionMonopooly {
+        if (this.isNitroso()) {
+            Tablero.getPrompt().intentaCompraEspecial(casilla);
+            return;
+        }
+        super.intentarComprar(casilla);
+    }
+
+    @Override
     public void moverAvanzado() throws ExcepcionMonopooly {
         if (Tablero.getPrompt().getLanzamientosDados() >= 3) {
             throw new ExcepcionAccionInvalida("Ya tiraste 3 veces este turno, no puedes tirar más.");
         }
         this.preLanzamiento();
-        if (this.getJugador().getDados().tirada() < 4) {
+        if (this.getJugador().getDados().tirada() <= General.TIRADA_ROLLBACK) {
             try {
                 this.restore();
                 throw new ExcepcionAcontecimiento(
-                        "Sacaste menos de 4.\n" +
+                        "Sacaste menos o igual que " + General.TIRADA_ROLLBACK + ".\n" +
                                 "Vuelves atrás en el tiempo.\n"
                 );
             } catch (EmptyStackException e) {

@@ -9,7 +9,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
-import monopooly.player.tiposAvatar.CareTaker;
+import monopooly.player.tiposAvatar.Biografo;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
@@ -26,7 +26,7 @@ public abstract class Avatar implements Observador {
     private Posicion posicion;
     private Posicion oldPosicion;
     protected boolean nitroso;
-    private CareTaker careTaker;
+    private Biografo biografo;
 
     private Subject subject;
     private ArrayList<Suceso> sucesos;
@@ -73,7 +73,7 @@ public abstract class Avatar implements Observador {
         this.nitroso=false;
         this.sucesos = new ArrayList<>();
         this.setSubject(Partida.interprete);
-        this.careTaker = new CareTaker();
+        this.biografo = new Biografo();
     }
 
     /*-------------------------*/
@@ -166,7 +166,6 @@ public abstract class Avatar implements Observador {
         }
 
         if (Tablero.getPrompt().isCompro()) {
-            // Se usará como fallback en caso de que no esté el movimiento especial activo
             throw new ExcepcionAccionInvalida("Ya compraste este turno.\n" +
                     "No puedes volver a comprar hasta el siguiente.");
         }
@@ -282,46 +281,38 @@ public abstract class Avatar implements Observador {
         if (this.sucesos.size() == 0) {
             return;
         }
-        this.careTaker.guardar(this);
+        this.biografo.guardar(this);
     }
 
     public void restore() throws ExcepcionMonopooly {
-        this.careTaker.deshacer(this);
+        this.biografo.deshacer(this);
     }
 
-    public Memento guardar() {
+    public Snapshot guardar() {
         Partida.interprete.enviarSuceso(new Guardado(this.getJugador()));
-        return new Memento(sucesos, oldPosicion);
+        return new Snapshot(sucesos, oldPosicion);
     }
 
     public void deshacer(Object object) throws ExcepcionMonopooly {
-        Memento memento = (Memento) object;
-        Tablero.getTablero().recolocacionSimple(this, memento.posicion);
-        this.posicion = memento.posicion;
+        Snapshot snapshot = (Snapshot) object;
+        Tablero.getTablero().recolocacionSimple(this, snapshot.posicion);
+        this.posicion = snapshot.posicion;
         Tablero.getPrompt().setModDinero(0, "Viajaste en el tiempo");
-        for (Suceso suceso : memento.sucesosTirada) {
+        for (Suceso suceso : snapshot.sucesosTirada) {
             suceso.deshacer();
             Partida.interprete.enviarSuceso(suceso);
         }
     }
 
 
-    private class Memento {
+    private class Snapshot {
         private ArrayList<Suceso> sucesosTirada;
         private Posicion posicion;
 
-        Memento(ArrayList<Suceso> sucesosTirada, Posicion pos) {
+        Snapshot(ArrayList<Suceso> sucesosTirada, Posicion pos) {
             this.sucesosTirada = new ArrayList<>(sucesosTirada);
             this.posicion = new Posicion(pos);
             sucesosTirada.clear();
-        }
-
-        @Override
-        public String toString() {
-            return "Memento{" +
-                    "sucesosTirada=" + sucesosTirada +
-                    ", posicion=" + posicion +
-                    '}';
         }
     }
 }

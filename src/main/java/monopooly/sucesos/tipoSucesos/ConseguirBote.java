@@ -1,5 +1,6 @@
 package monopooly.sucesos.tipoSucesos;
 
+import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
@@ -22,8 +23,8 @@ public class ConseguirBote extends Suceso {
 
     @Override
     public String toString() {
-        return "ConseguirBote{" +
-                "cantidadBote=" + cantidadBote +
+        return "ConseguirBote{\n" +
+                "   Cantidad -> " + cantidadBote + "" + Precios.MONEDA + "\n" +
                 '}';
     }
 

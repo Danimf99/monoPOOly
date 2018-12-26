@@ -36,8 +36,9 @@ public class AccionCarta extends Suceso {
 
     @Override
     public String toString() {
-        return "AccionCarta{" +
-                "carta=" + carta +
-                '}';
+        return "Carta {\n" +
+                "" +
+                "" +
+                "" + carta.getMensaje() + "\n}";
     }
 }

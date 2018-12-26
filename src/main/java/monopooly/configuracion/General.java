@@ -1,6 +1,6 @@
 package monopooly.configuracion;
 
-public class Nombres {
+public class General {
     public static String[] CALLES = {
             "Salida",
 
@@ -58,6 +58,8 @@ public class Nombres {
             "IVA",
             "Ibiza",
     };
+
+    public static final int TIRADA_ROLLBACK = 6;
 
     public static final String AYUDA_NOMBRE = "NAME:";
     public static final String AYUDA_SYNOPSIS = "SYNOPSIS:";

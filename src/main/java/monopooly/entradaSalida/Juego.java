@@ -4,7 +4,9 @@ package monopooly.entradaSalida;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.*;
@@ -19,10 +21,7 @@ import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.Comprar;
-import monopooly.sucesos.tipoSucesos.DeshipotecarPropiedad;
-import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
-import monopooly.sucesos.tipoSucesos.VenderEdificios;
+import monopooly.sucesos.tipoSucesos.*;
 
 import java.util.HashSet;
 
@@ -327,6 +326,21 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void describirFinanzas(Avatar avatar) {
+        boolean evitar = true;
+        StringBuilder salida = new StringBuilder();
+        for (Suceso suceso : Tablero.getPrompt().getSucesosTurno()) {
+            evitar = suceso instanceof Caer ||
+                    suceso instanceof CaerCarcel ||
+                    suceso instanceof Guardado;
+            if (!evitar) {
+                salida.append(suceso).append("\n\n");
+            }
+        }
+        Juego.consola.imprimirln(PintadoAscii.encuadrar(salida.toString()));
+    }
+
+    @Override
     public void deshipotecar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
         if(!((Propiedad)casilla).getPropietario().equals(jugador)){
             Juego.consola.info("No eres el dueño de la propiedad "+casilla.getNombre());
@@ -337,7 +351,7 @@ public class Juego implements Comando, Subject {
             return;
         }
         jugador.deshipotecar(((Propiedad)casilla));
-        Partida.interprete.enviarSuceso(new DeshipotecarPropiedad(jugador,(Propiedad)casilla,(int)(((Propiedad) casilla).getMonopolio().getPrecio()*1.1)));
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(jugador,(Propiedad)casilla,false));
     }
     @Override
     public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {

@@ -30,8 +30,8 @@ public class PagoImpuesto extends Suceso {
 
     @Override
     public String toString() {
-        return "PagoImpuesto{" +
-                "cantidad=" + cantidad +
+        return "Pago de impuesto {\n" +
+                "   Cantidad -> " + cantidad + " " + Precios.MONEDA + "\n" +
                 '}';
     }
 
