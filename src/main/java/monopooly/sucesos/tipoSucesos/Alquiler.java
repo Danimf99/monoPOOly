@@ -54,7 +54,7 @@ public class Alquiler extends Suceso {
     @Override
     public String toString() {
         return "Alquiler{\n" +
-                "   Cantidad    -> " + cantidad + " " + Precios.MONEDA + ",\n" +
+                "   Cantidad    -> " + -cantidad + " " + Precios.MONEDA + ",\n" +
                 "   Propiedad   -> " + propiedad.getNombre() + ",\n" +
                 "   Propietario -> " + propietario.getNombre() + "\n" +
                 '}';

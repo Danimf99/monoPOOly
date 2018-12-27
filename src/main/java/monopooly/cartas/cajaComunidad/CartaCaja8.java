@@ -24,11 +24,11 @@ public class CartaCaja8 extends CajaComunidad {
     @Override
     public void accion() throws ExcepcionMonopooly {
         Jugador actual = Tablero.getPrompt().getJugador();
+        Partida.interprete.enviarSuceso(new AccionCarta(actual, this));
         Tablero.getTablero().getJugadores().stream().filter(jugador -> !jugador.equals(actual)).forEach(
                 jugador -> jugador.anhadirDinero(DINERO)
         );
         actual.quitarDinero(pago());
-        Partida.interprete.enviarSuceso(new AccionCarta(actual, this));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package monopooly.sucesos.tipoSucesos;
 
+import monopooly.cartas.CajaComunidad;
 import monopooly.cartas.Carta;
+import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
@@ -33,9 +35,11 @@ public class AccionCarta extends Suceso {
 
     @Override
     public String toString() {
-        return "Carta {\n" +
-                "" +
-                "" +
-                "" + carta.getMensaje() + "\n}";
+        String salida = "Carta {\n";
+        if (carta.modDinero() != 0) {
+            salida += "   Cantidad -> " + carta.modDinero() + " " + Precios.MONEDA + "\n";
+        }
+        return salida += (carta instanceof CajaComunidad) ? "   Caja de Comunidad" + "\n}" : "   Suerte" + "\n}";
+
     }
 }

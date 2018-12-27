@@ -206,12 +206,17 @@ public class ConsolaNormal implements Consola {
             if (sc.hasNextLine()) {
                 sc.nextLine();
             }
-        } finally {
             if (eleccion < 1 || eleccion > 6) {
                 error("Elige un numero entre el 1 y el 6.", "Error eligiendo carta");
                 eleccion = elegirCarta();
             }
+        } catch (InputMismatchException e) {
+            error("Elige un numero.", "Error eligiendo carta");
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+            }
+            eleccion = elegirCarta();
         }
-        return eleccion;
+        return eleccion -1;
     }
 }

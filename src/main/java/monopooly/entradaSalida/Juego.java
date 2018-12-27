@@ -353,6 +353,7 @@ public class Juego implements Comando, Subject {
         for (Suceso suceso : Tablero.getPrompt().getSucesosTurno()) {
             evitar = suceso instanceof Caer ||
                     suceso instanceof CaerCarcel ||
+                    (suceso instanceof AccionCarta && ((AccionCarta) suceso).getCarta().modDinero() == 0) ||
                     suceso instanceof Guardado;
             if (!evitar) {
                 salida.append(suceso).append("\n\n");

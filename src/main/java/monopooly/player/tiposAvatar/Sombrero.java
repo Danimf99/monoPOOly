@@ -66,7 +66,6 @@ public class Sombrero extends Avatar {
                 inicioEste(tirada);
             }
         } catch (ExcepcionCarta e) {
-            e.imprimeInfo();
             elegirLadoInicio(tirada);
         }
     }

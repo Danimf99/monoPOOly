@@ -23,6 +23,7 @@ public class CartaCaja2 extends CajaComunidad {
         Jugador jugador = Tablero.getPrompt().getJugador();
         Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
         new IrCarcel().efectuar(jugador);
+        throw new ExcepcionCarta(MENSAJE, this); // Permite que los movimientos especiales sigan con normalidad
     }
 
     @Override

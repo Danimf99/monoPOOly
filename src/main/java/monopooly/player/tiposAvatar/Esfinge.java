@@ -126,7 +126,6 @@ public class Esfinge extends Avatar {
                 inicioSur(tirada);
             }
         } catch (ExcepcionCarta e) {
-            e.imprimeInfo();
             elegirLadoInicio(tirada);
         }
     }

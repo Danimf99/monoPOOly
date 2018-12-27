@@ -20,10 +20,11 @@ public class CartaCaja4 extends CajaComunidad {
 
 
     @Override
-    public void accion() {
+    public void accion() throws ExcepcionCarta {
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.anhadirDinero(DINERO);
         Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
+        Partida.interprete.enviarSuceso(new PagoBanca(jugador, DINERO, "Carta de Caja de comunidad"));
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CartaCaja4 extends CajaComunidad {
 
     @Override
     public void deshacer() throws ExcepcionMonopooly {
-        Tablero.getPrompt().getJugador().quitarDinero(DINERO);
+        /* El pago banca se deshace */
     }
 
     @Override
