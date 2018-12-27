@@ -16,6 +16,14 @@ public class TratoDinero extends Trato {
         this.dinero=dinero;
     }
 
+    public Propiedad getPropiedadO() {
+        return propiedadO;
+    }
+
+    public int getDinero() {
+        return dinero;
+    }
+
     @Override
     public String toString() {
         return super.toString()+"\n"

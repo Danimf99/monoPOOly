@@ -28,6 +28,8 @@ public interface Comando {
 
     void estadistiscasGlobales();
 
+    void aceptarTrato(Trato trato) throws ExcepcionMonopooly;
+
     void Hacertrato1(Jugador originador,Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly;
 
     void Hacertrato2(Jugador originador,Jugador receptor,Propiedad propiedadO,int cantidadDinero) throws ExcepcionMonopooly;

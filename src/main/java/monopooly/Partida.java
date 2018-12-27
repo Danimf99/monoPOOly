@@ -64,6 +64,9 @@ public class Partida {
                     case "c":
                         exp = new Comprar(args);
                         break;
+                    case "aceptar":
+                        exp=new AceptarTrato(args);
+                        break;
                     case "bancarrota":
                         exp=new Bancarrota(args);
                         break;

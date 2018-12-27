@@ -12,6 +12,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -350,6 +351,64 @@ public class Juego implements Comando, Subject {
             }
         }
         Juego.consola.imprimirln(PintadoAscii.encuadrar(salida.toString()));
+    }
+
+    @Override
+    public void aceptarTrato(Trato trato) throws ExcepcionMonopooly{
+
+        if(trato instanceof TratoPropiedad){
+            Jugador creadorTrato=trato.getOriginador();
+            trato.getReceptor().quitarPropiedad(((TratoPropiedad) trato).getPropiedadReceptor());
+            ((TratoPropiedad) trato).getPropiedadReceptor().setPropietario(creadorTrato);
+            creadorTrato.anhadirPropiedad(((TratoPropiedad) trato).getPropiedadReceptor());
+            creadorTrato.quitarPropiedad(((TratoPropiedad) trato).getPropiedadOrigina());
+            ((TratoPropiedad) trato).getPropiedadOrigina().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((TratoPropiedad) trato).getPropiedadOrigina());
+
+
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
+        }
+
+        if(trato instanceof TratoDinero){
+            Jugador creadorTrato=trato.getOriginador();
+            try {
+                trato.getReceptor().quitarDinero(((TratoDinero) trato).getDinero());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+            creadorTrato.anhadirDinero(((TratoDinero) trato).getDinero());
+
+            creadorTrato.quitarPropiedad(((TratoDinero) trato).getPropiedadO());
+            ((TratoDinero) trato).getPropiedadO().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((TratoDinero) trato).getPropiedadO());
+
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
+        }
+
+        if(trato instanceof Trato3){
+            Jugador creadorTrato=trato.getOriginador();
+            try{
+                creadorTrato.quitarDinero(((Trato3) trato).getDinero());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+
+            trato.getReceptor().anhadirDinero(((Trato3) trato).getDinero());
+
+            trato.getReceptor().quitarPropiedad(((Trato3) trato).getPropiedadR());
+            ((Trato3) trato).getPropiedadR().setPropietario(creadorTrato);
+            creadorTrato.anhadirPropiedad(((Trato3) trato).getPropiedadR());
+
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
+        }
     }
 
     @Override
