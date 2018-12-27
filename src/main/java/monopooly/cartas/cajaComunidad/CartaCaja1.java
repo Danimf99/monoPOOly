@@ -22,10 +22,10 @@ public class CartaCaja1 extends CajaComunidad {
     public void accion() throws ExcepcionCarta {
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.anhadirDinero(DINERO);
+        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
         Partida.interprete.enviarSuceso( // Necesario enviarlo para que el parking lo pille =)
                 new PagoBanca(jugador, DINERO, "Carta de Caja de Comunidad")
         );
-        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
     }
 
     @Override
@@ -40,6 +40,6 @@ public class CartaCaja1 extends CajaComunidad {
 
     @Override
     public int modDinero() {
-        return DINERO;
+        return -DINERO;
     }
 }

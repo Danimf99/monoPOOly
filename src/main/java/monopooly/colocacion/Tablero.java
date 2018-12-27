@@ -246,12 +246,16 @@ public class Tablero implements Observador {
 
     public void cartaComunidad(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasCajaComunidad);
-        this.cartasCajaComunidad.get(eleccion).accion();
+        Carta carta = cartasCajaComunidad.get(eleccion);
+        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
+        carta.accion();
     }
 
     public void cartaSuerte(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasSuerte);
-        this.cartasSuerte.get(eleccion).accion();
+        Carta carta = cartasSuerte.get(eleccion);
+        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
+        carta.accion();
     }
 
 
@@ -325,7 +329,15 @@ public class Tablero implements Observador {
 
         if (suceso instanceof PagoBanca) {
             int pago = ((PagoBanca) suceso).getCantidad();
-            this.bote += suceso.getDeshacer() ? - pago : + pago;
+            if (suceso.getDeshacer()) {
+                if (pago > 0) {
+                    this.bote -= pago;
+                }
+            } else {
+                if (pago < 0) {
+                    this.bote += -pago;
+                }
+            }
         }
 
     }

@@ -341,11 +341,7 @@ public abstract class Avatar implements Observador {
                 throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
             }
             preLanzamiento();
-            try {
-                moverAvatar(getJugador().getDados().tirada());
-            } catch (ExcepcionCarta e) {
-                e.imprimeInfo();
-            }
+            moverAvatar(getJugador().getDados().tirada());
 
         } else {
             throw new ExcepcionAccionInvalida("Ya tiraste este turno");

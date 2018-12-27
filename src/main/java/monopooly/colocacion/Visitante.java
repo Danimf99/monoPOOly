@@ -73,33 +73,32 @@ public class Visitante implements VisitanteCasilla {
     public int calcularAlquiler(Solar solar) {
         int dineroAlquiler=0;
         if(solar.calcularNumDeportes()>0){
-            dineroAlquiler=(int) (solar.getPrecio())*25*solar.calcularNumDeportes();
+            dineroAlquiler=(int) (solar.getPrecio()*0.1)*25*solar.calcularNumDeportes();
         }
         if(solar.calcularNumPiscinas()>0){
-            dineroAlquiler+=25*solar.calcularNumPiscinas()*(int) (solar.getPrecio());
+            dineroAlquiler+=25*solar.calcularNumPiscinas()*(int) (solar.getPrecio()*0.1);
         }
         if(solar.calcularNumHoteles()>0){
-            dineroAlquiler+=70*dineroAlquiler*(int) (solar.getPrecio());
+            dineroAlquiler+=70*dineroAlquiler*(int) (solar.getPrecio()*0.1);
         }
         if(solar.calcularNumCasas()>0){
             if(solar.calcularNumCasas()==4){
-                dineroAlquiler=50*(int) (solar.getPrecio());
+                dineroAlquiler=50*(int) (solar.getPrecio()*0.1);
             }
             if(solar.calcularNumCasas()==3){
-                dineroAlquiler+=35*(int) (solar.getPrecio());
+                dineroAlquiler+=35*(int) (solar.getPrecio()*0.1);
             }
             if (solar.calcularNumCasas()==2){
-                dineroAlquiler+=15*(int) (solar.getPrecio());
+                dineroAlquiler+=15*(int) (solar.getPrecio()*0.1);
             }
             else{
-                dineroAlquiler+=5*(int) (solar.getPrecio());
+                dineroAlquiler+=5*(int) (solar.getPrecio()*0.1);
             }
         }
         else{
             dineroAlquiler=(int)(solar.getPrecio()*0.1);
         }
 
-        // Habria que tener en cuenta las casas pero de momento no hay
         if (solar.getMonopolio().esCompleto()) {
             dineroAlquiler *= 2;
         }

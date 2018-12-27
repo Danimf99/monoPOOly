@@ -6,6 +6,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionCarta;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 
 public class CartaCaja5 extends CajaComunidad {
@@ -18,10 +19,11 @@ public class CartaCaja5 extends CajaComunidad {
 
 
     @Override
-    public void accion() throws ExcepcionCarta {
+    public void accion(){
         Jugador jugador = Tablero.getPrompt().getJugador();
         jugador.anhadirDinero(DINERO);
-        Partida.interprete.enviarSuceso(new PagoBanca(jugador, -DINERO, "Carta de caja de comunidad"));
+        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
+        Partida.interprete.enviarSuceso(new PagoBanca(jugador, DINERO, "Carta de caja de comunidad"));
     }
 
     @Override

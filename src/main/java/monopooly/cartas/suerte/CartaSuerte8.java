@@ -7,8 +7,10 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.*;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
+import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 
 import java.util.HashSet;
@@ -55,8 +57,8 @@ public class CartaSuerte8 extends Suerte {
             }
         }
         jugador.quitarDinero(pago);
+        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
         Partida.interprete.enviarSuceso(new PagoBanca(jugador, -pago, "Carta de Suerte"));
-
     }
 
     @Override

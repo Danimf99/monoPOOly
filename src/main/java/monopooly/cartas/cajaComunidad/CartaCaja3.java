@@ -9,6 +9,7 @@ import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
 
 public class CartaCaja3 extends CajaComunidad {
     private static final int DINERO = 0;
@@ -21,6 +22,7 @@ public class CartaCaja3 extends CajaComunidad {
     @Override
     public void accion() throws ExcepcionMonopooly {
         Jugador jugador = Tablero.getPrompt().getJugador();
+        Partida.interprete.enviarSuceso(new AccionCarta(jugador, this));
         jugador.getAvatar().moverAvatar(new Posicion(Posiciones.SALIDA));
         jugador.pagoSalida();
         throw new ExcepcionCarta(MENSAJE, this); // Permite que los movimientos especiales sigan con normalidad
