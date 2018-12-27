@@ -3,6 +3,7 @@ package inicializacion;
 
 import monopooly.colocacion.Tablero;
 import monopooly.configuracion.General;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -27,7 +28,7 @@ public class HashMapNombresTest {
 
 
     @Test
-    public void testGetCasilla() {
+    public void testGetCasilla() throws ExcepcionParametrosInvalidos {
         assertNotNull(tablero.getCasilla(nombreCalle));
     }
 }

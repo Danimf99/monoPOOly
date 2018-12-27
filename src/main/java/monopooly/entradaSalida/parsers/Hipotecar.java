@@ -5,6 +5,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionMonopooly;
 
 public class Hipotecar implements Expresion {
     private String[] comandoIntroducido;
@@ -18,7 +19,7 @@ public class Hipotecar implements Expresion {
     }
 
     @Override
-    public void interpretar(Juego interprete) throws ExcepcionAccionInvalida {
+    public void interpretar(Juego interprete) throws ExcepcionMonopooly {
         if(comandoIntroducido.length<2){
             Juego.consola.error("Error en el comando");
             Tablero.getPrompt().setHelp(true);

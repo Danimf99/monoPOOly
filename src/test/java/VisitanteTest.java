@@ -4,6 +4,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.Visitante;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import org.junit.Before;
 import org.junit.Ignore;
 
@@ -11,7 +12,7 @@ public class VisitanteTest {
     private static Casilla casilla1;
 
     @Before
-    public void setUp() {
+    public void setUp() throws ExcepcionParametrosInvalidos {
         casilla1 = Tablero.getTablero().getCasilla("Lugo");
     }
 

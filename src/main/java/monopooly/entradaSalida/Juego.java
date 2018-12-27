@@ -681,7 +681,7 @@ public class Juego implements Comando, Subject {
                 "\n}");
     }
 
-    public Casilla casillaCorrecta(String casilla) throws ExcepcionAccionInvalida {
+    public Casilla casillaCorrecta(String casilla) throws ExcepcionMonopooly {
         Casilla casillaComprar;
 
         casillaComprar=Tablero.getTablero().getCasilla(casilla);

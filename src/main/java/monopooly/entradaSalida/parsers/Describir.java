@@ -5,6 +5,7 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
@@ -18,7 +19,7 @@ public class Describir implements Expresion {
         this.comandoIntroducido=comandoIntroducido;
     }
     @Override
-    public void interpretar(Juego interprete) throws ExcepcionArgumentosIncorrectos {
+    public void interpretar(Juego interprete) throws ExcepcionArgumentosIncorrectos, ExcepcionParametrosInvalidos {
         if(comandoIntroducido.length<2){
             throw new ExcepcionArgumentosIncorrectos("Describir requiere más argumentos");
         }

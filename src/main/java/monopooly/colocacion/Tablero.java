@@ -4,12 +4,14 @@ import monopooly.Partida;
 import monopooly.cartas.Carta;
 import monopooly.cartas.FabricaCartas;
 import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsGlobales;
 import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
@@ -141,7 +143,7 @@ public class Tablero implements Observador {
     }
 
     public Jugador getJugador(String nombre) throws ExcepcionArgumentosIncorrectos {
-        Jugador jugador = jugadores.get(nombre);
+        Jugador jugador = jugadores.get(nombre.toLowerCase());
         if (jugador == null) {
             throw new ExcepcionArgumentosIncorrectos("El jugador '" + nombre + "'\n no existe.");
         }
@@ -274,8 +276,22 @@ public class Tablero implements Observador {
         return this.casillasPosicion.get(posicion);
     }
 
-    public Casilla getCasilla(String nombre) {
-        return this.casillasNombre.get(nombre.toLowerCase());
+    public Casilla getCasilla(String nombre) throws ExcepcionParametrosInvalidos {
+        Casilla casilla = this.casillasNombre.get(nombre.toLowerCase());
+        if (casilla == null) {
+            throw new ExcepcionParametrosInvalidos("La casilla '" + nombre + "'\n" +
+                    "no existe.");
+        }
+        return casilla;
+    }
+
+    public Propiedad getPropiedad(String nombre) throws ExcepcionMonopooly {
+        Casilla casilla = getCasilla(nombre);
+        if (!(casilla instanceof Propiedad)) {
+            throw new ExcepcionParametrosInvalidos("La casilla '" + nombre + "'\n" +
+                    "no es una propiedad.");
+        }
+        return (Propiedad) casilla;
     }
 
     public int getBote() {

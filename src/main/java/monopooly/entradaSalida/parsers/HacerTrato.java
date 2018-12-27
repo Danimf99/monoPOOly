@@ -1,6 +1,5 @@
 package monopooly.entradaSalida.parsers;
 
-import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
@@ -31,8 +30,9 @@ public class HacerTrato implements Expresion {
     };
 
     private ArrayList<Matcher> matchers;
+    private Matcher matcher;
 
-    private int str2int(String string) throws ExcepcionArgumentosIncorrectos {
+    private static int str2int(String string) throws ExcepcionArgumentosIncorrectos {
         try {
             return Integer.parseInt(string);
         } catch (NumberFormatException e) {
@@ -41,40 +41,68 @@ public class HacerTrato implements Expresion {
         }
     }
 
+
     public HacerTrato(String[] comandoIntroducido) throws ExcepcionMonopooly {
         if (comandoIntroducido == null)
             throw new ExcepcionParametrosInvalidos("Parametros inválidos para el comando 'trato'");
         if (comandoIntroducido.length < 3)
             throw new ExcepcionArgumentosIncorrectos("Insuficientes argumentos para el comando 'trato'");
-
         this.matchers = new ArrayList<>();
-        Arrays.stream(PATRONES).forEachOrdered(pattern -> matchers.add(pattern.matcher(String.join(" ", comandoIntroducido))));
+
+        Arrays.stream(PATRONES)
+                .forEachOrdered(
+                        pattern -> matchers.add(pattern.matcher(String.join(" ", comandoIntroducido)))
+                );
+
+        this.matcher = matchers.stream()
+                .filter(Matcher::matches)
+                .findFirst().orElseThrow(ExcepcionArgumentosIncorrectos::new);
     }
 
     @Override
     public void interpretar(Juego interprete) throws ExcepcionMonopooly {
-        Matcher m = matchers.stream().filter(Matcher::matches).findFirst().orElseThrow(ExcepcionArgumentosIncorrectos::new);
         Jugador jOrigen = Tablero.getPrompt().getJugador();
-        Jugador jDestino = Tablero.getTablero().getJugador(m.group(0));
-        Casilla propiedad1;
-        Casilla propiedad2;
+        Jugador jDestino = Tablero.getTablero().getJugador(matcher.group(1));
+        Tablero t = Tablero.getTablero();
 
-        switch (matchers.indexOf(m)) {
+        switch (matchers.indexOf(matcher)) {
             case 0:
+                interprete.Hacertrato3(jOrigen, jDestino,
+                        str2int(matcher.group(2)),
+                        t.getPropiedad(matcher.group(3))
+                );
                 break;
             case 1:
+                interprete.Hacertrato2(jOrigen, jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        str2int(matcher.group(3))
+                );
                 break;
             case 2:
+                // TODO poner el trato de noalquiler
                 break;
             case 3:
+                interprete.hacerTrato5(jOrigen, jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        str2int(matcher.group(3)),
+                        t.getPropiedad(matcher.group(4))
+                );
                 break;
             case 4:
+                interprete.hacerTrato4(jOrigen, jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        str2int(matcher.group(3)),
+                        t.getPropiedad(matcher.group(4))
+                        );
                 break;
             case 5:
+                interprete.Hacertrato1(jOrigen, jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        t.getPropiedad(matcher.group(3))
+                        );
                 break;
             default:
                 throw new ExcepcionArgumentosIncorrectos("No existe el trato introducido");
         }
-
     }
 }
