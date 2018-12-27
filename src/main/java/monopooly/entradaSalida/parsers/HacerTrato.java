@@ -16,15 +16,15 @@ public class HacerTrato implements Expresion {
 
     private static Pattern[] PATRONES = {
         Pattern.compile("trato (.*): cambiar \\((\\d+), (.*)\\)"),
-            // Trato 0  - trato Luis: cambiar (2343243, Solar21)
+            // Trato 0  - trato Dani: cambiar (2343243, Solar21)
         Pattern.compile("trato (.*): cambiar \\((.*), (\\d+)\\)"),
-            // Trato 1  - trato Luis: cambiar (Solar14, 3234234)
+            // Trato 1  - trato Saul: cambiar (Solar14, 3234234)
         Pattern.compile("trato (.*): cambiar \\((.*), (.*)\\) y noalquiler\\((.*), (\\d+)\\)"),
-            // Trato 2  - trato Luis: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)
+            // Trato 2  - trato Dani: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)
         Pattern.compile("trato (.*): cambiar \\((.*), (.*) y (\\d+)\\)"),
-            // Trato 3  - trato Luis: cambiar (Solar14, Solar10 y 30000)
+            // Trato 3  - trato Saul: cambiar (Solar14, Solar10 y 30000)
         Pattern.compile("trato (.*): cambiar \\((.*) y (\\d+), (.*)\\)"),
-            // Trato 4  - trato Luis: cambiar (Solar14 y 34534543, Solar34)
+            // Trato 4  - trato Dani: cambiar (Solar14 y 34534543, Solar34)
         Pattern.compile("trato (.*): cambiar \\((.*), (.*)\\)")
             // Trato 5  - trato Saul: cambiar (a coruña, Lugo)
     };
