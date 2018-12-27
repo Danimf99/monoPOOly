@@ -16,9 +16,7 @@ import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
-import monopooly.player.Tratos.ClasesTratos.Trato3;
-import monopooly.player.Tratos.ClasesTratos.TratoDinero;
-import monopooly.player.Tratos.ClasesTratos.TratoPropiedad;
+import monopooly.player.Tratos.ClasesTratos.*;
 import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
@@ -53,6 +51,17 @@ public class Juego implements Comando, Subject {
         for(Trato trato:jugador.getTratos()){
             Juego.consola.info(trato.toString());
         }
+    }
+
+    @Override
+    public void hacerTrato4(Jugador originador, Jugador receptor,Propiedad propiedadO, int cantidadDineroO, Propiedad propiedadR) throws ExcepcionMonopooly {
+        receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+    }
+
+    @Override
+    public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
+        receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+        Juego.consola.imprimir(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor).toString());
     }
 
     @Override
