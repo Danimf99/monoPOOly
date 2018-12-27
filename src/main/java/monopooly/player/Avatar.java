@@ -10,6 +10,7 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionAcontecimiento;
+import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.tiposAvatar.Biografo;
 import monopooly.sucesos.Observador;
@@ -340,7 +341,12 @@ public abstract class Avatar implements Observador {
                 throw new ExcepcionAccionInvalida("Estas en la carcel; no puedes moverte");
             }
             preLanzamiento();
-            moverAvatar(getJugador().getDados().tirada());
+            try {
+                moverAvatar(getJugador().getDados().tirada());
+            } catch (ExcepcionCarta e) {
+                e.imprimeInfo();
+            }
+
         } else {
             throw new ExcepcionAccionInvalida("Ya tiraste este turno");
         }
