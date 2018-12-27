@@ -191,6 +191,103 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
+    public void edificarRapido(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly {
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+
+        if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
+            throw new ExcepcionAccionInvalida("La casilla no te pertenece");
+        }
+        int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+        if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+            throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+        }
+        if((casilla).getHipotecado()){
+            throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
+        }
+
+        switch (tipo){
+            case casa:
+                if (((Solar)casilla).calcularNumHoteles() == casilla.getMonopolio().sizeMonopolio()
+                        && ((Solar)casilla).calcularNumCasas() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más casas en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_CASA)*4) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 4 casas en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() == 4) {
+                    throw new ExcepcionAccionInvalida("No se pueden construir más casas en este solar");
+                }
+                for(int i=0;i<4;i++) {
+                    Edificio edificio = new Casa(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificio,edificio.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificio.getPrecio());
+                }
+
+                break;
+            case hotel:
+                if (((Solar)casilla).calcularNumHoteles() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más hoteles en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_HOTEL)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 hoteles en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() <4) {
+                    throw new ExcepcionAccionInvalida("Necesitas 4 casas para construir un hotel");
+                }
+                for (int i=0;i<4;i++) {
+                    ((Solar)casilla).quitarEdificio(Edificio.TIPO.casa);
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioH = new Hotel(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioH,edificioH.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioH.getPrecio());
+                }
+
+                break;
+            case piscina:
+                if (((Solar)casilla).calcularNumPiscinas() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más piscinas en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_PISCINA)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 piscinas en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() <2 && ((Solar)casilla).calcularNumHoteles()<1) {
+                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 casas y 1 hotel para construir una piscina");
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioP = new Piscina(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioP,edificioP.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioP.getPrecio());
+                }
+
+                break;
+            case deporte:
+                if (((Solar)casilla).calcularNumDeportes() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más pistas de deporte en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_DEPORTE)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 pistas de deporte en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumHoteles()<2) {
+                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 hoteles ");
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioD = new PistaDeporte(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioD,edificioD.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioD.getPrecio());
+                }
+                break;
+
+
+        }
+    }
+
+    @Override
     public void edificar(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly{
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();

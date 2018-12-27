@@ -11,12 +11,13 @@ import monopooly.excepciones.ExcepcionMonopooly;
 
 public class Edificar implements Expresion {
     private String[] comandoIntroducido;
+    private boolean edificarRapido;//Con edificar rapido te construye  del tiron
 
-    public Edificar(String[] comandoIntroducido) {
+    public Edificar(String[] comandoIntroducido,boolean edificarRapido) {
         if (comandoIntroducido == null) {
-            // Hay que meter excepciones aqui
             return;
         }
+        this.edificarRapido=edificarRapido;
         this.comandoIntroducido=comandoIntroducido;
     }
     @Override
@@ -38,6 +39,9 @@ public class Edificar implements Expresion {
                 break;
             default:
                 throw new ExcepcionArgumentosIncorrectos("No se identifica el tipo de edificio");
+        }
+        if(edificarRapido){
+            interprete.edificarRapido((Propiedad)casilla,Edificio.TIPO.valueOf(comandoIntroducido[1]));
         }
         interprete.edificar((Propiedad)casilla, Edificio.TIPO.valueOf(comandoIntroducido[1]));
     }

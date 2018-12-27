@@ -28,6 +28,8 @@ public interface Comando {
 
     void estadistiscasGlobales();
 
+     void edificarRapido(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly;
+
     void aceptarTrato(Trato trato) throws ExcepcionMonopooly;
 
     void Hacertrato1(Jugador originador,Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly;
