@@ -55,12 +55,27 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void hacerTrato4(Jugador originador, Jugador receptor,Propiedad propiedadO, int cantidadDineroO, Propiedad propiedadR) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+            return;
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
     public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+            return;
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
@@ -570,24 +585,33 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new Trato3(originador,receptor,cantidadDinero,propiedadR));
+        if(propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato3(originador, receptor, cantidadDinero, propiedadR));
+            return;
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+
     }
 
     @Override
     public void Hacertrato2(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDinero) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new TratoDinero(originador,receptor,propiedadO,cantidadDinero));
+        if(propiedadO.getPropietario().equals(originador)) {
+            receptor.getTratos().add(new TratoDinero(originador, receptor, propiedadO, cantidadDinero));
+            return;
+        }
+        throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
     }
 
     @Override
     public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly{
-       // if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
             receptor.getTratos().add(new TratoPropiedad(originador, receptor, propiedadO, propiedadR));
             return;
-       // }
-     //   else if(!propiedadO.getPropietario().equals(originador) ) {
-     //       throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
-     //   }
-     //   throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
