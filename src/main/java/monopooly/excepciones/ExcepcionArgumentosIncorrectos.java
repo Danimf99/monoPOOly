@@ -7,6 +7,10 @@ public class ExcepcionArgumentosIncorrectos extends ExcepcionComando {
         super(message);
     }
 
+    public ExcepcionArgumentosIncorrectos() {
+        super("No existe el trato introducido");
+    }
+
     public void imprimeError() {
         Juego.consola.error(
                 this.getMessage(),

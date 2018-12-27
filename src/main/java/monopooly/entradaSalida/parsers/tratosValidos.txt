@@ -1,0 +1,11 @@
+trato Luis: cambiar (Solar14, Solar10)
+
+trato Luis: cambiar (Solar14, 3234234)
+
+trato Luis: cambiar (2343243, Solar21)
+
+trato Luis: cambiar (Solar14, Solar10 y 30000)
+
+trato Luis: cambiar (Solar14 y 34534543, 30000)
+
+trato Luis: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)

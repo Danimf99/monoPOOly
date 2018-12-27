@@ -2,132 +2,79 @@ package monopooly.entradaSalida.parsers;
 
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.entradaSalida.Juego;
-import monopooly.excepciones.ExcepcionAccionInvalida;
+import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.player.Jugador;
 
-public class HacerTrato implements Expresion {
-    private String[] comandoIntroducido;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    public HacerTrato(String[] comandoIntroducido) {
-        if (comandoIntroducido == null) {
-            return;
+public class HacerTrato implements Expresion {
+
+    private static Pattern[] PATRONES = {
+        Pattern.compile("trato (\\w+): cambiar \\((\\d+), (\\w+)\\)"),
+            // Trato 0  - trato Luis: cambiar (2343243, Solar21)
+        Pattern.compile("trato (\\w+): cambiar \\((\\w+), (\\d+)\\)"),
+            // Trato 1  - trato Luis: cambiar (Solar14, 3234234)
+        Pattern.compile("trato (\\w+): cambiar \\((\\w+), (\\w+)\\) y noalquiler\\((\\w+), (\\d+)\\)"),
+            // Trato 2  - trato Luis: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)
+        Pattern.compile("trato (\\w+): cambiar \\((\\w+), (\\w+) y (\\d+)\\)"),
+            // Trato 3  - trato Luis: cambiar (Solar14, Solar10 y 30000)
+        Pattern.compile("trato (\\w+): cambiar \\((\\w+) y (\\d+), (\\w+)\\)"),
+            // Trato 4  - trato Luis: cambiar (Solar14 y 34534543, Solar34)
+        Pattern.compile("trato (\\w+): cambiar \\((\\w+), (\\w+)\\)")
+            // Trato 5  - trato Luis: cambiar (Solar14, Solar10)
+    };
+
+    private ArrayList<Matcher> matchers;
+
+    private int str2int(String string) throws ExcepcionArgumentosIncorrectos {
+        try {
+            return Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            throw new ExcepcionArgumentosIncorrectos("La cantidad '" + string + "',\n" +
+                    "no es un número.");
         }
-        this.comandoIntroducido=comandoIntroducido;
     }
 
-    private boolean esNumero(String cadena){
-        boolean resultado;
+    public HacerTrato(String[] comandoIntroducido) throws ExcepcionMonopooly {
+        if (comandoIntroducido == null)
+            throw new ExcepcionParametrosInvalidos("Parametros inválidos para el comando 'trato'");
+        if (comandoIntroducido.length < 3)
+            throw new ExcepcionArgumentosIncorrectos("Insuficientes argumentos para el comando 'trato'");
 
-        try {
-            Integer.parseInt(cadena);
-            resultado = true;
-        } catch (NumberFormatException excepcion) {
-            resultado = false;
-        }
-
-        return resultado;
+        this.matchers = new ArrayList<>();
+        Arrays.stream(PATRONES).forEachOrdered(pattern -> matchers.add(pattern.matcher(String.join(" ", comandoIntroducido))));
     }
 
     @Override
     public void interpretar(Juego interprete) throws ExcepcionMonopooly {
-        String comandoReplace=comandoIntroducido[1].replace(":","");//Variable para quitar : , ( ) del comando introducido
-        Jugador receptor=Tablero.getTablero().getJugador(comandoReplace);
-        if(receptor==null){
-            throw new ExcepcionAccionInvalida("El jugador indicado para el trato no existe");
+        Matcher m = matchers.stream().filter(Matcher::matches).findFirst().orElseThrow(ExcepcionArgumentosIncorrectos::new);
+        Jugador jOrigen = Tablero.getPrompt().getJugador();
+        Jugador jDestino = Tablero.getTablero().getJugador(m.group(0));
+        Casilla propiedad1;
+        Casilla propiedad2;
+
+        switch (matchers.indexOf(m)) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            default:
+                throw new ExcepcionArgumentosIncorrectos("No existe el trato introducido");
         }
 
-        //Para comprobar que la primera propiedad no es nombre con espacios
-        if(comandoIntroducido[3].contains(",") || comandoIntroducido[4].equals("y")){
-            comandoReplace=comandoIntroducido[3].replace("(","");
-            comandoReplace=comandoReplace.replace(",","");
-            if(esNumero(comandoReplace)){
-                int dinero=Integer.parseInt(comandoReplace);
-                if(comandoIntroducido[4].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
-                    comandoReplace=comandoIntroducido[4].replace(")","");
-                    Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
-                    if(casilla2 instanceof Propiedad) {
-                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(), receptor, dinero, (Propiedad) casilla2);
-                    }
-                    else{
-                        throw new ExcepcionAccionInvalida("La casilla "+casilla2.getNombre()+ " no es una propiedad");
-                    }
-
-                }
-                else {
-                    comandoIntroducido[4] = comandoIntroducido[4].concat(" " + comandoIntroducido[5]);
-                    comandoReplace = comandoIntroducido[4].replace(")", "");
-                    Casilla casilla2 = interprete.casillaCorrecta(comandoReplace);
-                    if(casilla2 instanceof Propiedad) {
-                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(), receptor, dinero, (Propiedad) casilla2);
-                    }
-                    else{
-                        throw new ExcepcionAccionInvalida("La casilla "+casilla2.getNombre()+ " no es una propiedad");
-                    }
-                }
-                return;
-            }
-            Casilla casilla1 = interprete.casillaCorrecta(comandoReplace);
-            if(comandoIntroducido[4].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
-                comandoReplace=comandoIntroducido[4].replace(")","");
-                if(esNumero(comandoReplace)){
-                    interprete.Hacertrato2(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,Integer.parseInt(comandoReplace));
-                    return;
-                }
-                Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
-                if(casilla1 instanceof Propiedad && casilla2 instanceof Propiedad){
-                    interprete.Hacertrato1(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,(Propiedad)casilla2);
-                }
-                else{
-                    throw new ExcepcionAccionInvalida("Algunas de las casillas que quieres intercambiar no es una propiedad");
-                }
-            }
-            else{
-                comandoIntroducido[4]=comandoIntroducido[4].concat(" "+comandoIntroducido[5]);
-                comandoReplace=comandoIntroducido[4].replace(")","");
-                Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
-                if(casilla1 instanceof Propiedad && casilla2 instanceof Propiedad){
-                    interprete.Hacertrato1(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,(Propiedad)casilla2);
-                }
-                else{
-                    throw new ExcepcionAccionInvalida("Algunas de las casillas que quieres intercambiar no es una propiedad");
-                }
-            }
-            return;
-        }
-
-        comandoIntroducido[3]=comandoIntroducido[3].concat(" "+comandoIntroducido[4]);
-        comandoReplace=comandoIntroducido[3].replace("(","");
-        comandoReplace=comandoReplace.replace(",","");
-
-        Casilla casilla1=interprete.casillaCorrecta(comandoReplace);
-
-        if(comandoIntroducido[5].contains(")") || comandoIntroducido[5].equals("y")){//Comprobamos que la segunda propiedad no es nombre compuesto
-            comandoReplace=comandoIntroducido[5].replace(")","");
-            if(esNumero(comandoReplace)){
-                interprete.Hacertrato2(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,Integer.parseInt(comandoReplace));
-                return;
-            }
-            Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
-            if(casilla1 instanceof Propiedad && casilla2 instanceof Propiedad){
-                interprete.Hacertrato1(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,(Propiedad)casilla2);
-            }
-            else{
-                throw new ExcepcionAccionInvalida("Algunas de las casillas que quieres intercambiar no es una propiedad");
-            }
-        }
-        else{
-            comandoIntroducido[5]=comandoIntroducido[5].concat(" "+comandoIntroducido[6]);
-            comandoReplace=comandoIntroducido[5].replace(")","");
-            Casilla casilla2=interprete.casillaCorrecta(comandoReplace);
-            if(casilla1 instanceof Propiedad && casilla2 instanceof Propiedad){
-                interprete.Hacertrato1(Tablero.getPrompt().getJugador(),receptor,(Propiedad)casilla1,(Propiedad)casilla2);
-            }
-            else{
-                throw new ExcepcionAccionInvalida("Algunas de las casillas que quieres intercambiar no es una propiedad");
-            }
-        }
     }
 }

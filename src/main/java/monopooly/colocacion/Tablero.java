@@ -8,6 +8,7 @@ import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsGlobales;
+import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -139,13 +140,12 @@ public class Tablero implements Observador {
         return this.jugadoresTurno.get(0);
     }
 
-    public Jugador getJugador(String nombre){
-        for(Jugador j: jugadores.values()){
-            if(j.getNombre().equals(nombre)){
-                return j;
-            }
+    public Jugador getJugador(String nombre) throws ExcepcionArgumentosIncorrectos {
+        Jugador jugador = jugadores.get(nombre);
+        if (jugador == null) {
+            throw new ExcepcionArgumentosIncorrectos("El jugador '" + nombre + "'\n no existe.");
         }
-        return null;
+        return jugador;
     }
     /**
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
