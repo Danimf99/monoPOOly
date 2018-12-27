@@ -61,7 +61,6 @@ public class Juego implements Comando, Subject {
     @Override
     public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
         receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
-        Juego.consola.imprimir(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor).toString());
     }
 
     @Override
@@ -417,6 +416,50 @@ public class Juego implements Comando, Subject {
             creadorTrato.anhadirPropiedad(((Trato3) trato).getPropiedadR());
 
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
+        }
+
+        if(trato instanceof Trato4){
+
+            try{
+                trato.getOriginador().quitarDinero(((Trato4) trato).getDineroO());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+            trato.getReceptor().anhadirDinero(((Trato4) trato).getDineroO());
+
+            trato.getReceptor().quitarPropiedad(((Trato4) trato).getPropiedadReceptor());
+            ((Trato4) trato).getPropiedadReceptor().setPropietario(trato.getOriginador());
+            trato.getOriginador().anhadirPropiedad(((Trato4) trato).getPropiedadReceptor());
+
+            trato.getOriginador().quitarPropiedad(((Trato4) trato).getPropiedadO());
+            ((Trato4) trato).getPropiedadO().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((Trato4) trato).getPropiedadO());
+        }
+
+        if(trato instanceof Trato5){
+
+            try{
+                trato.getReceptor().quitarDinero(((Trato5) trato).getDineroReceptor());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+            trato.getOriginador().anhadirDinero(((Trato5) trato).getDineroReceptor());
+
+            trato.getReceptor().quitarPropiedad(((Trato5) trato).getPropiedadReceptor());
+            ((Trato5) trato).getPropiedadReceptor().setPropietario(trato.getOriginador());
+            trato.getOriginador().anhadirPropiedad(((Trato5) trato).getPropiedadReceptor());
+
+            trato.getOriginador().quitarPropiedad(((Trato5) trato).getPropiedadO());
+            ((Trato5) trato).getPropiedadO().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((Trato5) trato).getPropiedadO());
         }
     }
 
