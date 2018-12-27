@@ -81,7 +81,7 @@ public class Partida {
                         exp=new HacerTrato(args);
                         break;
                     case "edificar":
-                        exp=new Edificar(args);
+                        exp=new Edificar(args,false);
                         break;
                     case "listar":
                         exp=new Listar(args);

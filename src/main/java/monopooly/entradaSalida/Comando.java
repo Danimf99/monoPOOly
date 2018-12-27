@@ -28,6 +28,8 @@ public interface Comando {
 
     void estadistiscasGlobales();
 
+     void edificarRapido(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly;
+
     void aceptarTrato(Trato trato) throws ExcepcionMonopooly;
 
     void Hacertrato1(Jugador originador,Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly;
@@ -35,6 +37,10 @@ public interface Comando {
     void Hacertrato2(Jugador originador,Jugador receptor,Propiedad propiedadO,int cantidadDinero) throws ExcepcionMonopooly;
 
     void Hacertrato3(Jugador originador,Jugador receptor,int cantidadDinero,Propiedad propiedadR) throws ExcepcionMonopooly;
+
+    void hacerTrato4(Jugador originador,Jugador receptor,Propiedad propiedadO,int cantidadDineroO,Propiedad propiedadR) throws ExcepcionMonopooly;
+
+    void hacerTrato5(Jugador originador,Jugador receptor,Propiedad propiedadO,int cantidadDineroReceptor,Propiedad propiedadR) throws ExcepcionMonopooly;
 
     void verTratos(Jugador jugador) throws ExcepcionMonopooly;
 

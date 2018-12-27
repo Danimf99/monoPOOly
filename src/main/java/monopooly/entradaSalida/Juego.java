@@ -16,9 +16,7 @@ import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
-import monopooly.player.Tratos.ClasesTratos.Trato3;
-import monopooly.player.Tratos.ClasesTratos.TratoDinero;
-import monopooly.player.Tratos.ClasesTratos.TratoPropiedad;
+import monopooly.player.Tratos.ClasesTratos.*;
 import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Pelota;
 import monopooly.sucesos.Observador;
@@ -53,6 +51,31 @@ public class Juego implements Comando, Subject {
         for(Trato trato:jugador.getTratos()){
             Juego.consola.info(trato.toString());
         }
+    }
+
+    @Override
+    public void hacerTrato4(Jugador originador, Jugador receptor,Propiedad propiedadO, int cantidadDineroO, Propiedad propiedadR) throws ExcepcionMonopooly {
+
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+            return;
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+    }
+
+    @Override
+    public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+            return;
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
@@ -180,6 +203,103 @@ public class Juego implements Comando, Subject {
 
        Juego.consola.imprimir(Tablero.getTablero().getTipoGrupo(tipo).listaEdificaciones());
 
+    }
+
+    @Override
+    public void edificarRapido(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly {
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
+
+        if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
+            throw new ExcepcionAccionInvalida("La casilla no te pertenece");
+        }
+        int numeroVeces = Tablero.getPrompt().getJugador().getAvatar().getPosicion().contarRepeticiones(posJugadorActual);
+        if (!(casilla).getMonopolio().esCompleto() && numeroVeces < 2) {
+            throw new ExcepcionAccionInvalida("No posees todos los solares del monopolio!!");
+        }
+        if((casilla).getHipotecado()){
+            throw new ExcepcionAccionInvalida("No se puede edificar en propiedades hipotecadas.");
+        }
+
+        switch (tipo){
+            case casa:
+                if (((Solar)casilla).calcularNumHoteles() == casilla.getMonopolio().sizeMonopolio()
+                        && ((Solar)casilla).calcularNumCasas() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más casas en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_CASA)*4) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 4 casas en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() == 4) {
+                    throw new ExcepcionAccionInvalida("No se pueden construir más casas en este solar");
+                }
+                for(int i=0;i<4;i++) {
+                    Edificio edificio = new Casa(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificio,edificio.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificio.getPrecio());
+                }
+
+                break;
+            case hotel:
+                if (((Solar)casilla).calcularNumHoteles() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más hoteles en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_HOTEL)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 hoteles en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() <4) {
+                    throw new ExcepcionAccionInvalida("Necesitas 4 casas para construir un hotel");
+                }
+                for (int i=0;i<4;i++) {
+                    ((Solar)casilla).quitarEdificio(Edificio.TIPO.casa);
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioH = new Hotel(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioH,edificioH.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioH.getPrecio());
+                }
+
+                break;
+            case piscina:
+                if (((Solar)casilla).calcularNumPiscinas() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más piscinas en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_PISCINA)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 piscinas en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumCasas() <2 && ((Solar)casilla).calcularNumHoteles()<1) {
+                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 casas y 1 hotel para construir una piscina");
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioP = new Piscina(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioP,edificioP.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioP.getPrecio());
+                }
+
+                break;
+            case deporte:
+                if (((Solar)casilla).calcularNumDeportes() == casilla.getMonopolio().sizeMonopolio()) {
+                    throw new ExcepcionAccionInvalida("No se pueden edificar más pistas de deporte en esta casilla, tienes el máximo(" + casilla.getMonopolio().sizeMonopolio() + ")");
+
+                }
+                if (jActual.getDinero() < (int)((casilla).getPrecio()*Precios.VALOR_DEPORTE)*3) {
+                    throw new ExcepcionRecursosInsuficientes("No tienes suficiente dinero para construir 3 pistas de deporte en la casilla " + casilla.getNombre());
+                }
+                if (((Solar)casilla).calcularNumHoteles()<2) {
+                    throw new ExcepcionAccionInvalida("Necesitas al menos 2 hoteles ");
+                }
+                for(int i=0;i<3;i++) {
+                    Edificio edificioD = new PistaDeporte(((Solar) casilla));
+                    Partida.interprete.enviarSuceso(new Comprar(Tablero.getPrompt().getJugador(),edificioD,edificioD.getPrecio()));
+                    Tablero.getPrompt().getJugador().quitarDinero(edificioD.getPrecio());
+                }
+                break;
+
+
+        }
     }
 
     @Override
@@ -409,6 +529,50 @@ public class Juego implements Comando, Subject {
 
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
+
+        if(trato instanceof Trato4){
+
+            try{
+                trato.getOriginador().quitarDinero(((Trato4) trato).getDineroO());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+            trato.getReceptor().anhadirDinero(((Trato4) trato).getDineroO());
+
+            trato.getReceptor().quitarPropiedad(((Trato4) trato).getPropiedadReceptor());
+            ((Trato4) trato).getPropiedadReceptor().setPropietario(trato.getOriginador());
+            trato.getOriginador().anhadirPropiedad(((Trato4) trato).getPropiedadReceptor());
+
+            trato.getOriginador().quitarPropiedad(((Trato4) trato).getPropiedadO());
+            ((Trato4) trato).getPropiedadO().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((Trato4) trato).getPropiedadO());
+        }
+
+        if(trato instanceof Trato5){
+
+            try{
+                trato.getReceptor().quitarDinero(((Trato5) trato).getDineroReceptor());
+            }
+            catch(ExcepcionRecursosInsuficientes e){
+                e.imprimeError();
+            }
+            catch(ExcepcionParametrosInvalidos e){
+                e.imprimeError();
+            }
+            trato.getOriginador().anhadirDinero(((Trato5) trato).getDineroReceptor());
+
+            trato.getReceptor().quitarPropiedad(((Trato5) trato).getPropiedadReceptor());
+            ((Trato5) trato).getPropiedadReceptor().setPropietario(trato.getOriginador());
+            trato.getOriginador().anhadirPropiedad(((Trato5) trato).getPropiedadReceptor());
+
+            trato.getOriginador().quitarPropiedad(((Trato5) trato).getPropiedadO());
+            ((Trato5) trato).getPropiedadO().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((Trato5) trato).getPropiedadO());
+        }
     }
 
     @Override
@@ -421,24 +585,33 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new Trato3(originador,receptor,cantidadDinero,propiedadR));
+        if(propiedadR.getPropietario().equals(receptor)) {
+            receptor.getTratos().add(new Trato3(originador, receptor, cantidadDinero, propiedadR));
+            return;
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+
     }
 
     @Override
     public void Hacertrato2(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDinero) throws ExcepcionMonopooly {
-        receptor.getTratos().add(new TratoDinero(originador,receptor,propiedadO,cantidadDinero));
+        if(propiedadO.getPropietario().equals(originador)) {
+            receptor.getTratos().add(new TratoDinero(originador, receptor, propiedadO, cantidadDinero));
+            return;
+        }
+        throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
     }
 
     @Override
     public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly{
-       // if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
             receptor.getTratos().add(new TratoPropiedad(originador, receptor, propiedadO, propiedadR));
             return;
-       // }
-     //   else if(!propiedadO.getPropietario().equals(originador) ) {
-     //       throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
-     //   }
-     //   throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+        }
+        else if(!propiedadO.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
     }
 
     @Override
