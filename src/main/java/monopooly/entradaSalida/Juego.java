@@ -15,6 +15,7 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.ClasesTratos.Trato3;
 import monopooly.player.Tratos.ClasesTratos.TratoDinero;
 import monopooly.player.Tratos.ClasesTratos.TratoPropiedad;
 import monopooly.player.Tratos.Trato;
@@ -348,6 +349,19 @@ public class Juego implements Comando, Subject {
             }
         }
         Juego.consola.imprimirln(PintadoAscii.encuadrar(salida.toString()));
+    }
+
+    @Override
+    public void eliminarTrato(Jugador jugador,Trato trato) throws ExcepcionMonopooly{
+        if(Tablero.getPrompt().getJugador().equals(trato.getOriginador())){
+            jugador.getTratos().remove(trato);
+        }
+        throw new ExcepcionAccionInvalida("No eres el que realizó la petición del trato "+trato.getId());
+    }
+
+    @Override
+    public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
+        receptor.getTratos().add(new Trato3(originador,receptor,cantidadDinero,propiedadR));
     }
 
     @Override
