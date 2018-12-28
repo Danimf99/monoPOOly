@@ -59,7 +59,7 @@ public class Juego implements Comando, Subject {
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
             Trato4 trato=new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO);
             receptor.getTratos().add(trato);
-            trato.toString();
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
@@ -73,7 +73,7 @@ public class Juego implements Comando, Subject {
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
             Trato5 trato=new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor);
             receptor.getTratos().add(trato);
-            trato.toString();
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
@@ -598,7 +598,7 @@ public class Juego implements Comando, Subject {
         if(propiedadR.getPropietario().equals(receptor)) {
             Trato3 trato=new Trato3(originador, receptor, cantidadDinero, propiedadR);
             receptor.getTratos().add(trato);
-            trato.toString();
+            Juego.consola.info(trato.toString());
             return;
         }
         throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
@@ -610,7 +610,7 @@ public class Juego implements Comando, Subject {
         if(propiedadO.getPropietario().equals(originador)) {
             TratoDinero trato=new TratoDinero(originador, receptor, propiedadO, cantidadDinero);
             receptor.getTratos().add(trato);
-            trato.toString();
+            Juego.consola.info(trato.toString());
             return;
         }
         throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
@@ -621,7 +621,7 @@ public class Juego implements Comando, Subject {
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
             TratoPropiedad trato=new TratoPropiedad(originador, receptor, propiedadO, propiedadR);
             receptor.getTratos().add(trato);
-            trato.toString();
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
