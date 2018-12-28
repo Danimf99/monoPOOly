@@ -5,6 +5,8 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
 import monopooly.entradaSalida.Juego;
@@ -228,7 +230,7 @@ public class Jugador {
     public void pasarTurno() throws ExcepcionMonopooly {
         this.avatar.pasarTurno();
         if (dinero < 0) {
-            throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA);
+            throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA+ " ,debes declararte en bancarrota");
         }
         // TODO comprobaciones de paso de turno aqui con sus excepciones
 
@@ -325,7 +327,11 @@ public class Jugador {
 
         for(Propiedad i: propiedades){
             fortuna+=i.getPrecio();
-            //TODO calcular precio edificios
+            if(i instanceof Solar){
+                for(Edificio e: ((Solar) i).getEdificios()){
+                    fortuna+=e.getPrecio();
+                }
+            }
         }
 
         return fortuna;
