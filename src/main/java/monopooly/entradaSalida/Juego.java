@@ -489,7 +489,8 @@ public class Juego implements Comando, Subject {
             ((TratoPropiedad) trato).getPropiedadOrigina().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoPropiedad) trato).getPropiedadOrigina());
 
-            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Juego.consola.info("Consigues la propiedad "+((TratoPropiedad) trato).getPropiedadOrigina().getNombre()
+                                +" a cambio de "+((TratoPropiedad) trato).getPropiedadReceptor().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -509,7 +510,8 @@ public class Juego implements Comando, Subject {
             creadorTrato.quitarPropiedad(((TratoDinero) trato).getPropiedadO());
             ((TratoDinero) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoDinero) trato).getPropiedadO());
-            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Juego.consola.info("Consigues la propiedad "+((TratoDinero) trato).getPropiedadO().getNombre()+" a cambio de "
+                    +((TratoDinero) trato).getDinero()+" "+Precios.MONEDA);
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -530,7 +532,8 @@ public class Juego implements Comando, Subject {
             trato.getReceptor().quitarPropiedad(((Trato3) trato).getPropiedadR());
             ((Trato3) trato).getPropiedadR().setPropietario(creadorTrato);
             creadorTrato.anhadirPropiedad(((Trato3) trato).getPropiedadR());
-            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Juego.consola.info("Consigues "+((Trato3) trato).getDinero()+" "+Precios.MONEDA
+                                +" a cambio de "+((Trato3) trato).getPropiedadR().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -555,7 +558,9 @@ public class Juego implements Comando, Subject {
             ((Trato4) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato4) trato).getPropiedadO());
 
-            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Juego.consola.info("Consigues "+((Trato4) trato).getPropiedadO().getNombre()+" y "+
+                    ((Trato4) trato).getDineroO()+" "+Precios.MONEDA+
+                    " a cambio de "+((Trato4) trato).getPropiedadReceptor().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -579,7 +584,8 @@ public class Juego implements Comando, Subject {
             trato.getOriginador().quitarPropiedad(((Trato5) trato).getPropiedadO());
             ((Trato5) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato5) trato).getPropiedadO());
-            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Juego.consola.info("Consigues "+((Trato5) trato).getPropiedadO().getNombre()+" a cambio de "+
+                    ((Trato5) trato).getPropiedadReceptor().getNombre()+" y "+((Trato5) trato).getDineroReceptor()+" "+Precios.MONEDA);
 
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
