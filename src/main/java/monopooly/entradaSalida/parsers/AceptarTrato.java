@@ -23,7 +23,6 @@ public class AceptarTrato implements Expresion{
         if(comandoIntroducido.length!=2){
             throw new ExcepcionArgumentosIncorrectos("Numero de argumentos incorrecto");
         }
-        //TODO sucesos de tratos para que cuando se acepten y sean de dinero se actualice la prompt correctamente
         for(Jugador j: Tablero.getTablero().getJugadores()){
             for(Trato t: j.getTratos()) {
                 if(t.getId().equals(comandoIntroducido[1])) {

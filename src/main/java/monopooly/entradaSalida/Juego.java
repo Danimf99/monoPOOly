@@ -57,7 +57,9 @@ public class Juego implements Comando, Subject {
     public void hacerTrato4(Jugador originador, Jugador receptor,Propiedad propiedadO, int cantidadDineroO, Propiedad propiedadR) throws ExcepcionMonopooly {
 
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+            Trato4 trato=new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO);
+            receptor.getTratos().add(trato);
+            trato.toString();
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
@@ -69,7 +71,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+            Trato5 trato=new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor);
+            receptor.getTratos().add(trato);
+            trato.toString();
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
@@ -485,7 +489,7 @@ public class Juego implements Comando, Subject {
             ((TratoPropiedad) trato).getPropiedadOrigina().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoPropiedad) trato).getPropiedadOrigina());
 
-
+            Juego.consola.info("Se ha aceptado el trato correctamente.");
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -505,7 +509,7 @@ public class Juego implements Comando, Subject {
             creadorTrato.quitarPropiedad(((TratoDinero) trato).getPropiedadO());
             ((TratoDinero) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoDinero) trato).getPropiedadO());
-
+            Juego.consola.info("Se ha aceptado el trato correctamente.");
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -526,7 +530,7 @@ public class Juego implements Comando, Subject {
             trato.getReceptor().quitarPropiedad(((Trato3) trato).getPropiedadR());
             ((Trato3) trato).getPropiedadR().setPropietario(creadorTrato);
             creadorTrato.anhadirPropiedad(((Trato3) trato).getPropiedadR());
-
+            Juego.consola.info("Se ha aceptado el trato correctamente.");
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -550,6 +554,9 @@ public class Juego implements Comando, Subject {
             trato.getOriginador().quitarPropiedad(((Trato4) trato).getPropiedadO());
             ((Trato4) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato4) trato).getPropiedadO());
+
+            Juego.consola.info("Se ha aceptado el trato correctamente.");
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
         if(trato instanceof Trato5){
@@ -572,6 +579,9 @@ public class Juego implements Comando, Subject {
             trato.getOriginador().quitarPropiedad(((Trato5) trato).getPropiedadO());
             ((Trato5) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato5) trato).getPropiedadO());
+            Juego.consola.info("Se ha aceptado el trato correctamente.");
+
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
     }
 
@@ -586,7 +596,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
         if(propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato3(originador, receptor, cantidadDinero, propiedadR));
+            Trato3 trato=new Trato3(originador, receptor, cantidadDinero, propiedadR);
+            receptor.getTratos().add(trato);
+            trato.toString();
             return;
         }
         throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
@@ -596,7 +608,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato2(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDinero) throws ExcepcionMonopooly {
         if(propiedadO.getPropietario().equals(originador)) {
-            receptor.getTratos().add(new TratoDinero(originador, receptor, propiedadO, cantidadDinero));
+            TratoDinero trato=new TratoDinero(originador, receptor, propiedadO, cantidadDinero);
+            receptor.getTratos().add(trato);
+            trato.toString();
             return;
         }
         throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
@@ -605,7 +619,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly{
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new TratoPropiedad(originador, receptor, propiedadO, propiedadR));
+            TratoPropiedad trato=new TratoPropiedad(originador, receptor, propiedadO, propiedadR);
+            receptor.getTratos().add(trato);
+            trato.toString();
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
