@@ -286,8 +286,6 @@ public class Jugador {
         this.quitarNoAlquiler();//Se quitan las propiedades en las que no pagas alquiler que tienen los turnos a 0
         this.disminuirTurnosNoAlquiler();//Quitamos un turno en todas las propiedades en las que tienes un trato de no pagar alquiler
 
-        // TODO comprobaciones de paso de turno aqui con sus excepciones
-
     }
 
     public void aumentarVecesDados(){

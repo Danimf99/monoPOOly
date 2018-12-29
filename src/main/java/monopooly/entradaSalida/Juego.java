@@ -445,8 +445,6 @@ public class Juego implements Comando, Subject {
             throw new ExcepcionAccionInvalida("No puedes cambiar el modo si ya has tirado este turno");
         }
 
-        // TODO generalizar la comprobacion de si ha lanzado dados este turno o no
-
         avatar.setNitroso(!avatar.isNitroso());
         if(Tablero.getPrompt().getTiradasEspeciales()>0){
             avatar.getJugador().getDados().setContador(1);
