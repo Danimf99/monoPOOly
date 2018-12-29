@@ -125,7 +125,7 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
     public void incrementarPrecio() {
         if (!this.propietario.equals(Tablero.BANCA)) {
             // Solo hay que incrementar el precio de las que no fueron compradas =)
-            // TODO: Las movidas pertinentes
+            this.precio += (int) (0.05 * this.getMonopolio().getPrecio());
         }
     }
 

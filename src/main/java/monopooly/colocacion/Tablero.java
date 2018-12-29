@@ -20,6 +20,7 @@ import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
+import monopooly.sucesos.tipoSucesos.PasoSalida;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -353,6 +354,21 @@ public class Tablero implements Observador {
                 if (pago < 0) {
                     this.bote += -pago;
                 }
+            }
+        }
+
+        if (suceso instanceof PasoSalida) {
+            if (suceso.getJugadorOriginador().getEstadisticas().getVueltas() % 4 != 0) {
+                return;
+            }
+            Jugador jugador = jugadoresTurno.get(0);
+            for (Jugador j : this.jugadoresTurno) {
+                if (j.getEstadisticas().getVueltas() < jugador.getEstadisticas().getVueltas()) {
+                    jugador = j;
+                }
+            }
+            if (suceso.getJugadorOriginador().equals(jugador)) {
+                this.grupos.forEach(Grupo::incrementarPrecio);
             }
         }
 
