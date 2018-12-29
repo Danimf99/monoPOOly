@@ -120,13 +120,14 @@ public class ReprASCII {
             "\n" +
             PROMPT_BOT_OPENER;
     public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre del nuevo jugador: ]───► ";
-    // TODO Actualizar la descripcion de los tipos de avatares
     public static final String PROMT_AYUDA_TIPO_AVATAR = ""
             + ANSI_BLUE_BOLD + "\n[i]" + ANSI_RESET + " Avatares disponibles: \n"
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal.\n"
+            + "\t\t Se desplaza en diagonal de oeste a este.\n"
+            + "\t\t Si el valor de los dados es menor o igual a 4 se viaja atrás en el tiempo\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal\n"
+            + "\t\t Se desplaza en diagonal de norte a sur\n"
+            + "\t\t Si el valor de los dados es menor o igual a 4 se viaja atrás en el tiempo\n"
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
             + "\t\t Se desplaza hacia delante si el valor de los dados es mayor que 4.\n"
             +" \t\t Mientras que si el valor es menor que 4, retrocederás.\n"

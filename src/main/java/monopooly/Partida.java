@@ -1,6 +1,9 @@
 package monopooly;
 
+import javafx.scene.control.Tab;
 import monopooly.colocacion.Tablero;
+import monopooly.configuracion.General;
+import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
 import monopooly.excepciones.ExcepcionAcontecimiento;
@@ -19,14 +22,18 @@ public class Partida {
      * Inicia la partida
      */
     void init() { // Package Private
+
+        Juego.consola.imprimirln(ReprASCII.ASCII_TITLE);
+
         // Meter los jugadores en el tablero
         pedirJugadores();
 
         if (Tablero.getTablero().jugadoresRestantes() < 2) {
-            // Comprueba que el tablero tiene los jugadores necesarios
-            // Tirar excepcion
-            return;
+            Juego.consola.error("No hay suficientes jugadores para empezar la partida.", "Error inicializando la partida");
+            pedirJugadores();
         }
+
+        Juego.consola.imprimirln("\n\n");
 
         // Iniciar el handler de la partida
         handler();
@@ -39,9 +46,52 @@ public class Partida {
      * Pide jugadores por pantalla y los introduce en el tablero
      */
     private void pedirJugadores(){
-        Tablero.getTablero().meterJugador(new Jugador("Dani", Avatar.TIPO.sombrero));
-        Tablero.getTablero().meterJugador(new Jugador("Saul", Avatar.TIPO.esfinge));
-        //Tablero.getTablero().meterJugador(new Jugador("Lola", Avatar.TIPO.esfinge));
+        Tablero tablero = Tablero.getTablero();
+        String cantidadJugadores = Juego.consola.leer(ReprASCII.PROMPT_NUEVA_PARTIDA);
+        int cantidad = 0;
+        try {
+            cantidad = Integer.parseInt(cantidadJugadores);
+        } catch (NumberFormatException e) {
+            Juego.consola.error("No se reconoce '" + cantidadJugadores + "'\n" +
+                    "como un número.", "Error de entrada");
+            pedirJugadores();
+            return;
+        }
+        if (!(cantidad > 0)) {
+            Juego.consola.error("La cantidad '" + cantidad + "'\n" +
+                    "no es valida.", "Error de entrada");
+            pedirJugadores();
+            return;
+        }
+        String nombre;
+        String avatar;
+        for (int i = 0; i < cantidad; i++) {
+            nombre = Juego.consola.leer(ReprASCII.PROMPT_NOMBRE_JUGADOR);
+            Avatar.TIPO tipo = null;
+            while (tipo == null) {
+                Juego.consola.imprimir(ReprASCII.PROMT_AYUDA_TIPO_AVATAR);
+                avatar = Juego.consola.leer(ReprASCII.PROMPT_TIPO_AVATAR);
+                switch (avatar.toLowerCase()) {
+                    case "esfinge":
+                        tipo = Avatar.TIPO.esfinge;
+                        break;
+                    case "sombrero":
+                        tipo = Avatar.TIPO.sombrero;
+                        break;
+                    case "coche":
+                        tipo = Avatar.TIPO.coche;
+                        break;
+                    case "pelota":
+                        tipo = Avatar.TIPO.pelota;
+                        break;
+                    default:
+                        Juego.consola.error("Vuelva a introducir el tipo de avatar", "Error de entrada");
+                        break;
+                }
+            }
+            tablero.meterJugador(new Jugador(nombre, tipo));
+            Juego.consola.imprimir("\n");
+        }
     }
 
     /**
