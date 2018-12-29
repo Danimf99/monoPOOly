@@ -146,13 +146,13 @@ public class Partida {
                 }
             }
         } while (Tablero.getTablero().jugadoresRestantes() > 1);
-
     }
 
     /**
      * Finaliza la partida mostrando el ganador y demas
      */
     private void fin() {
-
+        Juego.consola.info("El ganador de la partida es "+Tablero.getTablero().getJugadores().get(0).getNombre(),"La partida ha finalizado");
+        Juego.consola.imprimir(Tablero.getTablero().getJugadores().get(0).toString());
     }
 }
