@@ -15,12 +15,12 @@ import java.util.regex.Pattern;
 public class HacerTrato implements Expresion {
 
     private static Pattern[] PATRONES = {
-        Pattern.compile("trato (.*): cambiar \\((\\d+), (.*)\\)"),
-            // Trato 0  - trato Dani: cambiar (2343243, Solar21)
-        Pattern.compile("trato (.*): cambiar \\((.*), (\\d+)\\)"),
-            // Trato 1  - trato Saul: cambiar (Solar14, 3234234)
         Pattern.compile("trato (.*): cambiar \\((.*), (.*)\\) y noalquiler\\((.*), (\\d+)\\)"),
-            // Trato 2  - trato Dani: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)
+            // Trato 0  - trato Dani: cambiar (Solar14, Solar10) y noalquiler(solar3, 4)
+        Pattern.compile("trato (.*): cambiar \\((\\d+), (.*)\\)"),
+            // Trato 1  - trato Dani: cambiar (2343243, Solar21)
+        Pattern.compile("trato (.*): cambiar \\((.*), (\\d+)\\)"),
+            // Trato 2  - trato Saul: cambiar (Solar14, 3234234)
         Pattern.compile("trato (.*): cambiar \\((.*), (.*) y (\\d+)\\)"),
             // Trato 3  - trato Saul: cambiar (Solar14, Solar10 y 30000)
         Pattern.compile("trato (.*): cambiar \\((.*) y (\\d+), (.*)\\)"),
@@ -67,19 +67,20 @@ public class HacerTrato implements Expresion {
 
         switch (matchers.indexOf(matcher)) {
             case 0:
+                // TODO poner el trato de noalquiler
+
+                break;
+            case 1:
                 interprete.Hacertrato3(jOrigen, jDestino,
                         str2int(matcher.group(2)),
                         t.getPropiedad(matcher.group(3))
                 );
                 break;
-            case 1:
+            case 2:
                 interprete.Hacertrato2(jOrigen, jDestino,
                         t.getPropiedad(matcher.group(2)),
                         str2int(matcher.group(3))
                 );
-                break;
-            case 2:
-                // TODO poner el trato de noalquiler
                 break;
             case 3:
                 interprete.hacerTrato5(jOrigen, jDestino,
