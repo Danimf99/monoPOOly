@@ -100,6 +100,10 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return (int) (this.getMonopolio().getPrecio() * Precios.HIPOTECA);
     }
 
+    public boolean perteneceAJugador(Jugador jugador){
+        return jugador.equals(this.propietario);
+    }
+
     public void comprar(Jugador deudor) throws ExcepcionMonopooly {
         if (deudor == null) {
             throw new ExcepcionParametrosInvalidos("Un jugador null no puede comprar una propiedad");

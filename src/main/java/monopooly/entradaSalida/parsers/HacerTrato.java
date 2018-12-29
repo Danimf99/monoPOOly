@@ -80,6 +80,11 @@ public class HacerTrato implements Expresion {
                 break;
             case 2:
                 // TODO poner el trato de noalquiler
+                interprete.hacerTrato6(jOrigen,jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        t.getPropiedad(matcher.group(3)),
+                        t.getPropiedad(matcher.group(4)),
+                        str2int(matcher.group(5)));
                 break;
             case 3:
                 interprete.hacerTrato5(jOrigen, jDestino,

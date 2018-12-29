@@ -70,7 +70,8 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
-        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
+        if(propiedadO.getPropietario().equals(originador)
+                && propiedadR.getPropietario().equals(receptor)) {
             Trato5 trato=new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor);
             receptor.getTratos().add(trato);
             Juego.consola.info(trato.toString());
@@ -80,6 +81,24 @@ public class Juego implements Comando, Subject {
             throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
         }
         throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+    }
+
+    @Override
+    public void hacerTrato6(Jugador originador, Jugador receptor, Propiedad propiedadOrigina, Propiedad propiedadReceptor, Propiedad propiedadNoAlquiler, int turnosNoAlquiler) throws ExcepcionMonopooly {
+        if(propiedadOrigina.getPropietario().equals(originador) && propiedadNoAlquiler.getPropietario().equals(receptor)
+                && propiedadReceptor.getPropietario().equals(receptor)) {
+            Trato6 trato=new Trato6(originador,receptor,propiedadOrigina,propiedadReceptor,propiedadNoAlquiler,turnosNoAlquiler);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
+            return;
+        }
+        else if(!propiedadOrigina.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadOrigina.getNombre());
+        }
+        else if(!propiedadNoAlquiler.getPropietario().equals(receptor)){
+            throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadNoAlquiler.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadReceptor.getNombre());
     }
 
     @Override
