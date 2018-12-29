@@ -150,7 +150,7 @@ public class Esfinge extends Avatar {
 
         int tirada = this.getJugador().getDados().tirada();
 
-        if (tirada <= 4) {
+        if (tirada <= General.TIRADA_ROLLBACK) {
             try {
                 this.restore();
                 throw new ExcepcionAcontecimiento(
