@@ -26,7 +26,7 @@ public class Comprar implements Expresion {
          * con un comando comprar Mira si se quiere
          * comprar una casilla y luego invoca uno de los comandos de intereprete.
          *
-         * todo lo que introduzca el usuario y empiece por comprar vendra aqui.
+         *
          *
          * Ejemplo:
          *  0. Miro si el comando es de comprar casilla

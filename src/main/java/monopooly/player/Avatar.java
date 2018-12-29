@@ -10,7 +10,6 @@ import monopooly.configuracion.ReprASCII;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionAcontecimiento;
-import monopooly.excepciones.ExcepcionCarta;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.tiposAvatar.Biografo;
 import monopooly.sucesos.Observador;
@@ -296,7 +295,7 @@ public abstract class Avatar implements Observador {
 
 
     /**
-     * Metodo común a todo tipo de lanzamientos. Realiza los preparativos para
+     * Metodo común a tod tipo de lanzamientos. Realiza los preparativos para
      * realizarlos. Comprueba si el jugador está en la carcel o no, si sale
      * porque saca dobles y guarda el estado del Avatar para poder recuperarlo
      * más adelante.
@@ -382,7 +381,7 @@ public abstract class Avatar implements Observador {
      * Pide al Avatar que guarde su estado actual.
      *
      * <p>Si el si el avatar no realizo acciones este turno no se guarda info.
-     * Esto permite evitar que veces en las que se pase turno se guarde todo
+     * Esto permite evitar que veces en las que se pase turno se guarde tod
      * vacío; lo cual sería un funcionamiento correcto, porque tecnicamente
      * ha tenido turno, simplemente no ha sucedido nada, pero no es
      * interesante deshacer el vacío, por ello si no se producen cambios,

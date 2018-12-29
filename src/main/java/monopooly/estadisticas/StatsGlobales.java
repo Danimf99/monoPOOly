@@ -7,7 +7,6 @@ import monopooly.entradaSalida.PintadoAscii;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
-import monopooly.sucesos.Suceso;
 
 import java.util.HashMap;
 
@@ -16,9 +15,11 @@ public class StatsGlobales implements Observador {
     private Subject subject;
     private HashMap<Casilla, StatsCasillas> statsCasillas = new HashMap<>();
 
+    private String inmuebleMasRentable;
     private String jugadorMasVueltas;
     private String jugadorDados;
     private String jugadorEnCabeza;
+    private String inmuebleMasFrecuentado;
 
     public StatsGlobales(Subject subject) {
         this.setSubject(subject);
@@ -28,6 +29,11 @@ public class StatsGlobales implements Observador {
                         casilla instanceof Propiedad ?
                                 new StatsPropiedades(subject, (Propiedad) casilla) :
                                 new StatsCasillas(subject, casilla)));
+        inmuebleMasFrecuentado="Ninguno";
+        inmuebleMasRentable="Ninguno";
+        jugadorDados="Ninguno";
+        jugadorEnCabeza="Ninguno";
+        jugadorMasVueltas="Ninguno";
     }
 
     public StatsCasillas getStatsCasilla(Casilla casilla) {
@@ -65,15 +71,36 @@ public class StatsGlobales implements Observador {
         }
     }
 
+    private void calcularInmuebleFrecuentado(){
+        int freq=0;
+
+        for(StatsCasillas i: this.statsCasillas.values()){
+            if(freq<i.getFrecuenciaVisita()){
+                freq=i.getFrecuenciaVisita();
+                inmuebleMasFrecuentado=new String(i.getCasilla().getNombre());
+            }
+        }
+    }
+
+    private void calcularInmuebleMasRentable(){
+        int rentable=0;
+
+        for(StatsCasillas stat: this.statsCasillas.values()){
+            if(stat instanceof StatsPropiedades)
+            if(rentable<((StatsPropiedades) stat).getPropiedadRentable()){
+                rentable=((StatsPropiedades) stat).getPropiedadRentable();
+                inmuebleMasRentable=new String(stat.getCasilla().getNombre());
+            }
+        }
+    }
+
     @Override
     public void update() {
-        Suceso suceso = (Suceso) this.subject.getUpdate(this);
-        if (suceso == null) {
-            return;
-        }
         calcularEnCabeza();
         calcularJugadorMasVueltas();
         calcularJugadorVecesDados();
+        calcularInmuebleFrecuentado();
+        calcularInmuebleMasRentable();
     }
 
     @Override
@@ -84,11 +111,11 @@ public class StatsGlobales implements Observador {
 
     public String toString(){
         StringBuilder stats=new StringBuilder();
-        stats.append("Inmueble más rentable: "+"\n");
+        stats.append("Propiedad más rentable: "+ inmuebleMasRentable+"\n");
         stats.append("Grupo mas rentable: "+"\n");
-        stats.append("Casilla mas frecuentada: "+"\n");
-        stats.append("Jugador con mas vueltas: "+jugadorMasVueltas+"\n");
-        stats.append("Jugador que lanzo mas veces: "+jugadorDados+"\n");
+        stats.append("Casilla más frecuentada: "+ inmuebleMasFrecuentado+"\n");
+        stats.append("Jugador con más vueltas: "+jugadorMasVueltas+"\n");
+        stats.append("Jugador que lanzo más veces: "+jugadorDados+"\n");
         stats.append("Jugador que va en cabeza: "+jugadorEnCabeza+"\n");
         return PintadoAscii.encuadrar(stats.toString());
 

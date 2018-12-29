@@ -57,7 +57,9 @@ public class Juego implements Comando, Subject {
     public void hacerTrato4(Jugador originador, Jugador receptor,Propiedad propiedadO, int cantidadDineroO, Propiedad propiedadR) throws ExcepcionMonopooly {
 
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO));
+            Trato4 trato=new Trato4(originador,receptor,propiedadO,propiedadR,cantidadDineroO);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
@@ -68,14 +70,35 @@ public class Juego implements Comando, Subject {
 
     @Override
     public void hacerTrato5(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDineroReceptor, Propiedad propiedadR) throws ExcepcionMonopooly {
-        if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor));
+        if(propiedadO.getPropietario().equals(originador)
+                && propiedadR.getPropietario().equals(receptor)) {
+            Trato5 trato=new Trato5(originador,receptor,propiedadO,propiedadR,cantidadDineroReceptor);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
             throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
         }
         throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
+    }
+
+    @Override
+    public void hacerTrato6(Jugador originador, Jugador receptor, Propiedad propiedadOrigina, Propiedad propiedadReceptor, Propiedad propiedadNoAlquiler, int turnosNoAlquiler) throws ExcepcionMonopooly {
+        if(propiedadOrigina.getPropietario().equals(originador) && propiedadNoAlquiler.getPropietario().equals(receptor)
+                && propiedadReceptor.getPropietario().equals(receptor)) {
+            Trato6 trato=new Trato6(originador,receptor,propiedadOrigina,propiedadReceptor,propiedadNoAlquiler,turnosNoAlquiler);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
+            return;
+        }
+        else if(!propiedadOrigina.getPropietario().equals(originador) ) {
+            throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadOrigina.getNombre());
+        }
+        else if(!propiedadNoAlquiler.getPropietario().equals(receptor)){
+            throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadNoAlquiler.getNombre());
+        }
+        throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadReceptor.getNombre());
     }
 
     @Override
@@ -485,7 +508,8 @@ public class Juego implements Comando, Subject {
             ((TratoPropiedad) trato).getPropiedadOrigina().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoPropiedad) trato).getPropiedadOrigina());
 
-
+            Juego.consola.info("Consigues la propiedad "+((TratoPropiedad) trato).getPropiedadOrigina().getNombre()
+                                +" a cambio de "+((TratoPropiedad) trato).getPropiedadReceptor().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -505,7 +529,8 @@ public class Juego implements Comando, Subject {
             creadorTrato.quitarPropiedad(((TratoDinero) trato).getPropiedadO());
             ((TratoDinero) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((TratoDinero) trato).getPropiedadO());
-
+            Juego.consola.info("Consigues la propiedad "+((TratoDinero) trato).getPropiedadO().getNombre()+" a cambio de "
+                    +((TratoDinero) trato).getDinero()+" "+Precios.MONEDA);
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -526,7 +551,8 @@ public class Juego implements Comando, Subject {
             trato.getReceptor().quitarPropiedad(((Trato3) trato).getPropiedadR());
             ((Trato3) trato).getPropiedadR().setPropietario(creadorTrato);
             creadorTrato.anhadirPropiedad(((Trato3) trato).getPropiedadR());
-
+            Juego.consola.info("Consigues "+((Trato3) trato).getDinero()+" "+Precios.MONEDA
+                                +" a cambio de "+((Trato3) trato).getPropiedadR().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
@@ -550,6 +576,11 @@ public class Juego implements Comando, Subject {
             trato.getOriginador().quitarPropiedad(((Trato4) trato).getPropiedadO());
             ((Trato4) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato4) trato).getPropiedadO());
+
+            Juego.consola.info("Consigues "+((Trato4) trato).getPropiedadO().getNombre()+" y "+
+                    ((Trato4) trato).getDineroO()+" "+Precios.MONEDA+
+                    " a cambio de "+((Trato4) trato).getPropiedadReceptor().getNombre());
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
 
         if(trato instanceof Trato5){
@@ -572,6 +603,10 @@ public class Juego implements Comando, Subject {
             trato.getOriginador().quitarPropiedad(((Trato5) trato).getPropiedadO());
             ((Trato5) trato).getPropiedadO().setPropietario(trato.getReceptor());
             trato.getReceptor().anhadirPropiedad(((Trato5) trato).getPropiedadO());
+            Juego.consola.info("Consigues "+((Trato5) trato).getPropiedadO().getNombre()+" a cambio de "+
+                    ((Trato5) trato).getPropiedadReceptor().getNombre()+" y "+((Trato5) trato).getDineroReceptor()+" "+Precios.MONEDA);
+
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
     }
 
@@ -586,7 +621,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato3(Jugador originador, Jugador receptor, int cantidadDinero, Propiedad propiedadR) throws ExcepcionMonopooly {
         if(propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new Trato3(originador, receptor, cantidadDinero, propiedadR));
+            Trato3 trato=new Trato3(originador, receptor, cantidadDinero, propiedadR);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
             return;
         }
         throw new ExcepcionAccionInvalida("El jugador "+receptor.getNombre()+" no es el dueño de "+propiedadR.getNombre());
@@ -596,7 +633,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato2(Jugador originador, Jugador receptor, Propiedad propiedadO, int cantidadDinero) throws ExcepcionMonopooly {
         if(propiedadO.getPropietario().equals(originador)) {
-            receptor.getTratos().add(new TratoDinero(originador, receptor, propiedadO, cantidadDinero));
+            TratoDinero trato=new TratoDinero(originador, receptor, propiedadO, cantidadDinero);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
             return;
         }
         throw new ExcepcionAccionInvalida("No eres el propietario de " + propiedadO.getNombre());
@@ -605,7 +644,9 @@ public class Juego implements Comando, Subject {
     @Override
     public void Hacertrato1(Jugador originador, Jugador receptor,Propiedad propiedadO,Propiedad propiedadR) throws ExcepcionMonopooly{
         if(propiedadO.getPropietario().equals(originador) && propiedadR.getPropietario().equals(receptor)) {
-            receptor.getTratos().add(new TratoPropiedad(originador, receptor, propiedadO, propiedadR));
+            TratoPropiedad trato=new TratoPropiedad(originador, receptor, propiedadO, propiedadR);
+            receptor.getTratos().add(trato);
+            Juego.consola.info(trato.toString());
             return;
         }
         else if(!propiedadO.getPropietario().equals(originador) ) {
