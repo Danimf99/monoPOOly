@@ -16,7 +16,7 @@ package monopooly.configuracion;
 * */
 
 
-import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +29,7 @@ public class ReprASCII {
     /* Representacion para AVATARES*/
     public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R', 'Q', 'J', 'S', 'D'));
     // Mellor que sobren que que falten
+
     /* BARRITAS */
 
     public static final String ESQUINA_1 = "┌";
@@ -63,13 +64,15 @@ public class ReprASCII {
 
 //    Color negrita
     public static final String ANSI_BLACK_BOLD = "\u001B[1;30m";
-    public static final String ANSI_RED_BOLD = "\u001B[1;31m";
+    public static final String ANSI_RED_BOLD = "\u001B[1;91m";
     public static final String ANSI_GREEN_BOLD = "\u001B[1;32m";
     public static final String ANSI_YELLOW_BOLD = "\u001B[1;33m";
     public static final String ANSI_BLUE_BOLD = "\u001B[1;34m";
     public static final String ANSI_PURPLE_BOLD = "\u001B[1;35m";
     public static final String ANSI_CYAN_BOLD = "\u001B[1;36m";
     public static final String ANSI_WHITE_BOLD = "\u001B[1;37m";
+    public static final String ANSI_BLACK_BOLD_HIGH = "\u001B[1;90m";
+
 
 //    Color subrayado
     public static final String ANSI_BLACK_UNDERLINE = "\u001B[4;30m";
@@ -117,13 +120,14 @@ public class ReprASCII {
             "\n" +
             PROMPT_BOT_OPENER;
     public static final String PROMPT_NOMBRE_JUGADOR = "\n[ ? ]──[ Nombre del nuevo jugador: ]───► ";
-    // TODO Actualizar la descripcion de los tipos de avatares
     public static final String PROMT_AYUDA_TIPO_AVATAR = ""
             + ANSI_BLUE_BOLD + "\n[i]" + ANSI_RESET + " Avatares disponibles: \n"
             + "\t > " + ANSI_RED_BOLD + "Sombrero" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal.\n"
+            + "\t\t Se desplaza en diagonal de oeste a este.\n"
+            + "\t\t Si el valor de los dados es menor o igual a 4 se viaja atrás en el tiempo\n"
             + "\t > " + ANSI_RED_BOLD + "Esfinge" + ANSI_RESET + ":\n"
-            + "\t\t Se desplaza en diagonal\n"
+            + "\t\t Se desplaza en diagonal de norte a sur\n"
+            + "\t\t Si el valor de los dados es menor o igual a 4 se viaja atrás en el tiempo\n"
             + "\t > " + ANSI_RED_BOLD + "Pelota" + ANSI_RESET + ":\n"
             + "\t\t Se desplaza hacia delante si el valor de los dados es mayor que 4.\n"
             +" \t\t Mientras que si el valor es menor que 4, retrocederás.\n"
@@ -187,23 +191,21 @@ public class ReprASCII {
             case estacion:
                 return ANSI_HIGH_WHITE_BACKGROUND;
             case servicio:
-                return ANSI_BLACK_BOLD;
+                return ANSI_BLACK_BOLD_HIGH;
             case azul_claro:
                 return ANSI_CYAN_BACKGROUND;
             case azul_marino:
                 return ANSI_BLUE_BACKGROUND + ANSI_WHITE_BOLD;
-            case none:
-                return ANSI_BLACK_BOLD;
             case parking:
-                return ANSI_BLACK_BOLD;
+                return ANSI_BLACK_BOLD_HIGH;
             case suerte:
                 return ANSI_RED_BOLD;
             case caja_comunidad:
                 return ANSI_BLUE_BOLD;
             case impuesto:
-                return ANSI_BLACK_BOLD;
+                return ANSI_BLACK_BOLD_HIGH;
             default:
-                return ANSI_BLACK;
+                return ANSI_BLACK_BOLD_HIGH;
 
         }
     }

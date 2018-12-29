@@ -24,6 +24,9 @@ public class Dados {
         this.contador=0;
     }
 
+    /*-------------------------*/
+    /* SETTERS Y GETTERS */
+    /*-------------------------*/
     public int getDado1(){
         return dado1;
     }
@@ -46,6 +49,11 @@ public class Dados {
     public void setContador(int contador){
         this.contador=contador;
     }
+
+    /*-------------------------*/
+    /* METODOS PARA DADOS */
+    /*-------------------------*/
+
     /**
      * Comprueba si la tirada de cada dado es igual
      *
@@ -98,3 +106,4 @@ public class Dados {
     //    return Objects.hash(dado1, dado2);
     //}
 }
+

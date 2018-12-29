@@ -12,7 +12,5 @@
                                                                            \/__/ 
 
 
-# MonoPOOly repo
-###### Best Monopoly congo city
+# MonoPOOly
 
----

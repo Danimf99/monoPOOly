@@ -1,78 +1,203 @@
 package monopooly.player;
 
-import monopooly.Estadisticas.EstadisticasJugador;
-import monopooly.cartas.CajaComunidad;
-import monopooly.cartas.Suerte;
+import monopooly.Partida;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
-import monopooly.colocacion.calles.Casilla;
-import monopooly.colocacion.calles.Edificaciones;
-import monopooly.colocacion.calles.Inmueble;
-import monopooly.colocacion.calles.TipoMonopolio;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Posiciones;
 import monopooly.configuracion.Precios;
-import monopooly.entradaSalida.Mensajes;
-import monopooly.entradaSalida.PintadoASCII;
-import monopooly.entradaSalida.Prompt;
+import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.PintadoAscii;
+import monopooly.estadisticas.StatsJugador;
+import monopooly.excepciones.*;
+import monopooly.player.Tratos.Trato;
+import monopooly.player.tiposAvatar.Coche;
+import monopooly.player.tiposAvatar.Esfinge;
+import monopooly.player.tiposAvatar.Pelota;
+import monopooly.player.tiposAvatar.Sombrero;
+import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
+import monopooly.sucesos.tipoSucesos.PasoSalida;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class Jugador {
 
-
     private String nombre;
     private int dinero;
     private Avatar avatar;
-    private HashSet<Inmueble> propiedades;
+    private HashSet<Propiedad> propiedades;
     private Dados dados;
-    private HashSet<Inmueble> hipotecas;
+    private HashSet<Propiedad> hipotecas;
     private boolean estarEnCarcel;
     private int turnosEnCarcel;
-    private EstadisticasJugador estadisticas;
-    private int vueltas;
+    private StatsJugador estadisticas;
     private int vecesDados;
     private int cooldown;
-    /**
-     * Inicizaliza jugador pasandole el nombre, TipoAvatar y Dados, dinero y propiedades siempre se van a inicizalizar al mismo valor
-     *
-     * @param nombre string con el nombre del jugador
-     * @param avatar TipoAvatar para saber si es sombrero,balon...
-     */
-    public Jugador(String nombre, TipoAvatar avatar) {
-        if (avatar != null && nombre != null) {
-            this.nombre=nombre;
-            this.dados=new Dados();
-            dinero= Precios.DINERO_INICIAL;
-            propiedades=new HashSet<>();
-            this.avatar=new Avatar(avatar,this);
-            this.hipotecas=new HashSet<>();
-            this.estarEnCarcel=false;
-            this.turnosEnCarcel=0;
-            estadisticas=new EstadisticasJugador();
-            this.vueltas = 0;
-            this.cooldown = 0;
-            this.vecesDados=0;
+    private HashSet<Trato> tratos;
+    private ArrayList<ControladorAlquileres> noPagasAlquileres;
+
+
+    /*-------------------------*/
+    /* CONSTRUCTORES PARA JUGADOR */
+    /*-------------------------*/
+
+    public Jugador(String nombre,Avatar.TIPO avatar) {
+        this.nombre = nombre;
+        this.dinero= Precios.DINERO_INICIAL;
+        this.dados=new Dados();
+        this.propiedades=new HashSet<>();
+        this.hipotecas=new HashSet<>();
+        this.estarEnCarcel=false;
+        this.turnosEnCarcel=0;
+        this.estadisticas=new StatsJugador(Partida.interprete, this);
+        this.vecesDados=0;
+        this.cooldown=0;
+        this.noPagasAlquileres=new ArrayList<>();
+        this.tratos=new HashSet<>();
+        switch(avatar){
+            case coche:
+                this.avatar=new Coche(this);
+                break;
+            case esfinge:
+                this.avatar=new Esfinge(this);
+                break;
+            case sombrero:
+                this.avatar=new Sombrero(this);
+                break;
+            case pelota:
+                this.avatar=new Pelota(this);
+                break;
         }
     }
 
-    /**
-     * Constructor para el jugador Banca
-     * @param propiedades todas las propiedades del tablero
-     */
-    public Jugador(HashSet<Inmueble> propiedades){
-        avatar=new Avatar(TipoAvatar.sombrero,this);
+    public Jugador() {
+        avatar=new Coche(this);
         dados=new Dados();
-        this.propiedades=propiedades;
+        this.propiedades=new HashSet<>();
         this.nombre="Banca";
         this.dinero=0;
+        this.noPagasAlquileres=new ArrayList<>();
         this.estarEnCarcel=false;
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
         this.turnosEnCarcel=0;
-        this.vueltas=0;
         this.vecesDados=0;
-        estadisticas=new EstadisticasJugador();
+    }
+
+    /*-------------------------*/
+    /* SETTERS Y GETTERS*/
+    /*-------------------------*/
+
+    public void setEstadisticas(StatsJugador estadisticas) {
+        this.estadisticas = estadisticas;
+    }
+
+    public HashSet<Trato> getTratos() {
+        return tratos;
+    }
+
+    public void setTratos(HashSet<Trato> tratos) {
+        this.tratos = tratos;
+    }
+
+    public StatsJugador getEstadisticas() {
+        return estadisticas;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getDinero(){
+        return dinero;
+    }
+
+    public void setDinero(int dinero){
+        this.dinero=dinero;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
+    public HashSet<Propiedad> getPropiedades() {
+        return new HashSet<>(propiedades);
+    }
+
+    public void setPropiedades(HashSet<Propiedad> propiedades) {
+        this.propiedades = propiedades;
+    }
+
+    public ArrayList<ControladorAlquileres> getNoPagasAlquileres() {
+        return noPagasAlquileres;
+    }
+
+    public Dados getDados() {
+        return dados;
+    }
+
+    public void setDados(Dados dados) {
+        this.dados = dados;
+    }
+
+    public HashSet<Propiedad> getHipotecas() {
+        return hipotecas;
+    }
+
+    public void setHipotecas(HashSet<Propiedad> hipotecas) {
+        this.hipotecas = hipotecas;
+    }
+
+    public boolean isEstarEnCarcel() {
+        return estarEnCarcel;
+    }
+
+    public void setEstarEnCarcel(boolean estarEnCarcel) throws ExcepcionAccionInvalida {
+        if (estarEnCarcel) {
+            Tablero.getPrompt().setLanzamientosDados(100);
+        }
+        this.estarEnCarcel = estarEnCarcel;
+        if (avatar instanceof Esfinge && estarEnCarcel) {
+            avatar.setNitroso(false);
+        }
+    }
+
+    public int getTurnosEnCarcel() {
+        return turnosEnCarcel;
+    }
+
+    public void setTurnosEnCarcel(int turnosEnCarcel) {
+        this.turnosEnCarcel = turnosEnCarcel;
+    }
+
+    public int getVueltas() {
+        return this.estadisticas.getVueltas();
+    }
+
+    public void setVueltas(int vueltas) {
+        this.estadisticas.setVueltas(vueltas);
+    }
+
+    public int getVecesDados() {
+        return vecesDados;
+    }
+
+    public void setVecesDados(int vecesDados) {
+        this.vecesDados = vecesDados;
     }
 
     public int getCooldown() {
@@ -82,106 +207,146 @@ public class Jugador {
     public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
+    /*-------------------------*/
+    /* METODOS PARA JUGADOR */
+    /*-------------------------*/
+    public boolean puedeComprar(Casilla casilla) throws ExcepcionMonopooly {
+        /*
+        if (Tablero.getPrompt().isCompro()) {
+            throw new ExcepcionAccionInvalida("El jugador ya comrpró este turno");
+        }
+        if(Tablero.getPrompt().getPosicionesTurno().size()==0){
+            if(!casilla.getPosicion().equals(Tablero.getPrompt().getJugador().getAvatar().getPosicion())){
+                return false;
+            }
+        }
+        for (Posicion posicion : Tablero.getPrompt().getPosicionesTurno()) {
+            if (casilla.equals(Tablero.getTablero().getCasilla(posicion))) {
+                return true;
+            }
+        }
+        return !Tablero.getPrompt().isCompro();
+        */
 
-    public void reducirCooldown() {
-        this.cooldown--;
-    }
+        // La comprobacion de la compra es distinta para cada avatar y tambien varia dependiendo de si está
+        // activado el movimiento especial o no. Es mas facil meter las comprobaciones en cada tipo de avatar
 
-    public int getVueltas() {
-        return vueltas;
-    }
-
-    public int getVecesDados() {
-        return vecesDados;
-    }
-
-    public int getDinero() {
-        return dinero;
-    }
-
-    public int getTurnosEnCarcel(){return turnosEnCarcel;}
-
-    public EstadisticasJugador getEstadisticas() {
-        return estadisticas;
-    }
-
-    public Avatar getAvatar() {
-        return avatar;
-    }
-
-    public HashSet<Inmueble> getHipotecas(){
-        return hipotecas;
+        this.avatar.intentarComprar(casilla);
+        return true; // Permite usarla de la misma manera que antes
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-    //Con el get ya comprobamos si esta en la carcel o no
-    public boolean getEstarEnCarcel(){
-        return estarEnCarcel;
-    }
-    public void setEstarEnCarcel(boolean carcel){
-        this.estarEnCarcel=carcel;
+    public void disminuirTurnosNoAlquiler(){
+        for(ControladorAlquileres c:noPagasAlquileres){
+            c.disminuirTurnos();
+        }
     }
 
-    public HashSet<Inmueble> getPropiedades() {
-        return propiedades;
+    public void anhadirNoAlquiler(ControladorAlquileres nuevoNoAlquiler) throws ExcepcionMonopooly{
+        if(nuevoNoAlquiler==null){
+            throw new ExcepcionParametrosInvalidos("El controlador de alquileres que quieres añadir es null");
+        }
+        noPagasAlquileres.add(nuevoNoAlquiler);
     }
-    public Dados getDados(){
-        return dados;
-    }
-    //LOS SETTERS PARA PROPIEDADES Y DINERO NO HACEN FALTA, YA QUE TENEMOS METODOS PARA IR AÑADIENDO Y QUITANDO TANTO UNO COMO OTRO
-    /**
-     * Al jugador se le añade una propiedad ya sea porque la compra, la intercambia por otro jugador...
-     * @param propiedad propiedad nueva que se le introduce al jugador
+    /*
+        Quita las propiedades donde no pagas alquiler cuando los turnos ya pasaron
      */
-    public void anhadirPropiedad(Inmueble propiedad){
-        if(propiedad==null){
-            Mensajes.error("La propiedad que se quiere añadir es nula");
-            return;
+    public void quitarNoAlquiler(){
+        Iterator<ControladorAlquileres> iterador=noPagasAlquileres.iterator();
+        while(iterador.hasNext()){
+            ControladorAlquileres c=iterador.next();
+            if(c.getNumeroTurnosSinPagar()==0){
+                iterador.remove();
+            }
         }
-        this.propiedades.add(propiedad);
     }
 
-    /**
-     * Al jugador se le retira una propiedad de su lista de propiedades ya sea porque la vende, la intercambia....
-     * @param propiedad propiedad que se quiere retirar
-     */
-    public void quitarPropiedad(Inmueble propiedad){
-        if(propiedad==null){
-            Mensajes.error("La propiedad que se quiere retirar es nula");
-            return;
+    public boolean pertenecePropiedadNoAlquiler(Propiedad propiedad){
+        for(ControladorAlquileres c:noPagasAlquileres){
+            if(c.getPropiedadNoPagasAlquiler().equals(propiedad)){
+                return true;
+            }
         }
-        this.propiedades.remove(propiedad);
+        return false;
     }
 
-    public void hipotecar(Inmueble inmueble){
-        if(inmueble==null){
-            Mensajes.error("Inmueble null, no se puede hipotecar");
-            return;
+    public boolean perteneceControladorAlquiler(ControladorAlquileres controlador){
+        for(ControladorAlquileres c: noPagasAlquileres){
+            if(c.equals(controlador)){
+                return true;
+            }
         }
-        hipotecas.add(inmueble);
-        anhadirDinero(inmueble.getPrecio_inicial()/2);
-        quitarPropiedad(inmueble);
-        inmueble.setHipotecado(true);
+        return false;
+    }
+
+    public void pasarTurno() throws ExcepcionMonopooly {
+        this.avatar.pasarTurno();
+        if (dinero < 0) {
+            throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA+ " ,debes declararte en bancarrota");
+        }
+        this.quitarNoAlquiler();//Se quitan las propiedades en las que no pagas alquiler que tienen los turnos a 0
+        this.disminuirTurnosNoAlquiler();//Quitamos un turno en todas las propiedades en las que tienes un trato de no pagar alquiler
+
+        // TODO comprobaciones de paso de turno aqui con sus excepciones
+
     }
 
     public void aumentarVecesDados(){
         this.vecesDados++;
     }
-    /**
-     * Al jguador se le quitar una cantidad de dinero
-     *
-     * @param cantidad cantidad que se desea quitar al jugador
-     */
-    public void quitarDinero(int cantidad) {
-        if (cantidad < 0) {
-            Mensajes.error("Error en la cantidad que quiere quitar, tiene que ser positiva");
+
+    public void checkCarcel() throws ExcepcionMonopooly {
+        if(this.estarEnCarcel && dados.sonDobles()) {
+            Juego.consola.info("Sacaste dobles, sales de la carcel");
+            this.estarEnCarcel = false;
             return;
         }
-        this.dinero -= cantidad;
+
+        if(this.estarEnCarcel && this.turnosEnCarcel!=3){
+            this.turnosEnCarcel++;
+            throw new ExcepcionAccionInvalida("Estás en la cárcel, no puedes moverte.\n" +
+                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel,\n" +
+                    "saca dobles en alguna de tus tiradas disponibles o \n" +
+                    "espera " + ( 4 - this.turnosEnCarcel ) + " turnos más.");
+        }
+
+        if(this.dados.getDobles()==3) {
+            this.estarEnCarcel = true;
+            Posicion posicion=new Posicion();
+            posicion.setX(Posiciones.CARCEL);
+            Tablero.getTablero().recolocar(avatar,posicion);
+            throw new ExcepcionAcontecimiento("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
+        }
     }
 
+    public void pagoSalida() {
+        Jugador jActual = Tablero.getPrompt().getJugador();
+        jActual.anhadirDinero(Precios.SALIDA);
+        Partida.interprete.enviarSuceso(new PasoSalida(jActual));
+
+    }
+
+    public void hipotecar(Propiedad inmueble){
+        if(inmueble==null){
+            Juego.consola.error("Inmueble null, no se puede hipotecar");
+            return;
+        }
+        hipotecas.add(inmueble);
+        anhadirDinero(inmueble.getMonopolio().getPrecio()/2);
+        quitarPropiedad(inmueble);
+        inmueble.setHipotecado(true);
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(this, inmueble, true));
+    }
+    public void deshipotecar(Propiedad inmueble) throws ExcepcionMonopooly {
+        if(inmueble==null){
+            Juego.consola.error("Inmueble null, no se puedes deshipotecar");
+            return;
+        }
+        this.anhadirPropiedad(inmueble);
+        inmueble.setHipotecado(false);
+        this.hipotecas.remove(inmueble);
+        this.quitarDinero((int)(inmueble.getMonopolio().getPrecio()*1.1));
+        Partida.interprete.enviarSuceso(new HipotecarPropiedad(this, inmueble, false));
+    }
     /**
      * AL jugador se le suma una cantidad de dinero
      *
@@ -190,277 +355,51 @@ public class Jugador {
     public void anhadirDinero(int cantidad) {
         this.dinero += cantidad;
     }
-
-    public void moverJugador(Prompt prompt, int desplazamiento) {
-        if (desplazamiento == 0) {
-            return;
+    public void quitarDinero(int cantidad) throws ExcepcionMonopooly {
+        if (cantidad < 0) {
+            throw new ExcepcionParametrosInvalidos("Error en la cantidad que quiere quitar, tiene que ser positiva");
         }
-        Tablero tablero = prompt.getTablero();
-        tablero.getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
-        avatar.getPosicion().mover(desplazamiento);
-        pisarCasilla(prompt, avatar.getPosicion());
-        tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
+        if(cantidad>this.dinero){
+            throw new ExcepcionRecursosInsuficientes("La cantidad que quiere quitar es mayor que la fortuna actual");
+        }
+        this.dinero -= cantidad;
     }
-
-
-    public void moverJugador(Prompt prompt, Posicion posicion) {
-        prompt.getTablero().getCasilla(this.avatar.getPosicion()).getAvatares().remove(this.avatar);
-        avatar.getPosicion().setX(posicion.getX());
-        pisarCasilla(prompt, avatar.getPosicion());
-        prompt.getTablero().getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
-    }
-
-
-    public void pisarCasilla(Prompt prompt, Posicion posicion) {
-        prompt.anhadirPosicion(posicion);
-        Tablero tablero = prompt.getTablero();
-        Posicion posJugadorActual = this.getAvatar().getPosicion();
-        Casilla casillaActual = tablero.getCasilla(posicion);
-        Inmueble inmuebleActual = casillaActual.getCalle();
-        inmuebleActual.aumentarVecesFrecuentado();
-
-        if (this.getAvatar().getPosicion().getX() == Posiciones.PARKING) {
-            int dineroParking = prompt.getTablero().devolverBote(this);
-            prompt.setModificacionPasta(dineroParking, "Bote del parking");
-            this.getEstadisticas().sumarInversionesBote(dineroParking);
-            return;
-        }
-        /*Si caes en una casilla de suerte*/
-        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.suerte)){
-            int eleccion= Mensajes.elegirCarta();
-            if (eleccion < 0) {
-                return;
-            }
-            Suerte carta=tablero.cartaSuerte(eleccion);
-            carta.ejecutarCarta(prompt);
-        }
-
-        /*Si caes en una casilla de caja de comunidad*/
-        if(inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.caja_comunidad)){
-            int eleccion= Mensajes.elegirCarta();
-            if (eleccion < 0) {
-                return;
-            }
-            CajaComunidad carta=tablero.cartaComunidad(eleccion);
-            carta.ejecutarCarta(prompt);
-        }
-
-        /* Si es un impuesto fasil, pagas y ya */
-        if (inmuebleActual.getGrupoColor().getTipo().equals(TipoMonopolio.impuesto)) {
-            int dineroExtraido = inmuebleActual.getPrecio_inicial();
-            this.quitarDinero(dineroExtraido);
-            tablero.meterEnBote(dineroExtraido);
-            this.getEstadisticas().sumarTasas(dineroExtraido);
-            prompt.setModificacionPasta(-dineroExtraido, "Impuesto en " + inmuebleActual.getNombre() + " para el bote del parking.");
-            return; // Nada mas que hacer un return y via
-        }
-
-        /* El caso de ve a la carcel */
-        if (posJugadorActual.esIrCarcel()) {//Si sucede esto y luego el jugador lanza dados cobra 200 por pasar de la casilla de salida
-            posJugadorActual.irCarcel();
-            casillaActual.getAvatares().remove(this.getAvatar());
-            tablero.getCasilla(new Posicion(Posiciones.CARCEL)).insertarAvatar(this.getAvatar());
-            this.setEstarEnCarcel(true);
-            this.getEstadisticas().sumarVecesCarcel(1);
-            System.out.println(prompt.getTablero().toString());
-            return; // Return porque no hay nada que hacer
-        }
-        /* Si la calle pertenece a la banca en esta funcion no hay que hacer nada, ergo con un return en ese caso
-         *  arreglamos */
-
-        if (inmuebleActual.getPropietario().equals(tablero.getBanca())) {
-            // Se puede meter un mensaje de esto esta sin comprar puede comprarla
-            return;
-        }
-
-        /* Si el jugador actual posee la propiedad no hay que cobrarle alquiler, se puede salir igual que antes */
-
-        if (this.getPropiedades().contains(inmuebleActual) || this.getHipotecas().contains(inmuebleActual)) {
-            return;
-        }
-
-        /* Despues de todos los casos */
-        if(inmuebleActual.getHipotecado()){
-            Mensajes.info("La propiedad está hipotecada, por lo que no tienes que pagar alquiler.");
-            return;
-        }
-        int alquiler = inmuebleActual.calcularAlquiler(this);
-        if (alquiler > this.getDinero()) {
-            Mensajes.info("No tienes dinero para pagar el alquiler. Debes declararte en bancarrota o hipotecar tus propiedades");
-        }
-        this.getEstadisticas().sumarPagoAlquileres(alquiler);
-        inmuebleActual.sumarPagoAlquileres(alquiler);
-        casillaActual.getCalle().getPropietario().getEstadisticas().sumarCobroAlquileres(alquiler); //actualizamos estadisticas en el dueño de la propiedad
-        inmuebleActual.pago(this);
-        prompt.setModificacionPasta(-alquiler, "Alquiler por caer en: " + inmuebleActual.getNombre());
-    }
-
-
-    public void cocheHandler(Prompt prompt) {
-        int turnos_especiales = 4;
-        if (prompt.getTiradasEspeciales() >= turnos_especiales -1 ) {
-            this.dados.setContador(1);
-            Mensajes.error("Lanzaste demasaiadas veces este turno", "No puedes lanzar los dados");
-            return;
-        } else {
-            this.dados.setContador(0);
-        }
-        if (this.dados.tirada() > 4) {
-            this.moverJugador(prompt, this.dados.tirada());
-            pagoSalida(prompt);
-        } else {
-            this.moverJugador(prompt, -this.dados.tirada());
-            this.cooldown = 3; // Turnos antes de volver a tirar
-            this.dados.setContador(1);
-        }
-        if (prompt.getTiradasEspeciales() >= turnos_especiales - 1) {
-            this.dados.setContador(1);
-        }
-    }
-
-
-    public void pelotaHandler(Prompt prompt) {
-        prompt.getPosicionesTurno().clear();
-        prompt.setCompro(false);
-        if (this.dados.tirada() > 4) {
-            this.moverJugador(prompt, 5);
-            if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
-                return;
-            }
-            for (int i = 7; i <= this.dados.tirada(); i += 2) {
-                if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
-                    return;
-                }
-                this.moverJugador(prompt, 2);
-                pagoSalida(prompt);
-            }
-            if (this.dados.tirada() % 2 == 0){
-                this.moverJugador(prompt, 1);
-                pagoSalida(prompt);
-            }
-
-        } else {
-            this.moverJugador(prompt, -1);
-            for (int i = 3; i < this.dados.tirada() ; i += 2) {
-                if (this.avatar.getPosicion().getX() == Posiciones.VE_A_LA_CARCEL) {
-                    return;
-                }
-                this.moverJugador(prompt, -2);
-            }
-            if (this.dados.tirada() % 2 == 0){
-                this.moverJugador(prompt, -1);
-            }
-        }
-    }
-
-
-    public boolean puedeComprar(Inmueble propiedad, Prompt prompt) {
-        if (prompt.isCompro()) {
-            return false;
-        }
-        for (Posicion posicion : prompt.getPosicionesTurno()) {
-            if (propiedad.equals(prompt.getTablero().getCasilla(posicion).getCalle())) {
-                return true;
-            }
-        }
-        return !prompt.isCompro();
-    }
-
-
-    private void checkCarcel(Tablero tablero) {
-        if(this.estarEnCarcel && dados.sonDobles()) {
-            Mensajes.info("Sacaste dobles, sales de la carcel");
-            this.estarEnCarcel = false;
-        }
-
-        if(this.estarEnCarcel && this.turnosEnCarcel!=3){
-            Mensajes.info("Estás en la cárcel, no puedes moverte.\n" +
-                    "Paga "+Precios.SALIR_CARCEL+" para salir de la carcel");
-            this.turnosEnCarcel++;
-            return;
-        }
-
-        if(this.dados.getDobles()==3) {
-            Mensajes.info("No puede seguir tirando, 3 dobles seguidos, vas a la carcel");
-            this.estadisticas.sumarVecesCarcel(1);
-            this.estarEnCarcel = true;
-            avatar.getPosicion().irCarcel();
-            tablero.getCasilla(this.avatar.getPosicion()).insertarAvatar(this.avatar);
-            return;
-        }
-    }
-
-    private void pagoSalida(Prompt prompt) {
-        Jugador jActual = prompt.getJugador();
-        Posicion posJugadorActual = jActual.getAvatar().getPosicion();
-        if (posJugadorActual.pasoPorSalida() && !jActual.getEstarEnCarcel()) {
-            jActual.getEstadisticas().sumarDineroSalida(Precios.SALIDA);
-            jActual.anhadirDinero(Precios.SALIDA);
-            jActual.aumentarVueltas();
-            prompt.setModificacionPasta(Precios.SALIDA, "El jugador paso por la salida");
-            jActual.getAvatar().sumarVuelta();
-        }
-    }
-
 
     /**
-     * Mueve al jugador dependiendo de muchos factores
-     * @param prompt tablero donde se mueve al jugador
+     * Al jugador se le añade una propiedad ya sea porque la comprar, la intercambia por otro jugador...
+     * @param propiedad propiedad nueva que se le introduce al jugador
      */
-    public void moverJugador(Prompt prompt){
-        Tablero tablero = prompt.getTablero();
-        if (this.cooldown > 0) {
-            this.cooldown--;
+    public void anhadirPropiedad(Propiedad propiedad){
+        if(propiedad==null){
+            Juego.consola.error("La propiedad que se quiere añadir es nula");
             return;
         }
-
-        if(this.turnosEnCarcel==3){
-            Mensajes.info("Ya pasaste 3 turnos en la cárcel, pagas automaticamente para salir.");
-            if(this.getDinero()<Precios.SALIR_CARCEL){
-                Mensajes.info("Debes declararte en bancarrota, no tienes dinero suficiente para salir de la carcel");
-            }
-            this.quitarDinero(Precios.SALIR_CARCEL);
-            this.estarEnCarcel=false;
-            this.turnosEnCarcel=0;
-        }
-        dados.lanzar();
-        aumentarVecesDados();
-        checkCarcel(tablero);
-        if (this.estarEnCarcel) {
-            return;
-        }
-        if (this.avatar.getNitroso()) {
-            switch (this.avatar.getTipo()) {
-                case coche:
-                    cocheHandler(prompt);
-                    break;
-                case pelota:
-                    pelotaHandler(prompt);
-                    break;
-            }
-            return;
-        }
-        prompt.getPosicionesTurno().clear();
-        prompt.setCompro(false);
-        this.moverJugador(prompt, dados.tirada());
-        pagoSalida(prompt);
+        this.propiedades.add(propiedad);
     }
-
-    public void aumentarVueltas(){
-        this.vueltas++;
-    }
-
     public int calcularFortunaTotal(){
         int fortuna=this.dinero;
 
-        for(Inmueble i: propiedades){
-            fortuna+=i.getPrecio_inicial();
-            for(Edificaciones e:i.getEdificios()){
-                fortuna+=e.getPrecio();
+        for(Propiedad i: propiedades){
+            fortuna+=i.getPrecio();
+            if(i instanceof Solar){
+                for(Edificio e: ((Solar) i).getEdificios()){
+                    fortuna+=e.getPrecio();
+                }
             }
         }
 
         return fortuna;
+    }
+    /**
+     * Al jugador se le retira una propiedad de su lista de propiedades ya sea porque la vende, la intercambia....
+     * @param propiedad propiedad que se quiere retirar
+     */
+    public void quitarPropiedad(Propiedad propiedad){
+        if(propiedad==null){
+            Juego.consola.error("La propiedad que se quiere retirar es nula");
+            return;
+        }
+        this.propiedades.remove(propiedad);
     }
     @Override
     public String toString() {
@@ -470,7 +409,16 @@ public class Jugador {
                 "   Nombre: " + nombre +
                 "\n   Fortuna: " + dinero +
                 "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
-        for(Inmueble i:propiedades){
+        meterPropiedades(j, imprimirJugador, propiedades);
+        imprimirJugador.append("]\n   Hipotecadas: [");
+        j=0;
+        meterPropiedades(j, imprimirJugador, hipotecas);
+        imprimirJugador.append("]\n}");
+        return  PintadoAscii.encuadrar(imprimirJugador.toString());
+    }
+
+    private void meterPropiedades(int j, StringBuilder imprimirJugador, HashSet<Propiedad> propiedades) {
+        for(Propiedad i: propiedades){
             if(propiedades.size()-1==j){
                 imprimirJugador.append(i.getNombre());
             }
@@ -479,35 +427,6 @@ public class Jugador {
             }
             j++;
         }
-        imprimirJugador.append("]\n   Hipotecadas: [");
-        j=0;
-        for(Inmueble h:hipotecas){
-            if(hipotecas.size()-1==j) {
-                imprimirJugador.append(h.getNombre());
-            }
-            else{
-                imprimirJugador.append(h.getNombre()+",");
-            }
-            j++;
-        }
-        imprimirJugador.append("]\n");
-        imprimirJugador.append("   Edificios: [");
-        for(Inmueble h:propiedades){
-            j=0;
-           if(h.getEdificios().size()!=0){
-               for(Edificaciones e:h.getEdificios()){
-                   if(h.getEdificios().size()-1==j) {
-                       imprimirJugador.append(e.getId());
-                   }
-                   else{
-                       imprimirJugador.append(e.getId()+",");
-                   }
-                   j++;
-               }
-           }
-        }
-        imprimirJugador.append("]\n}");
-        return  PintadoASCII.encuadrar(imprimirJugador.toString());
     }
 
     @Override
@@ -515,14 +434,7 @@ public class Jugador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jugador jugador = (Jugador) o;
-        return dinero == jugador.dinero &&
-                Objects.equals(nombre, jugador.nombre);
+        return Objects.equals(nombre, jugador.nombre);
 
     }
-//
-    //@Override
-    //public int hashCode() {
-    //    return Objects.hash(nombre, dinero, avatar, propiedades, dados);
-    //}
-
 }

@@ -1,436 +1,365 @@
 package monopooly.colocacion;
 
-import monopooly.Estadisticas.EstadisticasGlobales;
-import monopooly.cartas.CajaComunidad;
-import monopooly.cartas.Suerte;
-import monopooly.colocacion.calles.*;
-import monopooly.configuracion.Carta;
-import monopooly.configuracion.Nombres;
-import monopooly.configuracion.Posiciones;
-import monopooly.configuracion.Precios;
-import monopooly.entradaSalida.Mensajes;
-import monopooly.entradaSalida.PintadoASCII;
+import monopooly.Partida;
+import monopooly.cartas.Carta;
+import monopooly.cartas.FabricaCartas;
+import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
+import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.PintadoAscii;
+import monopooly.estadisticas.StatsGlobales;
+import monopooly.excepciones.ExcepcionArgumentosIncorrectos;
+import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
+import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.sucesos.Observador;
+import monopooly.sucesos.Subject;
+import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.AccionCarta;
+import monopooly.sucesos.tipoSucesos.PagoBanca;
+import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class Tablero {
-    private HashMap<Posicion, Casilla> casillas;
-    private HashMap<String, Inmueble> calles;
-    private HashMap<String, Jugador> jugadores;
-    private ArrayList<Jugador> jugadoresTurno;
-    private Jugador banca;
+
+/**
+ * Esta clase permite devolver el tablero para la partida actual.
+ *
+ * <p>La instanciación del tablero se hace automaticamente. Mas info en:
+ * https://es.wikipedia.org/wiki/Singleton
+ *
+ * @author luastan
+ * @author Danimf99
+ */
+public class Tablero implements Observador {
+    private static FabricaCasillas fabricaCasillas = new FabricaCasillas();
+    private static StatsGlobales ESTADISTICAS;
+
+    private static Tablero instanciaTablero;
+    private static Prompt prompt;
+    public static final Jugador BANCA = new Jugador();
+
     private int bote;
-    private int incrementosVueltas;
-    private ArrayList<Suerte> cartasSuerte;
-    private ArrayList<CajaComunidad> cartasCajaComunidad;
-    private EstadisticasGlobales estadisticas;
+    private ArrayList<Jugador> jugadoresTurno;
+    private ArrayList<Carta> cartasSuerte;
+    private ArrayList<Carta> cartasCajaComunidad;
+    private ArrayList<Casilla> casillas;
+    private ArrayList<Grupo> grupos;
+
+    private HashMap<Posicion, Casilla> casillasPosicion;
+    private HashMap<String, Casilla> casillasNombre;
+    private HashMap<String, Jugador> jugadores;
+
+    private Subject subject;
 
 
-    /* Constructores */
-
-    public Tablero(ArrayList<Jugador> jugadores) {
-        if (jugadores == null) {
-            Mensajes.error("Lista de jugadores NULL");
-            return;
-        }
-        this.incrementosVueltas = 0;
-        this.casillas = new HashMap<>();
-        this.calles = new HashMap<>();
-        this.jugadores = new HashMap<>();
+    private Tablero() {
+        /* Constructor de tablero */
+        prompt = null;
         this.jugadoresTurno = new ArrayList<>();
+        this.casillas = new ArrayList<>(fabricaCasillas.genCasillas());
+        this.grupos = new ArrayList<>(fabricaCasillas.getGrupos());
+        this.cartasSuerte = new ArrayList<>(FabricaCartas.cartasSuerte());
+        this.cartasCajaComunidad = new ArrayList<>(FabricaCartas.cartasCaja());
+
         this.bote = 0;
-        this.estadisticas=new EstadisticasGlobales(this);
-        HashSet<Inmueble> propiedadesBanca = new HashSet<>();
-        this.banca = new Jugador(propiedadesBanca); // Lleva aliasing para irselas metiendo ;)
 
-        Monopolio none = new Monopolio();
-        Monopolio estacion = new Monopolio(TipoMonopolio.estacion);
-        Monopolio servicio = new Monopolio(TipoMonopolio.servicio);
-        Monopolio parking = new Monopolio(TipoMonopolio.parking);
-        Monopolio marron = new Monopolio(TipoMonopolio.marron);
-        Monopolio azul_claro = new Monopolio(TipoMonopolio.azul_claro);
-        Monopolio violeta = new Monopolio(TipoMonopolio.violeta);
-        Monopolio naranja = new Monopolio(TipoMonopolio.naranja);
-        Monopolio rojo = new Monopolio(TipoMonopolio.rojo);
-        Monopolio amarillo = new Monopolio(TipoMonopolio.amarillo);
-        Monopolio verde = new Monopolio(TipoMonopolio.verde);
-        Monopolio azul_marino = new Monopolio(TipoMonopolio.azul_marino);
-        Monopolio suerte = new Monopolio(TipoMonopolio.suerte);
-        Monopolio caja_comunidad = new Monopolio(TipoMonopolio.caja_comunidad);
-        Monopolio impuestos = new Monopolio(TipoMonopolio.impuesto);
+        this.casillasNombre = new HashMap<>();
+        this.jugadores = new HashMap<>();
+        this.casillasPosicion = new HashMap<>();
 
-        int precio;
-        Posicion posAux;
-        Inmueble inmuAux;
-        String nombreAux;
+        casillas.forEach(casilla -> {
+            casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
+            casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
+        });
 
-        // Salida
-        posAux = new Posicion(Posiciones.SALIDA);
-        nombreAux = Nombres.CALLES[Posiciones.SALIDA];
-        inmuAux = new Inmueble(banca, nombreAux,0, none);
-        propiedadesBanca.add(inmuAux);
-        calles.put(nombreAux, inmuAux);
-        casillas.put(posAux, new Casilla(inmuAux));
-
-        // Carcel
-        posAux = new Posicion(Posiciones.CARCEL);
-        nombreAux = Nombres.CALLES[Posiciones.CARCEL];
-        inmuAux = new Inmueble(banca, nombreAux,0, none);
-        propiedadesBanca.add(inmuAux);
-        calles.put(nombreAux, inmuAux);
-        casillas.put(posAux, new Casilla(inmuAux));
-
-        // Parking
-        posAux = new Posicion(Posiciones.PARKING);
-        nombreAux = Nombres.CALLES[Posiciones.PARKING];
-        inmuAux = new Inmueble(banca, nombreAux,0, parking);
-        propiedadesBanca.add(inmuAux);
-        calles.put(nombreAux, inmuAux);
-        casillas.put(posAux, new Casilla(inmuAux));
-
-        // Ve a la carcel
-        posAux = new Posicion(Posiciones.VE_A_LA_CARCEL);
-        nombreAux = Nombres.CALLES[Posiciones.VE_A_LA_CARCEL];
-        inmuAux = new Inmueble(banca, nombreAux,0, none);
-        propiedadesBanca.add(inmuAux);
-        calles.put(nombreAux, inmuAux);
-        casillas.put(posAux, new Casilla(inmuAux));
-
-        // Estaciones
-        for (Posicion lugar : Posiciones.posicionesEstaciones()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.ESTACION, estacion);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Suerte
-        for (Posicion lugar : Posiciones.posicionesSuerte()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, 0, suerte);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Caja de comunidad
-        for (Posicion lugar : Posiciones.posicionesCajaComunidad()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, 0, caja_comunidad);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Servicios
-        for (Posicion lugar : Posiciones.posicionesServicios()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.SERVICIOS, servicio);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Impuestos
-        for (Posicion lugar : Posiciones.posicionesImpuestos()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.IMPUESTOS, impuestos);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Marrones
-        for (Posicion lugar : Posiciones.posicionesMarron()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_MARRON, marron);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Azul claro
-        for (Posicion lugar : Posiciones.posicionesAzulClaro()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AZUL_CLARO, azul_claro);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Violeta
-        for (Posicion lugar : Posiciones.posicionesVioleta()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_VIOLETA, violeta);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Naranja
-        for (Posicion lugar : Posiciones.posicionesNaranja()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_NARANJA, naranja);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Rojo
-        for (Posicion lugar : Posiciones.posicionesRojo()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_ROJO, rojo);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Amarillo
-        for (Posicion lugar : Posiciones.posicionesAmarillo()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AMARILLO, amarillo);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Verde
-        for (Posicion lugar : Posiciones.posicionesVerde()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_VERDE, verde);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        // Azul Marino
-        for (Posicion lugar : Posiciones.posicionesAzulMarino()) {
-            nombreAux = Nombres.CALLES[lugar.getX()];
-            inmuAux = new Inmueble(banca, nombreAux, Precios.PRECIO_AZUL_MARINO, azul_marino);
-            propiedadesBanca.add(inmuAux);
-            calles.put(nombreAux, inmuAux);
-            casillas.put(lugar, new Casilla(inmuAux));
-        }
-
-        for (Jugador player: jugadores) {
-            this.jugadores.put(player.getNombre(), player);
-            this.jugadoresTurno.add(player);
-            // TODO añadir insertarAvatar. No se puede insertar no hay constructor aun
-            this.casillas.get(new Posicion(0)).insertarAvatar(player.getAvatar());
-        }
-
-        /* Cartas */
-        this.cartasCajaComunidad = new ArrayList<>();
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta1.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta1));
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta2.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta2));
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta3.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta3));
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta4.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta4));
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta5.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta5));
-        //
-        this.cartasCajaComunidad.add(new CajaComunidad(
-                Carta.Comunidad.Carta8.MENSAJE,
-                CajaComunidad.NumeracionCartas.carta8));
-
-
-        this.cartasSuerte = new ArrayList<>();
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta1.MENSAJE,
-                Suerte.NumeracionCartas.carta1));
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta2.MENSAJE,
-                Suerte.NumeracionCartas.carta2));
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta3.MENSAJE,
-                Suerte.NumeracionCartas.carta3));
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta4.MENSAJE,
-                Suerte.NumeracionCartas.carta4));
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta8.MENSAJE,
-                Suerte.NumeracionCartas.carta8));
-        //
-        this.cartasSuerte.add(new Suerte(
-                Carta.Suerte.Carta10.MENSAJE,
-                Suerte.NumeracionCartas.carta10));
+        this.subject = Partida.interprete;
+        this.subject.registrar(this);
     }
 
-
-    /* Getters && Setters */
-
-    public int getBote() {
-        return bote;
+    public Grupo getTipoGrupo(TipoMonopolio tipo){
+        for(Grupo g:grupos){
+            if(g.getTipo().equals(tipo)){
+                return g;
+            }
+        }
+        return null;
     }
 
-    public EstadisticasGlobales getEstadisticas() {
-        return estadisticas;
+    // Inicializacion estatica de una instancia del tablero para el control de errores
+    static {
+        try {
+            instanciaTablero = new Tablero();
+            ESTADISTICAS = new StatsGlobales(Partida.interprete);
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo inicializar el tablero");
+        }
     }
 
-    public void setBote(int bote) {
-        this.bote = bote;
-        this.casillas.get(new Posicion(Posiciones.PARKING)).getCalle().setPrecio_inicial(bote);
+    public void eliminarJugador(Jugador jugador){
+        instanciaTablero.getCasilla(instanciaTablero.getJugadorTurno().getAvatar().getPosicion()).quitarJugador(jugador);
+        this.jugadoresTurno.remove(jugador);
+        this.jugadores.remove(jugador.getNombre());
+        prompt.reset();
     }
-
     /**
-     * Otorga el bote a un jugador. Vacia el conjunto del bote
-     * @param jugador jugador al que se le añade el dinero
-     * @return cantidad que se le añadio al jugador
+     * Añade un jugador a la lista de jugadores de la partida. Si el jugador ya
+     * se añadió no se realiza ninguna acción.
+     *
+     * @param jugador instancia del nuevo jugador añadido
      */
-    public int devolverBote(Jugador jugador) {
-        jugador.anhadirDinero(bote);
-        int cantidad = bote;
-        setBote(0);
-        return cantidad;
-    }
-
-    /**
-     * Añade una cantidad de dinero al bote
-     * @param cantidad dinero que se añade al bote
-     */
-    public void meterEnBote(int cantidad) {
-        if (cantidad < 0) {
-            Mensajes.error("No se puede añadir una cantidad negativa al bote.");
+    public void meterJugador(Jugador jugador) {
+        if (jugadoresTurno.stream().anyMatch(j -> j.equals(jugador))) {
+            // El jugador ya existe
             return;
         }
-        setBote(bote + cantidad);
+        this.jugadoresTurno.add(jugador);
+        this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);
+        this.casillasPosicion.get(jugador.getAvatar().getPosicion()).meterJugador(jugador);
     }
 
 
-    public HashMap<String, Inmueble> getCalles() {
-        return calles;
-    }
 
     /**
-     * Getter de casillas. Su objetivo es dar info a las clases de pintado ASCII
-     * @return HashMap de posicion->casilla
+     *
+     * @param jugadores Jugadores que se quieren añadir a la partida
      */
-    public HashMap<Posicion, Casilla> getCasillas() {
-//        TODO comprobaciones de errores en el getter de casillas
-        return casillas;
-    }
-
-    public ArrayList<Jugador> getJugadoresTurno() {
-        return jugadoresTurno;
-    }
-
-    public Jugador getBanca() {
-        return banca;
-    }
-
-    /* Metodos sobre la instancia */
-
-    /**
-     * Dada una posicion el tablero devuelve su casilla correspondiente.
-     * @param pos Posicion que se precisa
-     * @return Casilla correspondiente a esa posicion
-     */
-    public Casilla getCasilla(Posicion pos) {
-//        TODO Comprobacion de errores en getCasilla
-        return casillas.get(pos);
-    }
-
-    /**
-     * Que nos devuelva el hasmap de jugadores para iterar sobre el, ayuda para describir avatar dada una representacion
-     * @return hashMap de todos los jugadores en partida
-     */
-    public HashMap<String, Jugador> getJugadores() {
-        return jugadores;
-    }
-
-    /**
-     * Dado el nombre de una calle se devuelve informacion correspondiente
-     * @param nombre Nombre de la calle
-     * @return instancia del Inmueble correspondiente
-     */
-    public Inmueble getCalle(String nombre) {
-        String primeraMinuscula = nombre.toLowerCase();
-        String primeraMayuscula = nombre.substring(0, 1).toUpperCase() + nombre.substring(1);
-        Inmueble salida = calles.get(primeraMinuscula);
-        if (salida == null) {
-            salida = calles.get(primeraMayuscula);
-        }
-        return salida;
+    public void meterJugadores(ArrayList<Jugador> jugadores) {
+        jugadores.forEach(this::meterJugador);
     }
 
 
     /**
-     * Dado el nombre de un jugador se devuelve informacion correspondiente
-     * @param nombre Nombre del jugador
-     * @return instancia del Jugador correspondiente
-     */
-    public Jugador getJugador(String nombre) {
-        return jugadores.get(nombre);
-    }
-
-    /**
-     * Devuelve el jugador que actualmente tiene el turno
-     * @return Jugador que tiene el turno
+     * Jugador que actualmente tiene el turno
+     *
+     * @return Instancia del jugador que posee el turno en este momento
      */
     public Jugador getJugadorTurno() {
         return this.jugadoresTurno.get(0);
     }
 
+    public Jugador getJugador(String nombre) throws ExcepcionArgumentosIncorrectos {
+        Jugador jugador = jugadores.get(nombre.toLowerCase());
+        if (jugador == null) {
+            throw new ExcepcionArgumentosIncorrectos("El jugador '" + nombre + "'\n no existe.");
+        }
+        return jugador;
+    }
     /**
-     * Actualiza el array de turnos
+     * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
+     *
      */
-    public void pasarTurno() {
+    public void pasarTurno() throws ExcepcionMonopooly {
+        this.getJugadorTurno().pasarTurno();
         this.jugadoresTurno.add(this.getJugadorTurno());
         this.jugadoresTurno.remove(0);
-        // Se comprueba si es necesario aumentar el precio inicial de las casillas
-        int minimo = this.getJugadorTurno().getAvatar().getVueltasTablero();
-        int auxVueltas;
-        for (Jugador player :
-                jugadoresTurno) {
-            auxVueltas = player.getAvatar().getVueltasTablero();
-            if (auxVueltas < minimo) {
-                minimo = auxVueltas;
-            }
-        }
-        if (minimo / this.jugadoresTurno.size() > this.incrementosVueltas) {
-            for (Inmueble propiedad :
-                    this.calles.values()) {
-                propiedad.incrementarPrecio();
-            }
-            this.incrementosVueltas++;
-        }
+        this.subject.registrar(this.jugadoresTurno.get(0).getAvatar());
+        Tablero.getPrompt().reset();  // Resetea la prompt al pasar turno
     }
 
-    public CajaComunidad cartaComunidad(int eleccion) {
+    /**
+     * Devuelve los jugadores de la partida actual
+     *
+     * @return Arraylist de los jugadores de la partida. La instancia de este
+     * arraylist no es la misma que la guardada dentro del tablero. Es una copia.
+     * Las instancias de los jugadores si son las mismas. Para modificar este
+     * arraylist deben usarse los metodos meterJugador() y eliminarJugador()
+     */
+    public ArrayList<Jugador> getJugadores() {
+        return new ArrayList<>(this.jugadoresTurno);
+    }
+
+    /**
+     *
+     * @return Numero de jugadores restantes en la partida
+     */
+    public int jugadoresRestantes() {
+        return this.jugadoresTurno.size();
+    }
+
+    /**
+     * Permite obtener la instancia actual del tablero
+     *
+     * @return Instancia del tablero para la partida actual
+     */
+    public static Tablero getTablero() {
+        return instanciaTablero;
+    }
+
+    /**
+     * Devuelve la instancia prompt correspondiente al turno actual
+     * Hay que controlar que tenga jugadores el tablero
+     *
+     * @return instancia actual del prompt
+     */
+    public static Prompt getPrompt() {
+        if (prompt == null) { // Necesario la primera vez que se ejecuta
+            if (instanciaTablero.jugadoresRestantes() < 1) {
+                // Hay que meter una excepcion aqui
+                Juego.consola.error("No quedan jugadores en la partida actual",
+                        "Error inicializando la prompt");
+            }
+            prompt = new Prompt();
+        }
+        return prompt;
+    }
+
+    /**
+     * Cambia a un jugador de posicion
+     * @param jugador Jugador que se desea mover
+     * @param posicion Posicion que tendra
+     */
+    public void recolocar(Jugador jugador, Posicion posicion) throws ExcepcionMonopooly {
+        this.casillasPosicion.get(jugador.getAvatar().getPosicion()).quitarJugador(jugador);
+        Casilla siguiente = this.casillasPosicion.get(posicion);
+        siguiente.meterJugador(jugador);
+        jugador.getAvatar().getPosicion().setX(posicion.getX());
+        siguiente.visitar(new Visitante(jugador));
+    }
+
+    /**
+     * Cambia a un jugador de posicion
+     * @param avatar Jugador que se desea mover
+     * @param posicion Posicion que tendra
+     */
+    public void recolocar(Avatar avatar, Posicion posicion) throws ExcepcionMonopooly {
+        this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
+        Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
+        siguienteCasilla.meterJugador(avatar);
+        avatar.getPosicion().setX(posicion.getX());
+        siguienteCasilla.visitar(new Visitante(avatar.getJugador()));
+    }
+
+    /**
+     * Cambia a un jugador de posicion sin generar sucesos ni visitar la casilla
+     * @param avatar avatar que se mueve
+     * @param posicion Posicion nueva
+     */
+    public void recolocacionSimple(Avatar avatar, Posicion posicion) {
+        this.casillasPosicion.get(avatar.getPosicion()).quitarJugador(avatar);
+        Casilla siguienteCasilla = this.casillasPosicion.get(posicion);
+        siguienteCasilla.meterJugador(avatar);
+        avatar.setPosicion(posicion);
+    }
+
+    public void cartaComunidad(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasCajaComunidad);
-        return this.cartasCajaComunidad.get(eleccion - 1);
+        Carta carta = cartasCajaComunidad.get(eleccion);
+        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
+        carta.accion();
     }
 
-    public Suerte cartaSuerte(int eleccion) {
+    public void cartaSuerte(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasSuerte);
-        return this.cartasSuerte.get(eleccion - 1);
+        Carta carta = cartasSuerte.get(eleccion);
+        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
+        carta.accion();
+    }
+
+
+    /**
+     * Devuelve la posicion en la que se encuentra una casilla
+     *
+     * @param casilla Casilla que se busca
+     * @return Posicion de la casilla
+     */
+    public Posicion posicionCasilla(Casilla casilla) {
+        return new Posicion(casillas.indexOf(casilla));
+    }
+
+
+    public Casilla getCasilla(Posicion posicion) {
+        return this.casillasPosicion.get(posicion);
+    }
+
+    public Casilla getCasilla(String nombre) throws ExcepcionParametrosInvalidos {
+        Casilla casilla = this.casillasNombre.get(nombre.toLowerCase());
+        if (casilla == null) {
+            throw new ExcepcionParametrosInvalidos("La casilla '" + nombre + "'\n" +
+                    "no existe.");
+        }
+        return casilla;
+    }
+
+    public Propiedad getPropiedad(String nombre) throws ExcepcionMonopooly {
+        Casilla casilla = getCasilla(nombre);
+        if (!(casilla instanceof Propiedad)) {
+            throw new ExcepcionParametrosInvalidos("La casilla '" + nombre + "'\n" +
+                    "no es una propiedad.");
+        }
+        return (Propiedad) casilla;
+    }
+
+    public int getBote() {
+        return bote;
+    }
+
+    public void setBote(int bote) {
+        this.bote = bote;
+    }
+
+    public ArrayList<Grupo> getGrupos() {
+        return new ArrayList<>(grupos);
+    }
+
+    public void setGrupos(ArrayList<Grupo> grupos) {
+        this.grupos = grupos;
+    }
+
+    public ArrayList<Casilla> getCasillas() {
+        return new ArrayList<>(casillas);
+    }
+
+    public void setCasillas(ArrayList<Casilla> casillas) {
+        this.casillas = casillas;
+    }
+
+    public Posicion localizarCasilla(Casilla casilla) {
+        return new Posicion(casillas.indexOf(casilla));
+    }
+
+    public static StatsGlobales getStatsGlobales() {
+        return ESTADISTICAS;
     }
 
     @Override
     public String toString() {
-        return "\n" + PintadoASCII.genTablero(this) + "\n";
+        return PintadoAscii.genTablero();
+    }
+
+    @Override
+    public void update() {
+        Suceso suceso = (Suceso) this.subject.getUpdate(this);
+        if (suceso == null) {
+            return;
+        }
+
+        if (suceso instanceof PagoImpuesto) {
+            int pago = ((PagoImpuesto) suceso).getCantidad();
+            this.bote += suceso.getDeshacer() ? - pago : + pago;
+        }
+
+        if (suceso instanceof PagoBanca) {
+            int pago = ((PagoBanca) suceso).getCantidad();
+            if (suceso.getDeshacer()) {
+                if (pago > 0) {
+                    this.bote -= pago;
+                }
+            } else {
+                if (pago < 0) {
+                    this.bote += -pago;
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }

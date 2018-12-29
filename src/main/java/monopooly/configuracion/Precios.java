@@ -7,9 +7,11 @@ public class Precios {
     public static final int SERVICIOS = (int) (SALIDA * 0.75);
     public static final int IMPUESTOS = SERVICIOS;
     public static final int ESTACION = SALIDA;
-    public static final int HIPOTECA_SERVICIOS=(int)(SERVICIOS/2);
+    public static final double HIPOTECA = 1/2. ;
     public static final int FACTOR_SERVICIOS = SALIDA / 200;
     public static final int SALIR_CARCEL=SALIDA/4;
+    public static final double RATIO_ALQUILER = 10./100;
+
     //PRECIO CASILLAS INICIAL
     public static final int PRECIO_MARRON=60;
     public static final int PRECIO_AZUL_CLARO=(int)((1.3*PRECIO_MARRON*2)/3);
