@@ -521,9 +521,11 @@ public class Juego implements Comando, Subject {
             }
             catch(ExcepcionRecursosInsuficientes e){
                 e.imprimeError();
+                return;
             }
             catch(ExcepcionParametrosInvalidos e){
                 e.imprimeError();
+                return;
             }
             creadorTrato.anhadirDinero(((TratoDinero) trato).getDinero());
 
@@ -628,10 +630,11 @@ public class Juego implements Comando, Subject {
             trato.getReceptor().anhadirPropiedad(((Trato6) trato).getPropiedadOrigina());
 
 
-            Tablero.getPrompt().getJugador().anhadirNoAlquiler(controlador);
+            trato.getOriginador().anhadirNoAlquiler(controlador);
 
             Juego.consola.info("Consigues la propiedad "+((Trato6) trato).getPropiedadOrigina().getNombre()
-                    +" a cambio de "+((Trato6) trato).getPropiedadReceptor().getNombre());
+                    +" a cambio de "+((Trato6) trato).getPropiedadReceptor().getNombre()+" y el jugador "
+                    +trato.getOriginador().getNombre()+" no paga alquiler en "+((Trato6) trato).getPropiedadNoAlquiler().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
     }

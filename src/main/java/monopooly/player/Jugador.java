@@ -23,6 +23,7 @@ import monopooly.sucesos.tipoSucesos.PasoSalida;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class Jugador {
@@ -250,9 +251,11 @@ public class Jugador {
         Quita las propiedades donde no pagas alquiler cuando los turnos ya pasaron
      */
     public void quitarNoAlquiler(){
-        for(ControladorAlquileres c:noPagasAlquileres){
+        Iterator<ControladorAlquileres> iterador=noPagasAlquileres.iterator();
+        while(iterador.hasNext()){
+            ControladorAlquileres c=iterador.next();
             if(c.getNumeroTurnosSinPagar()==0){
-                noPagasAlquileres.remove(c);
+                iterador.remove();
             }
         }
     }
