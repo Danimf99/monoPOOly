@@ -172,6 +172,11 @@ public class Partida {
                     case "lanzar":
                         exp=new Lanzar(args);
                         break;
+                    case "help":
+                    case "h":
+                        Juego.consola.detalles(String.join("\n", General.LISTA_COMANDOS),
+                                "Lista de comandos disponible");
+                        break;
                     default:
                         throw new ExcepcionComandoInexistente(comandoIntroducido);
                 }
@@ -196,14 +201,13 @@ public class Partida {
                 }
             }
         } while (Tablero.getTablero().jugadoresRestantes() > 1);
-        fin();
     }
 
     /**
      * Finaliza la partida mostrando el ganador y demas
      */
     private void fin() {
-        Juego.consola.info("El ganador de la partida es "+Tablero.getTablero().getJugadores().get(0),"La partida ha finalizado");
+        Juego.consola.info("El ganador de la partida es "+Tablero.getTablero().getJugadores().get(0).getNombre(),"La partida ha finalizado");
         Juego.consola.imprimir(Tablero.getTablero().getJugadores().get(0).toString());
     }
 }

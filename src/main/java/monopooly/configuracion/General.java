@@ -80,7 +80,7 @@ public class General {
             "hipotecar      -  Permite hipotecar propiedades",
             "deshipotecar   -  Permite deshipotecar propiedades",
             "trato          -  Permite realizar tratos con otros jugadores",
-            "ver tratos     -  Muestra los tratos activos",
+            "tratos         -  Muestra los tratos",
             "eliminar trato -  Elimina un trato",
             "ver tablero    -  Muestra el tablero"
     };
