@@ -15,6 +15,7 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.excepciones.ExcepcionParametrosInvalidos;
 import monopooly.excepciones.ExcepcionRecursosInsuficientes;
 import monopooly.player.Avatar;
+import monopooly.player.ControladorAlquileres;
 import monopooly.player.Jugador;
 import monopooly.player.Tratos.ClasesTratos.*;
 import monopooly.player.Tratos.Trato;
@@ -606,6 +607,31 @@ public class Juego implements Comando, Subject {
             Juego.consola.info("Consigues "+((Trato5) trato).getPropiedadO().getNombre()+" a cambio de "+
                     ((Trato5) trato).getPropiedadReceptor().getNombre()+" y "+((Trato5) trato).getDineroReceptor()+" "+Precios.MONEDA);
 
+            Tablero.getPrompt().getJugador().getTratos().remove(trato);
+        }
+
+        if(trato instanceof Trato6){
+            ControladorAlquileres controlador=new ControladorAlquileres(((Trato6) trato).getPropiedadNoAlquiler(),((Trato6) trato).getTurnosNoAlquiler());
+
+
+            if(Tablero.getPrompt().getJugador().perteneceControladorAlquiler(controlador)){
+                throw new ExcepcionAccionInvalida("Ya tienes un trato activo de no pagar alquiler en esa propiedad por lo que no puedes aceptar el trato");
+            }
+
+            Jugador creadorTrato=trato.getOriginador();
+            trato.getReceptor().quitarPropiedad(((Trato6) trato).getPropiedadReceptor());
+            ((Trato6) trato).getPropiedadReceptor().setPropietario(creadorTrato);
+            creadorTrato.anhadirPropiedad(((Trato6) trato).getPropiedadReceptor());
+
+            creadorTrato.quitarPropiedad(((Trato6) trato).getPropiedadOrigina());
+            ((Trato6) trato).getPropiedadOrigina().setPropietario(trato.getReceptor());
+            trato.getReceptor().anhadirPropiedad(((Trato6) trato).getPropiedadOrigina());
+
+
+            Tablero.getPrompt().getJugador().anhadirNoAlquiler(controlador);
+
+            Juego.consola.info("Consigues la propiedad "+((Trato6) trato).getPropiedadOrigina().getNombre()
+                    +" a cambio de "+((Trato6) trato).getPropiedadReceptor().getNombre());
             Tablero.getPrompt().getJugador().getTratos().remove(trato);
         }
     }

@@ -21,6 +21,7 @@ import monopooly.player.tiposAvatar.Sombrero;
 import monopooly.sucesos.tipoSucesos.HipotecarPropiedad;
 import monopooly.sucesos.tipoSucesos.PasoSalida;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -38,6 +39,7 @@ public class Jugador {
     private int vecesDados;
     private int cooldown;
     private HashSet<Trato> tratos;
+    private ArrayList<ControladorAlquileres> noPagasAlquileres;
 
 
     /*-------------------------*/
@@ -55,6 +57,7 @@ public class Jugador {
         this.estadisticas=new StatsJugador(Partida.interprete, this);
         this.vecesDados=0;
         this.cooldown=0;
+        this.noPagasAlquileres=new ArrayList<>();
         this.tratos=new HashSet<>();
         switch(avatar){
             case coche:
@@ -78,6 +81,7 @@ public class Jugador {
         this.propiedades=new HashSet<>();
         this.nombre="Banca";
         this.dinero=0;
+        this.noPagasAlquileres=new ArrayList<>();
         this.estarEnCarcel=false;
         this.hipotecas = new HashSet<>();
         this.estarEnCarcel = false;
@@ -135,6 +139,10 @@ public class Jugador {
 
     public void setPropiedades(HashSet<Propiedad> propiedades) {
         this.propiedades = propiedades;
+    }
+
+    public ArrayList<ControladorAlquileres> getNoPagasAlquileres() {
+        return noPagasAlquileres;
     }
 
     public Dados getDados() {
@@ -226,12 +234,55 @@ public class Jugador {
         return true; // Permite usarla de la misma manera que antes
     }
 
+    public void disminuirTurnosNoAlquiler(){
+        for(ControladorAlquileres c:noPagasAlquileres){
+            c.disminuirTurnos();
+        }
+    }
+
+    public void anhadirNoAlquiler(ControladorAlquileres nuevoNoAlquiler) throws ExcepcionMonopooly{
+        if(nuevoNoAlquiler==null){
+            throw new ExcepcionParametrosInvalidos("El controlador de alquileres que quieres añadir es null");
+        }
+        noPagasAlquileres.add(nuevoNoAlquiler);
+    }
+    /*
+        Quita las propiedades donde no pagas alquiler cuando los turnos ya pasaron
+     */
+    public void quitarNoAlquiler(){
+        for(ControladorAlquileres c:noPagasAlquileres){
+            if(c.getNumeroTurnosSinPagar()==0){
+                noPagasAlquileres.remove(c);
+            }
+        }
+    }
+
+    public boolean pertenecePropiedadNoAlquiler(Propiedad propiedad){
+        for(ControladorAlquileres c:noPagasAlquileres){
+            if(c.getPropiedadNoPagasAlquiler().equals(propiedad)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean perteneceControladorAlquiler(ControladorAlquileres controlador){
+        for(ControladorAlquileres c: noPagasAlquileres){
+            if(c.equals(controlador)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void pasarTurno() throws ExcepcionMonopooly {
         this.avatar.pasarTurno();
         if (dinero < 0) {
             throw new ExcepcionRecursosInsuficientes("Tienes dinero negativo -> " + dinero + " " + Precios.MONEDA+ " ,debes declararte en bancarrota");
         }
+        this.quitarNoAlquiler();//Se quitan las propiedades en las que no pagas alquiler que tienen los turnos a 0
+        this.disminuirTurnosNoAlquiler();//Quitamos un turno en todas las propiedades en las que tienes un trato de no pagar alquiler
+
         // TODO comprobaciones de paso de turno aqui con sus excepciones
 
     }

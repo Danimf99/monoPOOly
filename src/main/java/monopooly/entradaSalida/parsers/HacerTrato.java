@@ -67,8 +67,11 @@ public class HacerTrato implements Expresion {
 
         switch (matchers.indexOf(matcher)) {
             case 0:
-                // TODO poner el trato de noalquiler
-
+                interprete.hacerTrato6(jOrigen,jDestino,
+                        t.getPropiedad(matcher.group(2)),
+                        t.getPropiedad(matcher.group(3)),
+                        t.getPropiedad(matcher.group(4)),
+                        str2int(matcher.group(5)));
                 break;
             case 1:
                 interprete.Hacertrato3(jOrigen, jDestino,

@@ -161,7 +161,10 @@ public class Visitante implements VisitanteCasilla {
             throw new ExcepcionMonopooly("No se puede visitar una casilla sin jugador para visitarla");
         }
         notificarCaer(propiedad);
-
+        if(this.jugadorVisitante.pertenecePropiedadNoAlquiler(propiedad)){
+            Juego.consola.info("No pagas alquiler en esta propiedad debido a un trato.");
+            return;
+        }
         if(!jugadorVisitante.equals(propiedad.getPropietario()) && !propiedad.getPropietario().equals(Tablero.BANCA)) {
             jugadorVisitante.quitarDinero(calcularAlquiler(propiedad));
             propiedad.getPropietario().anhadirDinero(calcularAlquiler(propiedad));
