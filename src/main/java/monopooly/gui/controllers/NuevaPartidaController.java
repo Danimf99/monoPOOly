@@ -17,6 +17,9 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import monopooly.Arranque;
+import monopooly.colocacion.Tablero;
+import monopooly.player.Avatar;
+import monopooly.player.Jugador;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
@@ -51,7 +54,12 @@ public class NuevaPartidaController {
         System.out.println("Nueva partida");
 
         /* Creacion de los Jugadores */
+        Tablero tablero = Tablero.getTablero();
+        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
+        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
 
+        tablero.meterJugador(dani);
+        tablero.meterJugador(saul);
         /* Se debe comprobar que son suficientes */
 
         ((FlowHandler) context.getRegisteredObject("flowHandler")).navigateTo(JuegoController.class);
