@@ -1,0 +1,88 @@
+/*
+negro asul oscuro asul claro cremita rojo
+#351330, #424254, #64908A, #E8CAA4, #BD0003
+
+*/
+
+/*
+
+Purpura: #bc2e54
+Blanco:  #FBFFFE
+Naranja: #f88229
+Amarillo: #FAA916
+Azul_claro: #23C9FF
+Negro:   #1B1B1E
+ROJO2: #E3170A
+*/
+
+
+
+/* Fuentes utilizadas */
+
+@font-face {
+    font-family: 'Chau Philomene One';
+    src: url("/fonts/ChauPhilomeneOne-Regular.ttf");
+}
+
+.root {
+    -fx-font-family: "Roboto";
+    -fx-font-smoothing-type: gray;
+}
+
+
+/* Decorator - Marco de la ventana */
+
+.jfx-decorator {
+    -fx-decorator-color: #BD0003;
+}
+
+.jfx-decorator .jfx-decorator-buttons-container {
+    -fx-background-color: -fx-decorator-color;
+}
+
+.jfx-decorator .resize-border {
+    -fx-border-color: -fx-decorator-color;
+    -fx-border-width: 0 4 4 4;
+}
+
+.jfx-decorator .jfx-decorator-text {
+    -fx-font-size: 26;
+    -fx-font-family: "Chau Philomene One";
+}
+
+/* Labels */
+.label-titulo {
+    -fx-font-size: 26px;
+    -fx-padding: 14px;
+    -fx-text-fill: rgba(0.0, 0.0, 0.0, 0.87);
+}
+
+
+
+/* Botones */
+button {
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+}
+
+.boton-colorido {
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+    -jfx-button-type: RAISED;
+    -fx-background-color: #2b2b2f;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-text-fill: WHITE;
+    -fx-cursor: hand;
+}
+
+.boton-inicio-partida {
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+    -jfx-button-type: RAISED;
+    -fx-background-color: #BD0003;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-text-fill: WHITE;
+    -fx-cursor: hand;
+}

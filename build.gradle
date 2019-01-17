@@ -9,8 +9,12 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
+    compile 'com.jfoenix:jfoenix:8.0.8' // Jfoenix para la interfaz material design
+    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5' // Iconos
+    compile 'io.datafx:flow:8.0.1'
 }

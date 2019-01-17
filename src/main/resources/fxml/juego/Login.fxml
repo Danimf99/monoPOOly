@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXButton?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           prefHeight="400.0" prefWidth="600.0">
+
+    <BorderPane>
+        <center>
+            <VBox maxWidth="800" maxHeight="500" spacing="10" alignment="TOP_CENTER" style="-fx-padding: 0 0 0 0;">
+
+                <Pane style="-fx-background-image: url('/imagenes/logo_ascii_art.png')" minHeight="250"/>
+
+                <HBox maxWidth="800" spacing="10" alignment="TOP_CENTER">
+                    <VBox minWidth="300" minHeight="200" maxWidth="300" maxHeight="200" spacing="10"
+                          style="-fx-background-color: #ededed; -fx-padding: 0 20 20 20;"
+                          alignment="BOTTOM_CENTER">
+                        <Label styleClass="label-titulo">Partida rápida</Label>
+                        <VBox spacing="40" style="-fx-padding: 0 25 0 25;" alignment="BOTTOM_CENTER">
+                            <Label wrapText="true">Comienza una partida rápida con la colocación por defecto.</Label>
+                            <JFXButton text="Nueva partida" buttonType="RAISED" styleClass="boton-colorido"
+                                       fx:id="nuevaPartida"/>
+                        </VBox>
+                    </VBox>
+
+                    <VBox minWidth="300" minHeight="200" maxWidth="300" maxHeight="200" spacing="10"
+                          style="-fx-background-color: #ededed; -fx-padding: 0 20 20 20;"
+                          alignment="BOTTOM_CENTER" >
+                        <Label styleClass="label-titulo">Editor de tablero</Label>
+
+                        <VBox spacing="40" style="-fx-padding: 0 25 0 25;" alignment="BOTTOM_CENTER">
+                            <Label wrapText="true">Mofica la colocación de las casillas antes de jugar.</Label>
+                            <JFXButton fx:id="irEditor" text="Ir al editor" buttonType="RAISED" styleClass="boton-colorido"/>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+        </center>
+        <bottom>
+            <VBox spacing="25" style="-fx-padding: 0 15 15 15">
+                <JFXToolbar>
+                    <rightItems>
+                        <Label>© El Dani y el Saúl</Label>
+                    </rightItems>
+                </JFXToolbar>
+            </VBox>
+        </bottom>
+    </BorderPane>
+
+</StackPane>
