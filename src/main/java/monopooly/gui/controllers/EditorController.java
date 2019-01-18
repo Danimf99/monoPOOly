@@ -12,8 +12,6 @@ import javax.annotation.PostConstruct;
 @ViewController(value = "/fxml/editor/Editor.fxml", title = "MonoPOOly")
 public class EditorController {
 
-
-
     @FXML
     @ActionTrigger("accionCojonuda")
     JFXButton botonCojonudo;

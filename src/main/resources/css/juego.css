@@ -1,0 +1,111 @@
+/* CSS de la pantalla de juego principal */
+
+
+
+
+
+
+
+
+
+.seccion-izq {
+    -fx-background-color: #e3dfda;
+    -fx-pref-height: 800;
+    -fx-pref-width: 70;
+
+}
+
+
+.seccion-central {
+    -fx-background-color: #d7d1cb;
+    -fx-pref-height: 800;
+    -fx-pref-width: 530;
+}
+
+
+.seccion-der {
+    -fx-background-color: #dfdbd6;
+    -fx-pref-height: 800;
+    -fx-pref-width: 800;
+}
+
+
+.global-tablero {
+    -fx-background-color: #f3f3f5;
+    -fx-pref-height: 650;
+    -fx-pref-width: 650;
+    -fx-max-height: 650;
+    -fx-max-width: 650;
+    -fx-min-height: 650;
+    -fx-min-width: 650;
+}
+
+.lado-tablero {
+    /*-fx-border-width: 1;*/
+    /*-fx-border-color: #1B1B1E;*/
+    -fx-grid-lines-visible: true;
+    -fx-pref-height: 100;
+    -fx-max-height: 100;
+    -fx-min-height: 100;
+    -fx-alignment: CENTER;
+}
+
+.lado-der-izq {
+    -fx-pref-height: 450;
+    -fx-pref-width: 100;
+    -fx-min-width: 100;
+    -fx-min-height: 450;
+    -fx-max-width: 100;
+    -fx-max-height: 450;
+    /*-fx-max-height: 550;*/
+    /*-fx-min-height: 550;*/
+}
+
+.lado-norte-sur {
+    -fx-pref-width: 650;
+    -fx-max-width: 650;
+    -fx-min-width: 650;
+}
+
+.centro-tablero {
+    -fx-pref-width: 450;
+    -fx-pref-height: 450;
+    -fx-min-height: 450;
+    -fx-min-width: 450;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 400 131;
+    -fx-rotate: 0;
+    -fx-background-image: url('/imagenes/logo_ascii_art.png');
+    /*-fx-background-color: #eae7e8;*/
+}
+
+.casilla {
+    -fx-background-color: #edeaeb;
+    -fx-cursor: hand;
+}
+
+.casilla-normal {
+    -fx-min-height: 100;
+    -fx-max-height: 100;
+    -fx-min-width: 50;
+    -fx-max-width: 50;
+    -fx-alignment: TOP_CENTER;
+}
+
+.casilla-esquina {
+    -fx-min-height: 100;
+    -fx-max-height: 100;
+    -fx-min-width: 100;
+    -fx-max-width: 100;
+    -fx-background-color: #e7e3e8;
+}
+
+.casilla-izquierda {
+
+}
+
+.propiedad {
+
+}
+

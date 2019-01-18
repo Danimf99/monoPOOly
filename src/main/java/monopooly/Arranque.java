@@ -9,6 +9,7 @@ import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
 
 public class Arranque extends Application {
@@ -37,21 +38,20 @@ public class Arranque extends Application {
         flowContext.register("flow", flow);
         flowContext.register("flowHandler", flowHandler);
 
-
         /* Preparación del decorator */
         JFXDecorator decorator = new JFXDecorator(stage, container.getView(), false, false, true);
 
-
         /* Preparacion de la escena principal */
         double ANCHO = 1400;
-        double ALTO = 800;
+        double ALTO = 849;
         Scene escenaPrincipal = new Scene(decorator, ANCHO, ALTO);
         escenaPrincipal.getStylesheets().addAll(
-                Arranque.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
                 Arranque.class.getResource("/css/global.css").toExternalForm(),
+                Arranque.class.getResource("/css/editor.css").toExternalForm(),
+                Arranque.class.getResource("/css/juego.css").toExternalForm(),
+                Arranque.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
                 Arranque.class.getResource("/css/jfoenix-design.css").toExternalForm()
         );
-
 
         /* Inicio de la app */
         stage.setScene(escenaPrincipal);

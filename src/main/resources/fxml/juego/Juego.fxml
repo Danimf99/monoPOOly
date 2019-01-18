@@ -6,9 +6,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="800.0" prefWidth="1400.0">
-    <Label>EHLO</Label>
+    <HBox fx:id="gameRoot">
+        <VBox styleClass="seccion-izq">
 
-</StackPane>
+        </VBox>
+
+        <VBox styleClass="seccion-central">
+
+        </VBox>
+
+        <StackPane styleClass="seccion-der">
+            <BorderPane fx:id="panelTablero" styleClass="global-tablero">
+                <top>
+                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte">
+                        <Label fx:id="label" rotate="180">Norte</Label>
+                    </GridPane>
+                </top>
+                <left>
+                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoIzquierda" rotate="90">
+
+                    </GridPane>
+                </left>
+                <right>
+                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoDerecha">
+                        <Label rotate="-90">Derecha</Label>
+                    </GridPane>
+                </right>
+                <bottom>
+                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoSur">
+
+                    </GridPane>
+                </bottom>
+                <center>
+                    <StackPane styleClass="centro-tablero">
+
+                    </StackPane>
+                </center>
+            </BorderPane>
+        </StackPane>
+    </HBox>
+
+</AnchorPane>
