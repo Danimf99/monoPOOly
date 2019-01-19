@@ -1,13 +1,6 @@
 /* CSS de la pantalla de juego principal */
 
 
-
-
-
-
-
-
-
 .seccion-izq {
     -fx-background-color: #e3dfda;
     -fx-pref-height: 800;
@@ -19,7 +12,7 @@
 .seccion-central {
     -fx-background-color: #d7d1cb;
     -fx-pref-height: 800;
-    -fx-pref-width: 530;
+    -fx-pref-width: 380;
 }
 
 
@@ -94,18 +87,44 @@
 }
 
 .casilla-esquina {
+    -fx-alignment: TOP_CENTER;
     -fx-min-height: 100;
     -fx-max-height: 100;
     -fx-min-width: 100;
     -fx-max-width: 100;
     -fx-background-color: #e7e3e8;
+    /*-fx-rotate: 90;*/
 }
 
-.casilla-izquierda {
-
-}
 
 .propiedad {
 
 }
 
+/* Es el "contenedor" de los avatares realmente */
+.repr-avatares {
+    -fx-min-height: 50;
+}
+
+.texto-avatares {
+
+}
+
+.repr-nombre-casilla {
+    -fx-min-width: 50;
+    -fx-min-height: 25;
+}
+
+.texto-nombre-casilla {
+    -fx-text-alignment: CENTER;
+    -fx-font-size: 10;
+}
+
+.repr-precio {
+    -fx-min-height: 25;
+    -fx-alignment: CENTER;
+}
+
+.texto-precio {
+
+}

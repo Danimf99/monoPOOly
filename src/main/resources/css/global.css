@@ -33,7 +33,13 @@ ROJO2: #E3170A
 /* Decorator - Marco de la ventana */
 
 .jfx-decorator {
+    /*-fx-decorator-color: #BD0003;*/
     -fx-decorator-color: #BD0003;
+}
+
+.lol {
+    /*-fx-decorator-color: #BD0003;*/
+    -fx-decorator-color: #385785;
 }
 
 .jfx-decorator .jfx-decorator-buttons-container {

@@ -1,5 +1,7 @@
 package monopooly.colocacion;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
@@ -7,6 +9,7 @@ import monopooly.player.Jugador;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class Casilla implements Imprimible {
@@ -14,6 +17,19 @@ public abstract class Casilla implements Imprimible {
     private HashSet<Avatar> avatares;
     private final static Iterator<Integer> generadorId = Stream.iterate(0, i -> i + 1).iterator();
     private Integer id;
+    private StringProperty reprAvatares = new SimpleStringProperty(this, "reprAvatares", "");
+
+    public String getReprAvatares() {
+        return reprAvatares.get();
+    }
+
+    public StringProperty reprAvataresProperty() {
+        return reprAvatares;
+    }
+
+    public void setReprAvatares(String reprAvatares) {
+        this.reprAvatares.set(reprAvatares);
+    }
 
     public Casilla(String nombre) {
         this.nombre = nombre;
@@ -64,6 +80,7 @@ public abstract class Casilla implements Imprimible {
 
     public void meterJugador(Avatar avatar) {
         this.avatares.add(avatar);
+        actualizarRepresentacion();
     }
 
     public void quitarJugador(Jugador jugador) {
@@ -72,6 +89,14 @@ public abstract class Casilla implements Imprimible {
 
     public void quitarJugador(Avatar avatar) {
         this.avatares.remove(avatar);
+        actualizarRepresentacion();
+    }
+
+    private void actualizarRepresentacion() {
+        String sb = this.avatares.stream()
+                .map(av -> String.valueOf(av.getRepresentacion()) + ' ')
+                .collect(Collectors.joining());
+        this.setReprAvatares(sb);
     }
 
     public boolean estaAvatar(Avatar avatar) {

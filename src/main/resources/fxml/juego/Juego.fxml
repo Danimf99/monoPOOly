@@ -9,7 +9,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             prefHeight="800.0" prefWidth="1400.0">
-    <HBox fx:id="gameRoot">
+    <HBox fx:id="root">
         <VBox styleClass="seccion-izq">
 
         </VBox>
@@ -21,8 +21,8 @@
         <StackPane styleClass="seccion-der">
             <BorderPane fx:id="panelTablero" styleClass="global-tablero">
                 <top>
-                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte">
-                        <Label fx:id="label" rotate="180">Norte</Label>
+                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte" rotate="180">
+
                     </GridPane>
                 </top>
                 <left>
@@ -31,8 +31,7 @@
                     </GridPane>
                 </left>
                 <right>
-                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoDerecha">
-                        <Label rotate="-90">Derecha</Label>
+                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoDerecha" rotate="270">
                     </GridPane>
                 </right>
                 <bottom>

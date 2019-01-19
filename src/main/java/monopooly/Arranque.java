@@ -29,7 +29,7 @@ public class Arranque extends Application {
         stage.setResizable(false);
 
         /* Flow container */
-        Flow flow = new Flow(LoginController.class);
+        Flow flow = new Flow(JuegoController.class);
         DefaultFlowContainer container = new DefaultFlowContainer();
         flowContext = new ViewFlowContext();
         flowContext.register("Stage", stage);
@@ -42,7 +42,7 @@ public class Arranque extends Application {
         JFXDecorator decorator = new JFXDecorator(stage, container.getView(), false, false, true);
 
         /* Preparacion de la escena principal */
-        double ANCHO = 1400;
+        double ANCHO = 1250;
         double ALTO = 849;
         Scene escenaPrincipal = new Scene(decorator, ANCHO, ALTO);
         escenaPrincipal.getStylesheets().addAll(

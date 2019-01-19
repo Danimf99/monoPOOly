@@ -3,9 +3,14 @@ package monopooly.gui.controllers;
 import com.jfoenix.controls.JFXButton;
 import io.datafx.controller.ViewController;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import monopooly.colocacion.Tablero;
+import monopooly.gui.componentes.DibujoTableroHelper;
+import monopooly.player.Avatar;
+import monopooly.player.Jugador;
 
 import javax.annotation.PostConstruct;
 
@@ -30,50 +35,31 @@ public class JuegoController {
     @FXML
     private Label label;
 
-    private void dibujarLadoSur() {
-        GridPane casillaTmp;
-        for (int i = 1; i < 10; i++) {
-            ladoSur.addColumn(i);
-            casillaTmp = new GridPane();
-            casillaTmp.getStyleClass().addAll("casilla", "casilla-normal");
-            casillaTmp.setId("" + (10-i));
-            casillaTmp.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
-            casillaTmp.add(new Label("Cas " + casillaTmp.getId()), 0, 0);
-            ladoSur.add(casillaTmp, i, 0);
+    private void asignarAccionCasillas(GridPane lado) {
+        for (Node child : lado.getChildren()) {
+            child.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
         }
-        ladoSur.addColumn(10);
-        casillaTmp = new GridPane();
-        casillaTmp.getStyleClass().addAll("casilla", "casilla-esquina");
-        casillaTmp.setId("10");
-        casillaTmp.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
-        ladoSur.add(casillaTmp, 10, 0);
-
-        casillaTmp = new GridPane();
-        casillaTmp.getStyleClass().addAll("casilla", "casilla-esquina");
-        casillaTmp.setId("0");
-        casillaTmp.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
-        ladoSur.add(casillaTmp, 0, 0);
     }
 
-
-    private void dibujarLadoIzquierda() {
-        GridPane casillaTmp;
-        for (int i = 0; i < 9; i++) {
-            ladoIzquierda.addColumn(i);
-            casillaTmp = new GridPane();
-            casillaTmp.setId("" + (19 - i));
-            casillaTmp.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
-            casillaTmp.getStyleClass().addAll("casilla", "casilla-normal");
-            casillaTmp.add(new Label("Cas " + casillaTmp.getId()), 0, 0);
-            ladoIzquierda.add(casillaTmp, i, 0);
-        }
+    private void dibujarTablero() {
+        DibujoTableroHelper.colocarCasillas(panelTablero);
+        asignarAccionCasillas((GridPane) panelTablero.getTop());
+        asignarAccionCasillas((GridPane) panelTablero.getBottom());
+        asignarAccionCasillas((GridPane) panelTablero.getLeft());
+        asignarAccionCasillas((GridPane) panelTablero.getRight());
     }
 
     @PostConstruct
     public void init() {
-        dibujarLadoSur();
-        dibujarLadoIzquierda();
+        /* Para la prueba */
+        Tablero tablero = Tablero.getTablero();
+        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
+        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
 
+        tablero.meterJugador(dani);
+        tablero.meterJugador(saul);
+        /* Fin cosas de prueba */
+        dibujarTablero();
 
 
     }
