@@ -45,7 +45,8 @@ public class HipotecarPropiedad extends Suceso {
 
 
     public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Hipoteca", this.toString(), "#FAA916");
+        return TarjetasSucesos.crearTarjeta("Hipoteca", this.toString(),
+                this.propiedad.getMonopolio().getHexColor());
     }
 
 

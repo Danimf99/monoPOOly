@@ -1,9 +1,10 @@
 package monopooly.sucesos.tipoSucesos;
 
-import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.configuracion.ReprASCII;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
@@ -27,7 +28,10 @@ public class Caer extends Suceso {
 
     @Override
     public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Caer", this.toString(), "#bc2e54");
+        Casilla casillaCaer=Tablero.getTablero().getCasilla(this.posicion);
+
+        return TarjetasSucesos.crearTarjeta("Caer", this.toString(),
+                ReprASCII.colorHexadecimal(casillaCaer.getTipo()));
     }
     @Override
     public String toString() {

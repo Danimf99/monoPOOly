@@ -23,7 +23,7 @@ public class VenderEdificios extends Suceso {
 
 
     public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Venta de edificios", this.toString(), "#FAA916");
+        return TarjetasSucesos.crearTarjeta("Venta de edificios", this.toString(), this.solar.getMonopolio().getHexColor());
     }
 
 
