@@ -17,7 +17,6 @@ import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 import monopooly.sucesos.tipoSucesos.PasoSalida;
@@ -46,6 +45,7 @@ public class Tablero implements Observador {
 
     private int bote;
     private ArrayList<Jugador> jugadoresTurno;
+    private ArrayList<Jugador> jugadoresGUI;
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasCajaComunidad;
     private ArrayList<Casilla> casillas;
@@ -68,11 +68,10 @@ public class Tablero implements Observador {
         this.cartasCajaComunidad = new ArrayList<>(FabricaCartas.cartasCaja());
 
         this.bote = 0;
-
+        this.jugadoresGUI=new ArrayList<>();
         this.casillasNombre = new HashMap<>();
         this.jugadores = new HashMap<>();
         this.casillasPosicion = new HashMap<>();
-
         casillas.forEach(casilla -> {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
             casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
@@ -119,6 +118,7 @@ public class Tablero implements Observador {
             return;
         }
         this.jugadoresTurno.add(jugador);
+        this.jugadoresGUI.add(jugador);
         this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);
         this.casillasPosicion.get(jugador.getAvatar().getPosicion()).meterJugador(jugador);
     }
@@ -150,6 +150,11 @@ public class Tablero implements Observador {
         }
         return jugador;
     }
+
+    public ArrayList<Jugador> getJugadoresGUI() {
+        return jugadoresGUI;
+    }
+
     /**
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
      *
@@ -173,7 +178,6 @@ public class Tablero implements Observador {
     public ArrayList<Jugador> getJugadores() {
         return new ArrayList<>(this.jugadoresTurno);
     }
-
     /**
      *
      * @return Numero de jugadores restantes en la partida

@@ -16,8 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import monopooly.Partida;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
-import monopooly.entradaSalida.Juego;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
@@ -78,7 +79,21 @@ public class JuegoController implements Observador {
     @ActionTrigger("modificarNitroso")
     private JFXToggleButton botonNitroso;
 
+    @FXML
+    @ActionTrigger("construirCasa")
+    private JFXButton botonConstruirCasa;
 
+    @FXML
+    @ActionTrigger("construirHotel")
+    private JFXButton botonConstruirHotel;
+
+    @FXML
+    @ActionTrigger("construirPiscina")
+    private JFXButton botonConstruirPiscina;
+
+    @FXML
+    @ActionTrigger("construirPistaDeporte")
+    private JFXButton botonConstruirPistaDeporte;
     /**
      * Asigna la accion predeterminada a todas las casillas de un lado del tablero
      * @param lado Gridpane con las casillas
@@ -131,8 +146,8 @@ public class JuegoController implements Observador {
     public void init() throws Exception {
         /* Para la prueba */
         Tablero tablero = Tablero.getTablero();
-        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
-        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
+        Jugador saul = new Jugador("Saul", Avatar.TIPO.coche);
+        Jugador dani = new Jugador("Dani", Avatar.TIPO.coche);
 
         tablero.meterJugador(dani);
         tablero.meterJugador(saul);
@@ -159,10 +174,10 @@ public class JuegoController implements Observador {
         for (Node botonJugador : listaJugadores.getChildren()) {
             botonJugador.setOnMouseClicked(event -> handleClickJugador(((JFXButton) event.getSource()).getId()));
         }
-
         /* Pintado del tablero */
         dibujarTablero();
 
+        listaJugadores.getChildren().get(0).getStyleClass().add("boton-jugador-con-turno");
         /* Registro en los sucesos */
         Partida.interprete.registrar(this);
         this.setSubject(Partida.interprete);
@@ -230,10 +245,29 @@ public class JuegoController implements Observador {
     @ActionMethod("pasarTurno")
     public void pasarTurno() {
         try {
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().remove("boton-jugador-con-turno");
+
             Tablero.getTablero().pasarTurno();
             // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
             // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
+
+
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().add("boton-jugador-con-turno");
+
+            if(Tablero.getTablero().getJugadorTurno().getAvatar().isNitroso()) {
+              botonNitroso.setSelected(true);
+            }
+            else{
+                botonNitroso.setSelected(false);
+            }
         } catch (ExcepcionMonopooly excepcionMonopooly) {
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().add("boton-jugador-con-turno");
             System.out.println(excepcionMonopooly.getMessage());
         }
     }
@@ -249,10 +283,63 @@ public class JuegoController implements Observador {
 
     @ActionMethod("modificarNitroso")
     public void modificarNitroso(){
-        System.out.println("modificar nitroso");
+        try{
+            Partida.interprete.cambiarModo(Tablero.getTablero().getJugadorTurno().getAvatar());
+        }catch(ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+
     }
 
+    @ActionMethod("construirCasa")
+    public void construirCasa(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
 
+            try {
+                Partida.interprete.edificar(
+                        casillaConstruir, Edificio.TIPO.casa
+                );
+            }catch (ExcepcionMonopooly excepcionMonopooly){
+                excepcionMonopooly.imprimeError();
+            }
+    }
+    @ActionMethod("construirHotel")
+    public void construirHotel(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.hotel
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
+
+    @ActionMethod("construirPiscina")
+    public void construirPiscina(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.piscina
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
+    @ActionMethod("construirPistaDeporte")
+    public void construirPistaDeporte(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.deporte
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
     /* Metodos que se llaman con distintas acciones. Se asignan en init() */
 
     /**

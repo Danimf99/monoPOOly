@@ -118,7 +118,7 @@
                                                  styleClass="sub-icon"/>
                         </graphic>
                     </JFXButton>
-                    <JFXButton fx:id="botonContruirHotel" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                    <JFXButton fx:id="botonConstruirHotel" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
                         <graphic>
                             <FontAwesomeIconView glyphName="BED" size="24" styleClass="sub-icon"/>
                         </graphic>

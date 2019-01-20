@@ -293,7 +293,6 @@
     /*-jfx-button-type: RAISED;*/
 }
 
-
-.dialogo-basico {
-
+.boton-jugador-con-turno{
+    -fx-background-color: #C8FE2E;
 }
