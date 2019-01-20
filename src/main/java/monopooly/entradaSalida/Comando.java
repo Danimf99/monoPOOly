@@ -58,7 +58,7 @@ public interface Comando {
 
     void listarEdificiosGrupo(TipoMonopolio tipo);
 
-    void edificar(Propiedad casilla, Edificio.TIPO tipo)throws ExcepcionMonopooly;
+    void edificar(Casilla casilla, Edificio.TIPO tipo)throws ExcepcionMonopooly;
 
     void deshipotecar(Jugador jugador,Casilla casilla) throws ExcepcionMonopooly;
 

@@ -13,7 +13,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import monopooly.Partida;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
@@ -74,6 +76,21 @@ public class JuegoController implements Observador {
     @ActionTrigger("modificarNitroso")
     private JFXToggleButton botonNitroso;
 
+    @FXML
+    @ActionTrigger("construirCasa")
+    private JFXButton botonConstruirCasa;
+
+    @FXML
+    @ActionTrigger("construirHotel")
+    private JFXButton botonConstruirHotel;
+
+    @FXML
+    @ActionTrigger("construirPiscina")
+    private JFXButton botonConstruirPiscina;
+
+    @FXML
+    @ActionTrigger("construirPistaDeporte")
+    private JFXButton botonConstruirPistaDeporte;
     /**
      * Asigna la accion predeterminada a todas las casillas de un lado del tablero
      * @param lado Gridpane con las casillas
@@ -250,6 +267,55 @@ public class JuegoController implements Observador {
 
     }
 
+    @ActionMethod("construirCasa")
+    public void construirCasa(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+            try {
+                Partida.interprete.edificar(
+                        casillaConstruir, Edificio.TIPO.casa
+                );
+            }catch (ExcepcionMonopooly excepcionMonopooly){
+                excepcionMonopooly.imprimeError();
+            }
+    }
+    @ActionMethod("construirHotel")
+    public void construirHotel(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.hotel
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
+
+    @ActionMethod("construirPiscina")
+    public void construirPiscina(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.piscina
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
+    @ActionMethod("construirPistaDeporte")
+    public void construirPistaDeporte(){
+        Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
+
+        try {
+            Partida.interprete.edificar(
+                    casillaConstruir, Edificio.TIPO.deporte
+            );
+        }catch (ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+    }
     /* Metodos que se llaman con distintas acciones. Se asignan en init() */
 
     /**
