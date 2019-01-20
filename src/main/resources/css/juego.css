@@ -124,7 +124,7 @@
     /*-fx-border-width: 1;*/
     /*-fx-border-color: #1B1B1E;*/
     -fx-grid-lines-visible: true;
-    -fx-cursor: hand;
+    /*-fx-cursor: hand;*/
     /*-fx-alignment: CENTER;*/
 }
 
