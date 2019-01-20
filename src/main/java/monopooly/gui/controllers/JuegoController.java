@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import monopooly.Partida;
 import monopooly.colocacion.Tablero;
-import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
@@ -75,7 +74,6 @@ public class JuegoController implements Observador {
     @ActionTrigger("modificarNitroso")
     private JFXToggleButton botonNitroso;
 
-
     /**
      * Asigna la accion predeterminada a todas las casillas de un lado del tablero
      * @param lado Gridpane con las casillas
@@ -128,8 +126,8 @@ public class JuegoController implements Observador {
     public void init() throws Exception {
         /* Para la prueba */
         Tablero tablero = Tablero.getTablero();
-        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
-        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
+        Jugador saul = new Jugador("Saul", Avatar.TIPO.coche);
+        Jugador dani = new Jugador("Dani", Avatar.TIPO.coche);
 
         tablero.meterJugador(dani);
         tablero.meterJugador(saul);
@@ -222,6 +220,12 @@ public class JuegoController implements Observador {
             Tablero.getTablero().pasarTurno();
             // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
             // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
+            if(Tablero.getTablero().getJugadorTurno().getAvatar().isNitroso()) {
+              botonNitroso.setSelected(true);
+            }
+            else{
+                botonNitroso.setSelected(false);
+            }
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             System.out.println(excepcionMonopooly.getMessage());
         }
@@ -238,9 +242,13 @@ public class JuegoController implements Observador {
 
     @ActionMethod("modificarNitroso")
     public void modificarNitroso(){
-        System.out.println("modificar nitroso");
-    }
+        try{
+            Partida.interprete.cambiarModo(Tablero.getTablero().getJugadorTurno().getAvatar());
+        }catch(ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
 
+    }
 
     /* Metodos que se llaman con distintas acciones. Se asignan en init() */
 
