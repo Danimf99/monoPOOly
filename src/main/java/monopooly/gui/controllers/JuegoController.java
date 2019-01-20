@@ -15,8 +15,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import monopooly.Arranque;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
+import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -356,6 +359,23 @@ public class JuegoController implements Observador {
      *           esa casilla
      */
     private void handleClickCasilla(String id) {
-        System.out.println(id);
+        Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(Integer.parseInt(id)));
+        JFXAlert alert = new JFXAlert(Arranque.getMainStage());
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setOverlayClose(false);
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Label(casilla.getNombre()));
+        layout.setBody(new Label("Info de " + casilla.getNombre()));
+
+        JFXButton botonCerrar = new JFXButton("Cerrar");
+        botonCerrar.setOnAction(event -> {
+            alert.hideWithAnimation();
+            // Codigo que se deba ejecutar
+        });
+        layout.getActions().add(botonCerrar);
+
+        layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+        alert.setContent(layout);
+        alert.showAndWait();
     }
 }
