@@ -76,12 +76,21 @@ public class JuegoController implements Observador {
     private JFXToggleButton botonNitroso;
 
 
+    /**
+     * Asigna la accion predeterminada a todas las casillas de un lado del tablero
+     * @param lado Gridpane con las casillas
+     */
     private void asignarAccionCasillas(GridPane lado) {
-        for (Node child : lado.getChildren()) {
-            child.setOnMouseClicked(event -> handleClickCasilla(((GridPane) event.getSource()).getId()));
-        }
+        lado.getChildren().forEach(
+                child -> child.setOnMouseClicked(
+                        event -> handleClickCasilla(((GridPane) event.getSource()).getId())
+                )
+        );
     }
 
+    /**
+     * Coloca las casillas en el tablero y les asigna la accion predeterminada
+     */
     private void dibujarTablero() {
         HelperGui.colocarCasillas(panelTablero);
         asignarAccionCasillas((GridPane) panelTablero.getTop());
@@ -90,6 +99,12 @@ public class JuegoController implements Observador {
         asignarAccionCasillas((GridPane) panelTablero.getRight());
     }
 
+    /**
+     * Coloca una tarjeta en el panel de informacion
+     * @param titulo Titulo de la tarjeta
+     * @param texto Mensaje de la tarjeta
+     * @param color Color de la cabecera
+     */
     private void emitirTarjeta(String titulo, String texto, String color) {
         infoSucesos.getChildren().add(TarjetasSucesos.crearTarjeta(titulo, texto, color));
         JFXScrollPane.smoothScrolling(scrollSucesos);
@@ -98,10 +113,16 @@ public class JuegoController implements Observador {
         infoSucesos.requestLayout();
     }
 
+    /**
+     * Coloca una tarjeta en el panel de informacion con el color predeterminado
+     * @param titulo Titulo de la tarjeta
+     * @param texto Mensaje de la tarjeta
+     */
     private void emitirTarjeta(String titulo, String texto) {
         emitirTarjeta(titulo, texto, "#f88229");
     }
 
+    /* init() se llama despues de construir toda la vista del .fxml */
 
     @PostConstruct
     public void init() throws Exception {
@@ -145,6 +166,7 @@ public class JuegoController implements Observador {
 
     }
 
+    /* Mostrado de los sucesos como tarjetas */
     @Override
     public void update() {
         Suceso suceso = (Suceso) this.subject.getUpdate(this);
@@ -165,12 +187,18 @@ public class JuegoController implements Observador {
         this.subject = subject;
     }
 
-    private static final class EstadisticasController {
+    /**
+     * Este es un pequeño controlador para el menu que aparece arriba a la
+     * izquierda en la interfaz. Tiene las estadisticas y alguna cosilla suelta
+     * que no quedaba bien por el medio de la interfaz; como insertar comandos
+     * de consola.
+     */
+    public static final class EstadisticasController {
         @FXML
         private JFXListView<?> menuEstadisticas;
 
         @FXML
-        private void submit() {
+        private void click() {
             switch (menuEstadisticas.getSelectionModel().getSelectedIndex()) {
                 case 0:
                     // Estadisticas globales
@@ -186,11 +214,14 @@ public class JuegoController implements Observador {
         }
     }
 
+    /* ActionMethods con las acciones para cada boton */
+
     @ActionMethod("pasarTurno")
     public void pasarTurno() {
         try {
             Tablero.getTablero().pasarTurno();
-            emitirTarjeta("Turno", "Cambio de turno", "#23C9FF");
+            // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
+            // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             System.out.println(excepcionMonopooly.getMessage());
         }
@@ -211,12 +242,22 @@ public class JuegoController implements Observador {
     }
 
 
+    /* Metodos que se llaman con distintas acciones. Se asignan en init() */
+
+    /**
+     * Acciones que se hacen cuando se hace click en el circulo de un jugador
+     * @param id String con el nombre del jugador correspondiente al botón
+     */
     private void handleClickJugador(String id) {
         System.out.println(id);
     }
 
+    /**
+     * Acciones que se hacen cuando se hace click en una casilla
+     * @param id String con el número correspondiente a la posición actual de
+     *           esa casilla
+     */
     private void handleClickCasilla(String id) {
         System.out.println(id);
-        emitirTarjeta(id, "texto casilla");
     }
 }

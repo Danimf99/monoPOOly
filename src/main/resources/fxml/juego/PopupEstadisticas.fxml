@@ -9,12 +9,15 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <JFXListView xmlns="http://javafx.com/javafx"
-             xmlns:fx="http://javafx.com/fxml">
+             xmlns:fx="http://javafx.com/fxml"
+             fx:id="menuEstadisticas"
+             onMouseClicked="#click">
+    <!-- onMouseClicked aparece en rojo but funciona no preocuparse -->
     <Label>
         Estadisticas Globales
         <graphic>
             <StackPane styleClass="container-icono-lista-iconos">
-                <FontAwesomeIconView glyphName="USER" size="1.5em"
+                <FontAwesomeIconView glyphName="ANCHOR" size="1.5em"
                                      styleClass="icono-opcion-lista-iconos"/>
             </StackPane>
         </graphic>
