@@ -1,7 +1,22 @@
 package monopooly.entradaSalida;
 
+import com.jfoenix.controls.JFXAlert;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialogLayout;
+import io.datafx.controller.flow.action.ActionMethod;
+import io.datafx.controller.flow.action.ActionTrigger;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import monopooly.Arranque;
 import monopooly.configuracion.ReprASCII;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -9,6 +24,7 @@ import static monopooly.entradaSalida.PintadoAscii.encuadrar;
 
 public class ConsolaNormal implements Consola {
     private Scanner sc;
+    private static int eleccionCarta;
 
     ConsolaNormal() {  // Package-Private
         this.sc = new Scanner(System.in);
@@ -199,24 +215,24 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public int elegirCarta() {
-        System.out.print(ReprASCII.PROMPT_ELECCION_CARTA);
-        int eleccion = 0;
-        try {
-            eleccion = this.sc.nextInt();
-            if (sc.hasNextLine()) {
-                sc.nextLine();
-            }
-            if (eleccion < 1 || eleccion > 6) {
-                error("Elige un numero entre el 1 y el 6.", "Error eligiendo carta");
-                eleccion = elegirCarta();
-            }
-        } catch (InputMismatchException e) {
-            error("Elige un numero.", "Error eligiendo carta");
-            if (sc.hasNextLine()) {
-                sc.nextLine();
-            }
-            eleccion = elegirCarta();
+        JFXAlert alert = new JFXAlert(Arranque.getMainStage());
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setOverlayClose(false);
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Label("Elige una carta"));
+        layout.setBody(new Label(""));
+        for (int i = 1; i < 7; i++) {
+            JFXButton botonEleccion = new JFXButton("" + i);
+            botonEleccion.setId("" + i);
+            layout.getActions().add(botonEleccion);
+            botonEleccion.getStyleClass().add("boton-aceptar-dialogo");
+            botonEleccion.setOnAction( event -> {
+                alert.hideWithAnimation();
+                eleccionCarta = Integer.parseInt(((JFXButton) event.getSource()).getId()) - 1;
+            });
         }
-        return eleccion -1;
+        alert.setContent(layout);
+        alert.showAndWait();
+        return eleccionCarta;
     }
 }

@@ -47,9 +47,9 @@
 .container-tarjetas {
     /*-fx-background-color: #ad5a1e;*/
     -fx-min-width: 426;
-    -fx-max-width: -fx-min-width;
+    /*-fx-max-width: -fx-min-width;*/
     /*-fx-min-height: 700;*/
-    -fx-alignment: BOTTOM;
+    /*-fx-alignment: BOTTOM;*/
 }
 
 
@@ -291,4 +291,9 @@
     -fx-max-height: -fx-pref-height;
     -fx-cursor: hand;
     /*-jfx-button-type: RAISED;*/
+}
+
+
+.dialogo-basico {
+
 }

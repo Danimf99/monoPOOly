@@ -235,3 +235,11 @@ button {
     /*-fx-pref-width: 50;*/
     -fx-maxHeight: Infinity;
 }
+
+/* alerta eleccion carta */
+.boton-aceptar-dialogo {
+    -fx-text-fill: #03A9F4;
+    -fx-font-weight: BOLD;
+    -fx-padding: 0.7em 0.8em;
+    -fx-cursor: hand;
+}

@@ -14,6 +14,12 @@ import monopooly.gui.controllers.LoginController;
 
 public class Arranque extends Application {
 
+    private static Stage mainStage;
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
     @FXMLViewFlowContext
     private ViewFlowContext flowContext;
 
@@ -25,6 +31,7 @@ public class Arranque extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         /* Configuracion del stage*/
+        mainStage = stage;
         stage.setTitle("MonoPOOly");
         stage.setResizable(false);
 

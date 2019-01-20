@@ -17,6 +17,8 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXRippler?>
 <?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            styleClass="root">
@@ -50,7 +52,7 @@
                     <ScrollPane styleClass="seccion-info" fx:id="scrollSucesos" hbarPolicy="NEVER">
                         <JFXMasonryPane fx:id="infoSucesos" styleClass="container-tarjetas" HSpacing="10" VSpacing="10">
                             <padding>
-                                <Insets top="16" right="20" bottom="16" left="16"/>
+                                <Insets top="16" right="20" bottom="200" left="16"/>
                             </padding>
                         </JFXMasonryPane>
                     </ScrollPane>

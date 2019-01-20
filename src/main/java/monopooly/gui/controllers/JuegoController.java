@@ -5,11 +5,14 @@ import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import monopooly.Partida;
@@ -106,11 +109,11 @@ public class JuegoController implements Observador {
      * @param color Color de la cabecera
      */
     private void emitirTarjeta(String titulo, String texto, String color) {
-        infoSucesos.getChildren().add(TarjetasSucesos.crearTarjeta(titulo, texto, color));
+        infoSucesos.getChildren().addAll(TarjetasSucesos.crearTarjeta(titulo, texto, color));
+        scrollSucesos.requestLayout();
         JFXScrollPane.smoothScrolling(scrollSucesos);
-        infoSucesos.requestLayout();
-        Platform.runLater(() -> infoSucesos.requestLayout());
-        infoSucesos.requestLayout();
+        scrollSucesos.setVvalue(1.0);
+
     }
 
     /**
@@ -169,6 +172,7 @@ public class JuegoController implements Observador {
     /* Mostrado de los sucesos como tarjetas */
     @Override
     public void update() {
+        botonPasarTurno.requestFocus();
         Suceso suceso = (Suceso) this.subject.getUpdate(this);
         if (suceso == null) {
             return;
@@ -178,8 +182,15 @@ public class JuegoController implements Observador {
             return;
         }
         infoSucesos.getChildren().add(suceso.tarjeta());
-        infoSucesos.requestLayout();
-        scrollSucesos.autosize();
+        Platform.runLater(() -> scrollSucesos.requestLayout());
+        scrollSucesos.requestLayout();
+        JFXScrollPane.smoothScrolling(scrollSucesos);
+        scrollSucesos.setVvalue(1.0);
+
+        scrollSucesos.requestFocus();
+        Platform.runLater(() -> scrollSucesos.requestFocus());
+        botonPasarTurno.requestFocus();
+
     }
 
     @Override
