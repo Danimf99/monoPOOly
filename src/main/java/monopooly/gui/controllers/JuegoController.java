@@ -171,10 +171,10 @@ public class JuegoController implements Observador {
         for (Node botonJugador : listaJugadores.getChildren()) {
             botonJugador.setOnMouseClicked(event -> handleClickJugador(((JFXButton) event.getSource()).getId()));
         }
-
         /* Pintado del tablero */
         dibujarTablero();
 
+        listaJugadores.getChildren().get(0).getStyleClass().add("boton-jugador-con-turno");
         /* Registro en los sucesos */
         Partida.interprete.registrar(this);
         this.setSubject(Partida.interprete);
@@ -234,9 +234,19 @@ public class JuegoController implements Observador {
     @ActionMethod("pasarTurno")
     public void pasarTurno() {
         try {
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().remove("boton-jugador-con-turno");
+
             Tablero.getTablero().pasarTurno();
             // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
             // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
+
+
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().add("boton-jugador-con-turno");
+
             if(Tablero.getTablero().getJugadorTurno().getAvatar().isNitroso()) {
               botonNitroso.setSelected(true);
             }
@@ -244,6 +254,9 @@ public class JuegoController implements Observador {
                 botonNitroso.setSelected(false);
             }
         } catch (ExcepcionMonopooly excepcionMonopooly) {
+            listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
+                    Tablero.getTablero().getJugadorTurno()
+            )).getStyleClass().add("boton-jugador-con-turno");
             System.out.println(excepcionMonopooly.getMessage());
         }
     }

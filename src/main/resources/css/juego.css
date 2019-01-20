@@ -292,3 +292,6 @@
     -fx-cursor: hand;
     /*-jfx-button-type: RAISED;*/
 }
+.boton-jugador-con-turno{
+    -fx-background-color: #C8FE2E;
+}
