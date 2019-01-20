@@ -271,7 +271,7 @@ public class JuegoController implements Observador {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
             )).getStyleClass().add("boton-jugador-con-turno");
-            System.out.println(excepcionMonopooly.getMessage());
+            excepcionMonopooly.mostrarError();
         }
     }
 
@@ -280,7 +280,7 @@ public class JuegoController implements Observador {
         try {
             Partida.interprete.lanzar(Tablero.getTablero().getJugadorTurno());
         } catch (ExcepcionMonopooly excepcionMonopooly) {
-            System.out.println(excepcionMonopooly.getMessage());
+            excepcionMonopooly.mostrarError();
         }
     }
 
@@ -289,7 +289,7 @@ public class JuegoController implements Observador {
         try{
             Partida.interprete.cambiarModo(Tablero.getTablero().getJugadorTurno().getAvatar());
         }catch(ExcepcionMonopooly excepcionMonopooly){
-            excepcionMonopooly.imprimeError();
+            excepcionMonopooly.mostrarError();
         }
 
     }
@@ -303,7 +303,7 @@ public class JuegoController implements Observador {
                         casillaConstruir, Edificio.TIPO.casa
                 );
             }catch (ExcepcionMonopooly excepcionMonopooly){
-                excepcionMonopooly.imprimeError();
+                excepcionMonopooly.mostrarError();
             }
     }
     @ActionMethod("construirHotel")
@@ -315,7 +315,7 @@ public class JuegoController implements Observador {
                     casillaConstruir, Edificio.TIPO.hotel
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
-            excepcionMonopooly.imprimeError();
+            excepcionMonopooly.mostrarError();
         }
     }
 
@@ -328,7 +328,7 @@ public class JuegoController implements Observador {
                     casillaConstruir, Edificio.TIPO.piscina
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
-            excepcionMonopooly.imprimeError();
+            excepcionMonopooly.mostrarError();
         }
     }
     @ActionMethod("construirPistaDeporte")
@@ -340,7 +340,7 @@ public class JuegoController implements Observador {
                     casillaConstruir, Edificio.TIPO.deporte
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
-            excepcionMonopooly.imprimeError();
+            excepcionMonopooly.mostrarError();
         }
     }
     /* Metodos que se llaman con distintas acciones. Se asignan en init() */
