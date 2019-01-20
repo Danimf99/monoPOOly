@@ -5,14 +5,11 @@ import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -360,6 +357,7 @@ public class JuegoController implements Observador {
      */
     private void handleClickCasilla(String id) {
         Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(Integer.parseInt(id)));
+
         JFXAlert alert = new JFXAlert(Arranque.getMainStage());
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setOverlayClose(false);
@@ -370,9 +368,94 @@ public class JuegoController implements Observador {
         JFXButton botonCerrar = new JFXButton("Cerrar");
         botonCerrar.setOnAction(event -> {
             alert.hideWithAnimation();
+            alert.setHideOnEscape(true);
             // Codigo que se deba ejecutar
         });
+
+        JFXButton botonComprar=new JFXButton("Comprar");
+        botonComprar.setOnAction(event -> {
+            alert.hideWithAnimation();
+            alert.setHideOnEscape(true);
+            try {
+                Partida.interprete.comprar(Tablero.getPrompt().getJugador(), casilla);
+            }catch(ExcepcionMonopooly excepcionMonopooly){
+                excepcionMonopooly.imprimeError();
+            }
+        });
+
+        JFXButton botonHipotecar=new JFXButton("Hipotecar");
+        botonHipotecar.setOnAction(event -> {
+            alert.hideWithAnimation();
+            alert.setHideOnEscape(true);
+
+            Partida.interprete.hipotecar(Tablero.getPrompt().getJugador(),casilla);
+
+        });
+
+        JFXButton botonDeshipotecar=new JFXButton("Deshipotecar");
+        botonDeshipotecar.setOnAction(event -> {
+            alert.hideWithAnimation();
+            alert.setHideOnEscape(true);
+            try{
+                Partida.interprete.deshipotecar(Tablero.getPrompt().getJugador(),casilla);
+            }catch(ExcepcionMonopooly excepcionMonopooly){
+                excepcionMonopooly.imprimeError();
+            }
+        });
+
+        JFXButton botonVenderEdificios=new JFXButton("Vender Edificios");
+        botonVenderEdificios.setOnAction(event -> {
+            alert.hideWithAnimation();
+            alert.setHideOnEscape(true);
+
+            JFXAlert alert2 = new JFXAlert(Arranque.getMainStage());
+            alert2.initModality(Modality.APPLICATION_MODAL);
+            alert2.setOverlayClose(false);
+            JFXDialogLayout layout2 = new JFXDialogLayout();
+            layout2.setHeading(new Label("Venta de edificios en "+casilla.getNombre()));
+            layout2.setBody(new Label("Elige el tipo de edificio que quieres vender y la cantidad."));
+
+            JFXButton botonClose=new JFXButton("Cerrar");
+            botonClose.setOnAction(event1 -> {
+                alert2.hideWithAnimation();
+                alert2.setHideOnEscape(true);
+            });
+
+            JFXComboBox<Edificio.TIPO> listaEdificios=new JFXComboBox();
+            listaEdificios.getItems().addAll(Edificio.TIPO.casa, Edificio.TIPO.hotel, Edificio.TIPO.piscina, Edificio.TIPO.deporte);
+            listaEdificios.getSelectionModel().selectFirst();
+
+            JFXComboBox<Integer> listaNumeros=new JFXComboBox();
+            listaNumeros.getItems().addAll(1,2,3,4);
+            listaNumeros.getSelectionModel().selectFirst();
+
+            JFXButton botonVender=new JFXButton("Vender");
+            botonVender.setOnAction(event1 -> {
+                alert2.hideWithAnimation();
+                alert2.setHideOnEscape(true);
+                try {
+                    Partida.interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
+                }catch(ExcepcionMonopooly excepcionMonopooly){
+                    excepcionMonopooly.imprimeError();
+                }
+            });
+
+
+            layout2.getActions().add(listaEdificios);
+            layout2.getActions().add(listaNumeros);
+            layout2.getActions().add(botonClose);
+            layout2.getActions().add(botonVender);
+            layout2.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+            alert2.setContent(layout2);
+            alert2.showAndWait();
+        });
+
         layout.getActions().add(botonCerrar);
+        layout.getActions().add(botonComprar);
+        layout.getActions().add(botonHipotecar);
+        layout.getActions().add(botonDeshipotecar);
+        layout.getActions().add(botonVenderEdificios);
 
         layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
         alert.setContent(layout);
