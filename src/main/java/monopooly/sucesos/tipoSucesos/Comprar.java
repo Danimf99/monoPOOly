@@ -55,6 +55,10 @@ public class Comprar extends Suceso {
 
     @Override
     public StackPane tarjeta() {
+        if(objetoComprado instanceof Propiedad){
+            return TarjetasSucesos.crearTarjeta("Compra", this.toString(), (((Propiedad) objetoComprado).getMonopolio().getHexColor()));
+
+        }
         return TarjetasSucesos.crearTarjeta("Compra", this.toString(), "#FAA916");
     }
 

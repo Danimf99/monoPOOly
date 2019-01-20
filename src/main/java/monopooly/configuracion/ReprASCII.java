@@ -210,4 +210,27 @@ public class ReprASCII {
         }
     }
 
+    public static String colorHexadecimal(TipoMonopolio tipo){
+        switch(tipo){
+            case violeta:
+                return "#9B59B6";
+            case rojo:
+                return "#E74C3C";
+            case amarillo:
+                return "#F5FF14";
+            case verde:
+                return "#47FF14";
+            case naranja:
+                return "#F39C12";
+            case azul_claro:
+                return "#14F6FF";
+            case marron:
+                return "#873600";
+            case azul_marino:
+                return "#154360";
+            default:
+                return "#BFC9CA";
+        }
+    }
+
 }

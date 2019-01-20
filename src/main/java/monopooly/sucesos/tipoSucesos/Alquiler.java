@@ -48,7 +48,8 @@ public class Alquiler extends Suceso {
 
     @Override
     public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Alquiler", this.toString(), "#bc2e54");
+        return TarjetasSucesos.crearTarjeta("Alquiler", this.toString(),
+                this.propiedad.getMonopolio().getHexColor());
     }
 
 
