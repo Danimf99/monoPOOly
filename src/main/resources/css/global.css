@@ -39,7 +39,7 @@ ROJO2: #E3170A
 
 .lol {
     /*-fx-decorator-color: #BD0003;*/
-    -fx-decorator-color: #385785;
+    -fx-decorator-color: #9a0003;
 }
 
 .jfx-decorator .jfx-decorator-buttons-container {
@@ -91,4 +91,147 @@ button {
     -fx-pref-height: 40;
     -fx-text-fill: WHITE;
     -fx-cursor: hand;
+}
+
+
+
+/* Hamburguesas */
+.jfx-hamburger {
+    -fx-padding: 10.0;
+    -fx-spacing: 4px;
+    -fx-cursor: hand;
+}
+
+.jfx-hamburger StackPane {
+    -fx-pref-width: 30px;
+    -fx-pref-height: 4px;
+    -fx-background-color: #FFF;
+    -fx-background-radius: 5px;
+}
+
+.rippler-hamburguesa{
+    -jfx-rippler-fill: WHITE;
+}
+
+
+/* Barras de listas - Este css es de la demo de Jfoenix */
+
+.scroll-bar:vertical > .track-background, .scroll-bar:horizontal > .track-background {
+    -fx-background-color: #F1F1F1;
+    -fx-background-insets: 0.0;
+}
+
+.scroll-bar:vertical > .thumb, .scroll-bar:horizontal > .thumb {
+    -fx-background-color: #dcdcdc;
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 1.0;
+}
+
+.scroll-bar > .increment-button, .scroll-bar > .decrement-button {
+    -fx-padding: 5 2 5 2;
+}
+
+.scroll-bar > .increment-button, .scroll-bar > .decrement-button, .scroll-bar:hover > .increment-button, .scroll-bar:hover > .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .increment-button > .increment-arrow, .scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: #dcdcdc;
+}
+
+.scroll-bar > .increment-button > .increment-arrow {
+    -fx-shape: "M298 426h428l-214 214z";
+}
+
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-shape: "M298 598l214-214 214 214h-428z";
+}
+
+
+/* Listas de elementos en PopUp con icono */
+.jfx-list-view {
+    -fx-background-insets: 0px;
+    -jfx-cell-horizontal-margin: 0px;
+    -jfx-cell-vertical-margin: 5px;
+    -jfx-vertical-gap: 10px;
+    -jfx-expanded: false;
+}
+
+.custom-jfx-list-view .jfx-list-cell:odd:selected > .jfx-rippler > StackPane,
+.custom-jfx-list-view .jfx-list-cell:even:selected > .jfx-rippler > StackPane {
+    -fx-background-color: rgba(255, 0, 0, 0.2);
+}
+
+.custom-jfx-list-view {
+    -fx-background-insets: 0px;
+    -jfx-cell-horizontal-margin: 0px;
+    -jfx-cell-vertical-margin: 5px;
+    -jfx-expanded: false;
+    -fx-max-width: 200px;
+    -fx-background-color: TRANSPARENT;
+}
+
+.custom-jfx-list-view .jfx-rippler {
+    -jfx-rippler-fill: RED;
+}
+
+.custom-jfx-list-view1 {
+    -jfx-vertical-gap: 10px;
+    -fx-pref-width: 150px;
+    -fx-background-color: transparent;
+}
+
+.container-icono-lista-iconos {
+    -fx-pref-width: 40px;
+}
+
+.custom-jfx-list-view .sublist-item {
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1 0 1 0;
+}
+
+.custom-jfx-list-view .jfx-list-cell .sublist-header > .drop-icon {
+    -fx-background-color: GRAY;
+}
+
+.custom-jfx-list-view .jfx-list-cell:filled:hover .sublist-header > .drop-icon {
+    -fx-background-color: BLACK;
+}
+
+.icono-opcion-lista-iconos {
+    -fx-fill: #2b2b2f;
+    -fx-padding: 0.0 10.0 0.0 5.0;
+    -fx-cursor: hand;
+}
+
+
+/* Tarjetas */
+.tarjeta {
+
+}
+
+.cabecera-tarjeta {
+    -fx-background-radius: 5 5 0 0;
+    -fx-padding: 6;
+}
+
+.cabecera-tarjeta Label {
+    -fx-font-size: 15;
+}
+
+.cuerpo-tarjeta {
+    -fx-padding: 6;
+    /*-fx-min-height: 50;*/
+    /*-fx-min-width: 50;*/
+    -fx-background-radius: 0 0 5 5;
+    -fx-background-color: rgba(255, 255, 255, 0.87);
+
+}
+
+.cuerpo-tarjeta Label {
+    -fx-wrap-text: true;
+    -fx-font-size: 13;
+    -fx-max-width: 400;
+    /*-fx-pref-width: 50;*/
+    -fx-maxHeight: Infinity;
 }

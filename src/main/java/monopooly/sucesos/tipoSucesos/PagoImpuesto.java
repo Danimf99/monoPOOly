@@ -1,7 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -28,11 +30,15 @@ public class PagoImpuesto extends Suceso {
         this.cantidad = cantidad;
     }
 
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Pago impuesto", this.toString(), "#FAA916");
+    }
+
     @Override
     public String toString() {
-        return "Pago de impuesto {\n" +
-                "   Cantidad -> " + -cantidad + " " + Precios.MONEDA + "\n" +
-                '}';
+        return "Pago de impuesto: \n" +
+                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
+                "   Cantidad -> " + -cantidad + " " + Precios.MONEDA + "\n";
     }
 
 

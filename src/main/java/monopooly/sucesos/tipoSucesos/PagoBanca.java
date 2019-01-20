@@ -1,7 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -32,12 +34,16 @@ public class PagoBanca extends Suceso {
         this.explicacion = explicacion;
     }
 
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Pago banca", this.toString(), "#FAA916");
+    }
+
     @Override
     public String toString() {
-        return "Pago de la banca {\n" +
+        return "Pago de la banca: \n" +
+                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
                 "   Cantidad -> " + cantidad + " " + Precios.MONEDA + ",\n" +
-                "   Concepto -> " + explicacion + "\n" +
-                '}';
+                "   Concepto -> " + explicacion + "\n";
     }
 
 

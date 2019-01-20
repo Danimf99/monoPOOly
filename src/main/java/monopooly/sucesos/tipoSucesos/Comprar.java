@@ -1,10 +1,12 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -52,20 +54,26 @@ public class Comprar extends Suceso {
     }
 
     @Override
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Compra", this.toString(), "#FAA916");
+    }
+
+
+    @Override
     public String toString() {
         if (objetoComprado instanceof Propiedad) {
             Propiedad objetoComprado = (Propiedad) this.objetoComprado;
 
-            return "Compra {\n" +
+            return "Compra\n" +
+                    "   Comprador -> " + getJugadorOriginador().getNombre() + ",\n" +
                     "   Cantidad  -> " + precioPagado + " " + Precios.MONEDA + ",\n" +
-                    "   Propiedad -> " + objetoComprado.getNombre() + "\n" +
-                    '}';
+                    "   Propiedad -> " + objetoComprado.getNombre() + "\n";
         }
-        return "Compra {\n" +
+        return "Compra:\n" +
+                "   Comprador    -> " + getJugadorOriginador().getNombre() + ",\n" +
                 "   Edificio     -> " + ((Edificio) this.objetoComprado).getNombre() + ",\n" +
                 "   Cantidad     -> " + precioPagado + " " + Precios.MONEDA + ",\n" +
-                "   Localizacion -> " + ((Edificio) this.objetoComprado).getSolar().getNombre() + "\n" +
-                '}';
+                "   Localizacion -> " + ((Edificio) this.objetoComprado).getSolar().getNombre() + "\n";
     }
 
     @Override

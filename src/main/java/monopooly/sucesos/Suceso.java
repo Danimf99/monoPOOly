@@ -1,8 +1,11 @@
 package monopooly.sucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.Partida;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.HelperGui;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.*;
 
@@ -82,6 +85,8 @@ public abstract class Suceso {
     public void deshacer() throws ExcepcionMonopooly {
         this.deshacer = true;
     }
+
+    public abstract StackPane tarjeta();
 
     @Override
     public boolean equals(Object o) {

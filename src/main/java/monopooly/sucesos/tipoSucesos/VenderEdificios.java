@@ -1,8 +1,10 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.Precios;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -19,13 +21,19 @@ public class VenderEdificios extends Suceso {
         this.edificioVendido=edificioVendido;
     }
 
+
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Venta de edificios", this.toString(), "#FAA916");
+    }
+
+
     @Override
     public String toString() {
-        return "Venta de edificios {\n" +
+        return "" +
+                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
                 "   Tipo         -> " + edificioVendido.toString() + ",\n" +
                 "   Beneficio    -> " + dineroGanado + "" + Precios.MONEDA + ",\n" +
-                "   localizacion -> " + solar + "\n" +
-                '}';
+                "   localizacion -> " + solar + "\n";
     }
 
     public Solar getSolar() {

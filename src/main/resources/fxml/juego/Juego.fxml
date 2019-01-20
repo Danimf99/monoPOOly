@@ -6,46 +6,139 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="800.0" prefWidth="1400.0">
-    <HBox fx:id="root">
-        <VBox styleClass="seccion-izq">
-
-        </VBox>
-
-        <VBox styleClass="seccion-central">
-
-        </VBox>
-
-        <StackPane styleClass="seccion-der">
-            <BorderPane fx:id="panelTablero" styleClass="global-tablero">
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           styleClass="root">
+    <BorderPane fx:id="root" styleClass="game-root">
+        <left>
+            <BorderPane styleClass="seccion-izq">
                 <top>
-                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte" rotate="180">
-
-                    </GridPane>
+                    <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;" styleClass="rippler-hamburguesa">
+                        <StackPane fx:id="containerBotonHamburguesa">
+                            <JFXHamburger fx:id="botonHamburguesa">
+                            </JFXHamburger>
+                        </StackPane>
+                    </JFXRippler>
                 </top>
-                <left>
-                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoIzquierda" rotate="90">
-
-                    </GridPane>
-                </left>
-                <right>
-                    <GridPane styleClass="lado-tablero, lado-der-izq" fx:id="ladoDerecha" rotate="270">
-                    </GridPane>
-                </right>
-                <bottom>
-                    <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoSur">
-
-                    </GridPane>
-                </bottom>
                 <center>
-                    <StackPane styleClass="centro-tablero">
+                    <GridPane fx:id="listaJugadores" styleClass="lista-jugadores">
 
-                    </StackPane>
+                    </GridPane>
                 </center>
-            </BorderPane>
-        </StackPane>
-    </HBox>
+                <bottom>
 
-</AnchorPane>
+                </bottom>
+
+            </BorderPane>
+        </left>
+        <center>
+
+            <VBox styleClass="seccion-central">
+                <!-- Info Sucesos -->
+                <VBox >
+                    <ScrollPane styleClass="seccion-info" fx:id="scrollSucesos" hbarPolicy="NEVER">
+                        <JFXMasonryPane fx:id="infoSucesos" styleClass="container-tarjetas" HSpacing="10" VSpacing="10">
+                            <padding>
+                                <Insets top="16" right="20" bottom="16" left="16"/>
+                            </padding>
+                        </JFXMasonryPane>
+                    </ScrollPane>
+                </VBox>
+                <!-- Panel de control -->
+                <BorderPane styleClass="panel-control">
+                    <left>
+                        <StackPane><JFXToggleButton fx:id="botonNitroso" styleClass="boton-nitroso"/></StackPane>
+                    </left>
+                    <center>
+                        <StackPane><JFXButton fx:id="botonPasarTurno" styleClass="boton-pasar-turno" text="Pasar Turno"/></StackPane>
+                    </center>
+                    <right>
+                        <StackPane><JFXButton fx:id="botonLanzarDados" styleClass="boton-lanzar-dados"/></StackPane>
+                    </right>
+                </BorderPane>
+            </VBox>
+        </center>
+        <right>
+            <StackPane styleClass="seccion-der">
+                <BorderPane fx:id="panelTablero" styleClass="global-tablero">
+                    <top>
+                        <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte" rotate="180">
+
+                        </GridPane>
+                    </top>
+                    <left>
+                        <GridPane styleClass="lado-tablero, lado-izq" fx:id="ladoIzquierda" rotate="90">
+
+                        </GridPane>
+                    </left>
+                    <right>
+                        <GridPane styleClass="lado-tablero, lado-der" fx:id="ladoDerecha" rotate="270">
+
+                        </GridPane>
+                    </right>
+                    <bottom>
+                        <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoSur">
+
+                        </GridPane>
+                    </bottom>
+                    <center>
+                        <AnchorPane styleClass="centro-tablero">
+                        </AnchorPane>
+                    </center>
+                </BorderPane>
+                <!-- Contruccion -->
+
+                <JFXNodesList fx:id="botonesContruccion" rotate="180.0" spacing="15"
+                              StackPane.alignment="BOTTOM_RIGHT">
+                    <StackPane.margin>
+                        <Insets bottom="20" right="35"/>
+                    </StackPane.margin>
+                    <JFXButton fx:id="botonConstruir" contentDisplay="GRAPHIC_ONLY"
+                               styleClass="boton-construir-principal">
+                        <graphic>
+                            <MaterialDesignIconView glyphName="WRENCH" size="24" styleClass="icono-llave-inglesa"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirCasa" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="HOME" size="24"
+                                                 styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonContruirHotel" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="BED" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirPiscina" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <MaterialDesignIconView glyphName="POOL" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirPistaDeporte" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <MaterialDesignIconView glyphName="SOCCER" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                </JFXNodesList>
+            </StackPane>
+        </right>
+
+
+
+    </BorderPane>
+
+
+
+</StackPane>

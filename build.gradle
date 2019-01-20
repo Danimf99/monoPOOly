@@ -15,6 +15,13 @@ repositories {
 dependencies {
     implementation 'junit:junit:4.12'
     compile 'com.jfoenix:jfoenix:8.0.8' // Jfoenix para la interfaz material design
-    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5' // Iconos
-    compile 'io.datafx:flow:8.0.1'
+    compile 'de.jensd:fontawesomefx-emojione:2.2.7-2'
+    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
+    compile 'de.jensd:fontawesomefx-icons525:3.0.0-4'
+    compile 'de.jensd:fontawesomefx-materialdesignfont:1.7.22-4'
+    compile 'de.jensd:fontawesomefx-materialicons:2.2.0-5'
+    compile 'de.jensd:fontawesomefx-octicons:4.3.0-5'
+    compile 'de.jensd:fontawesomefx-weathericons:2.0.10-5'
+    compile 'de.jensd:fontawesomefx-controls:8.15' // Iconos
+    compile 'io.datafx:flow:8.0.1' // Para cambiar vistas
 }

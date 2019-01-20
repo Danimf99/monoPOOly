@@ -1,5 +1,6 @@
 package monopooly.gui.componentes;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -11,11 +12,12 @@ import monopooly.colocacion.tipoCasillas.Impuesto;
 import monopooly.colocacion.tipoCasillas.accion.especiales.Especial;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
+import monopooly.player.Jugador;
 
 
 import java.util.ArrayList;
 
-public class DibujoTableroHelper {
+public class HelperGui {
     public static void colocarCasillas(BorderPane borderPane) {
         Tablero tablero = Tablero.getTablero();
         ArrayList<Casilla> casillas = tablero.getCasillas();
@@ -88,7 +90,7 @@ public class DibujoTableroHelper {
         gridPane.add(nombreCasilla, 0, 0);
         if (casilla instanceof Propiedad) {
             Propiedad propiedad = (Propiedad) casilla;
-            nombreCasilla.setStyle("-fx-background-color: " + propiedad.getMonopolio().getHexColor());
+            nombreCasilla.setStyle("-fx-background-color: " + propiedad.getMonopolio().getHexColor() + ";");
         }
 
         // Avatares
@@ -121,8 +123,22 @@ public class DibujoTableroHelper {
 
         // Si es una esquina el css es diferente
         gridPane.getStyleClass().add(casilla instanceof Especial ? "casilla-esquina" : "casilla-normal");
-
-
         return gridPane;
+    }
+
+    public static void colocarJugadores (GridPane gridPane) {
+        ArrayList<Jugador> jugadores = Tablero.getTablero().getJugadores();
+        for (int i = 0; i < jugadores.size(); i++) {
+            gridPane.addRow(i,genBotonJugador(jugadores.get(i)));
+        }
+    }
+
+    private static JFXButton genBotonJugador(Jugador jugador) {
+        JFXButton botonJugador = new JFXButton();
+        String repr = "" + jugador.getAvatar().getRepresentacion();
+        botonJugador.setText(repr);
+        botonJugador.getStyleClass().add("boton-jugador");
+        botonJugador.setId(jugador.getNombre());
+        return botonJugador;
     }
 }

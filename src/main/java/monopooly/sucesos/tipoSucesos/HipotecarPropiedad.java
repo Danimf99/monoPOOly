@@ -1,8 +1,10 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -41,12 +43,18 @@ public class HipotecarPropiedad extends Suceso {
         this.hipotecar = hipotecar;
     }
 
+
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Hipoteca", this.toString(), "#FAA916");
+    }
+
+
     @Override
     public String toString() {
-        return "DeshipotecarPropiedad{" +
+        return "HipotecarPropiedad:" +
+                "   jugador     -> " + getJugadorOriginador().getNombre() + ",\n" +
                 "   cantidad    -> " + getDinero() + " " + Precios.MONEDA + ",\n" +
-                "   propiedad   -> " + propiedad.getNombre() + "\n" +
-                '}';
+                "   propiedad   -> " + propiedad.getNombre() + "\n";
     }
 
 

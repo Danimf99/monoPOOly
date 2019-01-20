@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<JFXListView xmlns="http://javafx.com/javafx"
+             xmlns:fx="http://javafx.com/fxml">
+    <Label>
+        Estadisticas Globales
+        <graphic>
+            <StackPane styleClass="container-icono-lista-iconos">
+                <FontAwesomeIconView glyphName="USER" size="1.5em"
+                                     styleClass="icono-opcion-lista-iconos"/>
+            </StackPane>
+        </graphic>
+    </Label>
+    <Label>
+        Insertar comandos
+        <graphic>
+            <StackPane styleClass="container-icono-lista-iconos">
+                <FontAwesomeIconView glyphName="REPLY" size="1.5em"
+                                     styleClass="icono-opcion-lista-iconos"/>
+            </StackPane>
+        </graphic>
+    </Label>
+</JFXListView>

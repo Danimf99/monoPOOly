@@ -1,6 +1,8 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -20,11 +22,15 @@ public class CaerCarcel extends Suceso {
         return encarcelado;
     }
 
+
+    @Override
+    public StackPane tarjeta() {
+        return TarjetasSucesos.crearTarjeta("Caer en la carcel", this.toString(), "#bc2e54");
+    }
+
     @Override
     public String toString() {
-        return "CaerCarcel{" +
-                "encarcelado=" + encarcelado +
-                '}';
+        return "El jugador " + getJugadorOriginador().getNombre() + " está en la carcel (" + encarcelado + ")";
     }
 
     @Override

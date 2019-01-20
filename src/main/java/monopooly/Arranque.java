@@ -42,8 +42,8 @@ public class Arranque extends Application {
         JFXDecorator decorator = new JFXDecorator(stage, container.getView(), false, false, true);
 
         /* Preparacion de la escena principal */
-        double ANCHO = 1250;
-        double ALTO = 849;
+        double ANCHO = 1400;
+        double ALTO = 848;
         Scene escenaPrincipal = new Scene(decorator, ANCHO, ALTO);
         escenaPrincipal.getStylesheets().addAll(
                 Arranque.class.getResource("/css/global.css").toExternalForm(),
