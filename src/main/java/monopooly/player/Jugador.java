@@ -396,6 +396,22 @@ public class Jugador {
         }
         this.propiedades.remove(propiedad);
     }
+
+    public String toStringGUI() {
+        int j=0;
+        StringBuilder imprimirJugador = new StringBuilder();
+        imprimirJugador.append(
+                "Nombre: " + nombre +
+                "\nFortuna: " + dinero +
+                "\nAvatar: " + getAvatar().getRepresentacion()+"\nPropiedades: [");
+        meterPropiedades(j, imprimirJugador, propiedades);
+        imprimirJugador.append("]\nHipotecadas: [");
+        j=0;
+        meterPropiedades(j, imprimirJugador, hipotecas);
+        imprimirJugador.append("]");
+        return  imprimirJugador.toString();
+    }
+
     @Override
     public String toString() {
         int j=0;

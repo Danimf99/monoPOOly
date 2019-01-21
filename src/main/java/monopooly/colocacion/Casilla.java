@@ -1,19 +1,15 @@
 package monopooly.colocacion;
 
 import com.jfoenix.effects.JFXDepthManager;
-import de.jensd.fx.glyphs.GlyphsStack;
-import de.jensd.fx.glyphs.emojione.EmojiOne;
 import de.jensd.fx.glyphs.emojione.EmojiOneView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -155,6 +151,9 @@ public abstract class Casilla implements Imprimible {
                 '}';
     }
 
+    public  String toStringGUI(){
+        return "";
+    };
 
     private void fillAvs() {
         avs.getChildren().clear();

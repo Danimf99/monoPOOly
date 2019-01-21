@@ -159,7 +159,29 @@ public abstract class Propiedad extends Casilla implements Monopolio, Imprimible
         return this.monopolio.compartenPropietario();
     }
 
+    public String toStringGUI(){
+        StringBuilder reprSubclasesGUI=new StringBuilder();
 
+        reprSubclasesGUI.append("Precio: "+this.precio+" "+Precios.MONEDA);
+        reprSubclasesGUI.append("\n");
+        reprSubclasesGUI.append("Alquiler: " + new Visitante().calcularAlquiler(this) + " " + Precios.MONEDA);
+        reprSubclasesGUI.append("\n");
+        reprSubclasesGUI.append("Hipoteca: " + this.hipoteca() + " " + Precios.MONEDA);
+        reprSubclasesGUI.append("\n");
+        reprSubclasesGUI.append("Propietario: " + this.propietario.getNombre());
+        if(this instanceof Solar) {
+            reprSubclasesGUI.append("\n");
+            reprSubclasesGUI.append("Edificaciones:");
+            reprSubclasesGUI.append("\n");
+
+            for (Edificio edificio : ((Solar) this).getEdificios()) {
+                reprSubclasesGUI.append(" > " + edificio.getNombre());
+                reprSubclasesGUI.append("Tipo: " + edificio.getClass().getSimpleName());
+                reprSubclasesGUI.append("Precio: " + edificio.getPrecio() + " " + Precios.MONEDA);
+            }
+        }
+        return reprSubclasesGUI.toString();
+    }
 
     @Override
     public ArrayList<String> representar(ArrayList<String> reprSubclases) {

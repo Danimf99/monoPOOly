@@ -1,7 +1,6 @@
 package monopooly.gui.controllers;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.effects.JFXDepthManager;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
@@ -19,7 +18,6 @@ import monopooly.Arranque;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
-import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -305,8 +303,6 @@ public class JuegoController implements Observador {
                     Tablero.getTablero().getJugadorTurno()
             )).getStyleClass().remove("boton-jugador-con-turno");
             Tablero.getTablero().pasarTurno();
-            // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
-            // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
 
 
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
@@ -410,7 +406,95 @@ public class JuegoController implements Observador {
      * @param id String con el nombre del jugador correspondiente al botón
      */
     private void handleClickJugador(String id) {
-        System.out.println(id);
+        if(id.equals(Tablero.getTablero().getJugadorTurno().getNombre())){
+            return;
+        }
+        try {
+            Jugador jugador = Tablero.getTablero().getJugador(id);
+
+
+            JFXAlert alert = new JFXAlert(Arranque.getMainStage());
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setOverlayClose(false);
+            JFXDialogLayout layout = new JFXDialogLayout();
+            layout.setHeading(new Label("Jugador"));
+            layout.setBody(new Label(jugador.toStringGUI()));
+
+
+            JFXButton botonCerrar = new JFXButton("Cerrar");
+            botonCerrar.setOnAction(event -> {
+                alert.hideWithAnimation();
+                alert.setHideOnEscape(true);
+            });
+
+            JFXButton botonTratos=new JFXButton("Tratos");
+            botonTratos.setOnAction(event -> {
+                alert.hideWithAnimation();
+                alert.setHideOnEscape(true);
+
+                JFXAlert alertaT=new JFXAlert(Arranque.getMainStage());
+                alertaT.initModality(Modality.APPLICATION_MODAL);
+                alertaT.setOverlayClose(false);
+
+                JFXDialogLayout layoutT=new JFXDialogLayout();
+                layoutT.setHeading(new Label("Elige el trato que quiere efectuar"));
+                //TODO botones para tratos
+                JFXButton botonCerrarS = new JFXButton("Cerrar");
+                botonCerrarS.setOnAction(event1 -> {
+                    alertaT.hideWithAnimation();
+                    alertaT.setHideOnEscape(true);
+                });
+
+                layoutT.getActions().add(botonCerrarS);
+
+                layoutT.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+                alertaT.setContent(layoutT);
+                alertaT.showAndWait();
+            });
+
+            JFXButton botonStats= new JFXButton("Estadísticas");
+            botonStats.setOnAction(event -> {
+                alert.hideWithAnimation();
+                alert.setHideOnEscape(true);
+
+                JFXAlert alertaStats=new JFXAlert(Arranque.getMainStage());
+                alertaStats.initModality(Modality.APPLICATION_MODAL);
+                alertaStats.setOverlayClose(false);
+
+                JFXDialogLayout layoutS=new JFXDialogLayout();
+                layoutS.setHeading(new Label("Estadísticas de "+jugador.getNombre()));
+                layoutS.setBody(new Label(jugador.getEstadisticas().toStringGUI()));
+
+                JFXButton botonCerrarS = new JFXButton("Cerrar");
+                botonCerrarS.setOnAction(event1 -> {
+                    alertaStats.hideWithAnimation();
+                    alertaStats.setHideOnEscape(true);
+                });
+
+                layoutS.getActions().add(botonCerrarS);
+
+                layoutS.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+                alertaStats.setContent(layoutS);
+                alertaStats.showAndWait();
+
+            });
+
+
+            layout.getActions().add(botonCerrar);
+            layout.getActions().add(botonTratos);
+            layout.getActions().add(botonStats);
+
+            layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+            alert.setContent(layout);
+            alert.showAndWait();
+
+        }catch(ExcepcionMonopooly excepcionMonopooly){
+            excepcionMonopooly.imprimeError();
+        }
+
     }
 
     /**
@@ -426,7 +510,7 @@ public class JuegoController implements Observador {
         alert.setOverlayClose(false);
         JFXDialogLayout layout = new JFXDialogLayout();
         layout.setHeading(new Label(casilla.getNombre()));
-        layout.setBody(new Label("Info de " + casilla.getNombre()));
+        layout.setBody(new Label(casilla.toStringGUI()));
 
         JFXButton botonCerrar = new JFXButton("Cerrar");
         botonCerrar.setOnAction(event -> {
