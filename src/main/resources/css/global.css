@@ -103,6 +103,22 @@ button {
     -fx-cursor: hand;
 }
 
+.boton-editar-tarjeta {
+    -jfx-button-type: RAISED;
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+    -fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+    -fx-background-radius: 40;
+    -fx-background-color: #FBFFFE;
+}
+
+.icono-editar-tarjeta {
+    -fx-fill: #1B1B1E;
+}
+
 
 
 /* Hamburguesas */
@@ -169,7 +185,7 @@ button {
 
 .custom-jfx-list-view .jfx-list-cell:odd:selected > .jfx-rippler > StackPane,
 .custom-jfx-list-view .jfx-list-cell:even:selected > .jfx-rippler > StackPane {
-    -fx-background-color: rgba(255, 0, 0, 0.2);
+    -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
 .custom-jfx-list-view {

@@ -9,23 +9,19 @@
 <?import com.jfoenix.controls.JFXButton?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           prefHeight="800.0" prefWidth="1400.0" styleClass="root-editor">
+           prefHeight="800.0" prefWidth="1400.0"
+           styleClass="content-editor">
 
-    <BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="content-editor">
+
+    <BorderPane>
         <top>
-            <StackPane styleClass="panel-logo">
+            <StackPane>
+                <Label styleClass="label-titulo">Lado Derecho</Label>
             </StackPane>
-
         </top>
         <center>
-            <StackPane fx:id="centroEditor" styleClass="content-editor">
-
-            </StackPane>
+            <fx:include source="ContenedorLado.fxml"/>
         </center>
-        <bottom>
-            <fx:include source="Navegacion.fxml"/>
-        </bottom>
     </BorderPane>
-
 
 </StackPane>

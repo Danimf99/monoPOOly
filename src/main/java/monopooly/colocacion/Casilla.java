@@ -28,6 +28,8 @@ public abstract class Casilla implements Imprimible {
     private StringProperty reprAvatares = new SimpleStringProperty(this, "reprAvatares", "");
     private VBox avs;
 
+    private SimpleStringProperty nombreProperty = new SimpleStringProperty(this, "nombre", "");
+
 
     public String getReprAvatares() {
         return reprAvatares.get();
@@ -46,6 +48,19 @@ public abstract class Casilla implements Imprimible {
         this.avatares = new HashSet<>();
         this.id = generadorId.next();
         this.avs = new VBox();
+        this.nombreProperty.setValue(nombre);
+    }
+
+    public String getNombreProperty() {
+        return nombreProperty.get();
+    }
+
+    public SimpleStringProperty nombrePropertyProperty() {
+        return nombreProperty;
+    }
+
+    public void setNombreProperty(String nombreProperty) {
+        this.nombreProperty.set(nombreProperty);
     }
 
     public String getNombre() {
@@ -54,6 +69,7 @@ public abstract class Casilla implements Imprimible {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+        this.nombreProperty.setValue(nombre);
     }
 
     public HashSet<Avatar> getAvatares() {

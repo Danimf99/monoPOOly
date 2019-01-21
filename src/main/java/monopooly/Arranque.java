@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import monopooly.gui.controllers.EditorController;
 import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
 
@@ -39,7 +40,7 @@ public class Arranque extends Application {
         stage.getIcons().add(new Image(getClass().getResource("/imagenes/logo_sombrero.png").toExternalForm()));
 
         /* Flow container */
-        Flow flow = new Flow(JuegoController.class);
+        Flow flow = new Flow(LoginController.class);
         DefaultFlowContainer container = new DefaultFlowContainer();
         flowContext = new ViewFlowContext();
         flowContext.register("Stage", stage);
@@ -61,8 +62,8 @@ public class Arranque extends Application {
         Scene escenaPrincipal = new Scene(decorator, ANCHO, ALTO);
         escenaPrincipal.getStylesheets().addAll(
                 getClass().getResource("/css/global.css").toExternalForm(),
-                getClass().getResource("/css/editor.css").toExternalForm(),
                 getClass().getResource("/css/juego.css").toExternalForm(),
+                getClass().getResource("/css/editor.css").toExternalForm(),
                 getClass().getResource("/css/jfoenix-fonts.css").toExternalForm(),
                 getClass().getResource("/css/jfoenix-design.css").toExternalForm()
         );

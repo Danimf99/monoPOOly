@@ -79,6 +79,7 @@ public class Grupo extends Casilla implements Monopolio {
                 this.hexColor = "#eaeaea";
                 break;
             default:
+                this.hexColor = "#eaeaea";
                 this.precio = 0;
         }
 

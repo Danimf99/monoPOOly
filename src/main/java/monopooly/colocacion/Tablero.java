@@ -69,16 +69,21 @@ public class Tablero implements Observador {
 
         this.bote = 0;
         this.jugadoresGUI=new ArrayList<>();
-        this.casillasNombre = new HashMap<>();
         this.jugadores = new HashMap<>();
+
+        reloadColocacion();
+
+        this.subject = Partida.interprete;
+        this.subject.registrar(this);
+    }
+
+    public void reloadColocacion() {
+        this.casillasNombre = new HashMap<>();
         this.casillasPosicion = new HashMap<>();
         casillas.forEach(casilla -> {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
             casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
         });
-
-        this.subject = Partida.interprete;
-        this.subject.registrar(this);
     }
 
     public Grupo getTipoGrupo(TipoMonopolio tipo){
@@ -377,6 +382,19 @@ public class Tablero implements Observador {
         }
 
     }
+
+
+    /**
+     * Intercambia casillas de las posiciones indicadas
+     * @param pos1 Casilla 1
+     * @param pos2 Casilla 2
+     */
+    public void intercambiarCasillas(int pos1, int pos2) {
+        Collections.swap(casillas, pos1, pos2);
+        reloadColocacion();
+    }
+
+
 
     @Override
     public void setSubject(Subject subject) {
