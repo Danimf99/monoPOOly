@@ -198,6 +198,11 @@
     /*-fx-rotate: 90;*/
 }
 
+.casilla-resaltada {
+    -fx-background-color: #fcfcfe;
+    -fx-effect: innershadow(gaussian, #515151, 5, 0.0, 0, 0);
+}
+
 
 .propiedad {
 

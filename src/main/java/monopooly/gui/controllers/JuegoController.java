@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import monopooly.Arranque;
 import monopooly.Partida;
@@ -29,9 +30,11 @@ import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.Caer;
 import monopooly.sucesos.tipoSucesos.Guardado;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 @ViewController(value = "/fxml/juego/Juego.fxml", title = "MonoPOOly")
 public class JuegoController implements Observador {
@@ -219,16 +222,38 @@ public class JuegoController implements Observador {
         if (suceso == null) {
             return;
         }
-        if (suceso.getDeshacer()) {
-            infoSucesos.getChildren().remove(suceso.getTarjeta());
-            return;
+        if (suceso instanceof Caer) {
+            Caer caida = (Caer) suceso;
+            panelTablero.getChildren().stream()
+                    .filter(Objects::nonNull)
+                    .map(node -> (Pane) node)
+                    .forEach(lado -> lado.getChildren().stream()
+                            .filter(child -> child.getId() != null &&
+                                    child.getId().equalsIgnoreCase(
+                                            caida.getPosicion().getX() + ""
+                                    )
+                            ).findFirst()
+                            .ifPresent(child -> {
+                                if (suceso.getDeshacer()) {
+                                    child.getStyleClass().remove("casilla-resaltada");
+                                } else if (!child.getStyleClass().contains("casilla-resaltada")){
+                                    child.getStyleClass().add("casilla-resaltada");
+                                }
+                            }));
         }
 
         if (suceso instanceof Guardado) {
             return;
         }
 
-        infoSucesos.getChildren().add(suceso.getTarjeta());
+        if (suceso.getDeshacer()) {
+            infoSucesos.getChildren().remove(suceso.getTarjeta());
+        } else {
+            infoSucesos.getChildren().add(suceso.getTarjeta());
+        }
+
+
+
         Platform.runLater(() -> scrollSucesos.requestLayout());
         scrollSucesos.requestLayout();
         JFXScrollPane.smoothScrolling(scrollSucesos);
@@ -289,6 +314,13 @@ public class JuegoController implements Observador {
             )).getStyleClass().add("boton-jugador-con-turno");
 
             botonNitroso.setSelected(Tablero.getPrompt().getJugador().getAvatar().isNitroso());
+            panelTablero.getChildren().stream()
+                    .filter(Objects::nonNull)
+                    .map(node -> (Pane) node)
+                    .forEach(lado -> lado.getChildren()
+                            .forEach(casilla -> {
+                                casilla.getStyleClass().remove("casilla-resaltada");
+                            }));
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
