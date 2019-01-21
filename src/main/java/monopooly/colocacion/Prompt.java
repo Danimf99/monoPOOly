@@ -70,10 +70,10 @@ public class Prompt implements Observador {
         this.sucesosTurno = new ArrayList<>();
         this.usoMovEspecial = false;
         this.lanzamientosDados = 0;
-        this.nombreJugadorProperty.setValue(jugador.getNombre());
-        this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
+        this.nombreJugadorProperty.setValue(Tablero.getTablero().getJugadorTurno().getNombre());
         this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
-        this.tipoAvatarProperty.setValue(this.jugador.getAvatar().getTipo().toString());
+        this.dineroProperty.set(Tablero.getTablero().getJugadorTurno().getDinero() + " " + Precios.MONEDA);
+        this.tipoAvatarProperty.setValue(Tablero.getTablero().getJugadorTurno().getAvatar().getTipo().toString());
     }
 
     protected Prompt() {
@@ -369,6 +369,9 @@ public class Prompt implements Observador {
 
         if (suceso.getDeshacer()) {
             this.sucesosTurno.remove(suceso);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.tipoAvatarProperty.setValue(this.jugador.getAvatar().getTipo().toString());
             return;
         }
 

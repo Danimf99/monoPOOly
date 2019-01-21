@@ -357,9 +357,6 @@ public class Jugador {
         if (cantidad < 0) {
             throw new ExcepcionParametrosInvalidos("Error en la cantidad que quiere quitar, tiene que ser positiva");
         }
-        if(cantidad>this.dinero){
-            throw new ExcepcionRecursosInsuficientes("La cantidad que quiere quitar es mayor que la fortuna actual");
-        }
         this.dinero -= cantidad;
     }
 

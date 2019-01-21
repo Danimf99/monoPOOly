@@ -321,6 +321,7 @@ public class JuegoController implements Observador {
                             .forEach(casilla -> {
                                 casilla.getStyleClass().remove("casilla-resaltada");
                             }));
+            infoSucesos.getChildren().clear(); // Llega un momento que se llena asi que hay que vaciarlo
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
