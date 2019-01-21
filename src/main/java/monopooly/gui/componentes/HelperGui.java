@@ -1,10 +1,16 @@
 package monopooly.gui.componentes;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.svg.SVGGlyph;
+import de.jensd.fx.glyphs.GlyphsStack;
+import de.jensd.fx.glyphs.emojione.EmojiOne;
+import de.jensd.fx.glyphs.emojione.EmojiOneView;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
@@ -95,14 +101,10 @@ public class HelperGui {
 
         // Avatares
 
-        StackPane avataresContainer = new StackPane();
+        VBox avataresContainer = new VBox();
         avataresContainer.getStyleClass().add("repr-avatares");
         gridPane.add(avataresContainer, 0,1);
-
-        Label avatares = new Label();
-        avatares.textProperty().bind(casilla.reprAvataresProperty());
-        avatares.getStyleClass().add("texto-avatares");
-        avataresContainer.getChildren().add(avatares);
+        casilla.setAvs(avataresContainer);
 
         // Precio si tiene
 
@@ -135,8 +137,9 @@ public class HelperGui {
 
     private static JFXButton genBotonJugador(Jugador jugador) {
         JFXButton botonJugador = new JFXButton();
-        String repr = "" + jugador.getAvatar().getRepresentacion();
-        botonJugador.setText(repr);
+        EmojiOneView emoji = new EmojiOneView(jugador.getAvatar().getRepresentacion());
+        emoji.setSize("25");
+        botonJugador.setGraphic(emoji);
         botonJugador.getStyleClass().add("boton-jugador");
         botonJugador.setId(jugador.getNombre());
         return botonJugador;

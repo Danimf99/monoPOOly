@@ -1,5 +1,7 @@
 package monopooly.colocacion;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import monopooly.Partida;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
@@ -28,6 +30,35 @@ public class Prompt implements Observador {
     private Subject subject;
     private ArrayList<Suceso> sucesosTurno;
 
+    private StringProperty nombreJugadorProperty = new SimpleStringProperty(this, "nombreJugador", "");
+    private StringProperty dineroProperty = new SimpleStringProperty(this, "dineroJugador", "0 $");
+    private StringProperty modDIneroProperty = new SimpleStringProperty(this, "ultimoPago", "0 $");
+    private StringProperty tipoAvatarProperty = new SimpleStringProperty(this, "tipoAavatar", "nil");
+
+    public String getTipoAvatarProperty() {
+        return tipoAvatarProperty.get();
+    }
+
+    public StringProperty tipoAvatarPropertyProperty() {
+        return tipoAvatarProperty;
+    }
+
+    public void setTipoAvatarProperty(String tipoAvatarProperty) {
+        this.tipoAvatarProperty.set(tipoAvatarProperty);
+    }
+
+    public String getDineroProperty() {
+        return dineroProperty.get();
+    }
+
+    public StringProperty dineroPropertyProperty() {
+        return dineroProperty;
+    }
+
+    public void setDineroProperty(String dineroProperty) {
+        this.dineroProperty.set(dineroProperty);
+    }
+
 
     void reset() {
         this.jugador = Tablero.getTablero().getJugadorTurno();
@@ -39,6 +70,10 @@ public class Prompt implements Observador {
         this.sucesosTurno = new ArrayList<>();
         this.usoMovEspecial = false;
         this.lanzamientosDados = 0;
+        this.nombreJugadorProperty.setValue(jugador.getNombre());
+        this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
+        this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+        this.tipoAvatarProperty.setValue(this.jugador.getAvatar().getTipo().toString());
     }
 
     protected Prompt() {
@@ -50,6 +85,8 @@ public class Prompt implements Observador {
 
     public void setModDinero(int modDinero) {
         this.modDinero = modDinero;
+        this.dineroProperty.setValue(jugador.getDinero() + " " + Precios.MONEDA);
+        this.modDIneroProperty.setValue(modDinero + " " + Precios.MONEDA);
     }
 
     public Jugador getJugador() {
@@ -73,7 +110,7 @@ public class Prompt implements Observador {
     }
 
     public void setModDinero(int modDinero, String motivoPago) {
-        this.modDinero = modDinero;
+        this.setModDinero(modDinero);
         this.motivoPago = motivoPago;
     }
 
@@ -343,6 +380,7 @@ public class Prompt implements Observador {
             Object compra = ((Comprar) suceso).getObjetoComprado();
             Comprar sucesoCompra = (Comprar) suceso;
             this.modDinero = -sucesoCompra.getPrecioPagado();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
 
             if (compra instanceof Propiedad) {
                 this.motivoPago = "Compra de la propiedad " +
@@ -358,47 +396,55 @@ public class Prompt implements Observador {
 
         if (suceso instanceof AccionCarta) {
             this.modDinero = ((AccionCarta) suceso).getCarta().modDinero();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Accion de carta especial";
             return;
         }
 
         if (suceso instanceof PagoImpuesto) {
             this.modDinero = -((PagoImpuesto) suceso).getCantidad();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Pagaste un impuesto";
             return;
         }
 
         if (suceso instanceof ConseguirBote) {
             this.modDinero = ((ConseguirBote) suceso).getCantidadBote();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Conseguiste el bote del parking";
             return;
         }
 
         if (suceso instanceof PasoSalida) {
             this.modDinero = Precios.SALIDA;
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Pasaste por la Salida";
             return;
         }
 
         if (suceso instanceof PagoBanca) {
             this.modDinero = ((PagoBanca) suceso).getCantidad();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = ((PagoBanca) suceso).getExplicacion();
             return;
         }
 
         if (suceso instanceof Alquiler) {
             this.modDinero = -((Alquiler) suceso).getCantidad();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Alquiler en " + ((Alquiler) suceso).getPropiedad().getNombre();
         }
 
         if (suceso instanceof HipotecarPropiedad) {
             this.modDinero = ((HipotecarPropiedad) suceso).getDinero();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
             this.motivoPago = "Hipoteca propiedad " + ((HipotecarPropiedad) suceso).getPropiedad().getNombre();
         }
 
         if(suceso instanceof VenderEdificios){
             this.motivoPago="Venta de "+((VenderEdificios) suceso).getEdificioVendido().toString();
             this.modDinero=((VenderEdificios) suceso).getDineroGanado();
+            this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
         }
     }
 
@@ -409,5 +455,29 @@ public class Prompt implements Observador {
     @Override
     public void setSubject(Subject subject) {
         this.subject = subject;
+    }
+
+    public String getNombreJugadorProperty() {
+        return nombreJugadorProperty.get();
+    }
+
+    public StringProperty nombreJugadorPropertyProperty() {
+        return nombreJugadorProperty;
+    }
+
+    public void setNombreJugadorProperty(String nombreJugadorProperty) {
+        this.nombreJugadorProperty.set(nombreJugadorProperty);
+    }
+
+    public String getModDIneroProperty() {
+        return modDIneroProperty.get();
+    }
+
+    public StringProperty modDIneroPropertyProperty() {
+        return modDIneroProperty;
+    }
+
+    public void setModDIneroProperty(String modDIneroProperty) {
+        this.modDIneroProperty.set(modDIneroProperty);
     }
 }

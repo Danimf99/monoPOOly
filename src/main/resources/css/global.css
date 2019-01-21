@@ -24,11 +24,21 @@ ROJO2: #E3170A
     src: url("/fonts/ChauPhilomeneOne-Regular.ttf");
 }
 
+@font-face {
+    font-family: 'NotoEmoji';
+    src: url("/fonts/NotoColorEmoji.ttf");
+}
+
 .root {
     -fx-font-family: "Roboto";
     -fx-font-smoothing-type: gray;
 }
 
+
+
+.label-avatar {
+    -fx-font-family: NotoEmoji;
+}
 
 /* Decorator - Marco de la ventana */
 

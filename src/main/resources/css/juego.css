@@ -61,8 +61,8 @@
     -fx-max-width: -fx-pref-width;
     -fx-min-height: -fx-pref-height;
     -fx-max-height: -fx-pref-height;
-    -fx-alignment: CENTER;
-    -fx-spacing: 5;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 15;
     -fx-padding: 20;
     /*-fx-spacing: 30;*/
 
@@ -70,6 +70,7 @@
 
 .boton-nitroso {
     -jfx-toggle-color: #f88229;
+    -fx-font-size: 15;
 }
 
 .boton-pasar-turno {
@@ -95,6 +96,7 @@
     -fx-min-height: -fx-pref-height;
     -fx-max-height: -fx-pref-height;
     -fx-cursor: hand;
+    -fx-text-alignment: center;
 }
 
 .seccion-der {
@@ -202,7 +204,10 @@
 
 /* Es el "contenedor" de los avatares realmente */
 .repr-avatares {
+
     -fx-min-height: 50;
+    -fx-padding: 5;
+    -fx-spacing: 5;
 }
 
 .texto-avatares {
@@ -281,18 +286,30 @@
 }
 
 .boton-jugador {
-    -fx-pref-width: 35;
+    -fx-pref-width: 40;
     -fx-background-color: #FBFFFE;
-    -fx-background-radius: 35;
-    -fx-pref-height: 35;
+    -fx-background-radius: 40;
+    -fx-pref-height: 40;
     -fx-min-width: -fx-pref-width;
     -fx-max-width: -fx-pref-width;
     -fx-min-height: -fx-pref-height;
     -fx-max-height: -fx-pref-height;
     -fx-cursor: hand;
+    -fx-font-family: NotoEmoji;
     /*-jfx-button-type: RAISED;*/
 }
 
 .boton-jugador-con-turno{
-    -fx-background-color: #C8FE2E;
+    -fx-background-color: #e59b15;
+    -jfx-button-type: RAISED;
+}
+
+/* Labels panel de control */
+.titulo-panel-control {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
+
+.texto-panel-control {
+    -fx-font-size: 15;
 }

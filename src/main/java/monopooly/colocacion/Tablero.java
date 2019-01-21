@@ -254,14 +254,14 @@ public class Tablero implements Observador {
     public void cartaComunidad(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasCajaComunidad);
         Carta carta = cartasCajaComunidad.get(eleccion);
-        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
+//        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
         carta.accion();
     }
 
     public void cartaSuerte(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasSuerte);
         Carta carta = cartasSuerte.get(eleccion);
-        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
+//        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
         carta.accion();
     }
 

@@ -1,11 +1,19 @@
 package monopooly.colocacion;
 
+import com.jfoenix.effects.JFXDepthManager;
+import de.jensd.fx.glyphs.GlyphsStack;
+import de.jensd.fx.glyphs.emojione.EmojiOne;
+import de.jensd.fx.glyphs.emojione.EmojiOneView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -18,6 +26,8 @@ public abstract class Casilla implements Imprimible {
     private final static Iterator<Integer> generadorId = Stream.iterate(0, i -> i + 1).iterator();
     private Integer id;
     private StringProperty reprAvatares = new SimpleStringProperty(this, "reprAvatares", "");
+    private VBox avs;
+
 
     public String getReprAvatares() {
         return reprAvatares.get();
@@ -35,6 +45,7 @@ public abstract class Casilla implements Imprimible {
         this.nombre = nombre;
         this.avatares = new HashSet<>();
         this.id = generadorId.next();
+        this.avs = new VBox();
     }
 
     public String getNombre() {
@@ -81,6 +92,7 @@ public abstract class Casilla implements Imprimible {
     public void meterJugador(Avatar avatar) {
         this.avatares.add(avatar);
         actualizarRepresentacion();
+        fillAvs();
     }
 
     public void quitarJugador(Jugador jugador) {
@@ -90,6 +102,7 @@ public abstract class Casilla implements Imprimible {
     public void quitarJugador(Avatar avatar) {
         this.avatares.remove(avatar);
         actualizarRepresentacion();
+        fillAvs();
     }
 
     private void actualizarRepresentacion() {
@@ -124,5 +137,29 @@ public abstract class Casilla implements Imprimible {
                 "nombre='" + nombre + '\'' +
                 ", avatares=" + avatares +
                 '}';
+    }
+
+
+    private void fillAvs() {
+        avs.getChildren().clear();
+        FlowPane flowPane = new FlowPane();
+        flowPane.setHgap(5);
+        flowPane.setVgap(5);
+        avs.getChildren().add(flowPane);
+        this.avatares.forEach(avatar -> {
+            EmojiOneView emoji = new EmojiOneView(avatar.getRepresentacion());
+            emoji.setSize("20");
+            JFXDepthManager.setDepth(emoji, 1);
+            flowPane.getChildren().add(emoji);
+        });
+    }
+
+    public VBox getAvs() {
+        return avs;
+    }
+
+    public void setAvs(VBox avs) {
+        this.avs = avs;
+        fillAvs();
     }
 }

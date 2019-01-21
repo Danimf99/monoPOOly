@@ -26,12 +26,15 @@
         <left>
             <BorderPane styleClass="seccion-izq">
                 <top>
-                    <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;" styleClass="rippler-hamburguesa">
-                        <StackPane fx:id="containerBotonHamburguesa">
-                            <JFXHamburger fx:id="botonHamburguesa">
-                            </JFXHamburger>
-                        </StackPane>
-                    </JFXRippler>
+                    <VBox>
+                        <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;" styleClass="rippler-hamburguesa">
+                            <StackPane fx:id="containerBotonHamburguesa">
+                                <JFXHamburger fx:id="botonHamburguesa">
+                                </JFXHamburger>
+                            </StackPane>
+                        </JFXRippler>
+                    </VBox>
+
                 </top>
                 <center>
                     <GridPane fx:id="listaJugadores" styleClass="lista-jugadores">
@@ -58,17 +61,41 @@
                     </ScrollPane>
                 </VBox>
                 <!-- Panel de control -->
-                <BorderPane styleClass="panel-control">
-                    <left>
-                        <StackPane><JFXToggleButton fx:id="botonNitroso" styleClass="boton-nitroso"/></StackPane>
-                    </left>
-                    <center>
-                        <StackPane><JFXButton fx:id="botonPasarTurno" styleClass="boton-pasar-turno" text="Pasar Turno"/></StackPane>
-                    </center>
-                    <right>
-                        <StackPane><JFXButton fx:id="botonLanzarDados" styleClass="boton-lanzar-dados"/></StackPane>
-                    </right>
-                </BorderPane>
+                <HBox styleClass="panel-control">
+
+                    <VBox minWidth="222" alignment="CENTER_LEFT">
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Jugador: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="nombreJugadorActual">X</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Avatar: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="tipoAvatar">N</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Dinero: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="dineroJugadorActual">Muchos leuros</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Ultimo Movimiento: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="modDin">N</Label>
+                        </HBox>
+
+
+                    </VBox>
+
+                    <VBox>
+                        <JFXButton fx:id="botonPasarTurno" styleClass="boton-pasar-turno" text="Pasar Turno"/>
+                    </VBox>
+                    <VBox>
+                        <JFXButton fx:id="botonLanzarDados" styleClass="boton-lanzar-dados"/>
+                    </VBox>
+
+                </HBox>
             </VBox>
         </center>
         <right>
@@ -99,8 +126,18 @@
                         </AnchorPane>
                     </center>
                 </BorderPane>
-                <!-- Contruccion -->
 
+
+                <!-- Nitroso -->
+                <JFXToggleButton fx:id="botonNitroso"
+                                 styleClass="boton-nitroso"
+                                 StackPane.alignment="TOP_CENTER" text="Nitroso">
+                    <StackPane.margin>
+                        <Insets top="12"/>
+                    </StackPane.margin>
+                </JFXToggleButton>
+
+                <!-- Contruccion -->
                 <JFXNodesList fx:id="botonesContruccion" rotate="180.0" spacing="15"
                               StackPane.alignment="BOTTOM_RIGHT">
                     <StackPane.margin>

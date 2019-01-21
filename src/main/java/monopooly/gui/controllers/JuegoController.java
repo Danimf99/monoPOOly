@@ -17,6 +17,7 @@ import monopooly.Arranque;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
+import monopooly.colocacion.Prompt;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -27,6 +28,7 @@ import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
+import monopooly.sucesos.tipoSucesos.Guardado;
 
 import javax.annotation.PostConstruct;
 
@@ -94,6 +96,20 @@ public class JuegoController implements Observador {
     @FXML
     @ActionTrigger("construirPistaDeporte")
     private JFXButton botonConstruirPistaDeporte;
+
+    @FXML
+    private Label modDin;
+
+    @FXML
+    private Label dineroJugadorActual;
+
+    @FXML
+    private Label nombreJugadorActual;
+
+    @FXML
+    private Label tipoAvatar;
+
+
     /**
      * Asigna la accion predeterminada a todas las casillas de un lado del tablero
      * @param lado Gridpane con las casillas
@@ -182,6 +198,14 @@ public class JuegoController implements Observador {
         Partida.interprete.registrar(this);
         this.setSubject(Partida.interprete);
 
+
+        /* Preparado del panel de control */
+        this.botonLanzarDados.setText("0 - 0");
+        this.nombreJugadorActual.textProperty().bind(Tablero.getPrompt().nombreJugadorPropertyProperty());
+        this.dineroJugadorActual.textProperty().bind(Tablero.getPrompt().dineroPropertyProperty());
+        this.modDin.textProperty().bind(Tablero.getPrompt().modDIneroPropertyProperty());
+        this.tipoAvatar.textProperty().bind(Tablero.getPrompt().tipoAvatarPropertyProperty());
+
     }
 
     /* Mostrado de los sucesos como tarjetas */
@@ -196,6 +220,11 @@ public class JuegoController implements Observador {
             infoSucesos.getChildren().remove(suceso.tarjeta());
             return;
         }
+
+        if (suceso instanceof Guardado) {
+            return;
+        }
+
         infoSucesos.getChildren().add(suceso.tarjeta());
         Platform.runLater(() -> scrollSucesos.requestLayout());
         scrollSucesos.requestLayout();
@@ -248,7 +277,6 @@ public class JuegoController implements Observador {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
             )).getStyleClass().remove("boton-jugador-con-turno");
-
             Tablero.getTablero().pasarTurno();
             // TODO: Cambiar el color de los circulos de Jugador a la izquierda.
             // El que tiene turno habría que resaltarlo, y poner los demás en blanco.
@@ -258,12 +286,7 @@ public class JuegoController implements Observador {
                     Tablero.getTablero().getJugadorTurno()
             )).getStyleClass().add("boton-jugador-con-turno");
 
-            if(Tablero.getTablero().getJugadorTurno().getAvatar().isNitroso()) {
-              botonNitroso.setSelected(true);
-            }
-            else{
-                botonNitroso.setSelected(false);
-            }
+            botonNitroso.setSelected(Tablero.getPrompt().getJugador().getAvatar().isNitroso());
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
@@ -275,7 +298,9 @@ public class JuegoController implements Observador {
     @ActionMethod("lanzarDados")
     public void lanzarDados() {
         try {
-            Partida.interprete.lanzar(Tablero.getTablero().getJugadorTurno());
+            Jugador jugador = Tablero.getTablero().getJugadorTurno();
+            Partida.interprete.lanzar(jugador);
+            this.botonLanzarDados.setText(jugador.getDados().getDado1() + " - " + jugador.getDados().getDado2() + "\n" + jugador.getDados().tirada());
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             excepcionMonopooly.mostrarError();
         }
@@ -288,6 +313,7 @@ public class JuegoController implements Observador {
         }catch(ExcepcionMonopooly excepcionMonopooly){
             excepcionMonopooly.mostrarError();
         }
+        this.botonNitroso.setSelected(Tablero.getPrompt().getJugador().getAvatar().isNitroso());
 
     }
 
@@ -379,7 +405,7 @@ public class JuegoController implements Observador {
             try {
                 Partida.interprete.comprar(Tablero.getPrompt().getJugador(), casilla);
             }catch(ExcepcionMonopooly excepcionMonopooly){
-                excepcionMonopooly.imprimeError();
+                excepcionMonopooly.mostrarError();
             }
         });
 
@@ -399,7 +425,7 @@ public class JuegoController implements Observador {
             try{
                 Partida.interprete.deshipotecar(Tablero.getPrompt().getJugador(),casilla);
             }catch(ExcepcionMonopooly excepcionMonopooly){
-                excepcionMonopooly.imprimeError();
+                excepcionMonopooly.mostrarError();
             }
         });
 
@@ -436,15 +462,15 @@ public class JuegoController implements Observador {
                 try {
                     Partida.interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
                 }catch(ExcepcionMonopooly excepcionMonopooly){
-                    excepcionMonopooly.imprimeError();
+                    excepcionMonopooly.mostrarError();
                 }
             });
 
 
-            layout2.getActions().add(listaEdificios);
             layout2.getActions().add(listaNumeros);
-            layout2.getActions().add(botonClose);
             layout2.getActions().add(botonVender);
+            layout2.getActions().add(botonClose);
+            layout2.getActions().add(listaEdificios);
             layout2.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
 
             alert2.setContent(layout2);

@@ -16,6 +16,7 @@ package monopooly.configuracion;
 * */
 
 
+import de.jensd.fx.glyphs.emojione.EmojiOne;
 import monopooly.colocacion.tipoCasillas.propiedades.TipoMonopolio;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ReprASCII {
     public static final String APP_NAME = "MonoPOOly";
 
     /* Representacion para AVATARES*/
-    public static List<Character> AVATARES= new ArrayList<>(Arrays.asList('K','L','M','P','T','R', 'Q', 'J', 'S', 'D'));
+    public static List<EmojiOne> AVATARES= new ArrayList<>(Arrays.asList(EmojiOne.AIRPLANE, EmojiOne.TOPHAT,EmojiOne.ANCHOR,EmojiOne.BEER,EmojiOne.BULB, EmojiOne.BEACH_UMBRELLA));
     // Mellor que sobren que que falten
 
     /* BARRITAS */

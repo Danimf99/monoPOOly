@@ -37,24 +37,6 @@ public class Describir implements Expresion {
                 }
                 interprete.describirJugador(jugador);
                 break;
-            case"avatar":
-                if(comandoIntroducido.length!=3){
-                    Juego.consola.error("Error en el comando.");
-                    Tablero.getPrompt().setHelp(true);
-                    return;
-                }
-                Avatar avatar=null;
-                for(Jugador jugador2:Tablero.getTablero().getJugadores()){
-                    if(jugador2.getAvatar().getRepresentacion()==comandoIntroducido[2].charAt(0)){
-                        avatar=jugador2.getAvatar();
-                    }
-                }
-                if(avatar==null){
-                    Juego.consola.info("No hay ningún avatar con esa representación");
-                    return;
-                }
-                interprete.describirAvatar(avatar);
-                break;
             case "finanzas":
                 Partida.interprete.describirFinanzas(Tablero.getTablero().getJugadorTurno().getAvatar());
                 break;

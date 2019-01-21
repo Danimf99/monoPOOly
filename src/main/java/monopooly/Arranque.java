@@ -8,6 +8,8 @@ import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
@@ -34,6 +36,7 @@ public class Arranque extends Application {
         mainStage = stage;
         stage.setTitle("MonoPOOly");
         stage.setResizable(false);
+        stage.getIcons().add(new Image(getClass().getResource("/imagenes/logo_sombrero.png").toExternalForm()));
 
         /* Flow container */
         Flow flow = new Flow(JuegoController.class);
@@ -47,17 +50,21 @@ public class Arranque extends Application {
 
         /* Preparación del decorator */
         JFXDecorator decorator = new JFXDecorator(stage, container.getView(), false, false, true);
+        ImageView logoDecorator = new ImageView(getClass().getResource("/imagenes/logo_sombrero.png").toExternalForm());
+        logoDecorator.setPreserveRatio(true);
+        logoDecorator.setFitHeight(30);
+        decorator.setGraphic(logoDecorator);
 
         /* Preparacion de la escena principal */
         double ANCHO = 1400;
         double ALTO = 848;
         Scene escenaPrincipal = new Scene(decorator, ANCHO, ALTO);
         escenaPrincipal.getStylesheets().addAll(
-                Arranque.class.getResource("/css/global.css").toExternalForm(),
-                Arranque.class.getResource("/css/editor.css").toExternalForm(),
-                Arranque.class.getResource("/css/juego.css").toExternalForm(),
-                Arranque.class.getResource("/css/jfoenix-fonts.css").toExternalForm(),
-                Arranque.class.getResource("/css/jfoenix-design.css").toExternalForm()
+                getClass().getResource("/css/global.css").toExternalForm(),
+                getClass().getResource("/css/editor.css").toExternalForm(),
+                getClass().getResource("/css/juego.css").toExternalForm(),
+                getClass().getResource("/css/jfoenix-fonts.css").toExternalForm(),
+                getClass().getResource("/css/jfoenix-design.css").toExternalForm()
         );
 
         /* Inicio de la app */
