@@ -15,11 +15,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import monopooly.Arranque;
-import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.configuracion.General;
+import monopooly.entradaSalida.Juego;
+import monopooly.entradaSalida.parsers.*;
+import monopooly.excepciones.ExcepcionAcontecimiento;
+import monopooly.excepciones.ExcepcionComando;
+import monopooly.excepciones.ExcepcionComandoInexistente;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
@@ -33,6 +38,8 @@ import monopooly.sucesos.tipoSucesos.Guardado;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
+
+import static monopooly.Partida.interprete;
 
 @ViewController(value = "/fxml/juego/Juego.fxml", title = "MonoPOOly")
 public class JuegoController implements Observador {
@@ -197,8 +204,8 @@ public class JuegoController implements Observador {
 
         listaJugadores.getChildren().get(0).getStyleClass().add("boton-jugador-con-turno");
         /* Registro en los sucesos */
-        Partida.interprete.registrar(this);
-        this.setSubject(Partida.interprete);
+        interprete.registrar(this);
+        this.setSubject(interprete);
 
 
         /* Preparado del panel de control */
@@ -287,6 +294,130 @@ public class JuegoController implements Observador {
                 case 1:
                     // Insertar comandos
                     System.out.println("InsertarComandos");
+                    JFXAlert alert = new JFXAlert(Arranque.getMainStage());
+                    alert.initModality(Modality.APPLICATION_MODAL);
+                    alert.setOverlayClose(false);
+
+                    JFXDialogLayout layout = new JFXDialogLayout();
+                    layout.setHeading(new Label("Introduzca el comando"));
+                    JFXTextField comando = new JFXTextField();
+                    layout.setBody(comando);
+
+                    JFXButton botonCerrar = new JFXButton("Cerrar");
+                    botonCerrar.setOnAction(event -> {
+                        alert.hideWithAnimation();
+                        alert.setHideOnEscape(true);
+                    });
+
+                    JFXButton botonComando = new JFXButton("Ejecutar comando");
+                    botonComando.setOnAction(event -> {
+                        alert.hideWithAnimation();
+                        alert.setHideOnEscape(true);
+
+                        Expresion exp = null;
+                        String[] args;
+
+                        args = comando.getText().split(" ");
+                        try {
+                            switch (args[0].toLowerCase()) {  // Classic switch de comandos
+                                case "comprar":
+                                case "c":
+                                    exp = new Comprar(args);
+                                    break;
+                                case "aceptar":
+                                    exp = new AceptarTrato(args);
+                                    break;
+                                case "bancarrota":
+                                    exp = new Bancarrota(args);
+                                    break;
+                                case "eliminar":
+                                    exp = new EliminarTrato(args);
+                                    break;
+                                case "estadisticas":
+                                case "estadísticas":
+                                    exp = new Estadisticas(args);
+                                    break;
+                                case "trato":
+                                    exp = new HacerTrato(args);
+                                    break;
+                                case "edificar":
+                                    exp = new Edificar(args, false);
+                                    break;
+                                case "listar":
+                                    exp = new Listar(args);
+                                    break;
+                                case "salir":
+                                    exp = new SalirCarcel(args);
+                                    break;
+                                case "cambiar":
+                                    exp = new CambiarModo(args);
+                                    break;
+                                case "info":
+                                case "informacion":
+                                    exp = new Info(args);
+                                    break;
+                                case "hipotecar":
+                                    exp = new Hipotecar(args);
+                                    break;
+                                case "deshipotecar":
+                                    exp = new Deshipotecar(args);
+                                    break;
+                                case "describir":
+                                    exp = new Describir(args);
+                                    break;
+                                case "vender":
+                                    exp = new Vender(args);
+                                    break;
+                                case "ver":
+                                    exp = new VerTablero(args);
+                                    break;
+                                case "acabar":
+                                case "a":
+                                    Tablero.getTablero().pasarTurno();
+                                    Juego.consola.imprimirln(Tablero.getTablero().toString());
+                                    break;
+                                case "tratos":
+                                    exp = new VerTratos(args);
+                                    break;
+                                case "lanzar":
+                                    exp = new Lanzar(args);
+                                    break;
+                                case "help":
+                                case "h":
+                                    Juego.consola.detalles(String.join("\n", General.LISTA_COMANDOS),
+                                            "Lista de comandos disponible");
+                                    break;
+                                default:
+                                    throw new ExcepcionComandoInexistente(comando.getText());
+                            }
+                        } catch (ExcepcionComandoInexistente e) {
+                            Tablero.getPrompt().setHelp(true);
+                            e.imprimeError();
+                        } catch (ExcepcionMonopooly e) {
+                            e.imprimeError();
+                        }
+
+                        if (exp != null) {
+                            try {
+                                exp.interpretar(interprete);
+                            } catch (ExcepcionAcontecimiento e) {
+                                e.imprimeInfo();
+                            } catch (ExcepcionComando e) {
+                                Tablero.getPrompt().setHelp(true);
+                                e.imprimeError();
+                            } catch (ExcepcionMonopooly e) {
+                                e.imprimeError();
+                            }
+                        }
+                    });
+
+                    layout.getActions().add(botonCerrar);
+                    layout.getActions().add(botonComando);
+
+                    layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+                    alert.setContent(layout);
+                    alert.showAndWait();
                     break;
                 default:
                     // Nada
@@ -332,7 +463,7 @@ public class JuegoController implements Observador {
     public void lanzarDados() {
         try {
             Jugador jugador = Tablero.getTablero().getJugadorTurno();
-            Partida.interprete.lanzar(jugador);
+            interprete.lanzar(jugador);
             this.botonLanzarDados.setText(jugador.getDados().getDado1() + " - " + jugador.getDados().getDado2() + "\n" + jugador.getDados().tirada());
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             excepcionMonopooly.mostrarError();
@@ -342,7 +473,7 @@ public class JuegoController implements Observador {
     @ActionMethod("modificarNitroso")
     public void modificarNitroso(){
         try{
-            Partida.interprete.cambiarModo(Tablero.getTablero().getJugadorTurno().getAvatar());
+            interprete.cambiarModo(Tablero.getTablero().getJugadorTurno().getAvatar());
         }catch(ExcepcionMonopooly excepcionMonopooly){
             excepcionMonopooly.mostrarError();
         }
@@ -355,7 +486,7 @@ public class JuegoController implements Observador {
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
 
             try {
-                Partida.interprete.edificar(
+                interprete.edificar(
                         casillaConstruir, Edificio.TIPO.casa
                 );
             }catch (ExcepcionMonopooly excepcionMonopooly){
@@ -367,7 +498,7 @@ public class JuegoController implements Observador {
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
 
         try {
-            Partida.interprete.edificar(
+            interprete.edificar(
                     casillaConstruir, Edificio.TIPO.hotel
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
@@ -380,7 +511,7 @@ public class JuegoController implements Observador {
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
 
         try {
-            Partida.interprete.edificar(
+            interprete.edificar(
                     casillaConstruir, Edificio.TIPO.piscina
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
@@ -392,7 +523,7 @@ public class JuegoController implements Observador {
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
 
         try {
-            Partida.interprete.edificar(
+            interprete.edificar(
                     casillaConstruir, Edificio.TIPO.deporte
             );
         }catch (ExcepcionMonopooly excepcionMonopooly){
@@ -524,7 +655,7 @@ public class JuegoController implements Observador {
             alert.hideWithAnimation();
             alert.setHideOnEscape(true);
             try {
-                Partida.interprete.comprar(Tablero.getPrompt().getJugador(), casilla);
+                interprete.comprar(Tablero.getPrompt().getJugador(), casilla);
             }catch(ExcepcionMonopooly excepcionMonopooly){
                 excepcionMonopooly.mostrarError();
             }
@@ -535,7 +666,7 @@ public class JuegoController implements Observador {
             alert.hideWithAnimation();
             alert.setHideOnEscape(true);
 
-            Partida.interprete.hipotecar(Tablero.getPrompt().getJugador(),casilla);
+            interprete.hipotecar(Tablero.getPrompt().getJugador(),casilla);
 
         });
 
@@ -544,7 +675,7 @@ public class JuegoController implements Observador {
             alert.hideWithAnimation();
             alert.setHideOnEscape(true);
             try{
-                Partida.interprete.deshipotecar(Tablero.getPrompt().getJugador(),casilla);
+                interprete.deshipotecar(Tablero.getPrompt().getJugador(),casilla);
             }catch(ExcepcionMonopooly excepcionMonopooly){
                 excepcionMonopooly.mostrarError();
             }
@@ -581,7 +712,7 @@ public class JuegoController implements Observador {
                 alert2.hideWithAnimation();
                 alert2.setHideOnEscape(true);
                 try {
-                    Partida.interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
+                    interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
                 }catch(ExcepcionMonopooly excepcionMonopooly){
                     excepcionMonopooly.mostrarError();
                 }
