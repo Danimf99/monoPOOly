@@ -9,13 +9,9 @@ public class Guardado extends Suceso {
 
     public Guardado(Jugador jugadorOriginador) {
         super(jugadorOriginador);
+        setTarjeta(TarjetasSucesos.crearTarjeta("Guardado", "Guardado", "#385785"));
     }
 
-
-    @Override
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Guardado", "Guardado", "#385785");
-    }
 
     @Override
     public String toString() {

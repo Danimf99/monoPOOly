@@ -1,6 +1,7 @@
 package monopooly.gui.controllers;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.effects.JFXDepthManager;
 import io.datafx.controller.ViewController;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
@@ -162,8 +163,8 @@ public class JuegoController implements Observador {
     public void init() throws Exception {
         /* Para la prueba */
         Tablero tablero = Tablero.getTablero();
-        Jugador saul = new Jugador("Saul", Avatar.TIPO.coche);
-        Jugador dani = new Jugador("Dani", Avatar.TIPO.coche);
+        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
+        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
 
         tablero.meterJugador(dani);
         tablero.meterJugador(saul);
@@ -205,6 +206,8 @@ public class JuegoController implements Observador {
         this.dineroJugadorActual.textProperty().bind(Tablero.getPrompt().dineroPropertyProperty());
         this.modDin.textProperty().bind(Tablero.getPrompt().modDIneroPropertyProperty());
         this.tipoAvatar.textProperty().bind(Tablero.getPrompt().tipoAvatarPropertyProperty());
+//        JFXDepthManager.setDepth(botonLanzarDados, 1);
+//        JFXDepthManager.setDepth(botonPasarTurno, 1);
 
     }
 
@@ -217,7 +220,7 @@ public class JuegoController implements Observador {
             return;
         }
         if (suceso.getDeshacer()) {
-            infoSucesos.getChildren().remove(suceso.tarjeta());
+            infoSucesos.getChildren().remove(suceso.getTarjeta());
             return;
         }
 
@@ -225,14 +228,13 @@ public class JuegoController implements Observador {
             return;
         }
 
-        infoSucesos.getChildren().add(suceso.tarjeta());
+        infoSucesos.getChildren().add(suceso.getTarjeta());
         Platform.runLater(() -> scrollSucesos.requestLayout());
         scrollSucesos.requestLayout();
         JFXScrollPane.smoothScrolling(scrollSucesos);
         scrollSucesos.setVvalue(1.0);
 
         scrollSucesos.requestFocus();
-        Platform.runLater(() -> scrollSucesos.requestFocus());
         botonPasarTurno.requestFocus();
 
     }
@@ -293,6 +295,8 @@ public class JuegoController implements Observador {
             )).getStyleClass().add("boton-jugador-con-turno");
             excepcionMonopooly.mostrarError();
         }
+        Jugador jugador = Tablero.getTablero().getJugadorTurno();
+        this.botonLanzarDados.setText(jugador.getDados().getDado1() + " - " + jugador.getDados().getDado2() + "\n" + jugador.getDados().tirada());
     }
 
     @ActionMethod("lanzarDados")

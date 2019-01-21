@@ -381,6 +381,7 @@ public class Prompt implements Observador {
             Comprar sucesoCompra = (Comprar) suceso;
             this.modDinero = -sucesoCompra.getPrecioPagado();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
 
             if (compra instanceof Propiedad) {
                 this.motivoPago = "Compra de la propiedad " +
@@ -397,6 +398,7 @@ public class Prompt implements Observador {
         if (suceso instanceof AccionCarta) {
             this.modDinero = ((AccionCarta) suceso).getCarta().modDinero();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = "Accion de carta especial";
             return;
         }
@@ -404,6 +406,7 @@ public class Prompt implements Observador {
         if (suceso instanceof PagoImpuesto) {
             this.modDinero = -((PagoImpuesto) suceso).getCantidad();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = "Pagaste un impuesto";
             return;
         }
@@ -411,6 +414,7 @@ public class Prompt implements Observador {
         if (suceso instanceof ConseguirBote) {
             this.modDinero = ((ConseguirBote) suceso).getCantidadBote();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = "Conseguiste el bote del parking";
             return;
         }
@@ -425,6 +429,7 @@ public class Prompt implements Observador {
         if (suceso instanceof PagoBanca) {
             this.modDinero = ((PagoBanca) suceso).getCantidad();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = ((PagoBanca) suceso).getExplicacion();
             return;
         }
@@ -432,12 +437,14 @@ public class Prompt implements Observador {
         if (suceso instanceof Alquiler) {
             this.modDinero = -((Alquiler) suceso).getCantidad();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = "Alquiler en " + ((Alquiler) suceso).getPropiedad().getNombre();
         }
 
         if (suceso instanceof HipotecarPropiedad) {
             this.modDinero = ((HipotecarPropiedad) suceso).getDinero();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
             this.motivoPago = "Hipoteca propiedad " + ((HipotecarPropiedad) suceso).getPropiedad().getNombre();
         }
 
@@ -445,6 +452,7 @@ public class Prompt implements Observador {
             this.motivoPago="Venta de "+((VenderEdificios) suceso).getEdificioVendido().toString();
             this.modDinero=((VenderEdificios) suceso).getDineroGanado();
             this.modDIneroProperty.setValue(this.modDinero + " " + Precios.MONEDA);
+            this.dineroProperty.set(jugador.getDinero() + " " + Precios.MONEDA);
         }
     }
 

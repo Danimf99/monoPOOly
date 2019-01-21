@@ -14,7 +14,7 @@ import monopooly.sucesos.tipoSucesos.AccionCarta;
 public class CartaCaja2 extends CajaComunidad {
     private static final int DINERO = 0;
     private static final String MENSAJE = ""
-            + "\"Ve a la carcel sin cobrar por la casilla de salida\\n\""
+            + "Ve a la carcel sin cobrar por la casilla de salida"
             + "";
 
 

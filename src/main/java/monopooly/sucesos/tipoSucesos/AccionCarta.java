@@ -18,6 +18,7 @@ public class AccionCarta extends Suceso {
     public AccionCarta(Jugador jugadorOriginador, Carta carta) {
         super(jugadorOriginador);
         this.carta = carta;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Carta", carta.getMensaje(), "#23C9FF"));
     }
 
     public Carta getCarta() {
@@ -35,10 +36,6 @@ public class AccionCarta extends Suceso {
         carta.deshacer();
     }
 
-    @Override
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Carta", carta.getMensaje(), "#23C9FF");
-    }
 
     @Override
     public String toString() {

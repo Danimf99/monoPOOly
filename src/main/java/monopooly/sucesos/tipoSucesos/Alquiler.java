@@ -18,6 +18,8 @@ public class Alquiler extends Suceso {
         this.cantidad = cantidad;
         this.propiedad = propiedad;
         this.propietario = propietario;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Alquiler", this.toString(),
+                this.propiedad.getMonopolio().getHexColor()));
     }
 
 
@@ -47,13 +49,6 @@ public class Alquiler extends Suceso {
 
 
     @Override
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Alquiler", this.toString(),
-                this.propiedad.getMonopolio().getHexColor());
-    }
-
-
-    @Override
     public void deshacer() throws ExcepcionMonopooly {
         super.deshacer();
         propietario.quitarDinero(cantidad);
@@ -63,10 +58,10 @@ public class Alquiler extends Suceso {
 
     @Override
     public String toString() {
-        return "Alquiler:\n" +
-                "   Cantidad    -> " + -cantidad + " " + Precios.MONEDA + ",\n" +
-                "   Propiedad   -> " + propiedad.getNombre() + ",\n" +
-                "   Deudor      -> " + getJugadorOriginador().getNombre() + "\n" +
-                "   Propietario -> " + propietario.getNombre() + "\n";
+        return "" +
+                "Cantidad: " + -cantidad + " " + Precios.MONEDA + ",\n" +
+                "Propiedad: " + propiedad.getNombre() + ",\n" +
+                "Deudor: " + getJugadorOriginador().getNombre() + "\n" +
+                "Propietario: " + propietario.getNombre() + "";
     }
 }

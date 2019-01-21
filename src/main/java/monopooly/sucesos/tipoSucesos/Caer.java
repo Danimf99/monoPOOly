@@ -17,6 +17,9 @@ public class Caer extends Suceso {
     public Caer(Jugador jugadorOriginador, Posicion posicion) {
         super(jugadorOriginador);
         this.posicion = posicion;
+        Casilla casillaCaer=Tablero.getTablero().getCasilla(this.posicion);
+        setTarjeta(TarjetasSucesos.crearTarjeta("Caer", this.toString(),
+                casillaCaer instanceof Propiedad ? ((Propiedad) casillaCaer).getMonopolio().getHexColor() : "#9a0003"));
     }
 
     public Posicion getPosicion() {
@@ -27,13 +30,6 @@ public class Caer extends Suceso {
         this.posicion = posicion;
     }
 
-    @Override
-    public StackPane tarjeta() {
-        Casilla casillaCaer=Tablero.getTablero().getCasilla(this.posicion);
-
-        return TarjetasSucesos.crearTarjeta("Caer", this.toString(),
-                casillaCaer instanceof Propiedad ? ((Propiedad) casillaCaer).getMonopolio().getHexColor() : "#9a0003");
-    }
     @Override
     public String toString() {
         return Tablero.getTablero().getCasilla(posicion).getNombre();

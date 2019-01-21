@@ -16,6 +16,7 @@ public class PagoBanca extends Suceso {
         super(jugadorOriginador);
         this.cantidad = cantidad;
         this.explicacion = explicacion;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Pago banca", this.toString(), "#FAA916"));
     }
 
     public int getCantidad() {
@@ -34,16 +35,13 @@ public class PagoBanca extends Suceso {
         this.explicacion = explicacion;
     }
 
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Pago banca", this.toString(), "#FAA916");
-    }
 
     @Override
     public String toString() {
-        return "Pago de la banca: \n" +
-                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
-                "   Cantidad -> " + cantidad + " " + Precios.MONEDA + ",\n" +
-                "   Concepto -> " + explicacion + "\n";
+        return "" +
+                "Jugador: " + getJugadorOriginador().getNombre() + ",\n" +
+                "Cantidad: " + cantidad + " " + Precios.MONEDA + ",\n" +
+                "Concepto: " + explicacion + "";
     }
 
 

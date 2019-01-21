@@ -26,6 +26,16 @@ public abstract class Suceso {
     private Jugador jugadorOriginador;
     private boolean deshacer;
 
+    public StackPane getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(StackPane tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    private StackPane tarjeta;
+
     public Suceso(Jugador jugadorOriginador) {
         this.jugadorOriginador = jugadorOriginador;
         this.id = generadorId.next();
@@ -86,7 +96,6 @@ public abstract class Suceso {
         this.deshacer = true;
     }
 
-    public abstract StackPane tarjeta();
 
     @Override
     public boolean equals(Object o) {

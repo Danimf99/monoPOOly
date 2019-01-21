@@ -11,21 +11,13 @@ public class PasoSalida extends Suceso {
 
     public PasoSalida(Jugador jugadorOriginador) {
         super(jugadorOriginador);
-    }
-
-
-
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Pago Salida", this.toString(), "#FAA916");
+        setTarjeta(TarjetasSucesos.crearTarjeta("Pago Salida", this.toString(), "#FAA916"));
     }
 
 
     @Override
     public String toString() {
-        return "Paso por la salida:\n" +
-                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
-                "   Cantidad -> " + Precios.SALIDA + " " + Precios.MONEDA + "\n" +
-                "}";
+        return getJugadorOriginador().getNombre();
     }
 
 

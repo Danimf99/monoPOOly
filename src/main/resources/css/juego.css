@@ -54,7 +54,7 @@
 
 
 .panel-control {
-    -fx-background-color: #dcdcdc;
+    -fx-background-color: #f3f3f3;
     -fx-pref-height: 100;
     -fx-pref-width: 445;
     -fx-min-width: -fx-pref-width;
@@ -69,12 +69,12 @@
 }
 
 .boton-nitroso {
-    -jfx-toggle-color: #f88229;
+    -jfx-toggle-color: #BD0003;
     -fx-font-size: 15;
 }
 
 .boton-pasar-turno {
-    jfx-button-type: RAISED;
+    -jfx-button-type: RAISED;
     -fx-pref-width: 100;
     -fx-background-color: #1B1B1E;
     -fx-pref-height: 50;
@@ -87,7 +87,7 @@
 }
 
 .boton-lanzar-dados {
-    jfx-button-type: RAISED;
+    -jfx-button-type: RAISED;
     -fx-pref-width: 50;
     -fx-background-color: #FBFFFE;
     -fx-pref-height: 50;
@@ -100,7 +100,8 @@
 }
 
 .seccion-der {
-    -fx-background-color: #ececee;
+    /*-fx-background-image: url('/imagenes/background.png');*/
+    -fx-background-color: #e4e4e6;
     -fx-pref-height: 800;
     -fx-pref-width: 900;
     -fx-min-width: -fx-pref-width;
@@ -112,7 +113,7 @@
 
 
 .global-tablero {
-    -fx-background-color: #f3f3f5;
+    -fx-background-color: #f7f7f9;
     -fx-pref-height: 650;
     -fx-pref-width: 650;
     -fx-min-width: -fx-pref-width;
@@ -193,7 +194,7 @@
     -fx-max-height: -fx-min-height;
     -fx-min-width: -fx-min-height;
     -fx-max-width: -fx-min-height;
-    -fx-background-color: #e7e3e8;
+    -fx-background-color: #ebe7ec;
     /*-fx-rotate: 90;*/
 }
 
@@ -251,13 +252,14 @@
 .boton-construir .jfx-rippler{
     -jfx-rippler-fill: rgb(113, 118, 114);
 }
+
 .sub-icon{
     -fx-fill: rgb(113, 118, 114);
 }
 
 .boton-construir-principal {
     -fx-pref-width: 55;
-    -fx-background-color: #f8be15;
+    -fx-background-color: #BD0003;
     -fx-background-radius: 55;
     -fx-pref-height: 55;
     -fx-min-width: -fx-pref-width;
@@ -277,7 +279,7 @@
 /* Barra Lateral Lista de jugadores*/
 
 .lista-jugadores {
-    -fx-pref-width: 55;
+    -fx-pref-width: 54;
     -fx-min-width: -fx-pref-width;
     -fx-max-width: -fx-pref-width;
     -fx-alignment: BOTTOM_CENTER;
@@ -287,7 +289,7 @@
 
 .boton-jugador {
     -fx-pref-width: 40;
-    -fx-background-color: #FBFFFE;
+    -fx-background-color: #1B1B1E;
     -fx-background-radius: 40;
     -fx-pref-height: 40;
     -fx-min-width: -fx-pref-width;
@@ -299,9 +301,25 @@
     /*-jfx-button-type: RAISED;*/
 }
 
+.boton-jugador .icono-jugador-lateral {
+    -fx-fill: #FBFFFE;
+}
+
+.boton-jugador .jfx-rippler{
+    -jfx-rippler-fill: rgba(255,255,255, .87);
+}
+
 .boton-jugador-con-turno{
-    -fx-background-color: #e59b15;
+    -fx-background-color: #FBFFFE;
     -jfx-button-type: RAISED;
+}
+
+.boton-jugador-con-turno .icono-jugador-lateral {
+    -fx-fill: #1B1B1E;
+}
+
+.boton-jugador-con-turno .jfx-rippler{
+    -jfx-rippler-fill: rgba(26, 26, 26, 0.87);
 }
 
 /* Labels panel de control */

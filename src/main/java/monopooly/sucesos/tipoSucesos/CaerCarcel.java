@@ -12,6 +12,7 @@ public class CaerCarcel extends Suceso {
     public CaerCarcel(Jugador jugador) {
         super(jugador);
         this.encarcelado = true;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Caer en la carcel", this.toString(), "#bc2e54"));
     }
 
     public boolean saleDeCarcel() {
@@ -23,14 +24,10 @@ public class CaerCarcel extends Suceso {
     }
 
 
-    @Override
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Caer en la carcel", this.toString(), "#bc2e54");
-    }
 
     @Override
     public String toString() {
-        return "El jugador " + getJugadorOriginador().getNombre() + " está en la carcel (" + encarcelado + ")";
+        return "El jugador " + getJugadorOriginador().getNombre() + " está en la carcel.";
     }
 
     @Override

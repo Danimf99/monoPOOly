@@ -19,21 +19,17 @@ public class VenderEdificios extends Suceso {
         this.solar=solar;
         this.dineroGanado=dineroGanado;
         this.edificioVendido=edificioVendido;
-    }
-
-
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Venta de edificios", this.toString(), this.solar.getMonopolio().getHexColor());
+        setTarjeta(TarjetasSucesos.crearTarjeta("Venta de edificios", this.toString(), this.solar.getMonopolio().getHexColor()));
     }
 
 
     @Override
     public String toString() {
         return "" +
-                "   Jugador  -> " + getJugadorOriginador().getNombre() + ",\n" +
-                "   Tipo         -> " + edificioVendido.toString() + ",\n" +
-                "   Beneficio    -> " + dineroGanado + "" + Precios.MONEDA + ",\n" +
-                "   localizacion -> " + solar + "\n";
+                "Jugador: " + getJugadorOriginador().getNombre() + ",\n" +
+                "Tipo:" + edificioVendido.toString() + ",\n" +
+                "Beneficio: " + dineroGanado + "" + Precios.MONEDA + ",\n" +
+                "localizacion: " + solar.getNombre() + "";
     }
 
     public Solar getSolar() {

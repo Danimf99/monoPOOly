@@ -139,6 +139,7 @@ public class HelperGui {
         JFXButton botonJugador = new JFXButton();
         EmojiOneView emoji = new EmojiOneView(jugador.getAvatar().getRepresentacion());
         emoji.setSize("25");
+        emoji.getStyleClass().add("icono-jugador-lateral");
         botonJugador.setGraphic(emoji);
         botonJugador.getStyleClass().add("boton-jugador");
         botonJugador.setId(jugador.getNombre());

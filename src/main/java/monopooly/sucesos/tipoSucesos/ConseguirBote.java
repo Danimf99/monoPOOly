@@ -13,6 +13,7 @@ public class ConseguirBote extends Suceso {
     public ConseguirBote(Jugador jugadorOriginador, int cantidadBote) {
         super(jugadorOriginador);
         this.cantidadBote = cantidadBote;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Bote", this.toString(), "#FAA916"));
     }
 
     public int getCantidadBote() {
@@ -25,15 +26,10 @@ public class ConseguirBote extends Suceso {
 
 
     @Override
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Bote", this.toString(), "#FAA916");
-    }
-
-    @Override
     public String toString() {
         return "" +
-                "   Premiado -> " + getJugadorOriginador().getNombre() + "\n" +
-                "   Cantidad -> " + cantidadBote + "" + Precios.MONEDA + "\n";
+                "Premiado: " + getJugadorOriginador().getNombre() + "\n" +
+                "Cantidad: " + cantidadBote + "" + Precios.MONEDA + "";
     }
 
 

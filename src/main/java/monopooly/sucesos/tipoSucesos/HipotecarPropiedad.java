@@ -17,6 +17,8 @@ public class HipotecarPropiedad extends Suceso {
         super(jugadorOriginador);
         this.propiedad = propiedad;
         this.hipotecar = hipotecar;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Hipoteca", this.toString(),
+                this.propiedad.getMonopolio().getHexColor()));
     }
 
     public int getDinero() {
@@ -44,18 +46,13 @@ public class HipotecarPropiedad extends Suceso {
     }
 
 
-    public StackPane tarjeta() {
-        return TarjetasSucesos.crearTarjeta("Hipoteca", this.toString(),
-                this.propiedad.getMonopolio().getHexColor());
-    }
-
 
     @Override
     public String toString() {
-        return "HipotecarPropiedad:" +
-                "   jugador     -> " + getJugadorOriginador().getNombre() + ",\n" +
-                "   cantidad    -> " + getDinero() + " " + Precios.MONEDA + ",\n" +
-                "   propiedad   -> " + propiedad.getNombre() + "\n";
+        return "" +
+                "jugador: " + getJugadorOriginador().getNombre() + ",\n" +
+                "cantidad: " + getDinero() + " " + Precios.MONEDA + ",\n" +
+                "propiedad: " + propiedad.getNombre() + "";
     }
 
 
