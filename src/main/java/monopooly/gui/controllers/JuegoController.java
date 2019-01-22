@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -314,100 +315,18 @@ public class JuegoController implements Observador {
                         alert.hideWithAnimation();
                         alert.setHideOnEscape(true);
 
-                        Expresion exp = null;
-                        String[] args;
+                        /*Funcion con un switch para ver el comando introducido*/
+                        realizarAccionComando(comando.getText());
 
-                        args = comando.getText().split(" ");
-                        try {
-                            switch (args[0].toLowerCase()) {  // Classic switch de comandos
-                                case "comprar":
-                                case "c":
-                                    exp = new Comprar(args);
-                                    break;
-                                case "aceptar":
-                                    exp = new AceptarTrato(args);
-                                    break;
-                                case "bancarrota":
-                                    exp = new Bancarrota(args);
-                                    break;
-                                case "eliminar":
-                                    exp = new EliminarTrato(args);
-                                    break;
-                                case "estadisticas":
-                                case "estadísticas":
-                                    exp = new Estadisticas(args);
-                                    break;
-                                case "trato":
-                                    exp = new HacerTrato(args);
-                                    break;
-                                case "edificar":
-                                    exp = new Edificar(args, false);
-                                    break;
-                                case "listar":
-                                    exp = new Listar(args);
-                                    break;
-                                case "salir":
-                                    exp = new SalirCarcel(args);
-                                    break;
-                                case "cambiar":
-                                    exp = new CambiarModo(args);
-                                    break;
-                                case "info":
-                                case "informacion":
-                                    exp = new Info(args);
-                                    break;
-                                case "hipotecar":
-                                    exp = new Hipotecar(args);
-                                    break;
-                                case "deshipotecar":
-                                    exp = new Deshipotecar(args);
-                                    break;
-                                case "describir":
-                                    exp = new Describir(args);
-                                    break;
-                                case "vender":
-                                    exp = new Vender(args);
-                                    break;
-                                case "ver":
-                                    exp = new VerTablero(args);
-                                    break;
-                                case "acabar":
-                                case "a":
-                                    Tablero.getTablero().pasarTurno();
-                                    Juego.consola.imprimirln(Tablero.getTablero().toString());
-                                    break;
-                                case "tratos":
-                                    exp = new VerTratos(args);
-                                    break;
-                                case "lanzar":
-                                    exp = new Lanzar(args);
-                                    break;
-                                case "help":
-                                case "h":
-                                    Juego.consola.detalles(String.join("\n", General.LISTA_COMANDOS),
-                                            "Lista de comandos disponible");
-                                    break;
-                                default:
-                                    throw new ExcepcionComandoInexistente(comando.getText());
-                            }
-                        } catch (ExcepcionComandoInexistente e) {
-                            Tablero.getPrompt().setHelp(true);
-                            e.imprimeError();
-                        } catch (ExcepcionMonopooly e) {
-                            e.imprimeError();
-                        }
+                    });
 
-                        if (exp != null) {
-                            try {
-                                exp.interpretar(interprete);
-                            } catch (ExcepcionAcontecimiento e) {
-                                e.imprimeInfo();
-                            } catch (ExcepcionComando e) {
-                                Tablero.getPrompt().setHelp(true);
-                                e.imprimeError();
-                            } catch (ExcepcionMonopooly e) {
-                                e.imprimeError();
-                            }
+                    /*Funcion para pulsar enter y que se ejecute la accion introducida en textField */
+
+                    comando.setOnKeyReleased(event -> {
+                        if(event.getCode()== KeyCode.ENTER){
+                            alert.hideWithAnimation();
+                            alert.setHideOnEscape(true);
+                            realizarAccionComando(comando.getText());
                         }
                     });
 
@@ -421,6 +340,102 @@ public class JuegoController implements Observador {
                     break;
                 default:
                     // Nada
+            }
+        }
+    }
+
+    private static void realizarAccionComando(String comando){
+        Expresion exp=null;
+        String[] args;
+
+        /*Switch para comprobar el comando introducido*/
+        args = comando.split(" ");
+        try {
+            switch (args[0].toLowerCase()) {  // Classic switch de comandos
+                case "comprar":
+                case "c":
+                    exp = new Comprar(args);
+                    break;
+                case "aceptar":
+                    exp = new AceptarTrato(args);
+                    break;
+                case "bancarrota":
+                    exp = new Bancarrota(args);
+                    break;
+                case "eliminar":
+                    exp = new EliminarTrato(args);
+                    break;
+                case "estadisticas":
+                case "estadísticas":
+                    exp = new Estadisticas(args);
+                    break;
+                case "trato":
+                    exp = new HacerTrato(args);
+                    break;
+                case "edificar":
+                    exp = new Edificar(args, false);
+                    break;
+                case "listar":
+                    exp = new Listar(args);
+                    break;
+                case "salir":
+                    exp = new SalirCarcel(args);
+                    break;
+                case "cambiar":
+                    exp = new CambiarModo(args);
+                    break;
+                case "info":
+                case "informacion":
+                    exp = new Info(args);
+                    break;
+                case "hipotecar":
+                    exp = new Hipotecar(args);
+                    break;
+                case "deshipotecar":
+                    exp = new Deshipotecar(args);
+                    break;
+                case "describir":
+                    exp = new Describir(args);
+                    break;
+                case "vender":
+                    exp = new Vender(args);
+                    break;
+                case "acabar":
+                case "a":
+                    Tablero.getTablero().pasarTurno();
+                    Juego.consola.imprimirln(Tablero.getTablero().toString());
+                    break;
+                case "tratos":
+                    exp = new VerTratos(args);
+                    break;
+                case "lanzar":
+                    exp = new Lanzar(args);
+                    break;
+                case "help":
+                case "h":
+                    Juego.consola.detalles(String.join("\n", General.LISTA_COMANDOS),
+                            "Lista de comandos disponible");
+                    break;
+                default:
+                    throw new ExcepcionComandoInexistente(comando);
+            }
+        } catch (ExcepcionComandoInexistente e) {
+            Tablero.getPrompt().setHelp(true);
+            e.imprimeError();
+        } catch (ExcepcionMonopooly e) {
+            e.imprimeError();
+        }
+
+        if (exp != null) {
+            try {
+                exp.interpretar(interprete);
+            } catch (ExcepcionAcontecimiento e) {
+                e.imprimeInfo();
+            } catch (ExcepcionComando e) {
+                Tablero.getPrompt().setHelp(true);
+                e.imprimeError();
+            } catch (ExcepcionMonopooly e) {
+                e.imprimeError();
             }
         }
     }
