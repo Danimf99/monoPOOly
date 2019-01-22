@@ -336,3 +336,8 @@
 .texto-panel-control {
     -fx-font-size: 15;
 }
+.texto-listar-jugadores{
+    -fx-font-family: "Fira Code";
+    -fx-font-size: 12;
+    -fx-spacing: 1.0;
+}

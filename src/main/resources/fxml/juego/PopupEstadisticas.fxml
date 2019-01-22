@@ -31,4 +31,22 @@
             </StackPane>
         </graphic>
     </Label>
+    <Label>
+        Listar jugadores
+        <graphic>
+            <StackPane styleClass="container-icono-lista-iconos">
+                <FontAwesomeIconView glyphName="LIST" size="1.5em"
+                                     styleClass="icono-opcion-lista-iconos"/>
+            </StackPane>
+        </graphic>
+    </Label>
+    <Label>
+        Listar enventa
+        <graphic>
+            <StackPane styleClass="container-icono-lista-iconos">
+                <FontAwesomeIconView glyphName="CLIPBOARD" size="1.5em"
+                                     styleClass="icono-opcion-lista-iconos"/>
+            </StackPane>
+        </graphic>
+    </Label>
 </JFXListView>

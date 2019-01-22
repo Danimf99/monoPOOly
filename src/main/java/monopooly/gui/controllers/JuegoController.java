@@ -297,7 +297,9 @@ public class JuegoController implements Observador {
                 case 1:
                     // Insertar comandos
                     System.out.println("InsertarComandos");
-                    JFXAlert alert = new JFXAlert(Arranque.getMainStage());
+                    JFXAlert alert ;
+
+                    alert = new JFXAlert(Arranque.getMainStage());
                     alert.initModality(Modality.APPLICATION_MODAL);
                     alert.setOverlayClose(false);
 
@@ -339,6 +341,43 @@ public class JuegoController implements Observador {
 
                     alert.setContent(layout);
                     alert.showAndWait();
+                    break;
+                case 2:
+
+                    JFXAlert alertJugadores;
+                    alertJugadores = new JFXAlert(Arranque.getMainStage());
+                    alertJugadores.initModality(Modality.APPLICATION_MODAL);
+                    alertJugadores.setOverlayClose(false);
+
+                    JFXDialogLayout layoutJugadores = new JFXDialogLayout();
+                    layoutJugadores.setHeading(new Label("Lista de jugadores"));
+
+                    JFXButton botonCerrarJ = new JFXButton("Cerrar");
+                    botonCerrarJ.setOnAction(event -> {
+                        alertJugadores.hideWithAnimation();
+                        alertJugadores.setHideOnEscape(true);
+                    });
+
+                    botonCerrarJ.getStyleClass().add("boton-aceptar-dialogo");
+
+                    StringBuilder listarJugadores = new StringBuilder();
+
+                    for(Jugador j: Tablero.getTablero().getJugadores()){
+                        listarJugadores.append(j.toString());
+                        System.out.println(j.toString());
+                    }
+
+                    layoutJugadores.setBody(new Label(listarJugadores.toString()));
+                    layoutJugadores.getActions().forEach(action -> action.getStyleClass().add("texto-listar-jugadores"));
+
+                    layoutJugadores.getActions().add(botonCerrarJ);
+
+                    alertJugadores.setContent(layoutJugadores);
+                    alertJugadores.showAndWait();
+
+                    break;
+                case 3:
+                    System.out.println("LISTAR ENVENTA");
                     break;
                 default:
                     // Nada
