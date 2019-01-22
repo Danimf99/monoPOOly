@@ -19,7 +19,9 @@ import monopooly.Arranque;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
+import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.General;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
@@ -745,10 +747,14 @@ public class JuegoController implements Observador {
         });
 
         layout.getActions().add(botonCerrar);
-        layout.getActions().add(botonComprar);
-        layout.getActions().add(botonHipotecar);
-        layout.getActions().add(botonDeshipotecar);
-        layout.getActions().add(botonVenderEdificios);
+        if(casilla instanceof Propiedad) {
+            layout.getActions().add(botonComprar);
+            layout.getActions().add(botonHipotecar);
+            layout.getActions().add(botonDeshipotecar);
+        }
+        if(casilla instanceof Solar) {
+            layout.getActions().add(botonVenderEdificios);
+        }
 
         layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
         alert.setContent(layout);

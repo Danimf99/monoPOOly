@@ -152,7 +152,17 @@ public abstract class Casilla implements Imprimible {
     }
 
     public  String toStringGUI(){
-        return "";
+        StringBuilder jugadoresEnCasilla= new StringBuilder();
+
+        if(avatares.size()==0){
+            return "";
+        }
+
+        for(Avatar a:this.avatares){
+            jugadoresEnCasilla.append("\n  [+] "+a.getJugador().getNombre());
+        }
+        return "Jugadores en la casilla: "+
+                jugadoresEnCasilla.toString();
     };
 
     private void fillAvs() {
