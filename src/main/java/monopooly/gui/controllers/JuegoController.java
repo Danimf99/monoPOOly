@@ -378,6 +378,9 @@ public class JuegoController implements Observador {
                     break;
                 case 3:
                     System.out.println("LISTAR ENVENTA");
+
+
+
                     break;
                 default:
                     // Nada
@@ -622,8 +625,55 @@ public class JuegoController implements Observador {
                 alertaT.setOverlayClose(false);
 
                 JFXDialogLayout layoutT=new JFXDialogLayout();
-                layoutT.setHeading(new Label("Elige el trato que quiere efectuar"));
+                layoutT.setHeading(new Label("Elija el trato que quiere efectuar"));
                 //TODO botones para tratos
+                JFXComboBox<String> comboTratos = new JFXComboBox();
+                comboTratos.setPromptText("Tratos");
+                comboTratos.getItems().addAll("Trato 1","Trato 2","Trato 3","Trato 4","Trato 5","Trato 6");
+                comboTratos.setValue("");
+                comboTratos.getStyleClass().add("boton-aceptar-dialogo");
+
+                layoutT.getBody().add(comboTratos);
+
+                JFXButton botonElegirTrato = new JFXButton("Elegir");
+                layoutT.getActions().add(botonElegirTrato);
+
+                botonElegirTrato.setOnAction(event1 -> {
+
+                    switch (comboTratos.getValue()){
+                        case "Trato 1":
+
+                            break;
+                        case "Trato 2":
+
+                            break;
+                        case "Trato 3":
+
+                            break;
+                        case "Trato 4":
+
+                            break;
+                        case "Trato 5":
+
+                            break;
+                        case "Trato 6":
+                            JFXComboBox<String> comboPropiedadesOrigen = new JFXComboBox<>();
+                            comboPropiedadesOrigen.setPromptText("Tu propiedad");
+
+                            layoutT.setBody(comboPropiedadesOrigen);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                                comboPropiedadesOrigen.getItems().add(p.getNombre());
+                            }
+
+                            //Partida.interprete.hacerTrato6(Tablero.getPrompt().getJugador(),jugador);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+
                 JFXButton botonCerrarS = new JFXButton("Cerrar");
                 botonCerrarS.setOnAction(event1 -> {
                     alertaT.hideWithAnimation();
@@ -631,6 +681,7 @@ public class JuegoController implements Observador {
                 });
 
                 layoutT.getActions().add(botonCerrarS);
+
 
                 layoutT.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
 
