@@ -554,9 +554,7 @@ public class JuegoController implements Observador {
      * @param id String con el nombre del jugador correspondiente al botón
      */
     private void handleClickJugador(String id) {
-        if(id.equals(Tablero.getTablero().getJugadorTurno().getNombre())){
-            return;
-        }
+
         try {
             Jugador jugador = Tablero.getTablero().getJugador(id);
 
@@ -631,7 +629,9 @@ public class JuegoController implements Observador {
 
 
             layout.getActions().add(botonCerrar);
-            layout.getActions().add(botonTratos);
+            if(!id.equals(Tablero.getTablero().getJugadorTurno().getNombre())) {
+                layout.getActions().add(botonTratos);
+            }
             layout.getActions().add(botonStats);
 
             layout.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
