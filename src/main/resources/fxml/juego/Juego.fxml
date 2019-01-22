@@ -146,7 +146,7 @@
                     <JFXButton fx:id="botonConstruir" contentDisplay="GRAPHIC_ONLY"
                                styleClass="boton-construir-principal">
                         <graphic>
-                            <MaterialDesignIconView glyphName="WRENCH" size="24" styleClass="icono-llave-inglesa"/>
+                            <FontAwesomeIconView glyphName="PLUS" size="24" styleClass="icono-llave-inglesa"/>
                         </graphic>
                     </JFXButton>
                     <JFXButton fx:id="botonConstruirCasa" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">

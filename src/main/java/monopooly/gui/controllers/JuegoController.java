@@ -211,7 +211,7 @@ public class JuegoController implements Observador {
 
 
         /* Preparado del panel de control */
-        this.botonLanzarDados.setText("0 - 0");
+        this.botonLanzarDados.setText("Lanzar\nDados");
         this.nombreJugadorActual.textProperty().bind(Tablero.getPrompt().nombreJugadorPropertyProperty());
         this.dineroJugadorActual.textProperty().bind(Tablero.getPrompt().dineroPropertyProperty());
         this.modDin.textProperty().bind(Tablero.getPrompt().modDIneroPropertyProperty());
