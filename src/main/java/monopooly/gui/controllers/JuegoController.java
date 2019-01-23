@@ -11,10 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import monopooly.Arranque;
 import monopooly.Partida;
@@ -32,6 +29,7 @@ import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.Trato;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
@@ -653,7 +651,6 @@ public class JuegoController implements Observador {
 
                             break;
                         case "Trato 2":
-
                             JFXTextField textoDinero = new JFXTextField();
                             textoDinero.setPromptText("Dinero $");
 
@@ -692,16 +689,145 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar2);
                             break;
                         case "Trato 3":
+                            JFXTextField textoDinero3 = new JFXTextField();
+                            textoDinero3.setPromptText("Dinero a recibir");
 
+                            JFXComboBox<String> comboPropiedadesJOrigen3 = new JFXComboBox<>();
+                            comboPropiedadesJOrigen3.setPromptText("Propiedad que quieres dar");
+
+                            JFXButton botonAceptar3 = new JFXButton("Aceptar");
+                            botonAceptar3.setOnAction(event3 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+
+                                if(!comboPropiedadesJOrigen3.getSelectionModel().isEmpty() && !textoDinero3.getText().trim().isEmpty()){
+                                    try {
+                                        int dinero= Integer.parseInt(textoDinero3.getText());
+                                        Casilla casillaJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen3.getValue());
+
+                                        Partida.interprete.Hacertrato2(Tablero.getPrompt().getJugador(),jugador,(Propiedad)casillaJDestino,dinero);
+                                    }catch (ExcepcionMonopooly excepcionMonopooly){
+                                        excepcionMonopooly.mostrarError();
+                                    }catch (NumberFormatException numberFormatException){
+                                        System.out.println("Not a number!!");
+                                    }
+                                }
+                            });
+                            botonAceptar3.getStyleClass().add("boton-aceptar-dialogo");
+
+                            HBox cajaCombo3 = new HBox(5);
+                            cajaCombo3.getChildren().addAll(textoDinero3,comboPropiedadesJOrigen3);
+
+                            layoutT.setBody(cajaCombo3);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()){
+                                comboPropiedadesJOrigen3.getItems().add(p.getNombre());
+                            }
+
+                            layoutT.getActions().removeAll(botonElegirTrato);
+                            layoutT.getActions().add(botonAceptar3);
                             break;
                         case "Trato 4":
+                            JFXComboBox<String> comboPropiedadesJOrigen4 = new JFXComboBox<>();
+                            comboPropiedadesJOrigen4.setPromptText("Tu propiedad");
 
+                            JFXComboBox<String> comboPropiedadesJDestino4 = new JFXComboBox<>();
+                            comboPropiedadesJDestino4.setPromptText("Propiedad a recibir");
+
+                            JFXTextField textoDinero4 = new JFXTextField();
+                            textoDinero4.setPromptText("Dinero a recibir");
+
+                            JFXButton botonAceptar4 = new JFXButton("Aceptar");
+                            if(!comboPropiedadesJDestino4.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen4.getSelectionModel().isEmpty()) {
+                                botonAceptar4.setOnAction(event4 -> {
+                                    alertaT.hideWithAnimation();
+                                    alertaT.setHideOnEscape(true);
+                                    try {
+                                        Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen4.getValue());
+                                        Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen4.getValue());
+
+                                        int dinero= Integer.parseInt(textoDinero4.getText());
+
+                                        Partida.interprete.hacerTrato5(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
+                                    }catch (ExcepcionMonopooly excepcionMonopooly) {
+                                        excepcionMonopooly.mostrarError();
+                                    }catch (NumberFormatException numberFormatException){
+                                        System.out.println("NOt a number!");
+                                    }
+                                } );
+                            }
+                            botonAceptar4.getStyleClass().add("boton-aceptar-dialogo");
+
+                            HBox cajaCombo4 = new HBox(5);
+                            cajaCombo4.getChildren().addAll(comboPropiedadesJOrigen4,comboPropiedadesJDestino4);
+
+                            VBox cajaContenedor4 = new VBox(8);
+                            cajaContenedor4.getChildren().addAll(cajaCombo4,textoDinero4);
+
+                            layoutT.setBody(cajaContenedor4);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                                comboPropiedadesJOrigen4.getItems().add(p.getNombre());
+                            }
+
+                            for(Propiedad p: jugador.getPropiedades()){
+                                comboPropiedadesJDestino4.getItems().add(p.getNombre());
+                            }
+
+                            layoutT.getActions().removeAll(botonElegirTrato);
+                            layoutT.getActions().add(botonAceptar4);
                             break;
                         case "Trato 5":
+                            JFXComboBox<String> comboPropiedadesJOrigen5 = new JFXComboBox<>();
+                            comboPropiedadesJOrigen5.setPromptText("Tu propiedad a dar");
 
+                            JFXComboBox<String> comboPropiedadesJDestino5 = new JFXComboBox<>();
+                            comboPropiedadesJDestino5.setPromptText("Propiedad a recibir");
+
+                            JFXTextField textoDinero5 = new JFXTextField();
+                            textoDinero5.setPromptText("Dinero a dar");
+
+                            JFXButton botonAceptar5 = new JFXButton("Aceptar");
+                            if(!comboPropiedadesJDestino5.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen5.getSelectionModel().isEmpty()) {
+                                botonAceptar5.setOnAction(event4 -> {
+                                    alertaT.hideWithAnimation();
+                                    alertaT.setHideOnEscape(true);
+                                    try {
+                                        Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen5.getValue());
+                                        Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen5.getValue());
+
+                                        int dinero= Integer.parseInt(textoDinero5.getText());
+
+                                        Partida.interprete.hacerTrato4(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
+                                    }catch (ExcepcionMonopooly excepcionMonopooly) {
+                                        excepcionMonopooly.mostrarError();
+                                    }catch (NumberFormatException numberFormatException){
+                                        System.out.println("NOt a number!");
+                                    }
+                                } );
+                            }
+                            botonAceptar5.getStyleClass().add("boton-aceptar-dialogo");
+
+                            HBox cajaCombo5 = new HBox(5);
+                            cajaCombo5.getChildren().addAll(comboPropiedadesJOrigen5,comboPropiedadesJDestino5);
+
+                            VBox cajaContenedor5 = new VBox(8);
+                            cajaContenedor5.getChildren().addAll(cajaCombo5,textoDinero5);
+
+                            layoutT.setBody(cajaContenedor5);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                                comboPropiedadesJOrigen5.getItems().add(p.getNombre());
+                            }
+
+                            for(Propiedad p: jugador.getPropiedades()){
+                                comboPropiedadesJDestino5.getItems().add(p.getNombre());
+                            }
+
+                            layoutT.getActions().removeAll(botonElegirTrato);
+                            layoutT.getActions().add(botonAceptar5);
                             break;
                         case "Trato 6":
-                            alertaT.setTitle("Elija las propiedades");
 
                             JFXComboBox<String> comboPropiedadesJOrigen = new JFXComboBox<>();
                             comboPropiedadesJOrigen.setPromptText("Tu propiedad");
@@ -718,13 +844,10 @@ public class JuegoController implements Observador {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
 
-                                        if (!comboPropiedadesJDestino.getValue().equals("") && !comboPropiedadesJOrigen.getValue().equals("") &&
-                                                jDestino != null && jOrigen != null) {
-                                            try {
-                                                Partida.interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
-                                            } catch (ExcepcionMonopooly excepcionMonopooly) {
-                                                excepcionMonopooly.mostrarError();
-                                            }
+                                        try {
+                                            Partida.interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
+                                        } catch (ExcepcionMonopooly excepcionMonopooly) {
+                                            excepcionMonopooly.mostrarError();
                                         }
 
                                     } catch (ExcepcionParametrosInvalidos excepcionMonopooly) {
@@ -800,10 +923,63 @@ public class JuegoController implements Observador {
 
             });
 
+            JFXButton botonVerTratos = new JFXButton("Ver Tratos");
+            botonVerTratos.setOnAction(event -> {
+                alert.hideWithAnimation();
+                alert.setHideOnEscape(true);
+
+                JFXAlert alertaTratos = new JFXAlert(Arranque.getMainStage());
+                alertaTratos.initModality(Modality.APPLICATION_MODAL);
+                alertaTratos.setOverlayClose(false);
+
+                JFXDialogLayout layoutTratos = new JFXDialogLayout();
+                layoutTratos.setHeading(new Label("Tratos de "+jugador.getNombre()));
+                layoutTratos.setBody(new Label(jugador.imprimirTratos()));
+
+                JFXButton cerrarTratos = new JFXButton("Cerrar");
+                cerrarTratos.setOnAction(event1 -> {
+                    alertaTratos.hideWithAnimation();
+                    alertaTratos.setHideOnEscape(true);
+                });
+
+                JFXComboBox comboAceptarTrato = new JFXComboBox();
+                comboAceptarTrato.setPromptText("Trato a aceptar");
+                for(Trato t: jugador.getTratos()){
+                    comboAceptarTrato.getItems().add(t.getId());
+                }
+
+                JFXButton botonAceptarTrato = new JFXButton("Aceptar");
+                botonAceptarTrato.setOnAction(event1 -> {
+
+                    if(!comboAceptarTrato.getSelectionModel().isEmpty()){
+                        alertaTratos.hideWithAnimation();
+                        alertaTratos.setHideOnEscape(true);
+
+                        try{
+                            Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                            //TODO que se actualice el dinero en la interfaz
+                        }catch (ExcepcionMonopooly excepcionMonopooly){
+                            excepcionMonopooly.mostrarError();
+                        }
+                    }
+                });
+
+
+                layoutTratos.getActions().add(comboAceptarTrato);
+                layoutTratos.getActions().add(botonAceptarTrato);
+                layoutTratos.getActions().add(cerrarTratos);
+
+                layoutTratos.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+                alertaTratos.setContent(layoutTratos);
+                alertaTratos.showAndWait();
+            });
 
             layout.getActions().add(botonCerrar);
             if(!id.equals(Tablero.getTablero().getJugadorTurno().getNombre())) {
                 layout.getActions().add(botonTratos);
+            }else{
+                layout.getActions().add(botonVerTratos);
             }
             layout.getActions().add(botonStats);
 

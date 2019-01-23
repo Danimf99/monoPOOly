@@ -397,6 +397,17 @@ public class Jugador {
         this.propiedades.remove(propiedad);
     }
 
+    public Trato getTrato(String id) throws ExcepcionAccionInvalida{
+
+        for(Trato t: this.tratos){
+            if(t.getId().equals(id)){
+                return t;
+            }
+        }
+
+        throw new ExcepcionAccionInvalida("No hay ningun trato con ese id");
+    }
+
     public String toStringGUI() {
         int j=0;
         StringBuilder imprimirJugador = new StringBuilder();
@@ -428,6 +439,15 @@ public class Jugador {
         return  PintadoAscii.encuadrar(imprimirJugador.toString());
     }
 
+    public String imprimirTratos(){
+        StringBuilder tratos = new StringBuilder();
+
+        for(Trato t:this.tratos){
+            tratos.append(t.toString()+"\n");
+        }
+
+        return tratos.toString();
+    }
     private void meterPropiedades(int j, StringBuilder imprimirJugador, HashSet<Propiedad> propiedades) {
         for(Propiedad i: propiedades){
             if(propiedades.size()-1==j){
