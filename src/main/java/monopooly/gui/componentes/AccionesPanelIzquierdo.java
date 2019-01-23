@@ -83,12 +83,6 @@ public abstract class AccionesPanelIzquierdo {
         alertJugadores.showAndWait();
     }
 
-
-    public static void listarEnventa() {
-        System.out.println("LISTAR ENVENTA");
-    }
-
-
     /**
      * Accion a realizar cuando se hace click en los jugadores de la izquierda
      * @param id Id del boton en el que se hace click
@@ -484,51 +478,7 @@ public abstract class AccionesPanelIzquierdo {
                 alert.hideWithAnimation();
                 alert.setHideOnEscape(true);
 
-                JFXAlert alertaTratos = new JFXAlert(Arranque.getMainStage());
-                alertaTratos.initModality(Modality.APPLICATION_MODAL);
-                alertaTratos.setOverlayClose(false);
-
-                JFXDialogLayout layoutTratos = new JFXDialogLayout();
-                layoutTratos.setHeading(new Label("Tratos de "+jugador.getNombre()));
-                layoutTratos.setBody(new Label(jugador.imprimirTratos()));
-
-                JFXButton cerrarTratos = new JFXButton("Cerrar");
-                cerrarTratos.setOnAction(event1 -> {
-                    alertaTratos.hideWithAnimation();
-                    alertaTratos.setHideOnEscape(true);
-                });
-
-                JFXComboBox comboAceptarTrato = new JFXComboBox();
-                comboAceptarTrato.setPromptText("Trato a aceptar");
-                for(Trato t: jugador.getTratos()){
-                    comboAceptarTrato.getItems().add(t.getId());
-                }
-
-                JFXButton botonAceptarTrato = new JFXButton("Aceptar");
-                botonAceptarTrato.setOnAction(event1 -> {
-
-                    if(!comboAceptarTrato.getSelectionModel().isEmpty()){
-                        alertaTratos.hideWithAnimation();
-                        alertaTratos.setHideOnEscape(true);
-
-                        try{
-                            Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
-                            //TODO que se actualice el dinero en la interfaz
-                        }catch (ExcepcionMonopooly excepcionMonopooly){
-                            excepcionMonopooly.mostrarError();
-                        }
-                    }
-                });
-
-
-                layoutTratos.getActions().add(comboAceptarTrato);
-                layoutTratos.getActions().add(botonAceptarTrato);
-                layoutTratos.getActions().add(cerrarTratos);
-
-                layoutTratos.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
-
-                alertaTratos.setContent(layoutTratos);
-                alertaTratos.showAndWait();
+                alertaVerTratos(jugador);
             });
 
             layout.getActions().add(botonCerrar);
@@ -548,5 +498,53 @@ public abstract class AccionesPanelIzquierdo {
             excepcionMonopooly.imprimeError();
         }
 
+    }
+
+    private static void alertaVerTratos(Jugador jugador){
+        JFXAlert alertaTratos = new JFXAlert(Arranque.getMainStage());
+        alertaTratos.initModality(Modality.APPLICATION_MODAL);
+        alertaTratos.setOverlayClose(false);
+
+        JFXDialogLayout layoutTratos = new JFXDialogLayout();
+        layoutTratos.setHeading(new Label("Tratos de "+jugador.getNombre()));
+        layoutTratos.setBody(new Label(jugador.imprimirTratos()));
+
+        JFXButton cerrarTratos = new JFXButton("Cerrar");
+        cerrarTratos.setOnAction(event1 -> {
+            alertaTratos.hideWithAnimation();
+            alertaTratos.setHideOnEscape(true);
+        });
+
+        JFXComboBox comboAceptarTrato = new JFXComboBox();
+        comboAceptarTrato.setPromptText("Trato a aceptar");
+        for(Trato t: jugador.getTratos()){
+            comboAceptarTrato.getItems().add(t.getId());
+        }
+
+        JFXButton botonAceptarTrato = new JFXButton("Aceptar");
+        botonAceptarTrato.setOnAction(event1 -> {
+
+            if(!comboAceptarTrato.getSelectionModel().isEmpty()){
+                alertaTratos.hideWithAnimation();
+                alertaTratos.setHideOnEscape(true);
+
+                try{
+                    Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
+
+                }catch (ExcepcionMonopooly excepcionMonopooly){
+                    excepcionMonopooly.mostrarError();
+                }
+            }
+        });
+
+
+        layoutTratos.getActions().add(comboAceptarTrato);
+        layoutTratos.getActions().add(botonAceptarTrato);
+        layoutTratos.getActions().add(cerrarTratos);
+
+        layoutTratos.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+        alertaTratos.setContent(layoutTratos);
+        alertaTratos.showAndWait();
     }
 }
