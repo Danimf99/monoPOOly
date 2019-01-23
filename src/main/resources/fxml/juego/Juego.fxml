@@ -128,15 +128,25 @@
                 </BorderPane>
 
 
-                <!-- Nitroso -->
-                <JFXToggleButton fx:id="botonNitroso"
-                                 styleClass="boton-nitroso"
-                                 StackPane.alignment="TOP_CENTER" text="Nitroso">
-                    <StackPane.margin>
-                        <Insets top="12"/>
-                    </StackPane.margin>
-                </JFXToggleButton>
+                <HBox alignment="TOP_CENTER" spacing="10">
+                    <!-- Nitroso -->
+                    <JFXToggleButton fx:id="botonNitroso"
+                                     styleClass="boton-nitroso"
+                                     StackPane.alignment="TOP_CENTER" text="Nitroso">
+                        <StackPane.margin>
+                            <Insets top="12"/>
+                        </StackPane.margin>
+                    </JFXToggleButton>
 
+                    <!-- En Venta -->
+                    <JFXToggleButton fx:id="botonEnVenta"
+                                     styleClass="boton-en-venta"
+                                     StackPane.alignment="TOP_CENTER" text="En Venta">
+                        <StackPane.margin>
+                            <Insets top="12"/>
+                        </StackPane.margin>
+                    </JFXToggleButton>
+                </HBox>
                 <!-- Contruccion -->
                 <JFXNodesList fx:id="botonesContruccion" rotate="180.0" spacing="15"
                               StackPane.alignment="BOTTOM_RIGHT">

@@ -94,6 +94,10 @@ public class JuegoController implements Observador {
     private JFXToggleButton botonNitroso;
 
     @FXML
+    @ActionTrigger("listarEnVenta")
+    private JFXToggleButton botonEnVenta;
+
+    @FXML
     @ActionTrigger("construirCasa")
     private JFXButton botonConstruirCasa;
 
@@ -546,6 +550,13 @@ public class JuegoController implements Observador {
             excepcionMonopooly.mostrarError();
         }
         this.botonNitroso.setSelected(Tablero.getPrompt().getJugador().getAvatar().isNitroso());
+
+    }
+
+    @ActionMethod("listarEnVenta")
+    public void listarEnVenta(){
+        System.out.println("HOLA");
+
 
     }
 
