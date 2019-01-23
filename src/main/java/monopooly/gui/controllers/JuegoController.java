@@ -32,6 +32,7 @@ import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
+import monopooly.player.Tratos.Trato;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
@@ -791,10 +792,63 @@ public class JuegoController implements Observador {
 
             });
 
+            JFXButton botonVerTratos = new JFXButton("Ver Tratos");
+            botonVerTratos.setOnAction(event -> {
+                alert.hideWithAnimation();
+                alert.setHideOnEscape(true);
+
+                JFXAlert alertaTratos = new JFXAlert(Arranque.getMainStage());
+                alertaTratos.initModality(Modality.APPLICATION_MODAL);
+                alertaTratos.setOverlayClose(false);
+
+                JFXDialogLayout layoutTratos = new JFXDialogLayout();
+                layoutTratos.setHeading(new Label("Tratos de "+jugador.getNombre()));
+                layoutTratos.setBody(new Label(jugador.imprimirTratos()));
+
+                JFXButton cerrarTratos = new JFXButton("Cerrar");
+                cerrarTratos.setOnAction(event1 -> {
+                    alertaTratos.hideWithAnimation();
+                    alertaTratos.setHideOnEscape(true);
+                });
+
+                JFXComboBox comboAceptarTrato = new JFXComboBox();
+                comboAceptarTrato.setPromptText("Trato a aceptar");
+                for(Trato t: jugador.getTratos()){
+                    comboAceptarTrato.getItems().add(t.getId());
+                }
+
+                JFXButton botonAceptarTrato = new JFXButton("Aceptar");
+                botonAceptarTrato.setOnAction(event1 -> {
+
+                    if(!comboAceptarTrato.getSelectionModel().isEmpty()){
+                        alertaTratos.hideWithAnimation();
+                        alertaTratos.setHideOnEscape(true);
+
+                        try{
+                            Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                            //TODO que se actualice el dinero en la interfaz
+                        }catch (ExcepcionMonopooly excepcionMonopooly){
+                            excepcionMonopooly.mostrarError();
+                        }
+                    }
+                });
+
+
+                layoutTratos.getActions().add(comboAceptarTrato);
+                layoutTratos.getActions().add(botonAceptarTrato);
+                layoutTratos.getActions().add(cerrarTratos);
+
+                layoutTratos.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+                alertaTratos.setContent(layoutTratos);
+                alertaTratos.showAndWait();
+            });
 
             layout.getActions().add(botonCerrar);
             if(!id.equals(Tablero.getTablero().getJugadorTurno().getNombre())) {
                 layout.getActions().add(botonTratos);
+            }else{
+                layout.getActions().add(botonVerTratos);
             }
             layout.getActions().add(botonStats);
 
