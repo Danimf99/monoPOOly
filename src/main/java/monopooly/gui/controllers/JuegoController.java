@@ -645,7 +645,6 @@ public class JuegoController implements Observador {
 
                             break;
                         case "Trato 2":
-
                             JFXTextField textoDinero = new JFXTextField();
                             textoDinero.setPromptText("Dinero $");
 
@@ -684,7 +683,43 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar2);
                             break;
                         case "Trato 3":
+                            JFXTextField textoDinero3 = new JFXTextField();
+                            textoDinero3.setPromptText("Dinero a recibir");
 
+                            JFXComboBox<String> comboPropiedadesJOrigen3 = new JFXComboBox<>();
+                            comboPropiedadesJOrigen3.setPromptText("Propiedad que quieres dar");
+
+                            JFXButton botonAceptar3 = new JFXButton("Aceptar");
+                            botonAceptar3.setOnAction(event2 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+
+                                if(!comboPropiedadesJOrigen3.getSelectionModel().isEmpty() && !textoDinero3.getText().trim().isEmpty()){
+                                    try {
+                                        int dinero= Integer.parseInt(textoDinero3.getText());
+                                        Casilla casillaJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen3.getValue());
+
+                                        Partida.interprete.Hacertrato2(Tablero.getPrompt().getJugador(),jugador,(Propiedad)casillaJDestino,dinero);
+                                    }catch (ExcepcionMonopooly excepcionMonopooly){
+                                        excepcionMonopooly.mostrarError();
+                                    }catch (NumberFormatException numberFormatException){
+                                        System.out.println("Not a number!!");
+                                    }
+                                }
+                            });
+                            botonAceptar3.getStyleClass().add("boton-aceptar-dialogo");
+
+                            HBox cajaCombo3 = new HBox(5);
+                            cajaCombo3.getChildren().addAll(textoDinero3,comboPropiedadesJOrigen3);
+
+                            layoutT.setBody(cajaCombo3);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()){
+                                comboPropiedadesJOrigen3.getItems().add(p.getNombre());
+                            }
+
+                            layoutT.getActions().removeAll(botonElegirTrato);
+                            layoutT.getActions().add(botonAceptar3);
                             break;
                         case "Trato 4":
 
