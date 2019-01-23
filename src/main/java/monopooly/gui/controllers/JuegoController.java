@@ -24,7 +24,10 @@ import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
 import monopooly.configuracion.General;
 import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.parsers.*;
-import monopooly.excepciones.*;
+import monopooly.excepciones.ExcepcionAcontecimiento;
+import monopooly.excepciones.ExcepcionComando;
+import monopooly.excepciones.ExcepcionComandoInexistente;
+import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Avatar;
@@ -89,6 +92,10 @@ public class JuegoController implements Observador {
     @FXML
     @ActionTrigger("modificarNitroso")
     private JFXToggleButton botonNitroso;
+
+    @FXML
+    @ActionTrigger("listarEnVenta")
+    private JFXToggleButton botonEnVenta;
 
     @FXML
     @ActionTrigger("construirCasa")
@@ -546,6 +553,13 @@ public class JuegoController implements Observador {
 
     }
 
+    @ActionMethod("listarEnVenta")
+    public void listarEnVenta(){
+        System.out.println("HOLA");
+
+
+    }
+
     @ActionMethod("construirCasa")
     public void construirCasa(){
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
@@ -648,14 +662,76 @@ public class JuegoController implements Observador {
 
                     switch (comboTratos.getValue()){
                         case "Trato 1":
+                            layoutT.setHeading(new Label("Cambiar Propiedad 1 por Propiedad 2 y no \n " +
+                                    "alquiler en Propiedad 3 durante X turnos"));
 
+                            JFXComboBox<String> comboPropiedadesJOrigen1 = new JFXComboBox<>();
+                            comboPropiedadesJOrigen1.setPromptText("Propiedad 1");
+
+                            JFXComboBox<String> comboPropiedadesJDestino1 = new JFXComboBox<>();
+                            comboPropiedadesJDestino1.setPromptText("Propiedad 2");
+
+                            JFXComboBox<String> comboPropiedadesNoAlquiler = new JFXComboBox<>();
+                            comboPropiedadesNoAlquiler.setPromptText("Propiedad 3");
+
+                            JFXTextField textoTurnosNoAlquiler = new JFXTextField();
+                            textoTurnosNoAlquiler.setPromptText("Nº de turnos");
+
+                            JFXButton botonAceptar1 = new JFXButton("Aceptar");
+                            if(!comboPropiedadesJDestino1.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen1.getSelectionModel().isEmpty()
+                            && !comboPropiedadesNoAlquiler.getSelectionModel().isEmpty() && !textoTurnosNoAlquiler.getText().trim().isEmpty()) {
+                                botonAceptar1.setOnAction(event2 -> {
+                                    alertaT.hideWithAnimation();
+                                    alertaT.setHideOnEscape(true);
+                                    try {
+                                        Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen1.getValue());
+                                        Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen1.getValue());
+                                        Casilla noAlquiler = Tablero.getTablero().getCasilla(comboPropiedadesNoAlquiler.getValue());
+
+                                        int turnos = Integer.parseInt(textoTurnosNoAlquiler.getText());
+
+                                        Partida.interprete.hacerTrato6(Tablero.getPrompt().getJugador(),jugador,
+                                                (Propiedad)jOrigen,(Propiedad)jDestino,(Propiedad)noAlquiler,turnos);
+
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
+                                        excepcionMonopooly.mostrarError();
+                                    }catch (NumberFormatException numberFormatException){
+                                        System.out.println("Not a number!");
+                                    }
+                                });
+                            }
+                            botonAceptar1.getStyleClass().add("boton-aceptar-dialogo");
+
+                            HBox cajaCombo = new HBox(5);
+                            cajaCombo.getChildren().addAll(comboPropiedadesJOrigen1,comboPropiedadesJDestino1);
+
+                            HBox cajaComboTexto = new HBox(5);
+                            cajaComboTexto.getChildren().addAll(comboPropiedadesNoAlquiler,textoTurnosNoAlquiler);
+
+                            VBox cajaContenedor =new VBox(8);
+                            cajaContenedor.getChildren().addAll(cajaCombo,cajaComboTexto);
+
+                            layoutT.setBody(cajaContenedor);
+
+                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                                comboPropiedadesJOrigen1.getItems().add(p.getNombre());
+                            }
+
+                            for(Propiedad p: jugador.getPropiedades()){
+                                comboPropiedadesJDestino1.getItems().add(p.getNombre());
+                                comboPropiedadesNoAlquiler.getItems().add(p.getNombre());
+                            }
+
+                            layoutT.getActions().removeAll(botonElegirTrato);
+                            layoutT.getActions().add(botonAceptar1);
                             break;
                         case "Trato 2":
+                            layoutT.setHeading(new Label("Cambiar cantidad de dinero por Propiedad 1"));
                             JFXTextField textoDinero = new JFXTextField();
                             textoDinero.setPromptText("Dinero $");
 
                             JFXComboBox<String> comboPropiedadesJDestino2 = new JFXComboBox<>();
-                            comboPropiedadesJDestino2.setPromptText("Propiedad que quieres recibir");
+                            comboPropiedadesJDestino2.setPromptText("Propiedad 1");
 
                             JFXButton botonAceptar2 = new JFXButton("Aceptar");
                             botonAceptar2.setOnAction(event2 -> {
@@ -689,11 +765,13 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar2);
                             break;
                         case "Trato 3":
+                            layoutT.setHeading(new Label("Cambiar Propiedad 1 por cantidad de dinero"));
+
                             JFXTextField textoDinero3 = new JFXTextField();
                             textoDinero3.setPromptText("Dinero a recibir");
 
                             JFXComboBox<String> comboPropiedadesJOrigen3 = new JFXComboBox<>();
-                            comboPropiedadesJOrigen3.setPromptText("Propiedad que quieres dar");
+                            comboPropiedadesJOrigen3.setPromptText("Propiedad 1");
 
                             JFXButton botonAceptar3 = new JFXButton("Aceptar");
                             botonAceptar3.setOnAction(event3 -> {
@@ -728,11 +806,14 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar3);
                             break;
                         case "Trato 4":
+                            layoutT.setHeading(new Label("Cambiar Propiedad 1 por Propiedad 2 \n" +
+                                    "y cantidad de dinero"));
+
                             JFXComboBox<String> comboPropiedadesJOrigen4 = new JFXComboBox<>();
-                            comboPropiedadesJOrigen4.setPromptText("Tu propiedad");
+                            comboPropiedadesJOrigen4.setPromptText("Propiedad 1");
 
                             JFXComboBox<String> comboPropiedadesJDestino4 = new JFXComboBox<>();
-                            comboPropiedadesJDestino4.setPromptText("Propiedad a recibir");
+                            comboPropiedadesJDestino4.setPromptText("Propiedad 2");
 
                             JFXTextField textoDinero4 = new JFXTextField();
                             textoDinero4.setPromptText("Dinero a recibir");
@@ -778,11 +859,14 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar4);
                             break;
                         case "Trato 5":
+                            layoutT.setHeading(new Label("Cambiar Propiedad 1 y cantidad de dinero \n" +
+                                    "por Propiedad 2"));
+
                             JFXComboBox<String> comboPropiedadesJOrigen5 = new JFXComboBox<>();
-                            comboPropiedadesJOrigen5.setPromptText("Tu propiedad a dar");
+                            comboPropiedadesJOrigen5.setPromptText("Tu propiedad 1");
 
                             JFXComboBox<String> comboPropiedadesJDestino5 = new JFXComboBox<>();
-                            comboPropiedadesJDestino5.setPromptText("Propiedad a recibir");
+                            comboPropiedadesJDestino5.setPromptText("Propiedad 2");
 
                             JFXTextField textoDinero5 = new JFXTextField();
                             textoDinero5.setPromptText("Dinero a dar");
@@ -828,6 +912,7 @@ public class JuegoController implements Observador {
                             layoutT.getActions().add(botonAceptar5);
                             break;
                         case "Trato 6":
+                            layoutT.setHeading(new Label("Cambiar Propiedad 1 por Propiedad 2"));
 
                             JFXComboBox<String> comboPropiedadesJOrigen = new JFXComboBox<>();
                             comboPropiedadesJOrigen.setPromptText("Tu propiedad");
@@ -844,23 +929,18 @@ public class JuegoController implements Observador {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
 
-                                        try {
-                                            Partida.interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
-                                        } catch (ExcepcionMonopooly excepcionMonopooly) {
-                                            excepcionMonopooly.mostrarError();
-                                        }
-
-                                    } catch (ExcepcionParametrosInvalidos excepcionMonopooly) {
+                                        Partida.interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
                                     }
                                 });
                             }
                             botonAceptar.getStyleClass().add("boton-aceptar-dialogo");
 
-                            HBox cajaCombo = new HBox(5);
-                            cajaCombo.getChildren().addAll(comboPropiedadesJOrigen,comboPropiedadesJDestino);
+                            HBox cajaCombo6 = new HBox(5);
+                            cajaCombo6.getChildren().addAll(comboPropiedadesJOrigen,comboPropiedadesJDestino);
 
-                            layoutT.setBody(cajaCombo);
+                            layoutT.setBody(cajaCombo6);
 
                             for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen.getItems().add(p.getNombre());

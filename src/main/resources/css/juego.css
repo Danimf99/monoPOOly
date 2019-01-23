@@ -73,6 +73,11 @@
     -fx-font-size: 15;
 }
 
+.boton-en-venta{
+    -jfx-toggle-color: #BD0003;
+    -fx-font-size: 15;
+}
+
 .boton-pasar-turno {
     -jfx-button-type: RAISED;
     -fx-pref-width: 100;
@@ -203,6 +208,9 @@
     /*-fx-rotate: 90;*/
 }
 
+.casilla-listada{
+
+}
 .casilla-resaltada {
     -fx-background-color: #fcfcfe;
     -fx-effect: innershadow(gaussian, #515151, 5, 0.0, 0, 0);
