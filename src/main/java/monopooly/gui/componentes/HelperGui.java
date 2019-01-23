@@ -145,4 +145,6 @@ public class HelperGui {
         botonJugador.setId(jugador.getNombre());
         return botonJugador;
     }
+
+
 }
