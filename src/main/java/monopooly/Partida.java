@@ -10,6 +10,7 @@ import monopooly.excepciones.ExcepcionAcontecimiento;
 import monopooly.excepciones.ExcepcionComando;
 import monopooly.excepciones.ExcepcionComandoInexistente;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.controllers.JuegoController;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
@@ -188,18 +189,7 @@ public class Partida {
             }
             // Se termina el switch y se analiza la expresion
 
-            if (exp != null) {
-                try {
-                    exp.interpretar(interprete);
-                } catch (ExcepcionAcontecimiento e) {
-                    e.imprimeInfo();
-                } catch (ExcepcionComando e) {
-                    Tablero.getPrompt().setHelp(true);
-                    e.imprimeError();
-                } catch (ExcepcionMonopooly e) {
-                    e.imprimeError();
-                }
-            }
+            JuegoController.interpretarExpresion(exp);
         } while (Tablero.getTablero().jugadoresRestantes() > 1);
     }
 

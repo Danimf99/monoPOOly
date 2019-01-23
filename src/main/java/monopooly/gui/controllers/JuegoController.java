@@ -469,6 +469,15 @@ public class JuegoController implements Observador {
             e.imprimeError();
         }
 
+        interpretarExpresion(exp);
+    }
+
+
+    /**
+     * Interpreta una expresión determinada
+     * @param exp Expresion a interpretar
+     */
+    public static void interpretarExpresion(Expresion exp) {
         if (exp != null) {
             try {
                 exp.interpretar(interprete);

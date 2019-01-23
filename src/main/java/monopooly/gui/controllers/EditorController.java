@@ -60,7 +60,14 @@ public class EditorController {
                 .withLink(NorteController.class, "siguiente", DerechaController.class);
 
         flowHandler = flowInterno.createHandler();
-        centroEditor.getChildren().add(flowHandler.start(new AnimatedFlowContainer(Duration.millis(300), ContainerAnimations.FADE)));
+        centroEditor.getChildren().add(
+                flowHandler.start(
+                        new AnimatedFlowContainer(
+                                Duration.millis(300),
+                                ContainerAnimations.FADE
+                        )
+                )
+        );
         botonAtras.setDisable(true);
         JFXDepthManager.setDepth(navEditor, 1);
     }
