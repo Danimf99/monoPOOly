@@ -122,6 +122,9 @@ public class Tablero implements Observador {
             // El jugador ya existe
             return;
         }
+        if (jugador.getAvatar().getRepresentacion() == null) {
+            jugador.getAvatar().elegirRepresentacion();
+        }
         this.jugadoresTurno.add(jugador);
         this.jugadoresGUI.add(jugador);
         this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);

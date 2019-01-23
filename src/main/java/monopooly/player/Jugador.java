@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import javafx.beans.property.SimpleStringProperty;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
@@ -28,7 +29,6 @@ import java.util.Objects;
 
 public class Jugador {
 
-    private String nombre;
     private int dinero;
     private Avatar avatar;
     private HashSet<Propiedad> propiedades;
@@ -42,13 +42,15 @@ public class Jugador {
     private HashSet<Trato> tratos;
     private ArrayList<ControladorAlquileres> noPagasAlquileres;
 
+    private SimpleStringProperty nombre = new SimpleStringProperty(this, "nombre", "");
+
 
     /*-------------------------*/
     /* CONSTRUCTORES PARA JUGADOR */
     /*-------------------------*/
 
     public Jugador(String nombre,Avatar.TIPO avatar) {
-        this.nombre = nombre;
+        this.nombre.setValue(nombre);
         this.dinero= Precios.DINERO_INICIAL;
         this.dados=new Dados();
         this.propiedades=new HashSet<>();
@@ -60,27 +62,14 @@ public class Jugador {
         this.cooldown=0;
         this.noPagasAlquileres=new ArrayList<>();
         this.tratos=new HashSet<>();
-        switch(avatar){
-            case coche:
-                this.avatar=new Coche(this);
-                break;
-            case esfinge:
-                this.avatar=new Esfinge(this);
-                break;
-            case sombrero:
-                this.avatar=new Sombrero(this);
-                break;
-            case pelota:
-                this.avatar=new Pelota(this);
-                break;
-        }
+        genAvatar(avatar);
     }
 
     public Jugador() {
         avatar=new Coche(this);
         dados=new Dados();
         this.propiedades=new HashSet<>();
-        this.nombre="Banca";
+        this.nombre.setValue("Banca");
         this.dinero=0;
         this.noPagasAlquileres=new ArrayList<>();
         this.estarEnCarcel=false;
@@ -111,11 +100,15 @@ public class Jugador {
     }
 
     public String getNombre() {
+        return nombreProperty().getValue();
+    }
+
+    public SimpleStringProperty nombreProperty() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre.setValue(nombre);
     }
 
     public int getDinero(){
@@ -412,7 +405,7 @@ public class Jugador {
         int j=0;
         StringBuilder imprimirJugador = new StringBuilder();
         imprimirJugador.append(
-                "Nombre: " + nombre +
+                "Nombre: " + nombre.getValue() +
                 "\nFortuna: " + dinero +
                 "\nAvatar: " + getAvatar().getRepresentacion()+"\nPropiedades: [");
         meterPropiedades(j, imprimirJugador, propiedades);
@@ -428,7 +421,7 @@ public class Jugador {
         int j=0;
         StringBuilder imprimirJugador = new StringBuilder();
         imprimirJugador.append("Jugador{\n" +
-                "   Nombre: " + nombre +
+                "   Nombre: " + nombre.getValue() +
                 "\n   Fortuna: " + dinero +
                 "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
         meterPropiedades(j, imprimirJugador, propiedades);
@@ -465,7 +458,24 @@ public class Jugador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jugador jugador = (Jugador) o;
-        return Objects.equals(nombre, jugador.nombre);
+        return Objects.equals(nombre.getValue(), jugador.nombre.getValue());
 
+    }
+
+    public void genAvatar(Avatar.TIPO avatar) {
+        switch(avatar){
+            case coche:
+                this.avatar=new Coche(this);
+                break;
+            case esfinge:
+                this.avatar=new Esfinge(this);
+                break;
+            case sombrero:
+                this.avatar=new Sombrero(this);
+                break;
+            case pelota:
+                this.avatar=new Pelota(this);
+                break;
+        }
     }
 }

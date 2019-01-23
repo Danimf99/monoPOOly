@@ -64,6 +64,7 @@ public class Arranque extends Application {
                 getClass().getResource("/css/global.css").toExternalForm(),
                 getClass().getResource("/css/juego.css").toExternalForm(),
                 getClass().getResource("/css/editor.css").toExternalForm(),
+                getClass().getResource("/css/nuevaPartida.css").toExternalForm(),
                 getClass().getResource("/css/jfoenix-fonts.css").toExternalForm(),
                 getClass().getResource("/css/jfoenix-design.css").toExternalForm()
         );

@@ -136,12 +136,6 @@ public class JuegoController implements Observador {
     @PostConstruct
     public void init() throws Exception {
         /* Para la prueba */
-        Tablero tablero = Tablero.getTablero();
-        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
-        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
-
-        tablero.meterJugador(dani);
-        tablero.meterJugador(saul);
         emitirTarjeta("Nueva partida", "Have fun !", "#23C9FF");
         /* Fin cosas de prueba */
 
