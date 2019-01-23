@@ -260,9 +260,6 @@ public class JuegoController implements Observador {
                 case 2:
                     AccionesPanelIzquierdo.listarJugadores();
                     break;
-                case 3:
-                    AccionesPanelIzquierdo.listarEnventa();
-                    break;
                 default:
                     // Nada
             }
