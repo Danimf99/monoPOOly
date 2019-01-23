@@ -1,30 +1,23 @@
-package monopooly.gui.controllers;
+package monopooly.gui.controllers.crearJugadores;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDecorator;
 import io.datafx.controller.ViewController;
-import io.datafx.controller.flow.Flow;
-import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.FlowHandler;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.LinkAction;
-import io.datafx.controller.flow.container.DefaultFlowContainer;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
-import io.datafx.controller.util.VetoException;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import monopooly.Arranque;
 import monopooly.colocacion.Tablero;
+import monopooly.gui.controllers.JuegoController;
+import monopooly.gui.controllers.LoginController;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
 import javax.annotation.PostConstruct;
-import java.util.Objects;
 
-@ViewController(value = "/fxml/juego/NuevaPartida.fxml", title = "MonoPOOly - Nueva Partida")
+@ViewController(value = "/fxml/crearJugadores/NuevaPartida.fxml", title = "MonoPOOly - Nueva Partida")
 public class NuevaPartidaController {
 
     @FXMLViewFlowContext
@@ -38,10 +31,11 @@ public class NuevaPartidaController {
     @ActionTrigger("inicioPartida")
     private JFXButton iniciarPartida;
 
+    private FlowHandler flowHandler;
+
 
     @PostConstruct
     public void init() {
-
 
     }
 

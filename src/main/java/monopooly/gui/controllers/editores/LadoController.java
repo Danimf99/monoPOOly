@@ -10,10 +10,9 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
-import monopooly.gui.componentes.HelperGui;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.gui.controllers.LoginController;
-import monopooly.gui.controllers.NuevaPartidaController;
+import monopooly.gui.controllers.crearJugadores.NuevaPartidaController;
 
 public class LadoController {
 

@@ -16,6 +16,7 @@ import io.datafx.controller.util.VetoException;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import monopooly.gui.controllers.crearJugadores.NuevaPartidaController;
 import monopooly.gui.controllers.editores.DerechaController;
 import monopooly.gui.controllers.editores.IzquierdaController;
 import monopooly.gui.controllers.editores.NorteController;
