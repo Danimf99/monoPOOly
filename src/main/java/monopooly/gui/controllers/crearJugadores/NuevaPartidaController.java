@@ -1,27 +1,52 @@
 package monopooly.gui.controllers.crearJugadores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.datafx.controller.ViewController;
+import io.datafx.controller.flow.Flow;
+import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.FlowHandler;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.LinkAction;
+import io.datafx.controller.flow.container.AnimatedFlowContainer;
+import io.datafx.controller.flow.container.ContainerAnimations;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import monopooly.colocacion.Tablero;
+import monopooly.gui.componentes.Alerta;
 import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
 import javax.annotation.PostConstruct;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @ViewController(value = "/fxml/crearJugadores/NuevaPartida.fxml", title = "MonoPOOly - Nueva Partida")
 public class NuevaPartidaController {
 
     @FXMLViewFlowContext
     private ViewFlowContext context;
+
+    @FXML
+    private FlowPane nuevosJugadores;
 
     @FXML
     @LinkAction(LoginController.class)
@@ -33,10 +58,20 @@ public class NuevaPartidaController {
 
     private FlowHandler flowHandler;
 
+    private static ArrayList<Jugador> lobby;
+
+
 
     @PostConstruct
-    public void init() {
+    public void init() throws FlowException {
+        lobby = new ArrayList<>();
+        JFXButton meterJugador = new JFXButton("Añadir Jugador");
+        meterJugador.getStyleClass().add("boton-meter-jugador");
+        meterJugador.setOnAction(event -> meterCreacionJugador());
+        generarCuadro(meterJugador);
 
+        meterCreacionJugador();
+        meterCreacionJugador();
     }
 
     /**
@@ -45,17 +80,73 @@ public class NuevaPartidaController {
      */
     @ActionMethod("inicioPartida")
     public void iniciarJuego() throws Exception {
-        System.out.println("Nueva partida");
+        HashSet<String> nombres = lobby.stream()
+                .map(Jugador::getNombre)
+                .filter(nombre -> !nombre.equalsIgnoreCase(""))
+                .collect(Collectors.toCollection(HashSet::new));
 
-        /* Creacion de los Jugadores */
+        if (nombres.size() != lobby.size()) { // Nombres iguales
+            Alerta alerta = new Alerta();
+            alerta.meterBotonCerrar()
+                    .ponerHeading(new Label("Nombres invalidos"))
+                    .meterEnCuerpoTodos(new Label("Varios jugadores poseen el mismo nombre o no tienen."))
+                    .mostrar();
+            return;
+        }
+
+        lobby.stream().map(Jugador::getAvatar).forEach(Avatar::elegirRepresentacion);
         Tablero tablero = Tablero.getTablero();
-        Jugador dani = new Jugador("Dani", Avatar.TIPO.esfinge);
-        Jugador saul = new Jugador("Saul", Avatar.TIPO.esfinge);
-
-        tablero.meterJugador(dani);
-        tablero.meterJugador(saul);
-        /* Se debe comprobar que son suficientes */
+        lobby.forEach(tablero::meterJugador);
 
         ((FlowHandler) context.getRegisteredObject("flowHandler")).navigateTo(JuegoController.class);
     }
+
+
+    private void generarCuadro(Node... nodes) {
+        VBox cuadro = new VBox();
+        cuadro.getStyleClass().addAll("contenedor-crear-jugadores");
+        cuadro.getChildren().addAll(nodes);
+        int tam = nuevosJugadores.getChildren().size();
+        if (tam > 0) {
+            if (tam == 6) {
+                nuevosJugadores.getChildren().remove(tam - 1);
+                nuevosJugadores.getChildren().add(cuadro);
+            } else {
+                nuevosJugadores.getChildren().add(tam - 1, cuadro);
+            }
+        } else {
+            nuevosJugadores.getChildren().add(cuadro);
+        }
+    }
+
+    private void meterCreacionJugador() {
+        Jugador jugador = new Jugador("", Avatar.TIPO.esfinge);
+        JFXTextField nombre = new JFXTextField();
+        nombre.setLabelFloat(true);
+        nombre.setPromptText("Nombre");
+        nombre.getStyleClass().add("nombre-jugador");
+        nombre.textProperty().bindBidirectional(jugador.nombreProperty());
+
+        /* Validacion */
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        validator.setMessage("Nombre requerido");
+        validator.setIcon(new FontAwesomeIconView(FontAwesomeIcon.WARNING));
+        nombre.getValidators().add(validator);
+        nombre.focusedProperty().addListener((o,oldVal,newVal)->{
+            if(!newVal) nombre.validate();
+        });
+
+
+        JFXComboBox<Avatar.TIPO> tipoAvatar = new JFXComboBox<>();
+        tipoAvatar.getStyleClass().add("avatar-jugador");
+        tipoAvatar.getItems().addAll(Avatar.TIPO.values());
+        tipoAvatar.setValue(Avatar.TIPO.esfinge);
+        tipoAvatar.setOnAction(event -> {
+            jugador.genAvatar(tipoAvatar.getValue());
+        });
+
+        lobby.add(jugador);
+        generarCuadro(nombre, tipoAvatar);
+    }
+
 }

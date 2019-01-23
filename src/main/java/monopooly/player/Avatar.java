@@ -88,7 +88,6 @@ public abstract class Avatar implements Observador {
      * @param jugador Jugador que tendrá el avatar
      */
     public Avatar(Jugador jugador){
-        this.representacion=sorteoAvatar(ReprASCII.AVATARES);
         this.jugador=jugador;
         this.posicion=new Posicion();
         this.oldPosicion=new Posicion();
@@ -168,6 +167,11 @@ public abstract class Avatar implements Observador {
     /*-------------------------*/
     /* METODOS PARA AVATAR */
     /*-------------------------*/
+
+    public void elegirRepresentacion() {
+        this.representacion=sorteoAvatar(ReprASCII.AVATARES);
+    }
+
 
     /**
      * Comprueba si puede pasarse turno y elimina al avatar de la lista de
