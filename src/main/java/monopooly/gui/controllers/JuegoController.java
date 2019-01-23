@@ -10,28 +10,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
-import javafx.stage.Modality;
-import monopooly.Arranque;
-import monopooly.Partida;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
-import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
-import monopooly.configuracion.General;
-import monopooly.entradaSalida.Juego;
-import monopooly.entradaSalida.parsers.*;
-import monopooly.excepciones.ExcepcionAcontecimiento;
-import monopooly.excepciones.ExcepcionComando;
-import monopooly.excepciones.ExcepcionComandoInexistente;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.gui.componentes.*;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
-import monopooly.player.Tratos.Trato;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
@@ -319,9 +309,43 @@ public class JuegoController implements Observador {
 
     @ActionMethod("listarEnVenta")
     public void listarEnVenta(){
-        System.out.println("HOLA");
 
+        GridPane casillasSur = (GridPane) panelTablero.getBottom();
+        GridPane casillasOeste = (GridPane) panelTablero.getLeft();
+        GridPane casillasNorte = (GridPane) panelTablero.getTop();
+        GridPane casillasEste = (GridPane) panelTablero.getRight();
 
+        if(botonEnVenta.isSelected()){
+            cambiarEstiloGridPane(casillasSur,0,11);
+            cambiarEstiloGridPane(casillasOeste,0,9);
+            cambiarEstiloGridPane(casillasNorte,0,11);
+            cambiarEstiloGridPane(casillasEste,0,9);
+        }else{
+            reiniciarEstiloGridPane(casillasEste,0,9);
+            reiniciarEstiloGridPane(casillasNorte,0,11);
+            reiniciarEstiloGridPane(casillasOeste,0,9);
+            reiniciarEstiloGridPane(casillasSur,0,11);
+        }
+    }
+
+    /*Recorre las casillas del tablero para resaltar las que están en venta*/
+    private void cambiarEstiloGridPane(GridPane gridPane, int inicio, int max){
+        for(int i=inicio;i<max;i++) {
+            Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(Integer.parseInt(gridPane.getChildren().get(i).getId())));
+
+            if(casilla instanceof Propiedad && ((Propiedad) casilla).getPropietario().getNombre().equals("Banca")){
+                gridPane.getChildren().get(i).getStyleClass().add("casilla-en-venta");
+            }else{
+                gridPane.getChildren().get(i).getStyleClass().add("casilla-no-en-venta");
+            }
+        }
+    }
+
+    private void reiniciarEstiloGridPane(GridPane gridPane,int inicio,int max){
+        for( int i= inicio; i<max; i++){
+            gridPane.getChildren().get(i).getStyleClass().remove("casilla-en-venta");
+            gridPane.getChildren().get(i).getStyleClass().remove("casilla-no-en-venta");
+        }
     }
 
     @ActionMethod("construirCasa")

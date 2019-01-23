@@ -208,8 +208,13 @@
     /*-fx-rotate: 90;*/
 }
 
-.casilla-listada{
+.casilla-en-venta{
+    -fx-background-color: #fcfcfe;
+    -fx-effect: innershadow(gaussian, #515151, 5, 0.0, 0, 0);
+}
 
+.casilla-no-en-venta{
+    -fx-background-color: #B9BFB7;
 }
 .casilla-resaltada {
     -fx-background-color: #fcfcfe;
