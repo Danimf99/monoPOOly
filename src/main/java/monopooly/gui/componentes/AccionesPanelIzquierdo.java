@@ -41,7 +41,7 @@ public abstract class AccionesPanelIzquierdo {
         JFXTextField comando = new JFXTextField();
         /*Funcion para pulsar enter y que se ejecute la accion introducida en textField */
         comando.setOnKeyReleased(event -> {
-            if(event.getCode()== KeyCode.ENTER){
+            if (event.getCode() == KeyCode.ENTER) {
                 alert.hideWithAnimation();
                 Partida.ejecutarComando(comando.getText());
             }
@@ -81,7 +81,7 @@ public abstract class AccionesPanelIzquierdo {
 
         StringBuilder listarJugadores = new StringBuilder();
 
-        for(Jugador j: Tablero.getTablero().getJugadores()){
+        for (Jugador j : Tablero.getTablero().getJugadores()) {
             listarJugadores.append(j.toStringGUI()).append("\n");
         }
 
@@ -94,8 +94,42 @@ public abstract class AccionesPanelIzquierdo {
         alertJugadores.showAndWait();
     }
 
+    private static void informacionTratos(VBox layout, String trato) {
+        Label label = new Label();
+
+        if (layout.getChildren().size() > 1) {
+            layout.getChildren().remove(1);
+        }
+        switch (trato) {
+            case "Trato 1":
+                label.setText("Cambiar Propiedad por Propiedad y no pagar\n" +
+                        "alquiler en Propiedad durante X turnos");
+                break;
+            case "Trato 2":
+                label.setText("Cambiar cantidad de dinero por Propiedad");
+                break;
+            case "Trato 3":
+                label.setText("Cambiar Propiedad por cantidad de dinero");
+                break;
+            case "Trato 4":
+                label.setText("Cambiar Propiedad por Propiedad \n" +
+                        "y cantidad de dinero");
+                break;
+            case "Trato 5":
+                label.setText("Cambiar Propiedad y cantidad de dinero \n" +
+                        "por Propiedad");
+                break;
+            case "Trato 6":
+                label.setText("Cambiar Propiedad por Propiedad");
+                break;
+        }
+
+        layout.getChildren().add(label);
+    }
+
     /**
      * Accion a realizar cuando se hace click en los jugadores de la izquierda
+     *
      * @param id Id del boton en el que se hace click
      */
     public static void clickJugador(String id) {
@@ -116,32 +150,40 @@ public abstract class AccionesPanelIzquierdo {
                 alert.setHideOnEscape(true);
             });
 
-            JFXButton botonTratos=new JFXButton("Tratos");
+            JFXButton botonTratos = new JFXButton("Tratos");
             botonTratos.setOnAction(event -> {
                 alert.hideWithAnimation();
                 alert.setHideOnEscape(true);
 
-                JFXAlert alertaT=new JFXAlert(Arranque.getMainStage());
+                JFXAlert alertaT = new JFXAlert(Arranque.getMainStage());
                 alertaT.initModality(Modality.APPLICATION_MODAL);
                 alertaT.setOverlayClose(false);
 
-                JFXDialogLayout layoutT=new JFXDialogLayout();
+                JFXDialogLayout layoutT = new JFXDialogLayout();
                 layoutT.setHeading(new Label("Elija el trato que quiere efectuar"));
-                //TODO botones para tratos
+
+
                 JFXComboBox<String> comboTratos = new JFXComboBox();
                 comboTratos.setPromptText("Tratos");
-                comboTratos.getItems().addAll("Trato 1","Trato 2","Trato 3","Trato 4","Trato 5","Trato 6");
+                comboTratos.getItems().addAll("Trato 1", "Trato 2", "Trato 3", "Trato 4", "Trato 5", "Trato 6");
                 comboTratos.setValue("");
                 comboTratos.getStyleClass().add("boton-aceptar-dialogo");
 
-                layoutT.getBody().add(comboTratos);
+                VBox cajaInfoTratos = new VBox(10);
+                cajaInfoTratos.getChildren().add(comboTratos);
+
+                layoutT.getBody().add(cajaInfoTratos);
+
+                comboTratos.setOnAction(event1 -> {
+                    informacionTratos(cajaInfoTratos, comboTratos.getValue());
+                });
 
                 JFXButton botonElegirTrato = new JFXButton("Elegir");
                 layoutT.getActions().add(botonElegirTrato);
 
                 botonElegirTrato.setOnAction(event1 -> {
 
-                    switch (comboTratos.getValue()){
+                    switch (comboTratos.getValue()) {
                         case "Trato 1":
                             layoutT.setHeading(new Label("Cambiar Propiedad 1 por Propiedad 2 y no \n " +
                                     "alquiler en Propiedad 3 durante X turnos"));
@@ -159,11 +201,12 @@ public abstract class AccionesPanelIzquierdo {
                             textoTurnosNoAlquiler.setPromptText("Nº de turnos");
 
                             JFXButton botonAceptar1 = new JFXButton("Aceptar");
-                            if(!comboPropiedadesJDestino1.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen1.getSelectionModel().isEmpty()
-                                    && !comboPropiedadesNoAlquiler.getSelectionModel().isEmpty() && !textoTurnosNoAlquiler.getText().trim().isEmpty()) {
-                                botonAceptar1.setOnAction(event2 -> {
-                                    alertaT.hideWithAnimation();
-                                    alertaT.setHideOnEscape(true);
+
+                            botonAceptar1.setOnAction(event2 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+                                if (!comboPropiedadesJDestino1.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen1.getSelectionModel().isEmpty()
+                                        && !comboPropiedadesNoAlquiler.getSelectionModel().isEmpty() && !textoTurnosNoAlquiler.getText().trim().isEmpty()) {
                                     try {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen1.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen1.getValue());
@@ -171,34 +214,34 @@ public abstract class AccionesPanelIzquierdo {
 
                                         int turnos = Integer.parseInt(textoTurnosNoAlquiler.getText());
 
-                                        interprete.hacerTrato6(Tablero.getPrompt().getJugador(),jugador,
-                                                (Propiedad)jOrigen,(Propiedad)jDestino,(Propiedad)noAlquiler,turnos);
+                                        interprete.hacerTrato6(Tablero.getPrompt().getJugador(), jugador,
+                                                (Propiedad) jOrigen, (Propiedad) jDestino, (Propiedad) noAlquiler, turnos);
 
                                     } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
-                                    }catch (NumberFormatException numberFormatException){
+                                    } catch (NumberFormatException numberFormatException) {
                                         System.out.println("Not a number!");
                                     }
-                                });
-                            }
+                                }
+                            });
                             botonAceptar1.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo = new HBox(5);
-                            cajaCombo.getChildren().addAll(comboPropiedadesJOrigen1,comboPropiedadesJDestino1);
+                            cajaCombo.getChildren().addAll(comboPropiedadesJOrigen1, comboPropiedadesJDestino1);
 
                             HBox cajaComboTexto = new HBox(5);
-                            cajaComboTexto.getChildren().addAll(comboPropiedadesNoAlquiler,textoTurnosNoAlquiler);
+                            cajaComboTexto.getChildren().addAll(comboPropiedadesNoAlquiler, textoTurnosNoAlquiler);
 
-                            VBox cajaContenedor =new VBox(8);
-                            cajaContenedor.getChildren().addAll(cajaCombo,cajaComboTexto);
+                            VBox cajaContenedor = new VBox(8);
+                            cajaContenedor.getChildren().addAll(cajaCombo, cajaComboTexto);
 
                             layoutT.setBody(cajaContenedor);
 
-                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                            for (Propiedad p : Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen1.getItems().add(p.getNombre());
                             }
 
-                            for(Propiedad p: jugador.getPropiedades()){
+                            for (Propiedad p : jugador.getPropiedades()) {
                                 comboPropiedadesJDestino1.getItems().add(p.getNombre());
                                 comboPropiedadesNoAlquiler.getItems().add(p.getNombre());
                             }
@@ -219,14 +262,14 @@ public abstract class AccionesPanelIzquierdo {
                                 alertaT.hideWithAnimation();
                                 alertaT.setHideOnEscape(true);
 
-                                if(!comboPropiedadesJDestino2.getSelectionModel().isEmpty() && !textoDinero.getText().trim().isEmpty()){
+                                if (!comboPropiedadesJDestino2.getSelectionModel().isEmpty() && !textoDinero.getText().trim().isEmpty()) {
                                     try {
-                                        int dinero= Integer.parseInt(textoDinero.getText());
+                                        int dinero = Integer.parseInt(textoDinero.getText());
                                         Casilla pJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJDestino2.getValue());
-                                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(),jugador,dinero,(Propiedad)pJDestino);
-                                    }catch (ExcepcionMonopooly excepcionMonopooly){
+                                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(), jugador, dinero, (Propiedad) pJDestino);
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
-                                    }catch (NumberFormatException numberFormatException){
+                                    } catch (NumberFormatException numberFormatException) {
                                         System.out.println("Not a number!!");
                                     }
                                 }
@@ -234,11 +277,11 @@ public abstract class AccionesPanelIzquierdo {
                             botonAceptar2.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo2 = new HBox(5);
-                            cajaCombo2.getChildren().addAll(textoDinero,comboPropiedadesJDestino2);
+                            cajaCombo2.getChildren().addAll(textoDinero, comboPropiedadesJDestino2);
 
                             layoutT.setBody(cajaCombo2);
 
-                            for(Propiedad p: jugador.getPropiedades()){
+                            for (Propiedad p : jugador.getPropiedades()) {
                                 comboPropiedadesJDestino2.getItems().add(p.getNombre());
                             }
 
@@ -259,15 +302,15 @@ public abstract class AccionesPanelIzquierdo {
                                 alertaT.hideWithAnimation();
                                 alertaT.setHideOnEscape(true);
 
-                                if(!comboPropiedadesJOrigen3.getSelectionModel().isEmpty() && !textoDinero3.getText().trim().isEmpty()){
+                                if (!comboPropiedadesJOrigen3.getSelectionModel().isEmpty() && !textoDinero3.getText().trim().isEmpty()) {
                                     try {
-                                        int dinero= Integer.parseInt(textoDinero3.getText());
+                                        int dinero = Integer.parseInt(textoDinero3.getText());
                                         Casilla casillaJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen3.getValue());
 
-                                        interprete.Hacertrato2(Tablero.getPrompt().getJugador(),jugador,(Propiedad)casillaJDestino,dinero);
-                                    }catch (ExcepcionMonopooly excepcionMonopooly){
+                                        interprete.Hacertrato2(Tablero.getPrompt().getJugador(), jugador, (Propiedad) casillaJDestino, dinero);
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
-                                    }catch (NumberFormatException numberFormatException){
+                                    } catch (NumberFormatException numberFormatException) {
                                         System.out.println("Not a number!!");
                                     }
                                 }
@@ -275,11 +318,11 @@ public abstract class AccionesPanelIzquierdo {
                             botonAceptar3.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo3 = new HBox(5);
-                            cajaCombo3.getChildren().addAll(textoDinero3,comboPropiedadesJOrigen3);
+                            cajaCombo3.getChildren().addAll(textoDinero3, comboPropiedadesJOrigen3);
 
                             layoutT.setBody(cajaCombo3);
 
-                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()){
+                            for (Propiedad p : Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen3.getItems().add(p.getNombre());
                             }
 
@@ -300,39 +343,40 @@ public abstract class AccionesPanelIzquierdo {
                             textoDinero4.setPromptText("Dinero a recibir");
 
                             JFXButton botonAceptar4 = new JFXButton("Aceptar");
-                            if(!comboPropiedadesJDestino4.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen4.getSelectionModel().isEmpty()) {
-                                botonAceptar4.setOnAction(event4 -> {
-                                    alertaT.hideWithAnimation();
-                                    alertaT.setHideOnEscape(true);
+
+                            botonAceptar4.setOnAction(event4 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+                                if (!comboPropiedadesJDestino4.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen4.getSelectionModel().isEmpty()) {
                                     try {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen4.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen4.getValue());
 
-                                        int dinero= Integer.parseInt(textoDinero4.getText());
+                                        int dinero = Integer.parseInt(textoDinero4.getText());
 
-                                        interprete.hacerTrato5(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
-                                    }catch (ExcepcionMonopooly excepcionMonopooly) {
+                                        interprete.hacerTrato5(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, dinero, (Propiedad) jDestino);
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
-                                    }catch (NumberFormatException numberFormatException){
+                                    } catch (NumberFormatException numberFormatException) {
                                         System.out.println("NOt a number!");
                                     }
-                                } );
-                            }
+                                }
+                            });
                             botonAceptar4.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo4 = new HBox(5);
-                            cajaCombo4.getChildren().addAll(comboPropiedadesJOrigen4,comboPropiedadesJDestino4);
+                            cajaCombo4.getChildren().addAll(comboPropiedadesJOrigen4, comboPropiedadesJDestino4);
 
                             VBox cajaContenedor4 = new VBox(8);
-                            cajaContenedor4.getChildren().addAll(cajaCombo4,textoDinero4);
+                            cajaContenedor4.getChildren().addAll(cajaCombo4, textoDinero4);
 
                             layoutT.setBody(cajaContenedor4);
 
-                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                            for (Propiedad p : Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen4.getItems().add(p.getNombre());
                             }
 
-                            for(Propiedad p: jugador.getPropiedades()){
+                            for (Propiedad p : jugador.getPropiedades()) {
                                 comboPropiedadesJDestino4.getItems().add(p.getNombre());
                             }
 
@@ -353,39 +397,40 @@ public abstract class AccionesPanelIzquierdo {
                             textoDinero5.setPromptText("Dinero a dar");
 
                             JFXButton botonAceptar5 = new JFXButton("Aceptar");
-                            if(!comboPropiedadesJDestino5.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen5.getSelectionModel().isEmpty()) {
-                                botonAceptar5.setOnAction(event4 -> {
-                                    alertaT.hideWithAnimation();
-                                    alertaT.setHideOnEscape(true);
+                            botonAceptar5.setOnAction(event4 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+
+                                if (!comboPropiedadesJDestino5.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen5.getSelectionModel().isEmpty()) {
                                     try {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen5.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen5.getValue());
 
-                                        int dinero= Integer.parseInt(textoDinero5.getText());
+                                        int dinero = Integer.parseInt(textoDinero5.getText());
 
-                                        interprete.hacerTrato4(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
-                                    }catch (ExcepcionMonopooly excepcionMonopooly) {
+                                        interprete.hacerTrato4(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, dinero, (Propiedad) jDestino);
+                                    } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
-                                    }catch (NumberFormatException numberFormatException){
+                                    } catch (NumberFormatException numberFormatException) {
                                         System.out.println("NOt a number!");
                                     }
-                                } );
-                            }
+                                }
+                            });
                             botonAceptar5.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo5 = new HBox(5);
-                            cajaCombo5.getChildren().addAll(comboPropiedadesJOrigen5,comboPropiedadesJDestino5);
+                            cajaCombo5.getChildren().addAll(comboPropiedadesJOrigen5, comboPropiedadesJDestino5);
 
                             VBox cajaContenedor5 = new VBox(8);
-                            cajaContenedor5.getChildren().addAll(cajaCombo5,textoDinero5);
+                            cajaContenedor5.getChildren().addAll(cajaCombo5, textoDinero5);
 
                             layoutT.setBody(cajaContenedor5);
 
-                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                            for (Propiedad p : Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen5.getItems().add(p.getNombre());
                             }
 
-                            for(Propiedad p: jugador.getPropiedades()){
+                            for (Propiedad p : jugador.getPropiedades()) {
                                 comboPropiedadesJDestino5.getItems().add(p.getNombre());
                             }
 
@@ -402,10 +447,10 @@ public abstract class AccionesPanelIzquierdo {
                             comboPropiedadesJDestino.setPromptText("Propiedad que quieres recibir");
 
                             JFXButton botonAceptar = new JFXButton("Aceptar");
-                            if(!comboPropiedadesJDestino.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen.getSelectionModel().isEmpty()) {
-                                botonAceptar.setOnAction(event2 -> {
-                                    alertaT.hideWithAnimation();
-                                    alertaT.setHideOnEscape(true);
+                            botonAceptar.setOnAction(event2 -> {
+                                alertaT.hideWithAnimation();
+                                alertaT.setHideOnEscape(true);
+                                if (!comboPropiedadesJDestino.getSelectionModel().isEmpty() && !comboPropiedadesJOrigen.getSelectionModel().isEmpty()) {
                                     try {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
@@ -414,20 +459,21 @@ public abstract class AccionesPanelIzquierdo {
                                     } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
                                     }
-                                });
-                            }
+                                }
+                            });
+
                             botonAceptar.getStyleClass().add("boton-aceptar-dialogo");
 
                             HBox cajaCombo6 = new HBox(5);
-                            cajaCombo6.getChildren().addAll(comboPropiedadesJOrigen,comboPropiedadesJDestino);
+                            cajaCombo6.getChildren().addAll(comboPropiedadesJOrigen, comboPropiedadesJDestino);
 
                             layoutT.setBody(cajaCombo6);
 
-                            for(Propiedad p: Tablero.getPrompt().getJugador().getPropiedades()) {
+                            for (Propiedad p : Tablero.getPrompt().getJugador().getPropiedades()) {
                                 comboPropiedadesJOrigen.getItems().add(p.getNombre());
                             }
 
-                            for(Propiedad p: jugador.getPropiedades()){
+                            for (Propiedad p : jugador.getPropiedades()) {
                                 comboPropiedadesJDestino.getItems().add(p.getNombre());
                             }
 
@@ -456,17 +502,17 @@ public abstract class AccionesPanelIzquierdo {
                 alertaT.showAndWait();
             });
 
-            JFXButton botonStats= new JFXButton("Estadísticas");
+            JFXButton botonStats = new JFXButton("Estadísticas");
             botonStats.setOnAction(event -> {
                 alert.hideWithAnimation();
                 alert.setHideOnEscape(true);
 
-                JFXAlert alertaStats=new JFXAlert(Arranque.getMainStage());
+                JFXAlert alertaStats = new JFXAlert(Arranque.getMainStage());
                 alertaStats.initModality(Modality.APPLICATION_MODAL);
                 alertaStats.setOverlayClose(false);
 
-                JFXDialogLayout layoutS=new JFXDialogLayout();
-                layoutS.setHeading(new Label("Estadísticas de "+jugador.getNombre()));
+                JFXDialogLayout layoutS = new JFXDialogLayout();
+                layoutS.setHeading(new Label("Estadísticas de " + jugador.getNombre()));
                 layoutS.setBody(new Label(jugador.getEstadisticas().toStringGUI()));
 
                 JFXButton botonCerrarS = new JFXButton("Cerrar");
@@ -493,9 +539,9 @@ public abstract class AccionesPanelIzquierdo {
             });
 
             layout.getActions().add(botonCerrar);
-            if(!id.equals(Tablero.getTablero().getJugadorTurno().getNombre())) {
+            if (!id.equals(Tablero.getTablero().getJugadorTurno().getNombre())) {
                 layout.getActions().add(botonTratos);
-            }else{
+            } else {
                 layout.getActions().add(botonVerTratos);
             }
             layout.getActions().add(botonStats);
@@ -505,19 +551,19 @@ public abstract class AccionesPanelIzquierdo {
             alert.setContent(layout);
             alert.showAndWait();
 
-        }catch(ExcepcionMonopooly excepcionMonopooly){
+        } catch (ExcepcionMonopooly excepcionMonopooly) {
             excepcionMonopooly.mostrarError();
         }
 
     }
 
-    private static void alertaVerTratos(Jugador jugador){
+    private static void alertaVerTratos(Jugador jugador) {
         JFXAlert alertaTratos = new JFXAlert(Arranque.getMainStage());
         alertaTratos.initModality(Modality.APPLICATION_MODAL);
         alertaTratos.setOverlayClose(false);
 
         JFXDialogLayout layoutTratos = new JFXDialogLayout();
-        layoutTratos.setHeading(new Label("Tratos de "+jugador.getNombre()));
+        layoutTratos.setHeading(new Label("Tratos de " + jugador.getNombre()));
         layoutTratos.setBody(new Label(jugador.imprimirTratos()));
 
         JFXButton cerrarTratos = new JFXButton("Cerrar");
@@ -528,7 +574,7 @@ public abstract class AccionesPanelIzquierdo {
 
         JFXComboBox comboAceptarTrato = new JFXComboBox();
         comboAceptarTrato.setPromptText("Trato a aceptar");
-        for(Trato t: jugador.getTratos()){
+        for (Trato t : jugador.getTratos()) {
             comboAceptarTrato.getItems().add(t.getId());
         }
 
@@ -536,11 +582,11 @@ public abstract class AccionesPanelIzquierdo {
         botonAceptarTrato.setOnAction(event1 -> {
             alertaTratos.hideWithAnimation();
             alertaTratos.setHideOnEscape(true);
-            if(!comboAceptarTrato.getSelectionModel().isEmpty()){
-                try{
+            if (!comboAceptarTrato.getSelectionModel().isEmpty()) {
+                try {
                     interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
 
-                }catch (ExcepcionMonopooly excepcionMonopooly){
+                } catch (ExcepcionMonopooly excepcionMonopooly) {
                     excepcionMonopooly.mostrarError();
                 }
             }
@@ -551,10 +597,10 @@ public abstract class AccionesPanelIzquierdo {
             alertaTratos.hideWithAnimation();
             alertaTratos.setHideOnEscape(true);
 
-            if(!comboAceptarTrato.getSelectionModel().isEmpty()){
-                try{
-                    interprete.eliminarTrato(jugador,jugador.getTrato(comboAceptarTrato.getValue().toString()));
-                }catch (ExcepcionMonopooly excepcionMonopooly){
+            if (!comboAceptarTrato.getSelectionModel().isEmpty()) {
+                try {
+                    interprete.eliminarTrato(jugador, jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                } catch (ExcepcionMonopooly excepcionMonopooly) {
                     excepcionMonopooly.mostrarError();
                 }
             }
