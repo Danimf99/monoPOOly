@@ -7,6 +7,9 @@ version '0.3'
 
 sourceCompatibility = 1.8
 
+
+
+
 repositories {
     mavenCentral()
     jcenter()
@@ -24,4 +27,24 @@ dependencies {
     compile 'de.jensd:fontawesomefx-weathericons:2.0.10-5'
     compile 'de.jensd:fontawesomefx-controls:8.15' // Iconos
     compile 'io.datafx:flow:8.0.1' // Para cambiar vistas
+}
+
+
+
+task crearJar(type: Jar) {
+    appendix = 'full'
+    manifest {
+        attributes("Implementation-Title": "MonoPOOly",
+                "Implementation-Version": version,
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'monopooly.Arranque'
+        )
+    }
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 }
