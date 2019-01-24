@@ -11,6 +11,7 @@ import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.estadisticas.StatsGlobales;
 import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.player.Tratos.Trato;
@@ -18,7 +19,16 @@ import monopooly.player.Tratos.Trato;
 public abstract class AccionesPanelIzquierdo {
 
     public static void mostrarEstadisticasGlobales() {
-        System.out.println("Estadisticas globales");
+        StatsGlobales stats = Tablero.getStatsGlobales();
+        Alerta mensaje = new Alerta();
+        mensaje.meterBotonCerrar()
+                .ponerHeading("Estadisticas globales")
+                .meterTexto("Inmueble más rentable:", stats.getInmuebleMasRentable())
+                .meterTexto("Inmueble más frecuentado:", stats.getInmuebleMasFrecuentado())
+                .meterTexto("Jugador que más veces ha lanzado:", stats.getJugadorDados())
+                .meterTexto("Jugador en cabeza:", stats.getJugadorEnCabeza())
+                .meterTexto("Jugador con más vueltas al tablero:", stats.getJugadorMasVueltas())
+                .mostrar();
     }
 
 
@@ -70,8 +80,7 @@ public abstract class AccionesPanelIzquierdo {
         StringBuilder listarJugadores = new StringBuilder();
 
         for(Jugador j: Tablero.getTablero().getJugadores()){
-            listarJugadores.append(j.toString());
-            System.out.println(j.toString());
+            listarJugadores.append(j.toStringGUI()).append("\n");
         }
 
         layoutJugadores.setBody(new Label(listarJugadores.toString()));

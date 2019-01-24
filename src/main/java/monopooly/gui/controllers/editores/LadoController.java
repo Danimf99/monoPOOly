@@ -1,6 +1,10 @@
 package monopooly.gui.controllers.editores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.LinkAction;
 import javafx.fxml.FXML;
@@ -10,6 +14,9 @@ import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.Grupo;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.excepciones.ExcepcionParametrosInvalidos;
+import monopooly.gui.componentes.Alerta;
 import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.gui.controllers.LoginController;
 import monopooly.gui.controllers.crearJugadores.NuevaPartidaController;
@@ -66,7 +73,7 @@ public class LadoController {
         for (int i = inicial; i < posFinal; i++) {
             Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(i));
             StackPane tarjeta = TarjetasSucesos.crearTarjeta(
-                    "" + i,
+                    "Posición " + i,
                     casilla.nombrePropertyProperty(),
                     new Grupo(casilla.getTipo()).getHexColor(),
                     "" + i
@@ -80,6 +87,8 @@ public class LadoController {
                     .forEach(node -> {
                         node.setOnMouseClicked(event -> {
                             clickEditarCasilla(((JFXButton) event.getSource()).getId());
+                            tarjeta.getStyleClass().remove("tarjeta-seleccionada");
+                            casillaSeleccionada = null;
                         });
                     });
         }
@@ -165,10 +174,67 @@ public class LadoController {
     }
 
     public void clickEditarCasilla(String id) {
-        System.out.println("Cambio de nombre y tal " + id);
+        Alerta alerta = new Alerta();
+        Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(Integer.parseInt(id)));
+
+        JFXTextField nombre = new JFXTextField();
+        nombre.setLabelFloat(true);
+        nombre.setPromptText("Nombre de la casilla");
+        nombre.getStyleClass().add("nombre-jugador");
+        nombre.setText(casilla.getNombre());
+        requerirCampo(nombre);
+
+        JFXTextField precio = new JFXTextField();
+        if (casilla instanceof Propiedad) {
+            Propiedad propiedad = (Propiedad) casilla;
+            precio.setLabelFloat(true);
+            precio.setPromptText("Precio de la casilla");
+            precio.getStyleClass().add("nombre-jugador");
+            precio.setText(propiedad.getPrecio() + "");
+            requerirCampo(precio);
+            alerta.getLayout().getBody().get(0).setStyle("-fx-spacing: 40");
+            alerta.meterEnCuerpo(precio);
+        }
 
 
-//        Hace falta recargarlo para que actualice los nombres del hashMap
+
+        JFXButton botonMod = new JFXButton("Modificar");
+        botonMod.setOnAction(event -> {
+            alerta.getAlert().hideWithAnimation();
+            if (nombre.getText().length() == 0) {
+                return;
+            }
+
+            if (casilla instanceof Propiedad) {
+                if (precio.getText().length() == 0) {
+                    return;
+                }
+                int valor = Integer.parseInt(precio.getText());
+                if (valor <= 0) {
+                    return;
+                }
+                ((Propiedad) casilla).setPrecio(valor);
+            }
+            casilla.setNombre(nombre.getText());
+        });
+
+
+        alerta.meterBotonCerrar()
+                .ponerHeading("Editar " + id)
+                .meterEnCuerpo(nombre)
+                .meterBotones(botonMod)
+                .mostrar();
+
         Tablero.getTablero().reloadColocacion();
+    }
+
+    public static void requerirCampo(JFXTextField nombre) {
+        RequiredFieldValidator validator = new RequiredFieldValidator();
+        validator.setMessage("Campo requerido");
+        validator.setIcon(new FontAwesomeIconView(FontAwesomeIcon.WARNING));
+        nombre.getValidators().add(validator);
+        nombre.focusedProperty().addListener((o,oldVal,newVal)->{
+            if(!newVal) nombre.validate();
+        });
     }
 }

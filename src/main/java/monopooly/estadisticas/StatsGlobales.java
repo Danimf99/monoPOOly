@@ -120,4 +120,24 @@ public class StatsGlobales implements Observador {
         return PintadoAscii.encuadrar(stats.toString());
 
     }
+
+    public String getInmuebleMasRentable() {
+        return inmuebleMasRentable;
+    }
+
+    public String getJugadorMasVueltas() {
+        return jugadorMasVueltas;
+    }
+
+    public String getJugadorDados() {
+        return jugadorDados;
+    }
+
+    public String getJugadorEnCabeza() {
+        return jugadorEnCabeza;
+    }
+
+    public String getInmuebleMasFrecuentado() {
+        return inmuebleMasFrecuentado;
+    }
 }

@@ -106,7 +106,7 @@
 
 .seccion-der {
     /*-fx-background-image: url('/imagenes/background.png');*/
-    -fx-background-color: #e4e4e6;
+    -fx-background-color: #e5e5e7;
     -fx-pref-height: 800;
     -fx-pref-width: 900;
     -fx-min-width: -fx-pref-width;
@@ -118,7 +118,7 @@
 
 
 .global-tablero {
-    -fx-background-color: #f7f7f9;
+    -fx-background-color: rgba(255, 255, 255, 0.50);
     -fx-pref-height: 650;
     -fx-pref-width: 650;
     -fx-min-width: -fx-pref-width;
@@ -183,7 +183,7 @@
 }
 
 .casilla {
-    -fx-background-color: #edeaeb;
+
     -fx-cursor: hand;
 }
 
@@ -197,6 +197,7 @@
     -fx-max-height: 100;
     -fx-min-width: 50;
     -fx-max-width: 50;
+    /*-fx-background-color: rgba(255, 255, 255, 0.70);*/
 }
 
 .casilla-esquina {
@@ -204,17 +205,18 @@
     -fx-max-height: -fx-min-height;
     -fx-min-width: -fx-min-height;
     -fx-max-width: -fx-min-height;
-    -fx-background-color: #ebe7ec;
+    /*-fx-background-color: rgba(255, 255, 255, 0.50);*/
     /*-fx-rotate: 90;*/
 }
 
 .casilla-en-venta{
     -fx-background-color: #fcfcfe;
+    /*-fx-border-color: #515151;*/
     -fx-effect: innershadow(gaussian, #515151, 5, 0.0, 0, 0);
 }
 
 .casilla-no-en-venta{
-    -fx-background-color: #B9BFB7;
+    -fx-background-color: #4c4c4c;
 }
 .casilla-resaltada {
     -fx-background-color: #fcfcfe;
@@ -341,8 +343,18 @@
     -fx-fill: #1B1B1E;
 }
 
+
 .boton-jugador-con-turno .jfx-rippler{
     -jfx-rippler-fill: rgba(26, 26, 26, 0.87);
+}
+
+
+.boton-jugador-bancarrota {
+    -fx-background-color: #969998;
+}
+
+.boton-jugador-bancarrota .icono-jugador-lateral {
+    -fx-fill: #e0e4e3;
 }
 
 /* Labels panel de control */
@@ -355,7 +367,23 @@
     -fx-font-size: 15;
 }
 .texto-listar-jugadores{
-    -fx-font-family: "Fira Code";
+    -fx-font-family: "Roboto";
     -fx-font-size: 12;
     -fx-spacing: 1.0;
+}
+
+/* Botones especiales de salir de la carcel y caer en bancarrota */
+.container-botones-especiales {
+    -fx-alignment: CENTER;
+    -fx-spacing: 20;
+    -fx-max-height: 50;
+    -fx-max-width: 425;
+    -fx-pref-height: 0;
+}
+
+.boton-especial {
+    -fx-background-color: #1B1B1E;
+    -fx-text-fill: WHITE;
+    -fx-cursor: hand;
+    -jfx-button-type: RAISED;
 }

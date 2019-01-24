@@ -13,9 +13,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.accion.especiales.implementacionesEspecial.Carcel;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.excepciones.ExcepcionMonopooly;
@@ -26,6 +28,7 @@ import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
 import monopooly.sucesos.tipoSucesos.Caer;
+import monopooly.sucesos.tipoSucesos.CaerCarcel;
 import monopooly.sucesos.tipoSucesos.Guardado;
 
 import javax.annotation.PostConstruct;
@@ -103,6 +106,14 @@ public class JuegoController implements Observador {
     private JFXButton botonConstruirPistaDeporte;
 
     @FXML
+    @ActionTrigger("declararBancarrota")
+    private JFXButton botonBancarrota;
+
+    @FXML
+    @ActionTrigger("salirCarcel")
+    private JFXButton botonSalirCarcel;
+
+    @FXML
     private Label modDin;
 
     @FXML
@@ -175,6 +186,9 @@ public class JuegoController implements Observador {
         this.modDin.textProperty().bind(Tablero.getPrompt().modDIneroPropertyProperty());
         this.tipoAvatar.textProperty().bind(Tablero.getPrompt().tipoAvatarPropertyProperty());
 
+        dineroJugadorActual.textProperty().addListener((observable, oldValue, newValue) -> {
+            botonBancarrota.setVisible(newValue.charAt(0) == '-');
+        });
     }
 
     /* Mostrado de los sucesos como tarjetas */
@@ -185,6 +199,11 @@ public class JuegoController implements Observador {
         if (suceso == null) {
             return;
         }
+
+        if (suceso instanceof CaerCarcel) {
+            botonSalirCarcel.setVisible(!suceso.getDeshacer());
+        }
+
         if (suceso instanceof Caer) {
             Caer caida = (Caer) suceso;
             panelTablero.getChildren().stream()
@@ -274,6 +293,8 @@ public class JuegoController implements Observador {
                 infoSucesos,
                 botonLanzarDados
         );
+        botonSalirCarcel.setVisible(Tablero.getPrompt().getJugador().isEstarEnCarcel());
+        botonBancarrota.setVisible(Tablero.getPrompt().getJugador().getDinero() < 0);
     }
 
     @ActionMethod("lanzarDados")
@@ -326,8 +347,10 @@ public class JuegoController implements Observador {
 
             if(casilla instanceof Propiedad && ((Propiedad) casilla).getPropietario().getNombre().equals("Banca")){
                 gridPane.getChildren().get(i).getStyleClass().add("casilla-en-venta");
+                gridPane.getChildren().get(i).setVisible(true);
             }else{
-                gridPane.getChildren().get(i).getStyleClass().add("casilla-no-en-venta");
+//                gridPane.getChildren().get(i).getStyleClass().add("casilla-no-en-venta");
+                gridPane.getChildren().get(i).setVisible(false);
             }
         }
     }
@@ -335,7 +358,8 @@ public class JuegoController implements Observador {
     private void reiniciarEstiloGridPane(GridPane gridPane,int inicio,int max){
         for( int i= inicio; i<max; i++){
             gridPane.getChildren().get(i).getStyleClass().remove("casilla-en-venta");
-            gridPane.getChildren().get(i).getStyleClass().remove("casilla-no-en-venta");
+//            gridPane.getChildren().get(i).getStyleClass().remove("casilla-no-en-venta");
+            gridPane.getChildren().get(i).setVisible(true);
         }
     }
 
@@ -387,8 +411,32 @@ public class JuegoController implements Observador {
         }catch (ExcepcionMonopooly excepcionMonopooly){
             excepcionMonopooly.mostrarError();
         }
-
     }
+
+    @ActionMethod("declararBancarrota")
+    public void bancarrota() {
+        try {
+            Jugador brokeAf = Tablero.getPrompt().getJugador();
+            interprete.bancarrota(Tablero.getTablero().getJugadorTurno());
+            Node node = listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(brokeAf));
+            node.getStyleClass().remove("boton-jugador-con-turno");
+            node.getStyleClass().add("boton-jugador-con-turno");
+
+        } catch (ExcepcionMonopooly excepcionMonopooly) {
+            excepcionMonopooly.mostrarError();
+        }
+    }
+
+    @ActionMethod("salirCarcel")
+    public void salirCarcel() {
+        try {
+            interprete.salirCarcel(Tablero.getTablero().getJugadorTurno());
+            botonSalirCarcel.setVisible(false);
+        } catch (ExcepcionMonopooly excepcionMonopooly) {
+            excepcionMonopooly.mostrarError();
+        }
+    }
+
     /* Metodos que se llaman con distintas acciones. Se asignan en init() */
 
     /**

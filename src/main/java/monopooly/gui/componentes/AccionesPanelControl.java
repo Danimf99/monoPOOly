@@ -19,8 +19,8 @@ public abstract class AccionesPanelControl {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
             )).getStyleClass().remove("boton-jugador-con-turno");
-            Tablero.getTablero().pasarTurno();
 
+            Tablero.getTablero().pasarTurno();
 
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
                     Tablero.getTablero().getJugadorTurno()
@@ -41,7 +41,6 @@ public abstract class AccionesPanelControl {
             )).getStyleClass().add("boton-jugador-con-turno");
             excepcionMonopooly.mostrarError();
         }
-        Jugador jugador = Tablero.getTablero().getJugadorTurno();
-        botonLanzarDados.setText(jugador.getDados().getDado1() + " - " + jugador.getDados().getDado2() + "\n" + jugador.getDados().tirada());
+        botonLanzarDados.setText("Lanzar\nDados");
     }
 }

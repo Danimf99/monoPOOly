@@ -3,41 +3,29 @@ package monopooly.gui.controllers.crearJugadores;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.datafx.controller.ViewController;
-import io.datafx.controller.flow.Flow;
 import io.datafx.controller.flow.FlowException;
 import io.datafx.controller.flow.FlowHandler;
 import io.datafx.controller.flow.action.ActionMethod;
 import io.datafx.controller.flow.action.ActionTrigger;
 import io.datafx.controller.flow.action.LinkAction;
-import io.datafx.controller.flow.container.AnimatedFlowContainer;
-import io.datafx.controller.flow.container.ContainerAnimations;
 import io.datafx.controller.flow.context.FXMLViewFlowContext;
 import io.datafx.controller.flow.context.ViewFlowContext;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import monopooly.colocacion.Tablero;
 import monopooly.gui.componentes.Alerta;
 import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
+import monopooly.gui.controllers.editores.LadoController;
 import monopooly.player.Avatar;
 import monopooly.player.Jugador;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @ViewController(value = "/fxml/crearJugadores/NuevaPartida.fxml", title = "MonoPOOly - Nueva Partida")
 public class NuevaPartidaController {
@@ -80,17 +68,17 @@ public class NuevaPartidaController {
      */
     @ActionMethod("inicioPartida")
     public void iniciarJuego() throws Exception {
-        HashSet<String> nombres = lobby.stream()
-                .map(Jugador::getNombre)
-                .filter(nombre -> !nombre.equalsIgnoreCase(""))
-                .collect(Collectors.toCollection(HashSet::new));
 
-        if (nombres.size() != lobby.size()) { // Nombres iguales
-            Alerta alerta = new Alerta();
-            alerta.meterBotonCerrar()
-                    .ponerHeading(new Label("Nombres invalidos"))
-                    .meterEnCuerpoTodos(new Label("Varios jugadores poseen el mismo nombre o no tienen."))
-                    .mostrar();
+        // Nombres iguales o de longitud 0
+        if (lobby.stream()
+                .map(Jugador::getNombre).distinct()
+                .filter(nombre -> nombre.length() != 0)
+                .count() != lobby.size()) {
+           Alerta.nuevaAlerta()
+                   .meterBotonCerrar()
+                   .ponerHeading(new Label("Nombres invalidos"))
+                   .meterEnCuerpoTodos(new Label("Varios jugadores poseen el mismo nombre o no tienen."))
+                   .mostrar();
             return;
         }
 
@@ -128,13 +116,7 @@ public class NuevaPartidaController {
         nombre.textProperty().bindBidirectional(jugador.nombreProperty());
 
         /* Validacion */
-        RequiredFieldValidator validator = new RequiredFieldValidator();
-        validator.setMessage("Nombre requerido");
-        validator.setIcon(new FontAwesomeIconView(FontAwesomeIcon.WARNING));
-        nombre.getValidators().add(validator);
-        nombre.focusedProperty().addListener((o,oldVal,newVal)->{
-            if(!newVal) nombre.validate();
-        });
+        LadoController.requerirCampo(nombre);
 
 
         JFXComboBox<Avatar.TIPO> tipoAvatar = new JFXComboBox<>();

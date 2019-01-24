@@ -51,7 +51,7 @@
 
             <VBox styleClass="seccion-central">
                 <!-- Info Sucesos -->
-                <VBox >
+                <StackPane>
                     <ScrollPane styleClass="seccion-info" fx:id="scrollSucesos" hbarPolicy="NEVER">
                         <JFXMasonryPane fx:id="infoSucesos" styleClass="container-tarjetas" HSpacing="10" VSpacing="10">
                             <padding>
@@ -59,7 +59,15 @@
                             </padding>
                         </JFXMasonryPane>
                     </ScrollPane>
-                </VBox>
+                    <HBox StackPane.alignment="BOTTOM_LEFT" styleClass="container-botones-especiales">
+                        <JFXButton text="Salir de la cárcel" styleClass="boton-especial" visible="false" fx:id="botonSalirCarcel">
+
+                        </JFXButton>
+                        <JFXButton text="Declarar bancarrota" styleClass="boton-especial" visible="false" fx:id="botonBancarrota">
+
+                        </JFXButton>
+                    </HBox>
+                </StackPane>
                 <!-- Panel de control -->
                 <HBox styleClass="panel-control">
 
@@ -122,30 +130,30 @@
                         </GridPane>
                     </bottom>
                     <center>
-                        <AnchorPane styleClass="centro-tablero">
-                        </AnchorPane>
+                        <StackPane styleClass="centro-tablero">
+
+                        </StackPane>
                     </center>
                 </BorderPane>
 
 
-                <HBox alignment="TOP_CENTER" spacing="10">
+                <HBox alignment="TOP_CENTER"
+                      StackPane.alignment="TOP_CENTER"
+                      spacing="10" style="-fx-max-height: 50px">
+                    <StackPane.margin>
+                        <Insets top="10"/>
+                    </StackPane.margin>
+
                     <!-- Nitroso -->
                     <JFXToggleButton fx:id="botonNitroso"
                                      styleClass="boton-nitroso"
-                                     StackPane.alignment="TOP_CENTER" text="Nitroso">
-                        <StackPane.margin>
-                            <Insets top="12"/>
-                        </StackPane.margin>
-                    </JFXToggleButton>
+                                      text="Nitroso"/>
 
                     <!-- En Venta -->
                     <JFXToggleButton fx:id="botonEnVenta"
                                      styleClass="boton-en-venta"
-                                     StackPane.alignment="TOP_CENTER" text="En Venta">
-                        <StackPane.margin>
-                            <Insets top="12"/>
-                        </StackPane.margin>
-                    </JFXToggleButton>
+                                     text="En Venta"/>
+
                 </HBox>
                 <!-- Contruccion -->
                 <JFXNodesList fx:id="botonesContruccion" rotate="180.0" spacing="15"

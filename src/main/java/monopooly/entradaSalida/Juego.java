@@ -433,7 +433,6 @@ public class Juego implements Comando, Subject {
                 p.setPropietario(Tablero.BANCA);
             }
         }
-        //Tablero.getPrompt()
     }
 
     @Override

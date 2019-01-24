@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import monopooly.colocacion.Tablero;
 import monopooly.gui.controllers.EditorController;
 import monopooly.gui.controllers.JuegoController;
 import monopooly.gui.controllers.LoginController;
@@ -33,6 +34,9 @@ public class Arranque extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        /* forzado de la carga del tablero para que el editor se abra de forma mas fluida la primera vez */
+        Tablero.getTablero().reloadColocacion();
+
         /* Configuracion del stage*/
         mainStage = stage;
         stage.setTitle("MonoPOOly");

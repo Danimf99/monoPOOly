@@ -14,6 +14,7 @@ import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsJugador;
 import monopooly.excepciones.*;
+import monopooly.gui.componentes.Alerta;
 import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
@@ -407,13 +408,25 @@ public class Jugador {
         imprimirJugador.append(
                 "Nombre: " + nombre.getValue() +
                 "\nFortuna: " + dinero +
-                "\nAvatar: " + getAvatar().getRepresentacion()+"\nPropiedades: [");
+                "\nPropiedades: ");
         meterPropiedades(j, imprimirJugador, propiedades);
-        imprimirJugador.append("]\nHipotecadas: [");
+        imprimirJugador.append("\nHipotecadas: ");
         j=0;
         meterPropiedades(j, imprimirJugador, hipotecas);
-        imprimirJugador.append("]");
+        imprimirJugador.append("\n");
         return  imprimirJugador.toString();
+    }
+
+
+    public Alerta describir(Alerta alerta) {
+        StringBuilder props = new StringBuilder();
+        propiedades.stream().map(Propiedad::getNombre).forEach(nombreProp -> props.append(nombreProp).append(" "));
+        StringBuilder hips = new StringBuilder();
+        propiedades.stream().map(Propiedad::getNombre).forEach(nombreProp -> hips.append(nombreProp).append(" "));
+        return alerta.meterTexto("Nombre:", nombre.getValue())
+                .meterTexto("Fortuna:", dinero + " $")
+                .meterTexto("Propiedades: ", props.toString())
+                .meterTexto("Hipotecadas: ", hips.toString());
     }
 
     @Override
