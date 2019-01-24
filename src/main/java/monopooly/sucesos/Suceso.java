@@ -1,8 +1,11 @@
 package monopooly.sucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.Partida;
 import monopooly.entradaSalida.Juego;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.HelperGui;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.tipoSucesos.*;
 
@@ -22,6 +25,16 @@ public abstract class Suceso {
     private Integer id;
     private Jugador jugadorOriginador;
     private boolean deshacer;
+
+    public StackPane getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(StackPane tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    private StackPane tarjeta;
 
     public Suceso(Jugador jugadorOriginador) {
         this.jugadorOriginador = jugadorOriginador;
@@ -82,6 +95,7 @@ public abstract class Suceso {
     public void deshacer() throws ExcepcionMonopooly {
         this.deshacer = true;
     }
+
 
     @Override
     public boolean equals(Object o) {

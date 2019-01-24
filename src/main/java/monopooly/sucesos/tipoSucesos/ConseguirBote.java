@@ -1,7 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -11,6 +13,7 @@ public class ConseguirBote extends Suceso {
     public ConseguirBote(Jugador jugadorOriginador, int cantidadBote) {
         super(jugadorOriginador);
         this.cantidadBote = cantidadBote;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Bote", this.toString(), "#FAA916"));
     }
 
     public int getCantidadBote() {
@@ -21,11 +24,12 @@ public class ConseguirBote extends Suceso {
         this.cantidadBote = cantidadBote;
     }
 
+
     @Override
     public String toString() {
-        return "ConseguirBote{\n" +
-                "   Cantidad -> " + cantidadBote + "" + Precios.MONEDA + "\n" +
-                '}';
+        return "" +
+                "Premiado: " + getJugadorOriginador().getNombre() + "\n" +
+                "Cantidad: " + cantidadBote + "" + Precios.MONEDA + "";
     }
 
 

@@ -17,7 +17,6 @@ import monopooly.player.Jugador;
 import monopooly.sucesos.Observador;
 import monopooly.sucesos.Subject;
 import monopooly.sucesos.Suceso;
-import monopooly.sucesos.tipoSucesos.AccionCarta;
 import monopooly.sucesos.tipoSucesos.PagoBanca;
 import monopooly.sucesos.tipoSucesos.PagoImpuesto;
 import monopooly.sucesos.tipoSucesos.PasoSalida;
@@ -46,6 +45,7 @@ public class Tablero implements Observador {
 
     private int bote;
     private ArrayList<Jugador> jugadoresTurno;
+    private ArrayList<Jugador> jugadoresGUI;
     private ArrayList<Carta> cartasSuerte;
     private ArrayList<Carta> cartasCajaComunidad;
     private ArrayList<Casilla> casillas;
@@ -68,18 +68,22 @@ public class Tablero implements Observador {
         this.cartasCajaComunidad = new ArrayList<>(FabricaCartas.cartasCaja());
 
         this.bote = 0;
-
-        this.casillasNombre = new HashMap<>();
+        this.jugadoresGUI=new ArrayList<>();
         this.jugadores = new HashMap<>();
-        this.casillasPosicion = new HashMap<>();
 
+        reloadColocacion();
+
+        this.subject = Partida.interprete;
+        this.subject.registrar(this);
+    }
+
+    public void reloadColocacion() {
+        this.casillasNombre = new HashMap<>();
+        this.casillasPosicion = new HashMap<>();
         casillas.forEach(casilla -> {
             casillasPosicion.put(new Posicion(casillas.indexOf(casilla)), casilla);
             casillasNombre.put(casilla.getNombre().toLowerCase(), casilla);
         });
-
-        this.subject = Partida.interprete;
-        this.subject.registrar(this);
     }
 
     public Grupo getTipoGrupo(TipoMonopolio tipo){
@@ -118,7 +122,11 @@ public class Tablero implements Observador {
             // El jugador ya existe
             return;
         }
+        if (jugador.getAvatar().getRepresentacion() == null) {
+            jugador.getAvatar().elegirRepresentacion();
+        }
         this.jugadoresTurno.add(jugador);
+        this.jugadoresGUI.add(jugador);
         this.jugadores.put(jugador.getNombre().toLowerCase(), jugador);
         this.casillasPosicion.get(jugador.getAvatar().getPosicion()).meterJugador(jugador);
     }
@@ -150,6 +158,11 @@ public class Tablero implements Observador {
         }
         return jugador;
     }
+
+    public ArrayList<Jugador> getJugadoresGUI() {
+        return jugadoresGUI;
+    }
+
     /**
      * Pasa turno. Actualiza las posiciones en el array de jugadores y resetea la prompt
      *
@@ -173,7 +186,6 @@ public class Tablero implements Observador {
     public ArrayList<Jugador> getJugadores() {
         return new ArrayList<>(this.jugadoresTurno);
     }
-
     /**
      *
      * @return Numero de jugadores restantes en la partida
@@ -250,14 +262,14 @@ public class Tablero implements Observador {
     public void cartaComunidad(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasCajaComunidad);
         Carta carta = cartasCajaComunidad.get(eleccion);
-        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
+//        Juego.consola.info(carta.getMensaje(), "Carta de Caja de comunidad");
         carta.accion();
     }
 
     public void cartaSuerte(int eleccion) throws ExcepcionMonopooly {
         Collections.shuffle(this.cartasSuerte);
         Carta carta = cartasSuerte.get(eleccion);
-        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
+//        Juego.consola.info(carta.getMensaje(), "Carta de Suerte");
         carta.accion();
     }
 
@@ -373,6 +385,19 @@ public class Tablero implements Observador {
         }
 
     }
+
+
+    /**
+     * Intercambia casillas de las posiciones indicadas
+     * @param pos1 Casilla 1
+     * @param pos2 Casilla 2
+     */
+    public void intercambiarCasillas(int pos1, int pos2) {
+        Collections.swap(casillas, pos1, pos2);
+        reloadColocacion();
+    }
+
+
 
     @Override
     public void setSubject(Subject subject) {

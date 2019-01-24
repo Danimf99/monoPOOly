@@ -1,8 +1,10 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -16,6 +18,8 @@ public class Alquiler extends Suceso {
         this.cantidad = cantidad;
         this.propiedad = propiedad;
         this.propietario = propietario;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Alquiler", this.toString(),
+                this.propiedad.getMonopolio().getHexColor()));
     }
 
 
@@ -43,6 +47,7 @@ public class Alquiler extends Suceso {
         this.propietario = propietario;
     }
 
+
     @Override
     public void deshacer() throws ExcepcionMonopooly {
         super.deshacer();
@@ -53,10 +58,10 @@ public class Alquiler extends Suceso {
 
     @Override
     public String toString() {
-        return "Alquiler{\n" +
-                "   Cantidad    -> " + -cantidad + " " + Precios.MONEDA + ",\n" +
-                "   Propiedad   -> " + propiedad.getNombre() + ",\n" +
-                "   Propietario -> " + propietario.getNombre() + "\n" +
-                '}';
+        return "" +
+                "Cantidad: " + -cantidad + " " + Precios.MONEDA + ",\n" +
+                "Propiedad: " + propiedad.getNombre() + ",\n" +
+                "Deudor: " + getJugadorOriginador().getNombre() + "\n" +
+                "Propietario: " + propietario.getNombre() + "";
     }
 }

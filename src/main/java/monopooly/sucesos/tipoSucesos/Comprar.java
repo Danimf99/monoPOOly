@@ -1,10 +1,12 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -18,6 +20,11 @@ public class Comprar extends Suceso {
         this.objetoComprado = objetoComprado;
         this.precioPagado = precioPagado;
         this.cuentaIngreso = cuentaIngreso;
+        if(objetoComprado instanceof Propiedad){
+            setTarjeta(TarjetasSucesos.crearTarjeta("Compra", this.toString(), (((Propiedad) objetoComprado).getMonopolio().getHexColor())));
+
+        }
+        setTarjeta(TarjetasSucesos.crearTarjeta("Compra", this.toString(), "#FAA916"));
     }
 
     public Comprar(Jugador comprador, Object objetoComprado, int precioPagado) {
@@ -25,6 +32,11 @@ public class Comprar extends Suceso {
         this.objetoComprado = objetoComprado;
         this.precioPagado = precioPagado;
         this.cuentaIngreso = Tablero.BANCA;
+        if(objetoComprado instanceof Propiedad){
+            setTarjeta(TarjetasSucesos.crearTarjeta("Compra", this.toString(), (((Propiedad) objetoComprado).getMonopolio().getHexColor())));
+
+        }
+        setTarjeta(TarjetasSucesos.crearTarjeta("Compra", this.toString(), "#FAA916"));
     }
 
     public Object getObjetoComprado() {
@@ -51,21 +63,22 @@ public class Comprar extends Suceso {
         this.cuentaIngreso = cuentaIngreso;
     }
 
+
     @Override
     public String toString() {
         if (objetoComprado instanceof Propiedad) {
             Propiedad objetoComprado = (Propiedad) this.objetoComprado;
 
-            return "Compra {\n" +
-                    "   Cantidad  -> " + precioPagado + " " + Precios.MONEDA + ",\n" +
-                    "   Propiedad -> " + objetoComprado.getNombre() + "\n" +
-                    '}';
+            return "" +
+                    "Comprador: " + getJugadorOriginador().getNombre() + ",\n" +
+                    "Cantidad:" + precioPagado + " " + Precios.MONEDA + ",\n" +
+                    "Propiedad  " + objetoComprado.getNombre() + "";
         }
-        return "Compra {\n" +
-                "   Edificio     -> " + ((Edificio) this.objetoComprado).getNombre() + ",\n" +
-                "   Cantidad     -> " + precioPagado + " " + Precios.MONEDA + ",\n" +
-                "   Localizacion -> " + ((Edificio) this.objetoComprado).getSolar().getNombre() + "\n" +
-                '}';
+        return "" +
+                "Comprador: " + getJugadorOriginador().getNombre() + ",\n" +
+                "Edificio: " + ((Edificio) this.objetoComprado).getNombre() + ",\n" +
+                "Cantidad: " + precioPagado + " " + Precios.MONEDA + ",\n" +
+                "Localizacion: " + ((Edificio) this.objetoComprado).getSolar().getNombre() + "";
     }
 
     @Override

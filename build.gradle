@@ -7,10 +7,44 @@ version '0.3'
 
 sourceCompatibility = 1.8
 
+
+
+
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
+    compile 'com.jfoenix:jfoenix:8.0.8' // Jfoenix para la interfaz material design
+    compile 'de.jensd:fontawesomefx-emojione:2.2.7-2'
+    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
+    compile 'de.jensd:fontawesomefx-icons525:3.0.0-4'
+    compile 'de.jensd:fontawesomefx-materialdesignfont:1.7.22-4'
+    compile 'de.jensd:fontawesomefx-materialicons:2.2.0-5'
+    compile 'de.jensd:fontawesomefx-octicons:4.3.0-5'
+    compile 'de.jensd:fontawesomefx-weathericons:2.0.10-5'
+    compile 'de.jensd:fontawesomefx-controls:8.15' // Iconos
+    compile 'io.datafx:flow:8.0.1' // Para cambiar vistas
+}
+
+
+
+task crearJar(type: Jar) {
+    appendix = 'full'
+    manifest {
+        attributes("Implementation-Title": "MonoPOOly",
+                "Implementation-Version": version,
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'monopooly.Arranque'
+        )
+    }
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
 }

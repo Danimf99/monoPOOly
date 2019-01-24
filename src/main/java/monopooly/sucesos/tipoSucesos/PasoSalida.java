@@ -1,7 +1,9 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -9,13 +11,13 @@ public class PasoSalida extends Suceso {
 
     public PasoSalida(Jugador jugadorOriginador) {
         super(jugadorOriginador);
+        setTarjeta(TarjetasSucesos.crearTarjeta("Pago Salida", this.toString(), "#FAA916"));
     }
+
 
     @Override
     public String toString() {
-        return "Paso por la salida {\n" +
-                "   Cantidad -> " + Precios.SALIDA + " " + Precios.MONEDA + "\n" +
-                "}";
+        return getJugadorOriginador().getNombre();
     }
 
 

@@ -1,5 +1,7 @@
 package monopooly.player;
 
+import de.jensd.fx.glyphs.emojione.EmojiOne;
+import de.jensd.fx.glyphs.emojione.EmojiOneView;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
@@ -45,7 +47,7 @@ import java.util.Random;
  */
 public abstract class Avatar implements Observador {
 
-    private char representacion;
+    private EmojiOne representacion;
     private Jugador jugador;
     private Posicion posicion;
     private Posicion oldPosicion;
@@ -86,7 +88,6 @@ public abstract class Avatar implements Observador {
      * @param jugador Jugador que tendrá el avatar
      */
     public Avatar(Jugador jugador){
-        this.representacion=sorteoAvatar(ReprASCII.AVATARES);
         this.jugador=jugador;
         this.posicion=new Posicion();
         this.oldPosicion=new Posicion();
@@ -105,11 +106,11 @@ public abstract class Avatar implements Observador {
         return sucesos;
     }
 
-    public char getRepresentacion() {
+    public EmojiOne getRepresentacion() {
         return representacion;
     }
 
-    public void setRepresentacion(char representacion) {
+    public void setRepresentacion(EmojiOne representacion) {
         this.representacion = representacion;
     }
 
@@ -167,6 +168,11 @@ public abstract class Avatar implements Observador {
     /* METODOS PARA AVATAR */
     /*-------------------------*/
 
+    public void elegirRepresentacion() {
+        this.representacion=sorteoAvatar(ReprASCII.AVATARES);
+    }
+
+
     /**
      * Comprueba si puede pasarse turno y elimina al avatar de la lista de
      * observadores, los eventos que sucedan fuera de su turno no le interesan.
@@ -187,7 +193,7 @@ public abstract class Avatar implements Observador {
      */
     public void pasarTurno() throws ExcepcionMonopooly {
         if (Tablero.getPrompt().getLanzamientosDados() == 0 ||
-                Tablero.getPrompt().getLanzamientosDados() < 3 && jugador.getDados().sonDobles()) {
+                Tablero.getPrompt().getLanzamientosDados() < 3 && jugador.getDados().sonDobles() && !jugador.isEstarEnCarcel()) {
             throw new ExcepcionAccionInvalida("Aun no tiraste todas las veces permitidas");
         }
         this.subject.eliminar(this);
@@ -244,10 +250,10 @@ public abstract class Avatar implements Observador {
      * @param avatares Lista de avatares disponibles
      * @return caracter que representa el avatar
      */
-    private char sorteoAvatar(List<Character> avatares){
+    private EmojiOne sorteoAvatar(List<EmojiOne> avatares){
         Random avatar=new Random();
         int n=avatar.nextInt(avatares.size());
-        char ascii;
+        EmojiOne ascii;
 
         ascii= ReprASCII.AVATARES.get(n);
         ReprASCII.AVATARES.remove(n);
@@ -341,7 +347,6 @@ public abstract class Avatar implements Observador {
             }
             preLanzamiento();
             moverAvatar(getJugador().getDados().tirada());
-
         } else {
             throw new ExcepcionAccionInvalida("Ya tiraste este turno");
         }

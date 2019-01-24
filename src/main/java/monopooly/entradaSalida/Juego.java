@@ -327,10 +327,14 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void edificar(Propiedad casilla, Edificio.TIPO tipo) throws ExcepcionMonopooly{
+    public void edificar(Casilla casilla1, Edificio.TIPO tipo) throws ExcepcionMonopooly{
         Jugador jActual = Tablero.getPrompt().getJugador();
         Posicion posJugadorActual = jActual.getAvatar().getPosicion();
 
+        if(!(casilla1 instanceof Solar)){
+            throw new ExcepcionAccionInvalida("La casilla en la que estás no es un solar");
+        }
+        Solar casilla=(Solar)casilla1;
         if (!(casilla).getPropietario().getNombre().equals(jActual.getNombre())) {
             throw new ExcepcionAccionInvalida("La casilla no te pertenece");
         }
@@ -429,7 +433,6 @@ public class Juego implements Comando, Subject {
                 p.setPropietario(Tablero.BANCA);
             }
         }
-        //Tablero.getPrompt()
     }
 
     @Override
@@ -713,7 +716,6 @@ public class Juego implements Comando, Subject {
     @Override
     public void lanzar(Jugador jugador) throws ExcepcionMonopooly {
         jugador.getAvatar().lanzarDados();
-        Juego.consola.imprimirln(Tablero.getTablero().toString());
     }
 
     @Override

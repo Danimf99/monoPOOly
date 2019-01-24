@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+<?import com.jfoenix.controls.JFXDialog?>
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           styleClass="root">
+    <BorderPane fx:id="root" styleClass="game-root">
+        <left>
+            <BorderPane styleClass="seccion-izq">
+                <top>
+                    <VBox>
+                        <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;" styleClass="rippler-hamburguesa">
+                            <StackPane fx:id="containerBotonHamburguesa">
+                                <JFXHamburger fx:id="botonHamburguesa">
+                                </JFXHamburger>
+                            </StackPane>
+                        </JFXRippler>
+                    </VBox>
+
+                </top>
+                <center>
+                    <GridPane fx:id="listaJugadores" styleClass="lista-jugadores">
+
+                    </GridPane>
+                </center>
+                <bottom>
+
+                </bottom>
+
+            </BorderPane>
+        </left>
+        <center>
+
+            <VBox styleClass="seccion-central">
+                <!-- Info Sucesos -->
+                <StackPane>
+                    <ScrollPane styleClass="seccion-info" fx:id="scrollSucesos" hbarPolicy="NEVER">
+                        <JFXMasonryPane fx:id="infoSucesos" styleClass="container-tarjetas" HSpacing="10" VSpacing="10">
+                            <padding>
+                                <Insets top="16" right="20" bottom="200" left="16"/>
+                            </padding>
+                        </JFXMasonryPane>
+                    </ScrollPane>
+                    <HBox StackPane.alignment="BOTTOM_LEFT" styleClass="container-botones-especiales">
+                        <JFXButton text="Salir de la cárcel" styleClass="boton-especial" visible="false" fx:id="botonSalirCarcel">
+
+                        </JFXButton>
+                        <JFXButton text="Declarar bancarrota" styleClass="boton-especial" visible="false" fx:id="botonBancarrota">
+
+                        </JFXButton>
+                    </HBox>
+                </StackPane>
+                <!-- Panel de control -->
+                <HBox styleClass="panel-control">
+
+                    <VBox minWidth="222" alignment="CENTER_LEFT">
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Jugador: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="nombreJugadorActual">X</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Avatar: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="tipoAvatar">N</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Dinero: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="dineroJugadorActual">Muchos leuros</Label>
+                        </HBox>
+
+                        <HBox spacing="5">
+                            <Label styleClass="titulo-panel-control">Ultimo Movimiento: </Label>
+                            <Label styleClass="texto-panel-control" fx:id="modDin">N</Label>
+                        </HBox>
+
+
+                    </VBox>
+
+                    <VBox>
+                        <JFXButton fx:id="botonPasarTurno" styleClass="boton-pasar-turno" text="Pasar Turno"/>
+                    </VBox>
+                    <VBox>
+                        <JFXButton fx:id="botonLanzarDados" styleClass="boton-lanzar-dados"/>
+                    </VBox>
+
+                </HBox>
+            </VBox>
+        </center>
+        <right>
+            <StackPane styleClass="seccion-der">
+                <BorderPane fx:id="panelTablero" styleClass="global-tablero">
+                    <top>
+                        <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoNorte" rotate="180">
+
+                        </GridPane>
+                    </top>
+                    <left>
+                        <GridPane styleClass="lado-tablero, lado-izq" fx:id="ladoIzquierda" rotate="90">
+
+                        </GridPane>
+                    </left>
+                    <right>
+                        <GridPane styleClass="lado-tablero, lado-der" fx:id="ladoDerecha" rotate="270">
+
+                        </GridPane>
+                    </right>
+                    <bottom>
+                        <GridPane styleClass="lado-tablero, lado-norte-sur" fx:id="ladoSur">
+
+                        </GridPane>
+                    </bottom>
+                    <center>
+                        <StackPane styleClass="centro-tablero">
+
+                        </StackPane>
+                    </center>
+                </BorderPane>
+
+
+                <HBox alignment="TOP_CENTER"
+                      StackPane.alignment="TOP_CENTER"
+                      spacing="10" style="-fx-max-height: 50px">
+                    <StackPane.margin>
+                        <Insets top="10"/>
+                    </StackPane.margin>
+
+                    <!-- Nitroso -->
+                    <JFXToggleButton fx:id="botonNitroso"
+                                     styleClass="boton-nitroso"
+                                      text="Nitroso"/>
+
+                    <!-- En Venta -->
+                    <JFXToggleButton fx:id="botonEnVenta"
+                                     styleClass="boton-en-venta"
+                                     text="En Venta"/>
+
+                </HBox>
+                <!-- Contruccion -->
+                <JFXNodesList fx:id="botonesContruccion" rotate="180.0" spacing="15"
+                              StackPane.alignment="BOTTOM_RIGHT">
+                    <StackPane.margin>
+                        <Insets bottom="20" right="35"/>
+                    </StackPane.margin>
+                    <JFXButton fx:id="botonConstruir" contentDisplay="GRAPHIC_ONLY"
+                               styleClass="boton-construir-principal">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="PLUS" size="24" styleClass="icono-llave-inglesa"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirCasa" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="HOME" size="24"
+                                                 styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirHotel" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="BED" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirPiscina" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <MaterialDesignIconView glyphName="POOL" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="botonConstruirPistaDeporte" contentDisplay="GRAPHIC_ONLY" styleClass="boton-construir">
+                        <graphic>
+                            <MaterialDesignIconView glyphName="SOCCER" size="24" styleClass="sub-icon"/>
+                        </graphic>
+                    </JFXButton>
+                </JFXNodesList>
+            </StackPane>
+        </right>
+
+
+
+    </BorderPane>
+
+
+
+</StackPane>

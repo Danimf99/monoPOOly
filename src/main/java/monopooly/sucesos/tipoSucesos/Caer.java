@@ -1,8 +1,12 @@
 package monopooly.sucesos.tipoSucesos;
 
-import javafx.scene.control.Tab;
+import javafx.scene.layout.StackPane;
+import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
+import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
+import monopooly.configuracion.ReprASCII;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -13,6 +17,9 @@ public class Caer extends Suceso {
     public Caer(Jugador jugadorOriginador, Posicion posicion) {
         super(jugadorOriginador);
         this.posicion = posicion;
+        Casilla casillaCaer=Tablero.getTablero().getCasilla(this.posicion);
+        setTarjeta(TarjetasSucesos.crearTarjeta("Caer", this.toString(),
+                casillaCaer instanceof Propiedad ? ((Propiedad) casillaCaer).getMonopolio().getHexColor() : "#9a0003"));
     }
 
     public Posicion getPosicion() {
@@ -25,8 +32,6 @@ public class Caer extends Suceso {
 
     @Override
     public String toString() {
-        return "Caer{" +
-                "posicion=" + Tablero.getTablero().getCasilla(posicion).getNombre() +
-                '}';
+        return Tablero.getTablero().getCasilla(posicion).getNombre();
     }
 }

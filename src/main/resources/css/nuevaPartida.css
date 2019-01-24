@@ -1,0 +1,48 @@
+
+.panel-crear-jugadores {
+    /*-fx-alignment: CENTER_LEFT;*/
+    /*-fx-background-color: #e4e4e4;*/
+    -fx-pref-width: 1000;
+    -fx-pref-height: 550;
+    -fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+    -fx-hgap: 30;
+    -fx-vgap: 30;
+}
+
+.contenedor-crear-jugadores {
+    -fx-alignment: CENTER;
+    -fx-background-color: #ededed;
+    -fx-pref-width: 485;
+    -fx-pref-height: 160;
+    -fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+    -fx-spacing: 30;
+}
+
+.nombre-jugador {
+    -fx-pref-width: 200;
+    -fx-min-width: -fx-pref-width;
+    -fx-max-width: -fx-pref-width;
+    -jfx-focus-color: #1B1B1E;
+    /*-jfx-unfocus-color: #BD0003;*/
+}
+
+.avatar-jugador {
+    -jfx-focus-color: #1B1B1E;
+}
+
+.boton-meter-jugador {
+    -fx-padding: 0.7em 0.57em;
+    -fx-font-size: 14px;
+    -jfx-button-type: RAISED;
+    -fx-background-color: #bbee26;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-text-fill: BLACK;
+    -fx-cursor: hand;
+}

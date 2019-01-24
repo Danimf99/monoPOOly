@@ -18,6 +18,17 @@ public class Especial extends Accion {
         this.comportamiento = comportamiento;
     }
 
+    public String toStringGUI(){
+        ArrayList<String> representacion = comportamiento.describir();
+        StringBuilder especialTexto = new StringBuilder();
+        especialTexto.append("Casilla especial\n");
+
+        for(int i=0;i<representacion.size();i++){
+            especialTexto.append(representacion.get(i));
+        }
+
+        return especialTexto.toString();
+    }
 
     public AccionEspecial getComportamiento() {
         return comportamiento;

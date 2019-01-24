@@ -95,6 +95,9 @@ public class Solar extends Propiedad {
         visitante.visitar(this);
     }
 
+    public String toStringGUI(){
+        return super.toStringGUI();
+    }
     @Override
     public String toString() {
         ArrayList<String> lineas = new ArrayList<>();

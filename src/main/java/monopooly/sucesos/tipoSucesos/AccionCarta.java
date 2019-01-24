@@ -1,9 +1,11 @@
 package monopooly.sucesos.tipoSucesos;
 
+import javafx.scene.layout.StackPane;
 import monopooly.cartas.CajaComunidad;
 import monopooly.cartas.Carta;
 import monopooly.configuracion.Precios;
 import monopooly.excepciones.ExcepcionMonopooly;
+import monopooly.gui.componentes.TarjetasSucesos;
 import monopooly.player.Jugador;
 import monopooly.sucesos.Suceso;
 
@@ -16,6 +18,7 @@ public class AccionCarta extends Suceso {
     public AccionCarta(Jugador jugadorOriginador, Carta carta) {
         super(jugadorOriginador);
         this.carta = carta;
+        setTarjeta(TarjetasSucesos.crearTarjeta("Carta", carta.getMensaje(), "#23C9FF"));
     }
 
     public Carta getCarta() {
@@ -32,6 +35,7 @@ public class AccionCarta extends Suceso {
         super.deshacer();
         carta.deshacer();
     }
+
 
     @Override
     public String toString() {

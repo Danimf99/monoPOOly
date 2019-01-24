@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXButton?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+    <JFXToolbar xmlns="http://javafx.com/javafx"
+                xmlns:fx="http://javafx.com/fxml"
+                styleClass="barra-navegacion"
+                fx:id="navJugadores">
+        <leftItems>
+
+        </leftItems>
+        <rightItems>
+            <HBox styleClass="botones-nav">
+                <JFXButton fx:id="irLogin" styleClass="boton-colorido" text="Ir al menu principal"/>
+                <JFXButton fx:id="iniciarPartida" styleClass="boton-inicio-partida" text="Iniciar Partida"/>
+            </HBox>
+        </rightItems>
+    </JFXToolbar>
+
+</AnchorPane>

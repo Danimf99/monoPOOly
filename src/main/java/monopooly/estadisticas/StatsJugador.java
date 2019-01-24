@@ -179,4 +179,16 @@ public class StatsJugador implements Observador {
                 "Dinero pagado por tasas e impuestos: " + pagoTasas + Precios.MONEDA + "\n";
         return PintadoAscii.encuadrar(stats);
     }
+
+    public String toStringGUI(){
+
+        String stats = ("Dinero invertido: " + dineroInvertido + Precios.MONEDA + "\n") +
+                "Dinero pagado por alquileres: " + pagoDeAlquileres + Precios.MONEDA + "\n" +
+                "Dinero cobrado por alquileres: " + cobroDeAlquileres + Precios.MONEDA + "\n" +
+                "Dinero cobrado de haber pasado por salida: " + dineroPasoPorSalida + Precios.MONEDA + "\n" +
+                "Veces que estuvo en la carcel: " + vecesCarcel + "\n" +
+                "Dinero obtenido por inversiones o por el bote: " + inversionesBote + Precios.MONEDA + "\n" +
+                "Dinero pagado por tasas e impuestos: " + pagoTasas + Precios.MONEDA + "\n";
+        return stats;
+    }
 }

@@ -1,5 +1,6 @@
 package monopooly.player;
 
+import javafx.beans.property.SimpleStringProperty;
 import monopooly.Partida;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
@@ -13,6 +14,7 @@ import monopooly.entradaSalida.Juego;
 import monopooly.entradaSalida.PintadoAscii;
 import monopooly.estadisticas.StatsJugador;
 import monopooly.excepciones.*;
+import monopooly.gui.componentes.Alerta;
 import monopooly.player.Tratos.Trato;
 import monopooly.player.tiposAvatar.Coche;
 import monopooly.player.tiposAvatar.Esfinge;
@@ -28,7 +30,6 @@ import java.util.Objects;
 
 public class Jugador {
 
-    private String nombre;
     private int dinero;
     private Avatar avatar;
     private HashSet<Propiedad> propiedades;
@@ -42,13 +43,15 @@ public class Jugador {
     private HashSet<Trato> tratos;
     private ArrayList<ControladorAlquileres> noPagasAlquileres;
 
+    private SimpleStringProperty nombre = new SimpleStringProperty(this, "nombre", "");
+
 
     /*-------------------------*/
     /* CONSTRUCTORES PARA JUGADOR */
     /*-------------------------*/
 
     public Jugador(String nombre,Avatar.TIPO avatar) {
-        this.nombre = nombre;
+        this.nombre.setValue(nombre);
         this.dinero= Precios.DINERO_INICIAL;
         this.dados=new Dados();
         this.propiedades=new HashSet<>();
@@ -60,27 +63,14 @@ public class Jugador {
         this.cooldown=0;
         this.noPagasAlquileres=new ArrayList<>();
         this.tratos=new HashSet<>();
-        switch(avatar){
-            case coche:
-                this.avatar=new Coche(this);
-                break;
-            case esfinge:
-                this.avatar=new Esfinge(this);
-                break;
-            case sombrero:
-                this.avatar=new Sombrero(this);
-                break;
-            case pelota:
-                this.avatar=new Pelota(this);
-                break;
-        }
+        genAvatar(avatar);
     }
 
     public Jugador() {
         avatar=new Coche(this);
         dados=new Dados();
         this.propiedades=new HashSet<>();
-        this.nombre="Banca";
+        this.nombre.setValue("Banca");
         this.dinero=0;
         this.noPagasAlquileres=new ArrayList<>();
         this.estarEnCarcel=false;
@@ -111,11 +101,15 @@ public class Jugador {
     }
 
     public String getNombre() {
+        return nombreProperty().getValue();
+    }
+
+    public SimpleStringProperty nombreProperty() {
         return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre.setValue(nombre);
     }
 
     public int getDinero(){
@@ -357,9 +351,6 @@ public class Jugador {
         if (cantidad < 0) {
             throw new ExcepcionParametrosInvalidos("Error en la cantidad que quiere quitar, tiene que ser positiva");
         }
-        if(cantidad>this.dinero){
-            throw new ExcepcionRecursosInsuficientes("La cantidad que quiere quitar es mayor que la fortuna actual");
-        }
         this.dinero -= cantidad;
     }
 
@@ -399,12 +390,51 @@ public class Jugador {
         }
         this.propiedades.remove(propiedad);
     }
+
+    public Trato getTrato(String id) throws ExcepcionAccionInvalida{
+
+        for(Trato t: this.tratos){
+            if(t.getId().equals(id)){
+                return t;
+            }
+        }
+
+        throw new ExcepcionAccionInvalida("No hay ningun trato con ese id");
+    }
+
+    public String toStringGUI() {
+        int j=0;
+        StringBuilder imprimirJugador = new StringBuilder();
+        imprimirJugador.append(
+                "Nombre: " + nombre.getValue() +
+                "\nFortuna: " + dinero +
+                "\nPropiedades: ");
+        meterPropiedades(j, imprimirJugador, propiedades);
+        imprimirJugador.append("\nHipotecadas: ");
+        j=0;
+        meterPropiedades(j, imprimirJugador, hipotecas);
+        imprimirJugador.append("\n");
+        return  imprimirJugador.toString();
+    }
+
+
+    public Alerta describir(Alerta alerta) {
+        StringBuilder props = new StringBuilder();
+        propiedades.stream().map(Propiedad::getNombre).forEach(nombreProp -> props.append(nombreProp).append(" "));
+        StringBuilder hips = new StringBuilder();
+        propiedades.stream().map(Propiedad::getNombre).forEach(nombreProp -> hips.append(nombreProp).append(" "));
+        return alerta.meterTexto("Nombre:", nombre.getValue())
+                .meterTexto("Fortuna:", dinero + " $")
+                .meterTexto("Propiedades: ", props.toString())
+                .meterTexto("Hipotecadas: ", hips.toString());
+    }
+
     @Override
     public String toString() {
         int j=0;
         StringBuilder imprimirJugador = new StringBuilder();
         imprimirJugador.append("Jugador{\n" +
-                "   Nombre: " + nombre +
+                "   Nombre: " + nombre.getValue() +
                 "\n   Fortuna: " + dinero +
                 "\n   Avatar: " + getAvatar().getRepresentacion()+"\n   Propiedades: [");
         meterPropiedades(j, imprimirJugador, propiedades);
@@ -415,6 +445,15 @@ public class Jugador {
         return  PintadoAscii.encuadrar(imprimirJugador.toString());
     }
 
+    public String imprimirTratos(){
+        StringBuilder tratos = new StringBuilder();
+
+        for(Trato t:this.tratos){
+            tratos.append(t.toString()+"\n\n");
+        }
+
+        return tratos.toString();
+    }
     private void meterPropiedades(int j, StringBuilder imprimirJugador, HashSet<Propiedad> propiedades) {
         for(Propiedad i: propiedades){
             if(propiedades.size()-1==j){
@@ -432,7 +471,24 @@ public class Jugador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jugador jugador = (Jugador) o;
-        return Objects.equals(nombre, jugador.nombre);
+        return Objects.equals(nombre.getValue(), jugador.nombre.getValue());
 
+    }
+
+    public void genAvatar(Avatar.TIPO avatar) {
+        switch(avatar){
+            case coche:
+                this.avatar=new Coche(this);
+                break;
+            case esfinge:
+                this.avatar=new Esfinge(this);
+                break;
+            case sombrero:
+                this.avatar=new Sombrero(this);
+                break;
+            case pelota:
+                this.avatar=new Pelota(this);
+                break;
+        }
     }
 }
