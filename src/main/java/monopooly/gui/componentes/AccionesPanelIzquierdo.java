@@ -16,6 +16,8 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.player.Tratos.Trato;
 
+import static monopooly.Partida.interprete;
+
 public abstract class AccionesPanelIzquierdo {
 
     public static void mostrarEstadisticasGlobales() {
@@ -169,7 +171,7 @@ public abstract class AccionesPanelIzquierdo {
 
                                         int turnos = Integer.parseInt(textoTurnosNoAlquiler.getText());
 
-                                        Partida.interprete.hacerTrato6(Tablero.getPrompt().getJugador(),jugador,
+                                        interprete.hacerTrato6(Tablero.getPrompt().getJugador(),jugador,
                                                 (Propiedad)jOrigen,(Propiedad)jDestino,(Propiedad)noAlquiler,turnos);
 
                                     } catch (ExcepcionMonopooly excepcionMonopooly) {
@@ -221,7 +223,7 @@ public abstract class AccionesPanelIzquierdo {
                                     try {
                                         int dinero= Integer.parseInt(textoDinero.getText());
                                         Casilla pJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJDestino2.getValue());
-                                        Partida.interprete.Hacertrato3(Tablero.getPrompt().getJugador(),jugador,dinero,(Propiedad)pJDestino);
+                                        interprete.Hacertrato3(Tablero.getPrompt().getJugador(),jugador,dinero,(Propiedad)pJDestino);
                                     }catch (ExcepcionMonopooly excepcionMonopooly){
                                         excepcionMonopooly.mostrarError();
                                     }catch (NumberFormatException numberFormatException){
@@ -262,7 +264,7 @@ public abstract class AccionesPanelIzquierdo {
                                         int dinero= Integer.parseInt(textoDinero3.getText());
                                         Casilla casillaJDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen3.getValue());
 
-                                        Partida.interprete.Hacertrato2(Tablero.getPrompt().getJugador(),jugador,(Propiedad)casillaJDestino,dinero);
+                                        interprete.Hacertrato2(Tablero.getPrompt().getJugador(),jugador,(Propiedad)casillaJDestino,dinero);
                                     }catch (ExcepcionMonopooly excepcionMonopooly){
                                         excepcionMonopooly.mostrarError();
                                     }catch (NumberFormatException numberFormatException){
@@ -308,7 +310,7 @@ public abstract class AccionesPanelIzquierdo {
 
                                         int dinero= Integer.parseInt(textoDinero4.getText());
 
-                                        Partida.interprete.hacerTrato5(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
+                                        interprete.hacerTrato5(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
                                     }catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
                                     }catch (NumberFormatException numberFormatException){
@@ -361,7 +363,7 @@ public abstract class AccionesPanelIzquierdo {
 
                                         int dinero= Integer.parseInt(textoDinero5.getText());
 
-                                        Partida.interprete.hacerTrato4(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
+                                        interprete.hacerTrato4(Tablero.getPrompt().getJugador(),jugador,(Propiedad)jOrigen,dinero,(Propiedad)jDestino);
                                     }catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
                                     }catch (NumberFormatException numberFormatException){
@@ -408,7 +410,7 @@ public abstract class AccionesPanelIzquierdo {
                                         Casilla jOrigen = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
                                         Casilla jDestino = Tablero.getTablero().getCasilla(comboPropiedadesJOrigen.getValue());
 
-                                        Partida.interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
+                                        interprete.Hacertrato1(Tablero.getPrompt().getJugador(), jugador, (Propiedad) jOrigen, (Propiedad) jDestino);
                                     } catch (ExcepcionMonopooly excepcionMonopooly) {
                                         excepcionMonopooly.mostrarError();
                                     }
@@ -504,7 +506,7 @@ public abstract class AccionesPanelIzquierdo {
             alert.showAndWait();
 
         }catch(ExcepcionMonopooly excepcionMonopooly){
-            excepcionMonopooly.imprimeError();
+            excepcionMonopooly.mostrarError();
         }
 
     }
@@ -536,7 +538,7 @@ public abstract class AccionesPanelIzquierdo {
             alertaTratos.setHideOnEscape(true);
             if(!comboAceptarTrato.getSelectionModel().isEmpty()){
                 try{
-                    Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                    interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
 
                 }catch (ExcepcionMonopooly excepcionMonopooly){
                     excepcionMonopooly.mostrarError();
@@ -551,7 +553,7 @@ public abstract class AccionesPanelIzquierdo {
 
             if(!comboAceptarTrato.getSelectionModel().isEmpty()){
                 try{
-                    Partida.interprete.eliminarTrato(jugador,jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                    interprete.eliminarTrato(jugador,jugador.getTrato(comboAceptarTrato.getValue().toString()));
                 }catch (ExcepcionMonopooly excepcionMonopooly){
                     excepcionMonopooly.mostrarError();
                 }

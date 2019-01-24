@@ -8,7 +8,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import monopooly.colocacion.Tablero;
 import monopooly.excepciones.ExcepcionMonopooly;
-import monopooly.player.Jugador;
 
 import java.util.Objects;
 
@@ -34,6 +33,7 @@ public abstract class AccionesPanelControl {
                             .forEach(casilla -> {
                                 casilla.getStyleClass().remove("casilla-resaltada");
                             }));
+
             infoSucesos.getChildren().clear(); // Llega un momento que se llena asi que hay que vaciarlo
         } catch (ExcepcionMonopooly excepcionMonopooly) {
             listaJugadores.getChildren().get(Tablero.getTablero().getJugadoresGUI().indexOf(
