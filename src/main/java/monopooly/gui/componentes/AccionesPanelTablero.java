@@ -98,47 +98,7 @@ public abstract class AccionesPanelTablero {
             alert.hideWithAnimation();
             alert.setHideOnEscape(true);
 
-            JFXAlert alert2 = new JFXAlert(Arranque.getMainStage());
-            alert2.initModality(Modality.APPLICATION_MODAL);
-            alert2.setOverlayClose(false);
-            JFXDialogLayout layout2 = new JFXDialogLayout();
-            layout2.setHeading(new Label("Venta de edificios en "+casilla.getNombre()));
-            layout2.setBody(new Label("Elige el tipo de edificio que quieres vender y la cantidad."));
-
-            JFXButton botonClose=new JFXButton("Cerrar");
-            botonClose.setOnAction(event1 -> {
-                alert2.hideWithAnimation();
-                alert2.setHideOnEscape(true);
-            });
-
-            JFXComboBox<Edificio.TIPO> listaEdificios=new JFXComboBox();
-            listaEdificios.getItems().addAll(Edificio.TIPO.casa, Edificio.TIPO.hotel, Edificio.TIPO.piscina, Edificio.TIPO.deporte);
-            listaEdificios.getSelectionModel().selectFirst();
-
-            JFXComboBox<Integer> listaNumeros=new JFXComboBox();
-            listaNumeros.getItems().addAll(1,2,3,4);
-            listaNumeros.getSelectionModel().selectFirst();
-
-            JFXButton botonVender=new JFXButton("Vender");
-            botonVender.setOnAction(event1 -> {
-                alert2.hideWithAnimation();
-                alert2.setHideOnEscape(true);
-                try {
-                    interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
-                }catch(ExcepcionMonopooly excepcionMonopooly){
-                    excepcionMonopooly.mostrarError();
-                }
-            });
-
-
-            layout2.getActions().add(listaNumeros);
-            layout2.getActions().add(botonVender);
-            layout2.getActions().add(botonClose);
-            layout2.getActions().add(listaEdificios);
-            layout2.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
-
-            alert2.setContent(layout2);
-            alert2.showAndWait();
+            venderEdificiosHandler(casilla);
         });
 
         layout.getActions().add(botonCerrar);
@@ -155,5 +115,48 @@ public abstract class AccionesPanelTablero {
         alert.setContent(layout);
         alert.showAndWait();
     }
+    /*Funcion para reducir codigo dentro de la accion del boton*/
+    private static void venderEdificiosHandler(Casilla casilla){
+        JFXAlert alert2 = new JFXAlert(Arranque.getMainStage());
+        alert2.initModality(Modality.APPLICATION_MODAL);
+        alert2.setOverlayClose(false);
+        JFXDialogLayout layout2 = new JFXDialogLayout();
+        layout2.setHeading(new Label("Venta de edificios en "+casilla.getNombre()));
+        layout2.setBody(new Label("Elige el tipo de edificio que quieres vender y la cantidad."));
 
+        JFXButton botonClose=new JFXButton("Cerrar");
+        botonClose.setOnAction(event1 -> {
+            alert2.hideWithAnimation();
+            alert2.setHideOnEscape(true);
+        });
+
+        JFXComboBox<Edificio.TIPO> listaEdificios=new JFXComboBox();
+        listaEdificios.getItems().addAll(Edificio.TIPO.casa, Edificio.TIPO.hotel, Edificio.TIPO.piscina, Edificio.TIPO.deporte);
+        listaEdificios.getSelectionModel().selectFirst();
+
+        JFXComboBox<Integer> listaNumeros=new JFXComboBox();
+        listaNumeros.getItems().addAll(1,2,3,4);
+        listaNumeros.getSelectionModel().selectFirst();
+
+        JFXButton botonVender=new JFXButton("Vender");
+        botonVender.setOnAction(event1 -> {
+            alert2.hideWithAnimation();
+            alert2.setHideOnEscape(true);
+            try {
+                interprete.vender(casilla, listaNumeros.getValue(), listaEdificios.getValue());
+            }catch(ExcepcionMonopooly excepcionMonopooly){
+                excepcionMonopooly.mostrarError();
+            }
+        });
+
+
+        layout2.getActions().add(listaNumeros);
+        layout2.getActions().add(botonVender);
+        layout2.getActions().add(botonClose);
+        layout2.getActions().add(listaEdificios);
+        layout2.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));
+
+        alert2.setContent(layout2);
+        alert2.showAndWait();
+    }
 }
