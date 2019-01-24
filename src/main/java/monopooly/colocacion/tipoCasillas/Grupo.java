@@ -64,7 +64,7 @@ public class Grupo extends Casilla implements Monopolio {
                 break;
             case amarillo:
                 this.precio = Precios.PRECIO_AMARILLO;
-                this.hexColor = "#FAA916";
+                this.hexColor = "#FEE435";
                 break;
             case verde:
                 this.precio = Precios.PRECIO_VERDE;

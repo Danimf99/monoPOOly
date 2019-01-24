@@ -1,6 +1,7 @@
 package monopooly.gui.controllers.editores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -10,6 +11,7 @@ import io.datafx.controller.flow.action.LinkAction;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import monopooly.colocacion.Casilla;
 import monopooly.colocacion.Posicion;
 import monopooly.colocacion.Tablero;
@@ -72,10 +74,14 @@ public class LadoController {
 
         for (int i = inicial; i < posFinal; i++) {
             Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(i));
+            String color = new Grupo(casilla.getTipo()).getHexColor();
+            if (casilla instanceof Propiedad) {
+                color = ((Propiedad) casilla).getMonopolio().getHexColor();
+            }
             StackPane tarjeta = TarjetasSucesos.crearTarjeta(
                     "Posición " + i,
                     casilla.nombrePropertyProperty(),
-                    new Grupo(casilla.getTipo()).getHexColor(),
+                    color,
                     "" + i
             );
             tarjeta.getStyleClass().add("tarjeta-seleccionable");
@@ -86,7 +92,7 @@ public class LadoController {
                     .filter(node -> node instanceof JFXButton)
                     .forEach(node -> {
                         node.setOnMouseClicked(event -> {
-                            clickEditarCasilla(((JFXButton) event.getSource()).getId());
+                            clickEditarCasilla(((JFXButton) event.getSource()).getId(), lado);
                             tarjeta.getStyleClass().remove("tarjeta-seleccionada");
                             casillaSeleccionada = null;
                         });
@@ -173,7 +179,7 @@ public class LadoController {
         this.casillaSeleccionada = null;
     }
 
-    public void clickEditarCasilla(String id) {
+    public void clickEditarCasilla(String id, LADO lado) {
         Alerta alerta = new Alerta();
         Casilla casilla = Tablero.getTablero().getCasilla(new Posicion(Integer.parseInt(id)));
 
@@ -185,6 +191,7 @@ public class LadoController {
         requerirCampo(nombre);
 
         JFXTextField precio = new JFXTextField();
+        JFXColorPicker colorPicker = new JFXColorPicker();
         if (casilla instanceof Propiedad) {
             Propiedad propiedad = (Propiedad) casilla;
             precio.setLabelFloat(true);
@@ -192,8 +199,10 @@ public class LadoController {
             precio.getStyleClass().add("nombre-jugador");
             precio.setText(propiedad.getPrecio() + "");
             requerirCampo(precio);
-            alerta.getLayout().getBody().get(0).setStyle("-fx-spacing: 40");
+            alerta.getLayout().getBody().get(0).setStyle("-fx-spacing: 40;");
             alerta.meterEnCuerpo(precio);
+            colorPicker.setValue(Color.valueOf(propiedad.getMonopolio().getHexColor()));
+            alerta.meterEnCuerpo(colorPicker);
         }
 
 
@@ -214,6 +223,7 @@ public class LadoController {
                     return;
                 }
                 ((Propiedad) casilla).setPrecio(valor);
+                ((Propiedad) casilla).getMonopolio().setHexColor("#" + colorPicker.getValue().toString().substring(2));
             }
             casilla.setNombre(nombre.getText());
         });
@@ -226,6 +236,7 @@ public class LadoController {
                 .mostrar();
 
         Tablero.getTablero().reloadColocacion();
+        colocarCasillas(lado);
     }
 
     public static void requerirCampo(JFXTextField nombre) {
