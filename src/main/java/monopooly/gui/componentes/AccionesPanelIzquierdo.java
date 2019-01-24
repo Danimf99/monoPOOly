@@ -532,11 +532,9 @@ public abstract class AccionesPanelIzquierdo {
 
         JFXButton botonAceptarTrato = new JFXButton("Aceptar");
         botonAceptarTrato.setOnAction(event1 -> {
-
+            alertaTratos.hideWithAnimation();
+            alertaTratos.setHideOnEscape(true);
             if(!comboAceptarTrato.getSelectionModel().isEmpty()){
-                alertaTratos.hideWithAnimation();
-                alertaTratos.setHideOnEscape(true);
-
                 try{
                     Partida.interprete.aceptarTrato(jugador.getTrato(comboAceptarTrato.getValue().toString()));
 
@@ -546,9 +544,24 @@ public abstract class AccionesPanelIzquierdo {
             }
         });
 
+        JFXButton botonEliminarTrato = new JFXButton("Eliminar");
+        botonEliminarTrato.setOnAction(event -> {
+            alertaTratos.hideWithAnimation();
+            alertaTratos.setHideOnEscape(true);
+
+            if(!comboAceptarTrato.getSelectionModel().isEmpty()){
+                try{
+                    Partida.interprete.eliminarTrato(jugador,jugador.getTrato(comboAceptarTrato.getValue().toString()));
+                }catch (ExcepcionMonopooly excepcionMonopooly){
+                    excepcionMonopooly.mostrarError();
+                }
+            }
+        });
+
 
         layoutTratos.getActions().add(comboAceptarTrato);
         layoutTratos.getActions().add(botonAceptarTrato);
+        layoutTratos.getActions().add(botonEliminarTrato);
         layoutTratos.getActions().add(cerrarTratos);
 
         layoutTratos.getActions().forEach(action -> action.getStyleClass().add("boton-aceptar-dialogo"));

@@ -449,7 +449,7 @@ public class Jugador {
         StringBuilder tratos = new StringBuilder();
 
         for(Trato t:this.tratos){
-            tratos.append(t.toString()+"\n");
+            tratos.append(t.toString()+"\n\n");
         }
 
         return tratos.toString();
