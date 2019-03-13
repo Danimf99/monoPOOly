@@ -688,15 +688,12 @@ public class Juego implements Comando, Subject {
     @Override
     public void deshipotecar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
         if(!((Propiedad)casilla).getPropietario().equals(jugador)){
-            Juego.consola.info("No eres el dueño de la propiedad "+casilla.getNombre());
-            return;
+            throw new ExcepcionAccionInvalida("No eres el dueño de la propiedad " + casilla.getNombre());
         }
         if(!((Propiedad) casilla).getHipotecado()){
-            Juego.consola.info("La propiedad "+casilla.getNombre()+" no está hipotecada");
-            return;
+            throw new ExcepcionAccionInvalida("La propiedad " + casilla.getNombre() + " no está hipotecada");
         }
         jugador.deshipotecar(((Propiedad)casilla));
-        Partida.interprete.enviarSuceso(new HipotecarPropiedad(jugador,(Propiedad)casilla,false));
     }
     @Override
     public void comprar(Jugador jugador, Casilla casilla) throws ExcepcionMonopooly {
@@ -729,17 +726,14 @@ public class Juego implements Comando, Subject {
     }
 
     @Override
-    public void hipotecar(Jugador jugador,Casilla casilla){
+    public void hipotecar(Jugador jugador,Casilla casilla) throws ExcepcionAccionInvalida {
         if(!((Propiedad) casilla).getPropietario().equals(jugador)){
-            Juego.consola.error("Esa propiedad pertenece a otro jugador");
-            return;
+            throw new ExcepcionAccionInvalida("Esa propiedad pertenece a otro jugador");
         }
         if(((Propiedad) casilla).getHipotecado()){
-            Juego.consola.info("La propiedad "+casilla.getNombre()+" ya está hipotecada.");
-            return;
+            throw new ExcepcionAccionInvalida("La propiedad " + casilla.getNombre() + " ya está hipotecada.");
         }
         jugador.hipotecar(((Propiedad) casilla));
-        Partida.interprete.enviarSuceso(new HipotecarPropiedad(jugador,(Propiedad)casilla,true));
     }
 
 

@@ -391,7 +391,6 @@ public class JuegoController implements Observador {
     @ActionMethod("construirPiscina")
     public void construirPiscina(){
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());
-
         try {
             interprete.edificar(
                     casillaConstruir, Edificio.TIPO.piscina
@@ -400,6 +399,7 @@ public class JuegoController implements Observador {
             excepcionMonopooly.mostrarError();
         }
     }
+
     @ActionMethod("construirPistaDeporte")
     public void construirPistaDeporte(){
         Casilla casillaConstruir=Tablero.getTablero().getCasilla(Tablero.getPrompt().getJugador().getAvatar().getPosicion());

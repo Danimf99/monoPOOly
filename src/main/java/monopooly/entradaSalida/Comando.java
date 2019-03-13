@@ -20,7 +20,7 @@ public interface Comando {
 
     void lanzar(Jugador jugador) throws ExcepcionMonopooly;
 
-    void hipotecar(Jugador jugador,Casilla casilla);
+    void hipotecar(Jugador jugador,Casilla casilla) throws ExcepcionAccionInvalida;
 
     void vender(Casilla casilla,int numeroEdificios,Edificio.TIPO tipo)throws ExcepcionMonopooly;
 

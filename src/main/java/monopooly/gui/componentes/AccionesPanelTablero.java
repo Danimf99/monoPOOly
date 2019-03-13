@@ -15,6 +15,7 @@ import monopooly.colocacion.Tablero;
 import monopooly.colocacion.tipoCasillas.propiedades.Propiedad;
 import monopooly.colocacion.tipoCasillas.propiedades.edificios.Edificio;
 import monopooly.colocacion.tipoCasillas.propiedades.tiposPropiedad.Solar;
+import monopooly.excepciones.ExcepcionAccionInvalida;
 import monopooly.excepciones.ExcepcionMonopooly;
 
 import static monopooly.Partida.interprete;
@@ -78,7 +79,11 @@ public abstract class AccionesPanelTablero {
             alert.hideWithAnimation();
             alert.setHideOnEscape(true);
 
-            interprete.hipotecar(Tablero.getPrompt().getJugador(),casilla);
+            try {
+                interprete.hipotecar(Tablero.getPrompt().getJugador(),casilla);
+            } catch (ExcepcionAccionInvalida excepcionAccionInvalida) {
+                excepcionAccionInvalida.mostrarError();
+            }
 
         });
 
