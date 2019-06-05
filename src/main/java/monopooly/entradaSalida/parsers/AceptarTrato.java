@@ -8,7 +8,7 @@ import monopooly.excepciones.ExcepcionMonopooly;
 import monopooly.player.Jugador;
 import monopooly.player.Tratos.Trato;
 
-public class AceptarTrato implements Expresion{
+public class AceptarTrato implements Expresion {
     private String[] comandoIntroducido;
 
     public AceptarTrato(String[] comandoIntroducido) {

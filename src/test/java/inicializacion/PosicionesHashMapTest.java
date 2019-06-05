@@ -33,4 +33,6 @@ public class PosicionesHashMapTest {
     public void testGetCasilla() {
         assertNotNull(tablero.getCasilla(posicion));
     }
+
+
 }
